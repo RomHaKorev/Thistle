@@ -235,10 +235,9 @@ void Chart::paintGrid( QPainter* painter ) {
 void Chart::paintText( QPainter* painter ) {
   painter->save();
   painter->setRenderHint( QPainter::TextAntialiasing );
-  painter->setPen( QColor( 50, 50, 50 ) );
+  painter->setPen(QPen(Qt::lightGray, 0, Qt::SolidLine));
   QFontMetrics metrics (font());
   QPointF textPos = my_origin + QPointF( 0, 3 );
-  qDebug() << Q_FUNC_INFO << my_spec.xLabelsLength << my_spec.xScale;
   qreal textHeight = metrics.height();
   if ( my_spec.xLabelsLength < ( my_spec.xScale / 2 ) ) {
     for ( int i = 0; i < model()->rowCount(); ++i ) {
@@ -262,6 +261,7 @@ void Chart::paintText( QPainter* painter ) {
 void Chart::paintEvent( QPaintEvent* event ) {
 
   QPainter painter( viewport() );
+  painter.setClipRect( event->rect() );
   painter.setRenderHint( QPainter::Antialiasing );
 
   painter.save();

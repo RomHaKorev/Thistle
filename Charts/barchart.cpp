@@ -20,7 +20,9 @@ void BarChart::paintChart( QPainter *painter ) {
   painter->save();
   painter->setRenderHint( QPainter::Antialiasing );
 
-  painter->setBrush( my_color );
+  QColor c = my_color;
+  c.setAlpha( c.alpha() * 0.75 );
+  painter->setBrush( c );
   painter->setPen( Qt::NoPen );
   //painter->setPen( QPen( QColor( 50, 50, 50 ), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
   /* Equation of coordinates transform */
@@ -37,7 +39,7 @@ void BarChart::paintChart( QPainter *painter ) {
   }
 
   painter->setBrush( Qt::NoBrush );
-  painter->setPen( QPen( QColor( my_color.red() + 50, my_color.green() + 50, my_color.blue() + 50 ), 4 ) );
+  painter->setPen( QPen( my_color, 2 ) );
   for ( int r = 0; r < model()->rowCount(); ++r ) {
     QModelIndex id = model()->index( r, my_col, rootIndex() );
     if ( selectionModel()->isSelected( id ) || currentIndex() == id ) {
