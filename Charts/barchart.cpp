@@ -22,8 +22,8 @@ void BarChart::paintChart( QPainter *painter ) {
 
   QColor c = my_color;
   c.setAlpha( c.alpha() * 0.75 );
-  painter->setBrush( c );
-  painter->setPen( Qt::NoPen );
+
+
   //painter->setPen( QPen( QColor( 50, 50, 50 ), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
   /* Equation of coordinates transform */
   qreal m = -height() /( my_max - my_min );
@@ -32,21 +32,31 @@ void BarChart::paintChart( QPainter *painter ) {
   qreal stepW = ( width() / my_points.size() );
   qreal w = stepW / my_ratio - 5;
 
-  foreach ( QPointF point, my_points ) {
-    qreal h = p - point.y() + 1;
-    QRect r( point.x() + w * my_part, point.y(), w - 1, h );
-    painter->drawRect( r );
-  }
-
-  painter->setBrush( Qt::NoBrush );
+  painter->setBrush( c );
   painter->setPen( QPen( my_color, 2 ) );
   for ( int r = 0; r < model()->rowCount(); ++r ) {
     QModelIndex id = model()->index( r, my_col, rootIndex() );
     if ( selectionModel()->isSelected( id ) || currentIndex() == id ) {
       QPointF point = my_points.at( r );
       qreal h = p - point.y() + 1;
-      QRect r( point.x() + w * my_part, point.y(), w - 1, h + 5 );
-      QRegion reg = QRegion( 0, 0, width(), height() ).subtract( QRect( r.bottomLeft().x() - 3, r.bottomLeft().y() - 4, w + 6, 7 ) );
+      QRect r;
+
+      QRegion reg;
+      if ( p - point.y() >= 0 ) {
+        r = QRect( point.x() + w * my_part, point.y(), w - 1, h + 5 );
+        reg = QRegion( 0, 0, width(), height() ).subtract( QRect( r.bottomLeft().x() - 3, r.bottomLeft().y() - 4, w + 6, 7 ) );
+      } else {
+        r = QRect( point.x() + w * my_part, point.y(), w, h - 5 );
+
+        //reg = QRegion( 0, 0, width(), height() ).subtract( QRect( r.topLeft(), QSize( r.width(), 5 ) ) );
+        painter->save();
+        painter->setBrush( Qt::red );
+        painter->setPen( Qt::NoPen );
+        painter->drawRects( reg.rects() );
+        painter->restore();
+        painter->drawRect( r );
+        return;
+      }
       painter->setClipRegion( reg );
       painter->drawRect( r );
     }

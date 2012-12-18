@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     Charts/chartview.cpp \
     Charts/chartspec.cpp \
     Charts/chart.cpp \
-    Charts/barchart.cpp
+    Charts/barchart.cpp \
+    Charts/radialchart.cpp
 
 HEADERS  += \
     Charts/pointchart.h \
@@ -26,4 +27,5 @@ HEADERS  += \
     Charts/chartview.h \
     Charts/chartspec.h \
     Charts/chart.h \
-    Charts/barchart.h
+    Charts/barchart.h \
+    Charts/radialchart.h

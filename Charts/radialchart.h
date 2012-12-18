@@ -12,6 +12,7 @@ protected:
 public:
   explicit RadialChart( QWidget *parent = 0 );
   void paintChart(QPainter *painter);
+  void paintAxis( QPainter* painter );
   void paintEvent(QPaintEvent *);
 signals:
   

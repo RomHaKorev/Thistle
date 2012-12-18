@@ -11,6 +11,7 @@
 
 
 #include "charts/chart.h"
+#include "charts/radialchart.h"
 
 int main( int argc, char* argv[] ) {
   QApplication a(argc, argv);
@@ -20,18 +21,20 @@ int main( int argc, char* argv[] ) {
   model->setHeaderData(1, Qt::Horizontal, ("Value"));
   qsrand( QDateTime::currentDateTime().toTime_t() );
   for (int i = 0; i < 15; ++i ) {
-    qreal v = (qrand() % ( 50  + 49)) -40;
+    qreal v = (qrand() % ( 50  - 10)) + 10;
     model->setData( model->index( i, 0 ), v, Qt::DisplayRole );
-    v = (qrand() % ( 50  + 49)) -40;
+    v = 20 * (-1 + i%2);
     model->setData( model->index( i, 1 ), v, Qt::DisplayRole );
     //model->appendRow( new QStandardItem( QString::number(v) ) );
   }
 
-  Chart chart;
+  RadialChart chart;
   chart.setModel( model );
-  chart.showData( 0, Chart::Line );
-  chart.showData( 1, Chart::Bar );
-  chart.show();
+  Chart chart1;
+  chart1.setModel( model );
+  //chart1.showData( 0, Chart::Bar );
+  chart1.showData( 1, Chart::Line );
+  chart1.showMaximized();
 
   return a.exec();
 }
