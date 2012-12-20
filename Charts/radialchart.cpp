@@ -18,47 +18,14 @@ void RadialChart::updateChart() {
 void RadialChart::paintEvent(QPaintEvent *) {
   QPainter painter(viewport());
   painter.setRenderHint( QPainter::Antialiasing );
-  paintAxis( &painter );
+  //paintAxis( &painter );
   paintChart( &painter );
-
-}
-
-void RadialChart::paintAxis( QPainter* painter ) {
-  painter->save();
-  painter->setPen( QPen( Qt::lightGray, 1.5) );
-
-  qreal w = ( width() - 20 );
-  qreal h = ( height() - 20 );
-
-  w = qMin( w, h );
-  QRect r( 10, 10, w , w );
-
-  qreal angle = ( 360.0 / model()->rowCount() );
-  qreal angleStep = ( 360.0 / model()->rowCount() );
-
-  QPainterPath path;
-  path.addEllipse( r.center(), r.width() / 2, r.width() / 2 );
-  painter->drawPath( path );
-
-  qreal a = 0;
-  for ( int i = 0; i < model()->rowCount(); ++i ) {
-    QPainterPath path;
-    path.moveTo( r.center() );
-    QRect r1( r.center().x() - r.width()/2, r.center().y() - r.height()/2, r.width(), r.height() );
-    path.arcTo( r1, a, angle );
-    //path.closeSubpath();
-    painter->drawPath( path );
-    a += angleStep;
-  }
-  painter->restore();
 }
 
 void RadialChart::paintChart( QPainter* painter ) {
   painter->save();
   painter->setRenderHint( QPainter::Antialiasing );
   updateChart();
-
-  painter->setPen( Qt::lightGray );
 
   qreal w = ( width() - 20 );
   qreal h = ( height() - 20 );
@@ -72,32 +39,50 @@ void RadialChart::paintChart( QPainter* painter ) {
   painter->setPen( Qt::red );
   painter->setBrush( Qt::red );
 
-  /* Equation of coordinates transform */
-  qreal mW = -r.width() /( my_max - my_min );
-  qreal pW = r.width() - mW * my_min;
 
-  qreal mH = -r.width() /( my_max - my_min );
-  qreal pH = r.width() - mH * my_min;
+  /* Equation of coordinates transform */
+
+  /* First step : real equation to transform values in coordinates */
+  qreal m = r.width() /( my_max - my_min );
+  qreal p = - m * my_min;
+
+  /* Calculate an offset to avoid min = (0;0) */
+  qreal offset = (r.width() * 0.5 - p)/m;
+  qreal max = my_max + offset;
+
+  /* Re-calculate equation with the offset */
+  m = r.width() /( max - my_min );
+  p = - m * my_min;
 
   qreal a = 0;
 
+  QColor c = my_color;
+  c.setAlpha( c.alpha() * 0.75 );
+  painter->setBrush( c );
+  painter->setPen( QPen( my_color, 2 ) );
+
   for ( int i = 0; i < model()->rowCount(); ++i ) {
     qreal v = model()->data( model()->index( i, 0 ) ).toReal();
-    qreal w = mW * v + pW;
-    qreal h = mH * v + pH;
+    qreal w = m * (v + offset) + p;
+    qreal h = m * (v + offset) + p;
     QPainterPath path;
     path.moveTo( r.center() );
     QRect r1( r.center().x() - w/2, r.center().y() - h/2, w, h );
-    path.arcTo( r1, a, angle );
+    path.arcTo( r1, a + 1, angle - 2 );
     path.closeSubpath();
     painter->drawPath( path );
     a += angleStep;
   }
 
+  int centerWidth = r.width()/2 * 0.1;
+  painter->setPen( Qt::white );
+  painter->setBrush( Qt::white );
+  painter->drawEllipse( r.center(), centerWidth, centerWidth );
+
   a = 20;
   for ( int i = 0; i < model()->rowCount(); ++i ) {
     qreal v = model()->data( model()->index( i, 0 ) ).toReal();
-    painter->drawText( QPointF(500, a), QString::number( v ) );
+    painter->drawText( QPointF(w + 20, a), QString::number( v ) );
     a+= 15;
   }
 

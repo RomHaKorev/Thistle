@@ -13,43 +13,43 @@
 #include <QDebug>
 
 Chart::Chart( QWidget* parent ) : QAbstractItemView( parent ),
-  my_spec() {
-  my_model = 0;
-  my_topChart = -1;
+  mySpec() {
+  myModel = 0;
+  myTopChart = -1;
 }
 
 void Chart::resizeEvent(QResizeEvent * ev) {
 
   QAbstractItemView::resizeEvent( ev );
-  my_spec.chartSize = QSize( width() - 40 - my_spec.yLabelsLength, height() - 40 );
-  foreach( PointChart* p, my_charts.values() ) {
-    p->setFixedSize( my_spec.chartSize );
+  mySpec.chartSize = QSize( width() - 40 - mySpec.yLabelsLength, height() - 40 );
+  foreach( PointChart* p, myCharts.values() ) {
+    p->setFixedSize( mySpec.chartSize );
   }
   updateChart();
 }
 
 void Chart::setModel( QAbstractItemModel* model ) {
   QAbstractItemView::setModel( model );
-  my_model = model;
-  my_spec.model = model;
-  foreach( PointChart* p, my_charts.values() ) {
+  myModel = model;
+  mySpec.model = model;
+  foreach( PointChart* p, myCharts.values() ) {
     p->setModel( model );
   }
 }
 
 void Chart::setSelectionModel( QItemSelectionModel* s ) {
   QAbstractItemView::setSelectionModel( s );
-  my_selections = s;
-  foreach( PointChart* p, my_charts.values() ) {
-    p->setSelectionModel( my_selections );
+  mySelections = s;
+  foreach( PointChart* p, myCharts.values() ) {
+    p->setSelectionModel( mySelections );
   }
 }
 
 void Chart::showData( int column, Chart::ChartStyle style ) {
-  if ( my_model != 0 && column < my_model->columnCount() ) {
-    if ( my_charts.contains( column ) ) {
-      my_charts[column]->hide();
-      my_charts[column]->deleteLater();
+  if ( myModel != 0 && column < myModel->columnCount() ) {
+    if ( myCharts.contains( column ) ) {
+      myCharts[column]->hide();
+      myCharts[column]->deleteLater();
     }
     qDebug() << "ajout Chart" << style;
     PointChart* chart;
@@ -59,7 +59,7 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
       chart = new LineChart();
     } else if ( style == Bar ) {
       int nb = 1;
-      foreach( PointChart* p, my_charts ) {
+      foreach( PointChart* p, myCharts ) {
         BarChart* bar = qobject_cast<BarChart*>( p );
         if ( bar != 0 ) {
           ++nb;
@@ -69,7 +69,7 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
       bar->setWidthRatio( nb, 0 );
       chart = bar;
       int i = 1;
-      foreach( PointChart* p, my_charts ) {
+      foreach( PointChart* p, myCharts ) {
         BarChart* bar = qobject_cast<BarChart*>( p );
         if ( bar != 0 ) {
           bar->setWidthRatio( nb, i );
@@ -83,13 +83,13 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
     p.setColor( QPalette:: Base, Qt::transparent );
     chart->setPalette( p );
     chart->resize( size() );
-    chart->setModel( my_model );
-    chart->setSelectionModel( my_selections );
+    chart->setModel( myModel );
+    chart->setSelectionModel( mySelections );
     chart->setColumnData( column );
-    chart->move( my_spec.chartPos );
+    chart->move( mySpec.chartPos );
     chart->setObjectName( "Chart " + QString::number( column ) );
-    my_charts.insert( column, chart );
-    chart->setColor( (Chart::PredefinedColor)(my_charts.count()) );
+    myCharts.insert( column, chart );
+    chart->setColor( (Chart::PredefinedColor)(myCharts.count()) );
   } else {
     qWarning() << "Could not show data : Invalid model or column";
   }
@@ -106,23 +106,23 @@ Chart::~Chart() {
 }
 
 void Chart::updateChart() {
-  if ( my_charts.isEmpty() ) {
+  if ( myCharts.isEmpty() ) {
     return;
   }
 
-  my_spec.calculate( my_charts.keys() );
+  mySpec.calculate( myCharts.keys() );
 
-  foreach( PointChart* p, my_charts.values() ) {
-    p->setFixedSize( my_spec.chartSize );
+  foreach( PointChart* p, myCharts.values() ) {
+    p->setFixedSize( mySpec.chartSize );
 
   }
 
-  foreach( PointChart* p, my_charts.values() ) {
-    p->setBounds( my_spec.min, my_spec.max );
+  foreach( PointChart* p, myCharts.values() ) {
+    p->setBounds( mySpec.min, mySpec.max );
     p->setManualbounds( true );
   }
 
-  my_origin = QPointF( 0, my_spec.valueToPixel( 0 ) );
+  myOrigin = QPointF( 0, mySpec.valueToPixel( 0 ) );
 
   viewport()->update();
 }
@@ -132,8 +132,12 @@ int Chart::horizontalOffset() const {
 }
 
 QModelIndex Chart::indexAt(const QPoint &point) const {
-  foreach( PointChart* p, my_charts ) {
-    QModelIndex id = p->indexAt( point - my_spec.chartPos );
+  foreach( PointChart* p, myCharts ) {
+    BarChart* b = qobject_cast<BarChart*>(p);
+    QModelIndex id;
+    if ( b != 0) {
+      b->indexAt2( point - mySpec.chartPos );
+    }
     if ( id.isValid() ) {
       return id;
     }
@@ -141,11 +145,11 @@ QModelIndex Chart::indexAt(const QPoint &point) const {
   return QModelIndex();
 }
 
-bool Chart::isIndexHidden(const QModelIndex &index) const {
+bool Chart::isIndexHidden(const QModelIndex& /*index*/ ) const {
   return false;
 }
 
-QRect Chart::itemRect(const QModelIndex &index) const {
+QRect Chart::itemRect(const QModelIndex& /*index*/ ) const {
     return QRect();
 }
 
@@ -158,7 +162,7 @@ QModelIndex Chart::moveCursor( QAbstractItemView::CursorAction cursorAction,
   int maxRow = 0;
   int maxCol = 0;
 
-  foreach( QItemSelectionRange range, my_selections->selection() ) {
+  foreach( QItemSelectionRange range, mySelections->selection() ) {
     minRow = qMin( minRow, range.bottom() );
     maxRow = qMax( maxRow, range.top() );
     minCol = qMin( minCol, range.left() );
@@ -185,7 +189,7 @@ QModelIndex Chart::moveCursor( QAbstractItemView::CursorAction cursorAction,
                             model()->index(minRow, minCol, rootIndex()),
                             model()->index(maxRow, maxCol, rootIndex())
                           );
-  my_selections->select( selection, QItemSelectionModel::Clear | QItemSelectionModel::Select );
+  mySelections->select( selection, QItemSelectionModel::Clear | QItemSelectionModel::Select );
   viewport()->update();
   return QModelIndex();
 
@@ -195,62 +199,74 @@ QModelIndex Chart::moveCursor( QAbstractItemView::CursorAction cursorAction,
 void Chart::paintAxis( QPainter* painter ) {
   painter->save();
   painter->setRenderHint( QPainter::Antialiasing, false );
-  painter->translate( my_spec.chartPos );
+  painter->translate( mySpec.chartPos );
   painter->setPen( QPen(QColor( 20, 20, 20, 180 ), 1, Qt::SolidLine) );
   painter->setBrush(Qt::NoBrush);
-  QPoint start = QPoint( -10, my_origin.y() );
-  QPoint end = QPoint( my_spec.chartSize.width() + 10, my_origin.y() );
+  QPoint start = QPoint( -10, myOrigin.y() );
+  QPoint end = QPoint( mySpec.chartSize.width() + 10, myOrigin.y() );
   painter->drawLine( start, end );
-  start = QPoint( my_origin.x(), 0 );
-  end = QPoint( my_origin.x(), my_spec.chartSize.height() );
+  start = QPoint( myOrigin.x(), 0 );
+  end = QPoint( myOrigin.x(), mySpec.chartSize.height() );
   painter->drawLine( start, end );
   painter->restore();
-
 }
 
 void Chart::paintGrid( QPainter* painter ) {
-  painter->setPen(QPen(Qt::lightGray, 0, Qt::SolidLine));
+  painter->save();
+  painter->translate( mySpec.chartPos );
 
-  QPoint start( 0, my_origin.y() );
-  QPoint end( my_spec.chartSize.width(), my_origin.y() );
+  QPoint start( 0, myOrigin.y() );
+  QPoint end( mySpec.chartSize.width(), myOrigin.y() );
 
-  for ( qreal i = my_spec.gridStartValue() + my_spec.yStep; i < my_spec.max;
-        i +=  my_spec.yStep ) {
-    start.setY( my_spec.valueToPixel( i ) );
-    end.setY( my_spec.valueToPixel( i ) );
+  for ( qreal i = mySpec.gridStartValue() + mySpec.yStep; i < mySpec.max;
+        i +=  mySpec.yStep ) {
+    start.setY( mySpec.valueToPixel( i ) );
+    end.setY( mySpec.valueToPixel( i ) );
+    painter->setPen(QPen(Qt::lightGray, 0, Qt::SolidLine));
     painter->drawLine( start, end );
-    painter->drawText( start - QPoint( my_spec.yLabelsLength + 3, 0 ), QString::number( i ) );
+    painter->setPen(QPen(Qt::gray, 0, Qt::SolidLine));
+    QPointF p = start - QPoint( mySpec.yLabelsLength + 3, 0 );
+    painter->drawText( p, QString::number( i ) );
   }
 
-  start = QPoint( my_origin.x(), my_origin.y() - 5 );
-  end = QPoint( my_origin.x(), my_origin.y() + 5 );
+  painter->restore();
+  painter->save();
+  painter->setPen(QColor( 20, 20, 20 ));
+  painter->translate( mySpec.chartPos );
+  start = QPoint( myOrigin.x(), myOrigin.y() - 5 );
+  end = QPoint( myOrigin.x(), myOrigin.y() + 5 );
 
   for( int i = 0; i < model()->rowCount(); ++i ) {
-    start.setX( my_spec.xScale * i );
-    end.setX( my_spec.xScale * i );
+    start.setX( mySpec.xScale * i );
+    end.setX( mySpec.xScale * i );
     painter->drawLine( start, end );
   }
+  painter->restore();
 }
 
 void Chart::paintText( QPainter* painter ) {
   painter->save();
+  painter->translate( mySpec.chartPos);
   painter->setRenderHint( QPainter::TextAntialiasing );
-  painter->setPen(QPen(Qt::lightGray, 0, Qt::SolidLine));
+  painter->setPen(QPen(QColor( 20, 20, 20 ), 0, Qt::SolidLine));
   QFontMetrics metrics (font());
-  QPointF textPos = my_origin + QPointF( 0, 3 );
+
   qreal textHeight = metrics.height();
-  if ( my_spec.xLabelsLength < ( my_spec.xScale / 2 ) ) {
+  if ( mySpec.xLabelsLength < ( mySpec.xScale / 2 ) ) {
+    QPointF textPos = myOrigin;
     for ( int i = 0; i < model()->rowCount(); ++i ) {
       QString header = model()->headerData( i, Qt::Vertical ).toString();
-      painter->drawText( textPos + QPointF( my_spec.xScale * i, textHeight ), header );
+      QPointF p = textPos + QPointF( mySpec.xScale * i, textHeight );
+      painter->drawText( p, header );
     }
   } else {
+    QPointF textPos = myOrigin + QPointF( -5, 7 );
     for ( int i = 0; i < model()->rowCount(); ++i ) {
       painter->save();
       QString header = model()->headerData( i, Qt::Vertical ).toString();
       qreal textWidth = metrics.width( header );
       painter->rotate( -90 );
-      painter->translate( -textPos.y() - textWidth , textPos.x() + my_spec.xScale * i + textHeight / 2 );
+      painter->translate( -textPos.y() - textWidth , textPos.x() + mySpec.xScale * i + textHeight );
       painter->drawText( QPointF(0, 0), header );
       painter->restore();
     }
@@ -265,19 +281,20 @@ void Chart::paintEvent( QPaintEvent* event ) {
   painter.setRenderHint( QPainter::Antialiasing );
 
   painter.save();
-  painter.translate( my_spec.chartPos );
-
   paintGrid( &painter );
+  painter.translate( mySpec.chartPos );
 
-  QList<int> keys = my_charts.keys();
-  keys.removeAll( my_topChart );
+
+
+  QList<int> keys = myCharts.keys();
+  keys.removeAll( myTopChart );
 
   foreach( int k, keys ) {
-    my_charts[ k ]->paintChart( &painter );
+    myCharts[ k ]->paintChart( &painter );
   }
 
-  if ( my_topChart != -1 && my_charts.contains( my_topChart ) ) {
-    my_charts[ my_topChart ]->paintChart( &painter );
+  if ( myTopChart != -1 && myCharts.contains( myTopChart ) ) {
+    myCharts[ myTopChart ]->paintChart( &painter );
   }
   painter.restore();
   paintAxis( &painter );
@@ -294,7 +311,7 @@ void Chart::scrollTo( const QModelIndex& index, ScrollHint hint ) {
 }
 
 void Chart::setSelection( const QRect& r, QItemSelectionModel::SelectionFlags command ) {
-  my_selections->clear();
+  mySelections->clear();
 
   QRect rect = r;
 
@@ -308,9 +325,9 @@ void Chart::setSelection( const QRect& r, QItemSelectionModel::SelectionFlags co
     rect.setHeight( 10 );
   }
 
-  foreach ( PointChart* p, my_charts ) {
-    p->setSelection( rect.translated( -1 * my_spec.chartPos ), command );
-    if ( !my_selections->selection().isEmpty() ) {
+  foreach ( PointChart* p, myCharts ) {
+    p->setSelection( rect.translated( -1 * mySpec.chartPos ), command );
+    if ( !mySelections->selection().isEmpty() ) {
       viewport()->update();
       return;
     }
@@ -360,9 +377,9 @@ void Chart::rowsInserted(const QModelIndex& parent, int start, int end) {
 void Chart::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
   QAbstractItemView::selectionChanged( selected, deselected );
   if ( selected.isEmpty() ) {
-    my_topChart = -1;
+    myTopChart = -1;
   } else {
-    my_topChart = selected.first().indexes().first().column();
+    myTopChart = selected.first().indexes().first().column();
   }
   updateChart();
 }

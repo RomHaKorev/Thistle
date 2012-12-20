@@ -39,13 +39,13 @@ public:
 
 protected:
 
-  ChartSpec                my_spec;
-  QAbstractItemModel*      my_model;
-  QItemSelectionModel*     my_selections;
-  QMap< int, PointChart* > my_charts;
+  ChartSpec                mySpec;
+  QAbstractItemModel*      myModel;
+  QItemSelectionModel*     mySelections;
+  QMap< int, PointChart* > myCharts;
 
-  QPointF     my_origin;
-  int         my_topChart;
+  QPointF     myOrigin;
+  int         myTopChart;
 
   void        resizeEvent(QResizeEvent * ev);
 

@@ -24,8 +24,8 @@ void ChartSpec::calculate( QList<int> col ) {
   usedColumns = col;
 
   QModelIndex index = model->index( 0, usedColumns.first() );
-  min = model->data( index ).toReal();
-  max = model->data( index ).toReal();
+  min = 0;
+  max = 0;
 
   foreach( int col, usedColumns ) {
     for ( int r = 0; r < model->rowCount(); ++r ) {
@@ -53,7 +53,6 @@ void ChartSpec::calculate( QList<int> col ) {
   }
 
   yStep = yStep * yOrder / 10;
-  qDebug() << "yStep = " << yStep;
   qreal i = 0;
   qreal j = 0;
   while ( (min + i * yStep) < max ) {
@@ -74,7 +73,7 @@ void ChartSpec::calculate( QList<int> col ) {
   xAxisSpace();
   yAxisSpace();
 
-  chartPos = QPoint( 5 + yLabelsLength, 20 );
+  chartPos = QPoint( xScale * 0.2 + yLabelsLength, 20 );
 }
 
 qreal ChartSpec::gridStartValue() {
@@ -92,7 +91,6 @@ qreal ChartSpec::gridStartValue() {
   } else {
     i = i * o;
   }
-  qDebug() << "grid start value" << i ;
   return i;
 }
 
@@ -124,18 +122,8 @@ void ChartSpec::xAxisSpace() {
     xLabelsLength = qMax( xLabelsLength,  (qreal)metrics.width( str ) );
   }
 
-  qDebug() << "X labels length :" << xLabelsLength;
-
   qreal spaceForValue = 0.2 * chartSize.height();
-  qreal bottom = ( chartSize.height() - valueToPixel( 0 ) );
-  if ( spaceForValue > bottom ) {
-    qDebug() << Q_FUNC_INFO << "Bottom" << bottom << spaceForValue;
-    //return bottom;
-  }
-
   spaceForValue = qMin( spaceForValue, xLabelsLength );
-
-  qDebug() << Q_FUNC_INFO << " Space for x value :" << spaceForValue;
 }
 
 void ChartSpec::yAxisSpace() {
@@ -143,20 +131,9 @@ void ChartSpec::yAxisSpace() {
   QFontMetrics metrics( font );
   yLabelsLength = qMax( metrics.width( QString::number(order( max )) ),
                         metrics.width( QString::number(order( min )) ) );
-
-  qDebug() << "Y labels length :" << yLabelsLength;
-
   return;
   qreal spaceForValue = 0.2 * chartSize.height();
-  qreal bottom = ( chartSize.height() - valueToPixel( 0 ) );
-  if ( spaceForValue > bottom ) {
-    qDebug() << Q_FUNC_INFO << "Bottom" << bottom << spaceForValue;
-    //return bottom;
-  }
-
   spaceForValue = qMin( spaceForValue, xLabelsLength );
-
-  qDebug() << Q_FUNC_INFO << " Space for y values :" << spaceForValue;
 }
 
 qreal ChartSpec::valueToPixel( qreal v ) {
