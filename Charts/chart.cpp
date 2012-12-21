@@ -16,13 +16,14 @@ Chart::Chart( QWidget* parent ) : QAbstractItemView( parent ),
   mySpec() {
   myModel = 0;
   myTopChart = -1;
+  myType = TypeLinear;
 }
 
 void Chart::resizeEvent(QResizeEvent * ev) {
 
   QAbstractItemView::resizeEvent( ev );
   mySpec.chartSize = QSize( width() - 40 - mySpec.yLabelsLength, height() - 40 );
-  foreach( PointChart* p, myCharts.values() ) {
+  foreach( PointChart* p, myLinearCharts.values() ) {
     p->setFixedSize( mySpec.chartSize );
   }
   updateChart();
@@ -32,7 +33,7 @@ void Chart::setModel( QAbstractItemModel* model ) {
   QAbstractItemView::setModel( model );
   myModel = model;
   mySpec.model = model;
-  foreach( PointChart* p, myCharts.values() ) {
+  foreach( PointChart* p, myLinearCharts.values() ) {
     p->setModel( model );
   }
 }
@@ -40,18 +41,28 @@ void Chart::setModel( QAbstractItemModel* model ) {
 void Chart::setSelectionModel( QItemSelectionModel* s ) {
   QAbstractItemView::setSelectionModel( s );
   mySelections = s;
-  foreach( PointChart* p, myCharts.values() ) {
+  foreach( PointChart* p, myLinearCharts.values() ) {
     p->setSelectionModel( mySelections );
   }
 }
 
 void Chart::showData( int column, Chart::ChartStyle style ) {
   if ( myModel != 0 && column < myModel->columnCount() ) {
-    if ( myCharts.contains( column ) ) {
-      myCharts[column]->hide();
-      myCharts[column]->deleteLater();
+    switch( style ) {
+    case Chart::Point:
+    case Chart::Line:
+    case Chart::Bar:
+      if ( myLinearCharts.contains( column ) ) {
+        myLinearCharts[column]->hide();
+        myLinearCharts[column]->deleteLater();
+      }
+    break;
+    case Chart::Radial:
+      if ( myRadialCharts.contains( column ) ) {
+        myLinearCharts[column]->hide();
+        myLinearCharts[column]->deleteLater();
+      }
     }
-    qDebug() << "ajout Chart" << style;
     PointChart* chart;
     if ( style == Chart::Point ) {
       chart = new PointChart();
@@ -59,7 +70,7 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
       chart = new LineChart();
     } else if ( style == Bar ) {
       int nb = 1;
-      foreach( PointChart* p, myCharts ) {
+      foreach( PointChart* p, myLinearCharts ) {
         BarChart* bar = qobject_cast<BarChart*>( p );
         if ( bar != 0 ) {
           ++nb;
@@ -69,12 +80,16 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
       bar->setWidthRatio( nb, 0 );
       chart = bar;
       int i = 1;
-      foreach( PointChart* p, myCharts ) {
+      foreach( PointChart* p, myLinearCharts ) {
         BarChart* bar = qobject_cast<BarChart*>( p );
         if ( bar != 0 ) {
           bar->setWidthRatio( nb, i );
           ++i;
         }
+      }
+    } if ( style == Chart::Radial ) {
+      foreach( PointChart* p, myLinearCharts ) {
+
       }
     } else {
       chart = new PointChart();
@@ -88,8 +103,8 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
     chart->setColumnData( column );
     chart->move( mySpec.chartPos );
     chart->setObjectName( "Chart " + QString::number( column ) );
-    myCharts.insert( column, chart );
-    chart->setColor( (Chart::PredefinedColor)(myCharts.count()) );
+    myLinearCharts.insert( column, chart );
+    chart->setColor( (Chart::PredefinedColor)(myLinearCharts.count()) );
   } else {
     qWarning() << "Could not show data : Invalid model or column";
   }
@@ -97,7 +112,11 @@ void Chart::showData( int column, Chart::ChartStyle style ) {
 }
 
 void Chart::hideData( int column ) {
-
+  if ( myLinearCharts.contains( column ) ) {
+    myLinearCharts[column]->hide();
+    myLinearCharts[column]->deleteLater();
+    myLinearCharts.remove( column );
+  }
 }
 
 
@@ -106,18 +125,18 @@ Chart::~Chart() {
 }
 
 void Chart::updateChart() {
-  if ( myCharts.isEmpty() ) {
+  if ( myLinearCharts.isEmpty() ) {
     return;
   }
 
-  mySpec.calculate( myCharts.keys() );
+  mySpec.calculate( myLinearCharts.keys() );
 
-  foreach( PointChart* p, myCharts.values() ) {
+  foreach( PointChart* p, myLinearCharts.values() ) {
     p->setFixedSize( mySpec.chartSize );
 
   }
 
-  foreach( PointChart* p, myCharts.values() ) {
+  foreach( PointChart* p, myLinearCharts.values() ) {
     p->setBounds( mySpec.min, mySpec.max );
     p->setManualbounds( true );
   }
@@ -132,7 +151,7 @@ int Chart::horizontalOffset() const {
 }
 
 QModelIndex Chart::indexAt(const QPoint &point) const {
-  foreach( PointChart* p, myCharts ) {
+  foreach( PointChart* p, myLinearCharts ) {
     BarChart* b = qobject_cast<BarChart*>(p);
     QModelIndex id;
     if ( b != 0) {
@@ -286,15 +305,15 @@ void Chart::paintEvent( QPaintEvent* event ) {
 
 
 
-  QList<int> keys = myCharts.keys();
+  QList<int> keys = myLinearCharts.keys();
   keys.removeAll( myTopChart );
 
   foreach( int k, keys ) {
-    myCharts[ k ]->paintChart( &painter );
+    myLinearCharts[ k ]->paintChart( &painter );
   }
 
-  if ( myTopChart != -1 && myCharts.contains( myTopChart ) ) {
-    myCharts[ myTopChart ]->paintChart( &painter );
+  if ( myTopChart != -1 && myLinearCharts.contains( myTopChart ) ) {
+    myLinearCharts[ myTopChart ]->paintChart( &painter );
   }
   painter.restore();
   paintAxis( &painter );
@@ -325,7 +344,7 @@ void Chart::setSelection( const QRect& r, QItemSelectionModel::SelectionFlags co
     rect.setHeight( 10 );
   }
 
-  foreach ( PointChart* p, myCharts ) {
+  foreach ( PointChart* p, myLinearCharts ) {
     p->setSelection( rect.translated( -1 * mySpec.chartPos ), command );
     if ( !mySelections->selection().isEmpty() ) {
       viewport()->update();

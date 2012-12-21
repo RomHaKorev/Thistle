@@ -33,8 +33,10 @@ int main( int argc, char* argv[] ) {
   Chart chart1;
   chart1.setModel( model );
   chart1.showData( 0, Chart::Bar );
-  //chart1.showData( 1, Chart::Line );
+  chart1.showData( 1, Chart::Line );
   chart.showMaximized();
+  chart1.hideData( 1 );
+  chart1.show();
 
   return a.exec();
 }
