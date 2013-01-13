@@ -7,7 +7,7 @@ class LineChart : public PointChart {
   Q_OBJECT
 
 protected:
-  virtual void paintChart(QPainter *painter);
+  virtual void paintChart(QPainter& painter);
 public:
   explicit LineChart( QWidget* parent = 0 );
   ~LineChart();

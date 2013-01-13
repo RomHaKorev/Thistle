@@ -8,6 +8,9 @@ class ChartSpec {
 public:
   ChartSpec( QAbstractItemModel* model = 0 );
   QAbstractItemModel* model;
+  qreal  m;
+  qreal  p;
+  qreal  nbStep;
   qreal  yScale;
   qreal  xScale;
   qreal  yOrder;

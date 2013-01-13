@@ -70,7 +70,7 @@ public:
   QModelIndex moveCursor(QAbstractItemView::CursorAction cursorAction,
                          Qt::KeyboardModifiers modifiers);
 
-  virtual void paintChart( QPainter* painter );
+  virtual void paintChart( QPainter& painter );
 
 protected slots:
     void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);

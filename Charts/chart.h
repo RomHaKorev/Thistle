@@ -1,23 +1,18 @@
 #ifndef CHART_H
 #define CHART_H
 
+#include <QPointer>
 #include <QAbstractItemView>
 #include "chartspec.h"
 
 //#include "point.h"
 
 class PointChart;
+class RadialChart;
 
 class Chart : public QAbstractItemView {
   Q_OBJECT
 public:
-  enum ChartStyle {
-    Point  = 0,
-    Line   = 1,
-    Bar    = 2,
-    Radial = 3
-  };
-
   enum PointShape {
     None     = 0,
     Circle   = 1,
@@ -36,20 +31,13 @@ public:
 
 /*  Q_ENUMS( PredefinedColor )
   Q_ENUMS( PointShape )
-  Q_ENUMS( ChartStyle )*/
+  */
 
 protected:
-  enum Type {
-    TypeLinear = 0,
-    TypeRadial = 1
-  };
-
-  Type                     myType;
   ChartSpec                mySpec;
   QAbstractItemModel*      myModel;
   QItemSelectionModel*     mySelections;
-  QMap< int, PointChart* > myLinearCharts;
-  QMap< int, PointChart* > myRadialCharts;
+  QMap< int, QPointer<PointChart> > myCharts;
 
   QPointF     myOrigin;
   int         myTopChart;
@@ -66,9 +54,9 @@ protected:
                          Qt::KeyboardModifiers modifiers);
 
   void        paintEvent(QPaintEvent *event);
-  void        paintAxis( QPainter* painter );
-  void        paintGrid( QPainter* painter );
-  void        paintText( QPainter* painter );
+  virtual void paintAxis( QPainter& painter );
+  virtual void paintGrid( QPainter& painter );
+  virtual void paintText( QPainter& painter );
 
   int         rows(const QModelIndex &index = QModelIndex()) const;
 
@@ -82,14 +70,12 @@ protected:
   QRect       visualRect(const QModelIndex &index) const;
   QRegion     visualRegionForSelection(const QItemSelection &selection) const;
 
-
 public:
   explicit Chart( QWidget* parent = 0 );
            ~Chart();
   void     setModel( QAbstractItemModel* model );
   void     setSelectionModel( QItemSelectionModel* s );
 
-  void     showData( int column, Chart::ChartStyle style = Chart::Point );
   void     hideData( int column );
 
 protected slots:

@@ -12,12 +12,12 @@ LineChart::LineChart( QWidget* parent ) : PointChart( parent ) {
 LineChart::~LineChart() {
 
 }
-void LineChart::paintChart( QPainter *painter ) {
+void LineChart::paintChart( QPainter& painter ) {
 
   PointChart::paintChart( painter );
 
-  painter->save();
-  painter->setRenderHint( QPainter::Antialiasing );
+  painter.save();
+  painter.setRenderHint( QPainter::Antialiasing );
 
   /*if ( my_pointShape != Chart::None ) {
     QRegion region( QRect( QPoint(0, 0), size() ) );
@@ -27,11 +27,11 @@ void LineChart::paintChart( QPainter *painter ) {
       region = region.subtract( r );
     }
 
-    painter->setClipRegion( region );
+    painter.setClipRegion( region );
   }*/
 
-  painter->setPen( QPen( my_color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-  painter->drawPolyline( my_points );
-  painter->restore();
+  painter.setPen( QPen( my_color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+  painter.drawPolyline( my_points );
+  painter.restore();
 
 }

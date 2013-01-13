@@ -43,19 +43,19 @@ void PointChart::setColor( QColor c ) {
 void PointChart::setColor( Chart::PredefinedColor c ) {
   switch( c) {
   case Chart::Blue:
-    my_color = QColor( 80, 120, 190 );
+    my_color = QColor( 0x50, 0x78, 0xBE );
   break;
   case Chart::Green:
-    my_color = QColor( 170, 220, 90 );
+    my_color = QColor( 0xAA, 0xDC, 0x5A );
   break;
   case Chart::Red:
-    my_color = QColor( 250, 70, 70 );
+    my_color = QColor( 0xFA, 0x46, 0x46 );
   break;
   case Chart::Purple:
-    my_color = QColor( 130, 100, 160 );
+    my_color = QColor( 0x82, 0x64, 0xA0 );
   break;
   case Chart::Orange:
-    my_color = QColor( 250, 120, 20 );
+    my_color = QColor( 0xFA, 0x78, 0x14 );
   break;
   }
 }
@@ -153,15 +153,15 @@ QRect PointChart::itemRect(const QModelIndex &index) const {
   return QRect( p.toPoint(), QSize(20, 20) );
 }
 
-QModelIndex PointChart::moveCursor( QAbstractItemView::CursorAction cursorAction,
-                       Qt::KeyboardModifiers modifiers ) {
+QModelIndex PointChart::moveCursor( QAbstractItemView::CursorAction /*cursorAction*/,
+                       Qt::KeyboardModifiers /*modifiers*/ ) {
   return QModelIndex();
 }
 
-void PointChart::paintChart( QPainter* painter ) {
+void PointChart::paintChart( QPainter& painter ) {
 
-  painter->save();
-  painter->setRenderHint( QPainter::Antialiasing );
+  painter.save();
+  painter.setRenderHint( QPainter::Antialiasing );
   updateChart();
   qreal yScale = 1;
   if ( my_max - my_min != 0 ) {
@@ -189,22 +189,22 @@ void PointChart::paintChart( QPainter* painter ) {
     break;
   }
 
-  painter->setPen( Qt::transparent );
-  painter->setBrush( my_color );
+  painter.setPen( Qt::transparent );
+  painter.setBrush( my_color );
   if ( my_pointShape != Chart::None ) {
     foreach( QPointF p, my_points ) {
-      painter->drawPath( shape.translated( p ) );
+      painter.drawPath( shape.translated( p ) );
     }
 
     for ( int r = 0; r < model()->rowCount(); ++r ) {
       QModelIndex id = model()->index( r, my_col, rootIndex() );
       if ( selectionModel()->isSelected( id ) ||
            currentIndex() == id ) {
-        painter->drawPath( selectedShape.translated( my_points.at( r ) ) );
+        painter.drawPath( selectedShape.translated( my_points.at( r ) ) );
       }
     }
   }
-  painter->restore();
+  painter.restore();
 }
 
 int PointChart::rows(const QModelIndex &index) const {

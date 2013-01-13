@@ -14,9 +14,13 @@ ChartSpec::ChartSpec( QAbstractItemModel* m ) {
   min = 0;
   yLabelsLength = 0;
   chartPos = QPoint( 20, 20 );
+  m = 0;
+  p = 0;
+  nbStep = 5;
 }
 
 void ChartSpec::calculate( QList<int> col ) {
+  qDebug() << Q_FUNC_INFO;
   if ( model == 0 ) {
     return;
   }
@@ -42,7 +46,9 @@ void ChartSpec::calculate( QList<int> col ) {
 
   yOrder = order( max - min );
 
-  yStep = (max - min ) / (yOrder);
+  yStep = (max - min) / nbStep;
+
+  /*yStep = (max - min ) / (yOrder);
   qreal floor = yStep - qFloor(yStep);
   yStep -= floor;
   if ( floor < 0.3 ) {
@@ -52,8 +58,16 @@ void ChartSpec::calculate( QList<int> col ) {
     ++yStep;
   }
 
-  yStep = yStep * yOrder / 10;
   qreal i = 0;
+  qreal a = min;
+  while ( a < max ) {
+    ++i;
+    a += yOrder;
+  }
+
+  yStep = i * yOrder;
+  //yStep = yStep * yOrder / nbStep;
+  i = 0;
   qreal j = 0;
   while ( (min + i * yStep) < max ) {
     ++i;
@@ -65,7 +79,7 @@ void ChartSpec::calculate( QList<int> col ) {
     ++j;
   }
 
-  max = min + ( j + 1 ) * yStep;
+  max = min + ( j + 1 ) * yStep;*/
 
   qreal w = chartSize.width();
   xScale = w / model->rowCount();
@@ -73,7 +87,13 @@ void ChartSpec::calculate( QList<int> col ) {
   xAxisSpace();
   yAxisSpace();
 
+  qreal h = chartSize.height();
+  m = -h / ( max - min );
+  p = h - m * min;
+
+
   chartPos = QPoint( xScale * 0.2 + yLabelsLength, 20 );
+  qDebug() << Q_FUNC_INFO << min << max << yScale << xScale;
 }
 
 qreal ChartSpec::gridStartValue() {
@@ -137,9 +157,5 @@ void ChartSpec::yAxisSpace() {
 }
 
 qreal ChartSpec::valueToPixel( qreal v ) {
-  qreal h = chartSize.height();
-  qreal m = -h / ( max - min );
-  qreal p = h - m * min;
-
   return m * v + p;
 }

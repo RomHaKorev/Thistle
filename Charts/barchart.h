@@ -11,7 +11,7 @@ protected:
   QPoint test1;
   int my_ratio;
   int my_part;
-  virtual void paintChart(QPainter *painter);
+  virtual void paintChart(QPainter& painter);
   virtual QModelIndex indexAt(const QPoint &point) const;
 
 public:

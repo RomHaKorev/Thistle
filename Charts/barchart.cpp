@@ -14,11 +14,11 @@ BarChart::BarChart( QWidget* parent ) : PointChart( parent ) {
 BarChart::~BarChart() {
 
 }
-void BarChart::paintChart( QPainter *painter ) {
+void BarChart::paintChart( QPainter& painter ) {
   qDebug() << Q_FUNC_INFO << my_part;
   updateChart();
-  painter->save();
-  painter->setRenderHint( QPainter::Antialiasing );
+  painter.save();
+  painter.setRenderHint( QPainter::Antialiasing );
 
   QColor c = my_color;
   c.setAlpha( c.alpha() * 0.75 );
@@ -30,14 +30,14 @@ void BarChart::paintChart( QPainter *painter ) {
   qreal stepW = ( width() / my_points.size() );
   qreal w = stepW / my_ratio - 5;
 
-  painter->setBrush( c );
-  painter->setPen( QPen( my_color, 2 ) );
+  painter.setBrush( c );
+  painter.setPen( QPen( my_color, 2 ) );
   for ( int row = 0; row < model()->rowCount(); ++row ) {
     QModelIndex id = model()->index( row, my_col, rootIndex() );
     if ( selectionModel()->isSelected( id ) || currentIndex() == id ) {
-      painter->setBrush( my_color );
+      painter.setBrush( my_color );
     } else {
-      painter->setBrush( c );
+      painter.setBrush( c );
     }
     QPointF point = my_points.at( row );
     qreal h = p - point.y() + 1;
@@ -50,25 +50,25 @@ void BarChart::paintChart( QPainter *painter ) {
     } else {
       r = QRect( point.x() + w * my_part, point.y(), w, h - 5 );
 
-      painter->save();
-      painter->setBrush( Qt::red );
-      painter->setPen( Qt::NoPen );
-      painter->drawRects( reg.rects() );
-      painter->restore();
-      painter->drawRect( r );
+      painter.save();
+      painter.setBrush( Qt::red );
+      painter.setPen( Qt::NoPen );
+      painter.drawRects( reg.rects() );
+      painter.restore();
+      painter.drawRect( r );
       return;
     }
-    painter->setClipRegion( reg );
-    painter->drawRect( r );
+    painter.setClipRegion( reg );
+    painter.drawRect( r );
   }
-  painter->restore();
+  painter.restore();
 
-  painter->setPen( Qt::red );
+  painter.setPen( Qt::red );
   foreach( QRect r, test ) {
-    painter->drawRect( r );
+    painter.drawRect( r );
   }
-  painter->setPen( QPen( Qt::red, 3 ) );
-  painter->drawPoint( test1 );
+  painter.setPen( QPen( Qt::red, 3 ) );
+  painter.drawPoint( test1 );
 
 }
 
