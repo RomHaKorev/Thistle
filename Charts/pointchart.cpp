@@ -41,7 +41,8 @@ void PointChart::setColor( QColor c ) {
 }
 
 void PointChart::setColor( Chart::PredefinedColor c ) {
-  switch( c) {
+  my_color = QColor( c );
+  /*switch( c) {
   case Chart::Blue:
     my_color = QColor( 0x50, 0x78, 0xBE );
   break;
@@ -57,7 +58,7 @@ void PointChart::setColor( Chart::PredefinedColor c ) {
   case Chart::Orange:
     my_color = QColor( 0xFA, 0x78, 0x14 );
   break;
-  }
+  }*/
 }
 
 void PointChart::updateMinMax() {

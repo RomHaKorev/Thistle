@@ -17,11 +17,11 @@ class PointChart : public QAbstractItemView {
   };
 
   enum PredefinedColor {
-    Blue   = 1,
-    Green  = 2,
-    Red    = 3,
-    Purple = 4,
-    Orange = 5
+    Blue   = 0x5078BE,
+    Green  = 0xAADC5A,
+    Red    = 0xFA4646,
+    Purple = 0x8264A0,
+    Orange = 0xFA7814
   };
 
 protected:
