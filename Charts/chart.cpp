@@ -240,6 +240,7 @@ void Chart::paintEvent( QPaintEvent* event ) {
   paintText( painter );
 }
 
+
 int Chart::rows( const QModelIndex& index ) const {
   return model()->rowCount( model()->parent( index ) );
 }

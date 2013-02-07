@@ -11,9 +11,9 @@ PointChart::PointChart( QWidget* parent ) : QAbstractItemView( parent ) {
   my_min = 0;
   my_manualBounds = true;
 
-  setColor( Chart::Blue );
+  setColor( Clint::Blue );
 
-  my_pointShape = Chart::Circle;
+  my_pointShape = Clint::Circle;
   my_col = 0;
   setAttribute( Qt::WA_TransparentForMouseEvents );
   setFrameStyle( QFrame::NoFrame );
@@ -32,7 +32,7 @@ void PointChart::setManualbounds( bool manual ) {
   my_manualBounds = manual;
 }
 
-QColor PointChart::Color() const {
+QColor PointChart::color() const {
   return my_color;
 }
 
@@ -40,25 +40,8 @@ void PointChart::setColor( QColor c ) {
   my_color = c;
 }
 
-void PointChart::setColor( Chart::PredefinedColor c ) {
+void PointChart::setColor( Clint::PredefinedColor c ) {
   my_color = QColor( c );
-  /*switch( c) {
-  case Chart::Blue:
-    my_color = QColor( 0x50, 0x78, 0xBE );
-  break;
-  case Chart::Green:
-    my_color = QColor( 0xAA, 0xDC, 0x5A );
-  break;
-  case Chart::Red:
-    my_color = QColor( 0xFA, 0x46, 0x46 );
-  break;
-  case Chart::Purple:
-    my_color = QColor( 0x82, 0x64, 0xA0 );
-  break;
-  case Chart::Orange:
-    my_color = QColor( 0xFA, 0x78, 0x14 );
-  break;
-  }*/
 }
 
 void PointChart::updateMinMax() {
@@ -142,7 +125,7 @@ QModelIndex PointChart::indexAt(const QPoint &point) const {
 }
 
 bool PointChart::isIndexHidden(const QModelIndex &index) const {
-
+  Q_UNUSED( index )
   return false;
 }
 
@@ -164,35 +147,31 @@ void PointChart::paintChart( QPainter& painter ) {
   painter.save();
   painter.setRenderHint( QPainter::Antialiasing );
   updateChart();
-  qreal yScale = 1;
-  if ( my_max - my_min != 0 ) {
-    yScale = height() / ( my_max - my_min );
-  }
 
   QPainterPath shape;
   QPainterPath selectedShape;
   switch( my_pointShape ) {
-    case Chart::None:
+    case Clint::None:
     break;
-    case Chart::Circle:
+    case Clint::Circle:
       shape.addEllipse( QPointF(0,0), 4, 4 );
       selectedShape.addEllipse( QPointF(0,0), 6, 6 );
     break;
-    case Chart::Square:
+    case Clint::Square:
       shape.addRect( -4, -4, 8, 8 );
       selectedShape.addRect( -6, -6, 12, 12 );
     break;
-    case Chart::Triangle:
+    case Clint::Triangle:
       shape.addPolygon( QPolygonF() << QPointF( -4, 4 ) << QPointF( 4, 4 ) << QPointF( 0, -4 ) );
       selectedShape.addPolygon( QPolygonF() << QPointF( -6, 6 ) << QPointF( 6, 6 ) << QPointF( 0, -6 ) );
     break;
-    case Chart::Diamond:
+    case Clint::Diamond:
     break;
   }
 
   painter.setPen( Qt::transparent );
   painter.setBrush( my_color );
-  if ( my_pointShape != Chart::None ) {
+  if ( my_pointShape != Clint::None ) {
     foreach( QPointF p, my_points ) {
       painter.drawPath( shape.translated( p ) );
     }
@@ -285,8 +264,7 @@ QRegion PointChart::visualRegionForSelection(const QItemSelection &selection) co
   return region;
 }
 
-
-int PointChart::columnData() {
+int PointChart::columnData() const {
   return my_col;
 }
 

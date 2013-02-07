@@ -16,13 +16,8 @@ class PointChart : public QAbstractItemView {
     Diamond  = 4
   };
 
-  enum PredefinedColor {
-    Blue   = 0x5078BE,
-    Green  = 0xAADC5A,
-    Red    = 0xFA4646,
-    Purple = 0x8264A0,
-    Orange = 0xFA7814
-  };
+  /*enum PredefinedColor {
+  };*/
 
 protected:
 
@@ -33,7 +28,7 @@ protected:
   qreal        my_min;
   Qt::PenStyle my_penStyle;
   QPolygonF    my_points;
-  Chart::PointShape  my_pointShape;
+  Clint::Shape my_pointShape;
 
   void        updateMinMax();
   void        updateChart();
@@ -56,11 +51,11 @@ public:
   void   setBounds( qreal min, qreal max );
   void   setManualbounds( bool manual = true );
 
-  QColor Color() const;
+  QColor color() const;
   void   setColor( QColor c );
-  void   setColor( Chart::PredefinedColor c );
+  void   setColor( Clint::PredefinedColor c );
 
-  int  columnData();
+  int  columnData() const;
   void setColumnData( int c );
 
   QModelIndex indexAt(const QPoint &point) const;

@@ -10,7 +10,28 @@ LinearChart::LinearChart( QWidget* parent ) :
   Chart( parent ) {
 }
 
-void LinearChart::showData( int column, LinearChart::Style style ) {
+void LinearChart::setModel( QAbstractItemModel *model ) {
+  Chart::setModel( model );
+  if ( myModel != 0 ) {
+    for ( int column = 0; column < model->columnCount(); ++column ) {
+      PointChart* chart = new PointChart();
+      QPalette p;
+      p.setColor( QPalette:: Base, Qt::transparent );
+      chart->setPalette( p );
+      chart->resize( size() );
+      chart->setModel( myModel );
+      chart->setSelectionModel( mySelections );
+      chart->setColumnData( column );
+      chart->move( mySpec.chartPos );
+      chart->setObjectName( "Chart " + QString::number( column ) );
+      myCharts.insert( column, chart );
+
+      chart->setColor( Clint::predefinedColor( column ) );
+    }
+  }
+}
+
+void LinearChart::setDataStyle( int column, LinearChart::Style style ) {
   if ( myModel != 0 && column < myModel->columnCount() ) {
     PointChart* chart;
     if ( style == Point ) {
@@ -18,7 +39,6 @@ void LinearChart::showData( int column, LinearChart::Style style ) {
     } else if ( style == Line ) {
       chart = new LineChart();
     } else if ( style == Bar ) {
-      qDebug() << "Bar chart";
       int nb = 1;
       foreach( PointChart* p, myCharts ) {
         BarChart* bar = qobject_cast<BarChart*>( p );
@@ -50,8 +70,15 @@ void LinearChart::showData( int column, LinearChart::Style style ) {
     chart->setColumnData( column );
     chart->move( mySpec.chartPos );
     chart->setObjectName( "Chart " + QString::number( column ) );
-    myCharts.insert( column, chart );
-    chart->setColor( (Chart::PredefinedColor)(myCharts.count()) );
+    if ( myCharts.contains( column ) ) {
+      QColor c = myCharts.value( column )->color();
+      myCharts.value( column )->deleteLater();
+      myCharts.insert( column, chart );
+      chart->setColor( c );
+    } else {
+      myCharts.insert( column, chart );
+      chart->setColor( Clint::predefinedColor( column ) );
+    }
   } else {
     qWarning() << "Could not show data : Invalid model or column";
   }
@@ -60,11 +87,7 @@ void LinearChart::showData( int column, LinearChart::Style style ) {
 
 QModelIndex LinearChart::indexAt(const QPoint &point) const {
   foreach( PointChart* p, myCharts ) {
-    BarChart* b = qobject_cast<BarChart*>(p);
-    QModelIndex id;
-    if ( b != 0) {
-      b->indexAt2( point - mySpec.chartPos );
-    }
+    QModelIndex id = p->indexAt( point );
     if ( id.isValid() ) {
       return id;
     }

@@ -4,7 +4,7 @@
 #include <QPointer>
 #include <QAbstractItemView>
 #include "chartspec.h"
-
+#include "Clint.h"
 //#include "point.h"
 
 class PointChart;
@@ -12,26 +12,6 @@ class RadialChart;
 
 class Chart : public QAbstractItemView {
   Q_OBJECT
-public:
-  enum PointShape {
-    None     = 0,
-    Circle   = 1,
-    Square   = 2,
-    Triangle = 3,
-    Diamond  = 4
-  };
-
-  enum PredefinedColor {
-    Blue   = 1,
-    Green  = 2,
-    Red    = 3,
-    Purple = 4,
-    Orange = 5
-  };
-
-/*  Q_ENUMS( PredefinedColor )
-  Q_ENUMS( PointShape )
-  */
 
 protected:
   ChartSpec                mySpec;
@@ -53,7 +33,7 @@ protected:
   QModelIndex moveCursor(QAbstractItemView::CursorAction cursorAction,
                          Qt::KeyboardModifiers modifiers);
 
-  void        paintEvent(QPaintEvent *event);
+  void         paintEvent(QPaintEvent *event);
   virtual void paintAxis( QPainter& painter );
   virtual void paintGrid( QPainter& painter );
   virtual void paintText( QPainter& painter );

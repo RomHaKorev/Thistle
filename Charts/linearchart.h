@@ -12,10 +12,13 @@ public:
     Bar    = 2
   };
   Q_ENUMS( Style )
+
 public:
   explicit LinearChart(QWidget *parent = 0);
   QModelIndex indexAt(const QPoint &point) const;
-  void     showData( int column, LinearChart::Style style = LinearChart::Point );
+  //void showData( int column, LinearChart::Style style = LinearChart::Point );
+  void setModel( QAbstractItemModel *model );
+  void setDataStyle( int column, LinearChart::Style style );
 signals:
   
 public slots:

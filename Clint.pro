@@ -19,8 +19,8 @@ SOURCES += main.cpp \
     Charts/chart.cpp \
     Charts/barchart.cpp \
     Charts/radialchart.cpp \
-    Charts/circularchart.cpp \
-    Charts/linearchart.cpp
+    Charts/linearchart.cpp \
+    Charts/piechart.cpp
 
 HEADERS  += \
     Charts/pointchart.h \
@@ -29,5 +29,6 @@ HEADERS  += \
     Charts/chart.h \
     Charts/barchart.h \
     Charts/radialchart.h \
-    Charts/circularchart.h \
-    Charts/linearchart.h
+    Charts/linearchart.h \
+    Clint.h \
+    Charts/piechart.h
