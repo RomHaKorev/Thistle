@@ -7,17 +7,65 @@
 
 PieChart::PieChart( QWidget* parent ) :
   QAbstractItemView( parent ) {
+  setEditTriggers( QAbstractItemView::NoEditTriggers );
+  myRing = false;
+  mySplitted = false;
+  myStartAngle = 0;
+  myLegend = QString();
 }
 
-QRect PieChart::visualRect(const QModelIndex &/*index*/) const {
-  return QRect();
+QRect PieChart::visualRect( const QModelIndex& index ) const {
+  /* To force to repaint the whole chart. Not only the area of the part*/
+  return QRect( 0, 0, width(), height() );
 }
+
+QRegion PieChart::visualRegionForSelection(const QItemSelection& selection ) const {
+  QRegion region;
+  region += QRect( 0, 0, width(), height() );
+  return region;
+}
+
+#if 0
+QRect PieChart::visualRect( const QModelIndex& index ) const {
+  QPainterPath path = itemPath( index );
+  return path.boundingRect().translated( horizontalOffset(), verticalOffset() ).toRect();
+}
+
+QRegion PieChart::visualRegionForSelection(const QItemSelection& selection ) const {
+  int ranges = selection.count();
+
+  if (ranges == 0)
+      return QRect();
+
+  QRegion region;
+  for (int i = 0; i < ranges; ++i) {
+      QItemSelectionRange range = selection.at(i);
+      for (int row = range.top(); row <= range.bottom(); ++row) {
+          for (int col = range.left(); col <= range.right(); ++col) {
+              QModelIndex index = model()->index(row, col, rootIndex());
+              region += visualRect(index);
+          }
+      }
+  }
+  return region;
+}
+#endif
 
 void PieChart::scrollTo(const QModelIndex &/*index*/, ScrollHint /*hint*/) {
 
 }
 
-QModelIndex PieChart::indexAt(const QPoint &/*point*/) const {
+QModelIndex PieChart::indexAt(const QPoint & point ) const {
+  int x = point.x() + horizontalOffset();
+  int y = point.y() + verticalOffset();
+
+  for ( int r = 0; r < model()->rowCount(); ++r ) {
+    QModelIndex index = model()->index( r, 0 );
+    QPainterPath path = itemPath( index );
+    if ( path.contains( QPointF( x, y ) ) ) {
+      return index;
+    }
+  }
   return QModelIndex();
 }
 
@@ -33,9 +81,37 @@ void PieChart::rowsAboutToBeRemoved(const QModelIndex& /*parent*/, int /*start*/
 
 }
 
-QModelIndex PieChart::moveCursor(QAbstractItemView::CursorAction /*cursorAction*/,
-                       Qt::KeyboardModifiers /*modifiers*/) {
-  return QModelIndex();
+QModelIndex PieChart::moveCursor(QAbstractItemView::CursorAction cursorAction,
+                       Qt::KeyboardModifiers modifiers ) {
+  Q_UNUSED( modifiers )
+
+  QModelIndex current = currentIndex();
+  if ( !current.isValid() ) {
+    return QModelIndex();
+  }
+
+  switch ( cursorAction ) {
+  case QAbstractItemView::MoveDown:
+  case QAbstractItemView::MoveRight:
+    if (current.row() == model()->rowCount() - 1) {
+      current = model()->index( 0, 0 );
+    } else {
+      current = model()->index( current.row() + 1, 0 );
+    }
+  break;
+  case QAbstractItemView::MoveUp:
+  case QAbstractItemView::MoveLeft:
+    if ( current.row() == 0 ) {
+      current = model()->index(model()->rowCount() - 1, 0 );
+    } else {
+      current = model()->index( current.row() - 1 , 0 );
+    }
+  break;
+  default:
+  break;
+  }
+  viewport()->update();
+  return current;
 }
 
 int PieChart::horizontalOffset() const {
@@ -51,26 +127,31 @@ bool PieChart::isIndexHidden(const QModelIndex& /*index*/ ) const {
 }
 
 void PieChart::updateChart() {
-  qreal w = ( width() - 20 );
-  qreal h = ( height() - 20 );
 
-  if ( w < h ) {
-    myRect = QRect( 10, 10 + (h-w)/2, w , w );
-  } else {
-    myRect = QRect( 10 + (w-h)/2, 10, h , h );
+  qreal w = ( width() - 40 );
+  qreal h = ( height() - 40 );
+  if ( !myLegend.isNull() ) {
+    QFontMetrics metrics( font() );
+    QRect r = metrics.boundingRect( 10, 0, width() - 20, height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
+    h -=  10 + r.height();
   }
 
-  myRect.setHeight( myRect.height() * 0.75 );
+  if ( w < h ) {
+    myRect = QRect( 20, 20 + (h-w)/2, w , w );
+  } else {
+    myRect = QRect( 20 + (w-h)/2, 20, h , h );
+  }
 
   myTotal = 0;
   for ( int i = 0; i < model()->rowCount(); ++i ) {
     QModelIndex index = model()->index( i, 0 );
     myTotal += qAbs( model()->data( index ).toReal() );
   }
-
 }
 
 void PieChart::paintEvent(QPaintEvent *event) {
+
+  Q_UNUSED( event )
 
   if ( model() == 0 ) {
     return;
@@ -82,55 +163,167 @@ void PieChart::paintEvent(QPaintEvent *event) {
   QPainter painter( viewport() );
   painter.save();
   painter.setRenderHint( QPainter::Antialiasing );
-  painter.setClipRect( event->rect() );
+  //painter.setClipRect( event->rect() );
 
-  QPainterPath front;
-  front.addRect( myRect.x(),
-                myRect.y() + myRect.height()/2,
-                myRect.width(),
-                myRect.height()/2 + 50 );
-  QPainterPath ellipse;
-  ellipse.addEllipse( myRect );
-  front = front.subtracted( ellipse );
-  ellipse.translate( 0, 30 );
-  QPainterPath path;
-  path.addRect( myRect.x() - 1,
-                myRect.y() + myRect.height()/2 - 10,
-                myRect.width() + 2, 50 );
-  ellipse = ellipse.united( path);
-  front = front.intersected( ellipse );
-  /*front.addRect( myRect.x() - 1,
-                 myRect.y() + myRect.height()/2 - 10,
-                 myRect.width() + 2, 50);*/
-
-  //painter.drawEllipse( myRect );
-  qreal angle = 0;
+  qreal angle = myStartAngle;
   for ( int i = 0; i < rows; ++i ) {
-    painter.save();
-    QColor c = Clint::predefinedColor( i );
-    painter.setPen( QPen(c, 0) );
-    //c.setAlpha( c.alpha() * 0.75 );
-    painter.setBrush( c );
-
     QModelIndex index = model()->index( i, 0 );
-    qreal v = qAbs( model()->data( index ).toReal() );
-    qreal delta = (360.0 /*- rows*/) * v/myTotal;
-    painter.drawPie(myRect, int(angle*16), int(delta*16));
 
-    angle += delta /*+ 1*/;
-    painter.restore();
+    QColor color( model()->data( index, Qt::DecorationRole ).toString() );
+    if ( !color.isValid() ) {
+      color = Clint::predefinedColor( i );
+    }
+
+    qreal v = qAbs( model()->data( index ).toReal() );
+    qreal delta = 360.0 * v/myTotal;
+
+    bool isSelected = selectionModel()->selectedIndexes().contains( index )
+                      || currentIndex() == index;
+
+    if ( mySplitted == false ) {
+      paintPart( painter, angle, delta, color, isSelected );
+    } else {
+      paintPartSplitted( painter, angle, delta, color, isSelected );
+    }
+    angle += delta;
   }
 
-  painter.setBrush( Qt::red );
-  painter.setPen( Qt::NoPen );
-  painter.drawPath( front );
+  painter.drawText( 10, myRect.bottomLeft().y() + 10,
+                    width() - 20, height() - myRect.height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
   painter.restore();
 }
 
-QRegion PieChart::visualRegionForSelection(const QItemSelection& /*selection*/ ) const {
-  return QRegion();
+void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) {
+
+  if ( isSelected == true ) {
+    paintPartSplitted( painter, angle, delta, color );
+    return;
+  }
+  QPainterPath part = itemPart( angle, delta );
+
+  painter.save();
+  painter.setClipPath( part ); /* To avoid the "borders superposition" */
+  painter.setPen( QPen( color, 4 ) );
+  color = color.lighter( 120 );
+  qDebug() << color;
+  painter.setBrush( color );
+  painter.drawPath( part );
+
+  painter.restore();
 }
 
-void PieChart::setSelection(const QRect &/*rect*/, QItemSelectionModel::SelectionFlags /*command*/ ) {
+void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
+                                  QColor color, bool isSelected ) {
 
+  QPainterPath part = itemPart( angle, delta, true );
+
+  if ( mySplitted == true
+       && ( !selectionModel()->selectedIndexes().isEmpty() || currentIndex().isValid() )
+       && isSelected == false ) {
+    color.setAlpha( color.alpha() / 4 );
+  }
+
+  painter.save();
+  painter.setPen( QPen(color, 2) );
+  color = color.lighter( 120 );
+  painter.setBrush( color );
+  painter.drawPath( part );
+  painter.restore();
+}
+
+QPainterPath PieChart::itemPath( const QModelIndex& index ) const {
+  QPainterPath path;
+  qreal angle = myStartAngle;
+  for ( int r = 0; r < index.row(); ++r ) {
+    QModelIndex id = model()->index( r, 0 );
+    qreal v = qAbs( model()->data( id ).toReal() );
+    qreal delta = 360.0 * v/myTotal;
+    angle += delta;
+  }
+
+  qreal v = qAbs( model()->data( index ).toReal() );
+  qreal delta = 360.0 * v/myTotal;
+
+  if ( selectionModel()->selectedIndexes().contains( index )) {
+    path = itemPart( angle, delta, true );
+  } else {
+    path = itemPart( angle, delta );
+  }
+  return path;
+}
+
+QPainterPath PieChart::itemPart( qreal angle, qreal delta, bool splitted ) const {
+  QPainterPath part;
+  part.moveTo( myRect.center() );
+  part.arcTo( myRect, -angle, -delta );
+  if ( splitted == true ) {
+    part.closeSubpath();
+    QPointF p = part.pointAtPercent( 0.5 );
+    QLineF line( p, myRect.center() );
+    line.setLength( line.length() + 10 );
+    p = line.p2();
+    QRect r = myRect.translated( myRect.center().x() - p.x(),
+                                 myRect.center().y() - p.y() );
+    part = QPainterPath();
+    part.moveTo( r.center() );
+    part.arcTo( r, -angle, -delta );
+  }
+
+  part.closeSubpath();
+
+  if ( myRing == true ) {
+    QPainterPath p;
+    p.addEllipse( myRect.center(), myRect.width() * 0.3, myRect.height() * 0.3 );
+    part = part.subtracted( p );
+  }
+  return part;
+}
+
+void PieChart::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command ) {
+  QRect selectRect = rect;
+  selectRect.translate( horizontalOffset(), verticalOffset() );
+  selectRect = selectRect.normalized();
+
+  int rows = model()->rowCount();
+  QModelIndexList indexes;
+
+  for (int row = 0; row < rows; ++row) {
+    QModelIndex index = model()->index(row, 0, rootIndex());
+    QPainterPath path = itemPath( index );
+    if ( path.intersects( selectRect ) ) {
+      indexes << index;
+    }
+  }
+
+  if (indexes.size() > 0) {
+      int firstRow = indexes[0].row();
+      int lastRow = indexes[0].row();
+      for ( int i = 1; i < indexes.size(); ++i ) {
+          firstRow = qMin( firstRow, indexes[i].row() );
+          lastRow = qMax( lastRow, indexes[i].row() );
+      }
+
+      QModelIndex firstIndex = model()->index( firstRow, 0 );
+      QModelIndex lastIndex = model()->index( lastRow, 0 );
+      QItemSelection selection( firstIndex, lastIndex );
+      selectionModel()->select( selection, command );
+      setCurrentIndex( lastIndex );
+  } else {
+      QModelIndex invalidIndex;
+      QItemSelection selection( invalidIndex, invalidIndex );
+      selectionModel()->select( selection, command );
+  }
+  update();
+}
+
+void PieChart::setRing( bool ring ) {
+  myRing = ring;
+}
+
+void PieChart::setSplitted( bool splitted ) {
+  mySplitted = splitted;
+}
+
+void PieChart::setLegend( QString legend ) {
+  myLegend = legend;
 }

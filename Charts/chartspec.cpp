@@ -38,8 +38,6 @@ void ChartSpec::calculate( QList<int> col ) {
     }
   }
 
-  qDebug() << Q_FUNC_INFO << "min :" << min << "max :" << max;
-
   if ( qFuzzyCompare( 1 + qAbs( min ), 1 + qAbs( max ) ) == true ) {
     --min;
     ++max;

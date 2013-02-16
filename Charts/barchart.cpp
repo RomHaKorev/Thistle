@@ -46,7 +46,7 @@ void BarChart::paintChart( QPainter& painter ) {
     QRegion reg;
     if ( p - point.y() >= 0 ) {
       r = QRect( point.x() + w * my_part, point.y(), w - 1, h + 5 );
-      reg = QRegion( 0, 0, width(), height() ).subtract( QRect( r.bottomLeft().x() - 3, r.bottomLeft().y() - 4, w + 6, 7 ) );
+      reg = QRegion( 0, 0, width(), height() ).subtracted( QRect( r.bottomLeft().x() - 3, r.bottomLeft().y() - 4, w + 6, 7 ) );
     } else {
       r = QRect( point.x() + w * my_part, point.y(), w, h - 5 );
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui widgets
 
 TARGET = Charts
 TEMPLATE = app
@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     Charts/barchart.cpp \
     Charts/radialchart.cpp \
     Charts/linearchart.cpp \
-    Charts/piechart.cpp
+    Charts/piechart.cpp \
+    Charts/piechart3D.cpp
 
 HEADERS  += \
     Charts/pointchart.h \
@@ -31,4 +32,5 @@ HEADERS  += \
     Charts/radialchart.h \
     Charts/linearchart.h \
     Clint.h \
-    Charts/piechart.h
+    Charts/piechart.h \
+    Charts/piechart3D.h

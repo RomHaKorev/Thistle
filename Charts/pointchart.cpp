@@ -204,7 +204,7 @@ void PointChart::setSelection( const QRect& rect, QItemSelectionModel::Selection
 
   for (int row = 0; row < rows; ++row) {
     QModelIndex index = model()->index(row, my_col, rootIndex());
-    if ( !itemRect( index ).intersect( selectRect ).isEmpty() ) {
+    if ( !itemRect( index ).intersected( selectRect ).isEmpty() ) {
       indexes.append( index );
     }
   }

@@ -1,4 +1,4 @@
-#include <QtGui/QApplication>
+#include <QApplication>
 
 #include <QStandardItemModel>
 #include <QTableView>
@@ -13,11 +13,12 @@
 #include "charts/linearchart.h"
 #include "charts/radialchart.h"
 #include "charts/piechart.h"
+#include "charts/piechart3D.h"
 
 int main( int argc, char* argv[] ) {
   QApplication a(argc, argv);
 
-  QStandardItemModel* model = new QStandardItemModel(20,5);
+  QStandardItemModel* model = new QStandardItemModel(5,5);
   model->setHeaderData(0, Qt::Horizontal, ("Label"));
   model->setHeaderData(1, Qt::Horizontal, ("Value"));
   model->setVerticalHeaderLabels( QStringList() << "test" << "test" );
@@ -32,6 +33,12 @@ int main( int argc, char* argv[] ) {
     model->setData( model->index( i, 3 ), i * 10, Qt::DisplayRole );
     model->setData( model->index( i, 4 ), i * 10, Qt::DisplayRole );
   }
+
+  /*QColor c( 50, 50, 90 );
+  for (int i = 0; i < model->rowCount(); ++i ) {
+    model->setData( model->index( i, 0 ), c, Qt::DecorationRole );
+    c = c.lighter( 120 );
+  }*/
 
   //model->setData( model->index( 0, 0 ), -24, Qt::DisplayRole );
   //model->setData( model->index( 1, 0 ), 80, Qt::DisplayRole );
@@ -57,8 +64,32 @@ int main( int argc, char* argv[] ) {
 
   PieChart pie;
   pie.setModel( model );
+  pie.setLegend( "An example of a pie chart" );
   pie.show();
-  pie.resize( 500, 500 );
+  pie.setRing( true );
+  pie.setGeometry(0, 100, 500, 500 );
+  pie.setSplitted( true );
+  QFont f("Helvetica [Cronyx]", 20);
+
+  f.setBold( true );
+  pie.setFont( f );
+  pie.update();
+
+  PieChart ring;
+  ring.setModel( model );
+  //ring.setRing( true );
+  ring.show();
+  ring.setGeometry( 500, 100, 500, 500 );
+
+  PieChart3D pie3D;
+  pie3D.setModel( model );
+  pie3D.show();
+  pie3D.setGeometry(1000, 100, 500, 500 );
+
+  QItemSelectionModel *selectionModel = new QItemSelectionModel(model);
+  pie.setSelectionModel(selectionModel);
+  ring.setSelectionModel(selectionModel);
+
 
   return a.exec();
 }
