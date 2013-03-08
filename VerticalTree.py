@@ -22,7 +22,7 @@ class VerticalTree(Tree):
     def treeDepth(self):
         nb = 0
         for r in range( 0, self.model().rowCount() ):
-            d = self.itemDepth( model.index(r, 0 ) )
+            d = self.itemDepth( self.model().index(r, 0 ) )
             if d > nb:
                 nb = d
         return nb
@@ -134,8 +134,8 @@ class VerticalTree(Tree):
         rows = self.model().rowCount( index )
         r = self.itemRect(index)
         if rows > 1:
-            child1 = self.itemRect( model.index( 0, 0, index ) )
-            child2 = self.itemRect( model.index( rows - 1, 0, index ) )
+            child1 = self.itemRect( self.model().index( 0, 0, index ) )
+            child2 = self.itemRect( self.model().index( rows - 1, 0, index ) )
             p1 = QPointF( child1.center().x(), child1.top() - self.yDistance / 2 );
             p2 = QPointF( child2.center().x(), child2.top() - self.yDistance / 2 );
             painter.drawLine( p1, p2 )
