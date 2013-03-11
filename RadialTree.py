@@ -1,31 +1,40 @@
-from VerticalTree import VerticalTree
+from Tree import Tree
+from Tree import TreeStyle
+from Global import Shape
 
 import math
-from PySide.QtGui import QPainter, QStyleOptionViewItem, QPainterPath
-from PySide.QtCore import QRect, QPoint, QPointF
+from PySide.QtGui import QPainterPath
+from PySide.QtCore import QRect, QPointF
 
-class RadialTree(VerticalTree):
+
+class RadialTree(Tree):
     _max = 0
     _min = 0
     def __init__(self, parent=None):
         super(RadialTree, self).__init__( parent )
         self._rotateText = False
         self.orderedIndexes = []
-        self.test = []
         self.rect = QRect( -20, -20, 40, 40 )
+        style = TreeStyle()
+        style.setShape( Shape.Ellipse )
+        self.setTreeStyle( style )
+        self.yDistance = 0
+        self.xDistance = 40
+        
         
     def setScrollBarValues(self):
-        dw = max( 0, ( self.realSize.width() - self.width() )/2 + self.verticalScrollBar().width() + 50 );
-        dh = max ( 0, ( self.realSize.height() - self.height() )/2 + self.horizontalScrollBar().height() + 50 );
-        self.horizontalScrollBar().setRange( -dw, dw );
-        self.verticalScrollBar().setRange( -dh, dh );
-        self.centralItemPos = QPointF( self.width() / 2, self.height() / 2 );
+        dw = max( 0, ( self.realSize.width() - self.width() )/2  )
+        dh = max ( 0, ( self.realSize.height() - self.height() )/2 )
+        self.horizontalScrollBar().setRange( -dw, dw )
+        self.verticalScrollBar().setRange( -dh, dh )
+        self.itemOffset = QPointF( self.width() / 2, self.height() / 2 )
          
     def setRotateText(self, rotate = True):
         self._rotateText = rotate
         
     def updatePerimeter(self):
         self.diagonal = math.sqrt( self.rect.width() * self.rect.width() + self.rect.height() * self.rect.height() )
+        self.diagonal += max( self.yDistance, self.xDistance )
         self.perimeter = 0.0
         factor = 1
         for index in self.itemPos.keys():
@@ -44,7 +53,6 @@ class RadialTree(VerticalTree):
     
     
     def itemWidth(self, index):
-        print "order ", index.model().data( index )
         self.orderedIndexes.append( index )
         rows = self.model().rowCount( index )
         if not index.isValid():
@@ -73,8 +81,6 @@ class RadialTree(VerticalTree):
     
     
     def resolvePositions(self):
-        self.test= []
-        
         self.itemPos = {}
         self.orderedIndexes = []
                 
@@ -83,14 +89,16 @@ class RadialTree(VerticalTree):
         self.depth = self.treeDepth()
         self.left += 1
         
-        self.realSize.setWidth( ( self.left ) * ( self.xDistance + self.rect.width() ) );
-        self.realSize.setHeight( self.depth * ( self.yDistance + self.rect.height() ) + 40 )
+        dist = max(self.xDistance, self.yDistance )
+        w = ( self.left ) * ( dist + self.rect.width() )
+        self.realSize.setWidth( w );
+        self.realSize.setHeight( w )
         self.setScrollBarValues()
         
         self.updatePerimeter()
         
         path = QPainterPath();
-        path.addEllipse( self.centralItemPos + self.itemRect( self.model().index( 0,0 ) ).center(), self.radius, self.radius );
+        path.addEllipse( self.itemOffset + self.itemRect( self.model().index( 0,0 ) ).center(), self.radius, self.radius );
                 
         l = 0
         factor = 0
@@ -98,26 +106,26 @@ class RadialTree(VerticalTree):
             if self.model().rowCount( index ) != 0:
                 continue
             
-            factor = float(self.depth) / float(len(self.itemPos.keys()))
+            factor = float(self.depth) / float(self.itemPos[index].y())
             
             if self.model().rowCount( index ) == 0:
                 l +=  (float(self.diagonal)/2.0) * float(factor)
             
             percent = path.percentAtLength( l )
-            print "debugA", index.model().data( index), percent
             self.itemPos[index].setX( percent )
 
             if self.model().rowCount( index ) == 0:
                 l +=  (float(self.diagonal)/2.0) * float(factor)
         
         
-        for index in self.itemPos.keys():
+        reversedIndexes = self.orderedIndexes
+        reversedIndexes.reverse()
+        for index in reversedIndexes:
             if self.model().rowCount( index ) == 0:
                 continue
             left = self.model().index( 0,0, index )
             right = self.model().index( self.model().rowCount(index) - 1,0, index )
-            self.itemPos[index].setX( float(self.itemPos[left].x() + self.itemPos[right].x()) / 2.0 )
-            print "Debug C : ", index.model().data(index), float(self.itemPos[left].x() + self.itemPos[right].x()) / 2.0
+            self.itemPos[index].setX( float(self.itemPos[left].x() + self.itemPos[right].x()) / 2.0 )        
         
         self.itemPos[self.model().index(0,0)] = QPointF(0, 0)
         for index in self.orderedIndexes:
@@ -131,70 +139,7 @@ class RadialTree(VerticalTree):
 
             circle = QPainterPath()
             circle.addEllipse( self.rect.center(), float(self.radius) / float(factor), float(self.radius) / float(factor) )
-            self.test.append( circle )
-            print "debug 2",index.row(), index.column(), self.itemPos[index].x()
+
             self.itemPos[index] = circle.pointAtPercent( self.itemPos[index].x() )
-        self.itemPos[self.model().index(0,0)] = QPointF(0, 0)
- 
-    def paintEvent(self, event):
-        painter = QPainter()
-        painter.begin( self.viewport() )
-        painter.save()
-        painter.setClipRect( event.rect() )
-        painter.setRenderHint( QPainter.Antialiasing )
-        
-        for index in self.itemPos.keys():
-            option = QStyleOptionViewItem()
-            option.rect = self.itemRect( index ).translated( self.centralItemPos.x(), self.centralItemPos.y() )
-            self.itemDelegate().paint( painter, option, index )
-        
-        painter.restore()
-        p = QPainterPath()
-        p.addEllipse( self.centralItemPos, self.radius, self.radius )      
-        painter.drawPath( p )  
-        painter.end()
-    
-    
-from PySide.QtGui import QApplication, QStandardItemModel, QStandardItem
-import sys
+        self.itemPos[self.model().index(0,0)] = QPointF(0, 0)   
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    model = QStandardItemModel()
-    it0 = QStandardItem( "Item0" )
-    it1 = QStandardItem( "Item1" )
-    it0.appendRow( it1 )
-    it2 = QStandardItem( "Item2" )
-    it0.appendRow( it2 )
-    it2 = QStandardItem( "Item3" )
-    it0.appendRow( it2 )
-    it2 = QStandardItem( "Item4" )
-    it0.appendRow( it2 )
-    
-    it1 = QStandardItem( "Item5" )
-    it2 = QStandardItem( "Item7" )
-    it1.appendRow( it2 )
-    it2 = QStandardItem( "Item8" )
-    it1.appendRow( it2 )
-    it3 = QStandardItem( "Item10" )
-    it2.appendRow( it3 )
-    it0.appendRow( it1 )
-    
-    it1 = QStandardItem( "Item6" )
-    it0.appendRow( it1 )
-    model.appendRow( it0 )
-    
-
-    t = RadialTree()
-    t.setModel(model)
-    t.resolvePositions()
-#    for index in t.itemPos:
-#        print index.model().data(index), "->", t.itemPos[index].x(), t.itemPos[index].y()
-    t.show()
-    
-    test = VerticalTree()
-    test.setModel(model)
-    test.resolvePositions()
-    test.show()
-    test.move( 800, 50 )
-    app.exec_()

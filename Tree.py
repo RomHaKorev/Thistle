@@ -1,22 +1,21 @@
-from Marb import enum
-import Marb
+from Global import Color, Shape
 
 from PySide.QtGui import QAbstractItemView, QPen, QStyledItemDelegate, QBrush, QFont, QPolygon, \
-QLineEdit, QRegion, QColor
-from PySide.QtCore import QSize, QRect, QPoint, Qt, QModelIndex
+QLineEdit, QRegion, QColor, QPainter, QStyleOptionViewItem
+from PySide.QtCore import QSize, QRect, QPoint, QPointF, Qt, QModelIndex
 
 class TreeStyle:
-    ItemShape = enum(Rectangle = 0, Ellipse   = 1, RoundedRect = 2, Diamond = 3, Triangle = 4, ReversedTriangle = 5 )
     def __init__(self):
-        self._link= QPen( QColor(Marb.Color.Gray), 2 )
-        self._brush = QBrush( Marb.Color.Blue )
-        self._border = QPen( QColor(Marb.Color.DarkBlue), 1.5 )
+        self._connection= QPen( QColor(Color.Gray), 2 )
+        self._brush = QBrush( Color.Blue )
+        self._border = QPen( QColor( Color.DarkBlue ), 1.5 )
         self._font = QFont()
-        self._textColor = QColor( Marb.Color.White )
-        self._shape = TreeStyle.ItemShape.Rectangle
+        self._textColor = QColor( Color.White )
+        self._displayText = True
+        self._shape = Shape.Rectangle
         
-    def setLink(self, pen):
-        self._link = pen
+    def setConnection(self, pen):
+        self._connection = pen
     
     def setBackground(self, brush):
         self._brush = brush
@@ -30,11 +29,14 @@ class TreeStyle:
     def setTextColor(self, color):
         self._textColor = color
     
+    def setDisplayText(self, b = True):
+        self._displayText = b
+    
     def setShape(self, shape):
         self._shape = shape
         
-    def link(self):
-        return self._link
+    def connection(self):
+        return self._connection
     
     def background(self):
         return self._brush
@@ -48,6 +50,9 @@ class TreeStyle:
     def textColor(self):
         return self._textColor
     
+    def DisplayText(self):
+        return self._displayText
+    
     def shape(self):
         return self._shape
         
@@ -56,7 +61,7 @@ class TreeItemDelegate(QStyledItemDelegate):
     def __init__(self, parent=None):
         super(TreeItemDelegate, self).__init__(parent)
         self._textVisible = True
-        self.palette = TreeStyle()
+        self.style = TreeStyle()
         
             
     def _createDiamond(self, rect):
@@ -66,7 +71,6 @@ class TreeItemDelegate(QStyledItemDelegate):
         poly.append(rect.bottomLeft() + QPoint( rect.width()/2, 0 ))
         poly.append(rect.topLeft() + QPoint( 0, rect.height()/2 ))
         return poly
-    
     
     
     def createEditor(self, parent, option, index):
@@ -91,19 +95,19 @@ class TreeItemDelegate(QStyledItemDelegate):
         painter.setPen( self.palette.border() )
         r = option.rect
         
-        if self.palette.shape() == TreeStyle.ItemShape.Ellipse:
+        if self.palette.shape() == Shape.Ellipse:
             painter.drawEllipse( r )
-        elif self.palette.shape() == TreeStyle.ItemShape.RoundedRect:
+        elif self.palette.shape() == Shape.RoundedRect:
             painter.drawRoundedRect( r, 5, 5 )
-        elif self.palette.shape() == TreeStyle.ItemShape.Diamond:
+        elif self.palette.shape() == Shape.Diamond:
             painter.drawPolygon( self.createDiamond( r ) )
-        elif self.palette.shape() == TreeStyle.ItemShape.Triangle:
+        elif self.palette.shape() == Shape.Triangle:
             poly = QPolygon()
             poly.append( r.topLeft() + QPoint( r.width()/2, 0 ) )
             poly.append( r.bottomLeft() )
             poly.append( r.bottomRight() )
             painter.drawPolygon( poly )
-        elif self.palette.shape() == TreeStyle.ItemShape.ReversedTriangle:
+        elif self.palette.shape() == Shape.ReversedTriangle:
             poly = QPolygon()
             poly.append( r.bottomLeft() + QPoint( r.width()/2, 0 ) )
             poly.append( r.topLeft() )
@@ -113,7 +117,7 @@ class TreeItemDelegate(QStyledItemDelegate):
             painter.drawRect( r )
         painter.restore()
         
-        if self._textVisible == True:
+        if self.style.DisplayText() == True:
             painter.setPen( QPen( self.palette.textColor(), 1 ) )
             painter.drawText( r, Qt.AlignCenter, index.model().data(index) )
             
@@ -133,20 +137,24 @@ class Tree(QAbstractItemView):
         self.depth = 0
         self.left = 0
         self.connectionPen = QPen()
-        self.centralItemPos = QPoint()
+        self.itemOffset = QPoint()
         self.delegate = TreeItemDelegate( self )
         self.setItemDelegate( self.delegate )
         self.itemPos = {}
-        self._palette = TreeStyle()
         
-    def setTreeStyle(self, palette):
-        self._palette = TreeStyle()
+    def setTreeStyle(self, style):
+        self._connectionPen = style.connection()
         if isinstance(self.itemDelegate(), TreeItemDelegate):
-            self.itemDelegate().palette = palette
-        
+            self.itemDelegate().palette = style
+    
+    def resolvePositions(self):
+        raise "Must be implemented"    
     
     def treeStyle(self):
-        return self._palette
+        if isinstance(self.itemDelegate(), TreeItemDelegate):
+            return self.itemDelegate().style
+        return None
+        
     
     def setScrollBarValues(self):
         None 
@@ -159,7 +167,11 @@ class Tree(QAbstractItemView):
         return QModelIndex()
     
     def itemRect(self, index):
-        raise "Should be implemented"
+        if not index.isValid():
+            return QRect()
+        
+        p  = self.itemPos[ index ] - QPointF( self.horizontalOffset(), self.verticalOffset() )
+        return self.rect.translated( p.x(), p.y() )
     
     def horizontalOffset(self):
         return self.horizontalScrollBar().value()
@@ -168,18 +180,19 @@ class Tree(QAbstractItemView):
         return self.verticalScrollBar().value()
         
     def indexAt(self, point):
-        p = point - self.centralItemPos - QPoint( self.horizontalOffset(), self.verticalOffset() )
+        return QModelIndex()
+        p = point - self.itemOffset - QPoint( self.horizontalOffset(), self.verticalOffset() )
         for index in self.itemPos.keys():
             r = self.itemRect(index)
             if r.contains( p ):
-                print index.model().data(index)
+                None
+                #print index.model().data(index)
 #                return index
             
-        return QModelIndex()
     
     def visualRect(self, index):
         print "visualRect"
-        r = self.itemRect(index).translated( self.centralItemPos )
+        r = self.itemRect(index).translated( self.itemOffset.x(), self.itemOffset.y() )
         return r
     
     def visualRegionForSelection(self, selection):
@@ -211,4 +224,81 @@ class Tree(QAbstractItemView):
         QAbstractItemView.rowsInserted(self, parent, start, end)
         self.viewport().update()
         self.setScrollBarValues()
-       
+    
+    def setItemRect(self, r):
+        self.rect = r 
+        
+    def treeDepth(self):
+        nb = 0
+        for r in range( 0, self.model().rowCount() ):
+            d = self.itemDepth( self.model().index(r, 0 ) )
+            if d > nb:
+                nb = d
+        return nb
+    
+    def itemDepth(self, index, depth=0):
+        if not index.isValid():
+            return 0
+        if self.model().rowCount( index ) == 0:
+            self.setY( index, depth + 1 )
+            return 1
+        
+        childDepth = 0
+        for r in range( 0, self.model().rowCount( index ) ):
+            child = index.child( r, 0 )
+            d = self.itemDepth( child, depth + 1 )
+            if d > childDepth:
+                childDepth = d
+        
+        self.setY( index, depth + 1 )
+        
+        return childDepth + 1
+    
+    def treeWidth(self):
+        left = 0
+        for r in range( 0, self.model().rowCount() ):
+            left += self.itemWidth( self.model().index( r, 0 ), 0 )
+        return left
+            
+    def itemWidth(self, index, left):
+        raise "Must be implemented"
+        
+    def setX(self, index, x):
+        if not self.itemPos.has_key( index ):
+            self.itemPos[ index ] = QPointF()
+        self.itemPos[index].setX(x)
+    
+    
+    def setY(self, index, y):
+        if not self.itemPos.has_key( index ):
+            self.itemPos[ index ] = QPointF()
+            
+        self.itemPos[index].setY(y)
+        
+    def paintEvent(self, event):
+        painter = QPainter( self.viewport() )
+        painter.setClipRect( event.rect() )
+        painter.setRenderHint( QPainter.Antialiasing )
+        self.paintConnections(painter)
+        self.paintItems(painter)
+        
+        
+    def paintItems(self, painter):
+        for index in self.itemPos.keys():
+            option = QStyleOptionViewItem()
+            option.rect = self.itemRect( index ).translated( self.itemOffset.x(), self.itemOffset.y() )
+            self.itemDelegate().paint( painter, option, index )
+    
+    def paintConnections(self, painter):
+        painter.save()
+        painter.setPen( self._connectionPen )
+        for index in self.itemPos.keys():
+            self.paintConnectionsFor(painter, index)
+        painter.restore()
+    
+    def paintConnectionsFor(self, painter, index):
+        parent = self.model().parent( index )
+        if parent.isValid():
+            p1 = self.itemRect(index).translated( self.itemOffset.x(), self.itemOffset.y() ).center()
+            p2 = self.itemRect(parent).translated( self.itemOffset.x(), self.itemOffset.y() ).center()
+            painter.drawLine( p1, p2 )
