@@ -45,52 +45,49 @@ class RadialTree(Tree):
         self.radius = self.perimeter / ( 2 * math.pi )
         if self.radius * 2 < self.diagonal * self.depth:
             self.radius = (self.diagonal * self.depth)/2 * 1.5
-            
-        
-    def treeWidth(self):
-        for r in range( 0, self.model().rowCount() ):
-            self.itemWidth( self.model().index( r, 0 ) )
     
-    
-    def itemWidth(self, index):
+    def scan(self, index, left, depth):
         self.orderedIndexes.append( index )
         rows = self.model().rowCount( index )
         if not index.isValid():
-            return None
+            return 0
         elif rows == 0:
-            self.setX( index, self.left )
-            self.left += 1
-            return None
+            self.setX( index, left )
+            self.setY(index, depth + 1)
+            return (left + 1, 1)
         
-        for r in range(0, rows):
+        childDepth = 0
+        for r in range( 0, self.model().rowCount( index ) ):
             child = index.child( r, 0 )
-            self.itemWidth( child )
+            (left, d) = self.scan( child, left, depth + 1 )
+            childDepth = max( childDepth, d )
         
         left = self.itemPos[ self.model().index(0, index.column(), index) ].x()
+        right =  self.itemPos[ self.model().index( rows - 1, index.column(), index ) ].x();
         if rows >= 2:
             if rows % 2 == 1:
                 r = math.floor( rows/2 ) + 1
                 v = self.itemPos[ self.model().index( r - 1, index.column(), index ) ].x()
                 self.setX( index, v )
             else:
-                right =  self.itemPos[ self.model().index( rows - 1, index.column(), index ) ].x();
                 self.setX( index, float(right + left + 1) / 2.0 )
         else:
             self.setX( index, left )
-    
-    
+
+        self.setY(index, depth + 1)
+        return ( right + 1 , childDepth + 1 ) 
+        
     
     def resolvePositions(self):
         self.itemPos = {}
         self.orderedIndexes = []
-                
-        self.left = 0
-        self.treeWidth()
-        self.depth = self.treeDepth()
+        
+        (self.left, self.depth) = self.scan( self.model().index(0,0) , 0, 0)
         self.left += 1
         
         dist = max(self.xDistance, self.yDistance )
         w = ( self.left ) * ( dist + self.rect.width() )
+        
         self.realSize.setWidth( w );
         self.realSize.setHeight( w )
         self.setScrollBarValues()
@@ -137,9 +134,18 @@ class RadialTree(Tree):
                 else:
                     factor = 1.0
 
+            radius = float(self.radius) / float(factor)
             circle = QPainterPath()
-            circle.addEllipse( self.rect.center(), float(self.radius) / float(factor), float(self.radius) / float(factor) )
+            circle.addEllipse( self.rect.center(), radius, radius )
+            
+#            r = QRect( 0, 0, radius * 2, radius * 2 )
+#            circle.moveTo( radius * 2, radius )
+#            circle.arcTo( r, 0, -180 )
 
             self.itemPos[index] = circle.pointAtPercent( self.itemPos[index].x() )
-        self.itemPos[self.model().index(0,0)] = QPointF(0, 0)   
+        self.itemPos[self.model().index(0,0)] = QPointF(0, 0)
+        
+        for index in self.itemPos.keys():
+            p = self.itemPos[ index ]
+            print index.data(), p
 

@@ -1,7 +1,7 @@
 from Global import Color, Shape
 
 from PySide.QtGui import QAbstractItemView, QPen, QStyledItemDelegate, QBrush, QFont, QPolygon, \
-QLineEdit, QRegion, QColor, QPainter, QStyleOptionViewItem
+QLineEdit, QRegion, QColor, QPainter, QStyleOptionViewItem, QPainterPath
 from PySide.QtCore import QSize, QRect, QPoint, QPointF, Qt, QModelIndex
 
 class TreeStyle:
@@ -147,8 +147,11 @@ class Tree(QAbstractItemView):
         if isinstance(self.itemDelegate(), TreeItemDelegate):
             self.itemDelegate().palette = style
     
+    def scan(self, index, left, depth):
+        raise "Must be implemented. Should resolve the left and depth for each node."
+    
     def resolvePositions(self):
-        raise "Must be implemented"    
+        raise "Must be implemented; Should resolve the position (x,y) in px for each node."
     
     def treeStyle(self):
         if isinstance(self.itemDelegate(), TreeItemDelegate):
@@ -180,14 +183,14 @@ class Tree(QAbstractItemView):
         return self.verticalScrollBar().value()
         
     def indexAt(self, point):
-        return QModelIndex()
-        p = point - self.itemOffset - QPoint( self.horizontalOffset(), self.verticalOffset() )
+        return QModelIndex() # BUG IN PySide
+        p = point - self.itemOffset.toPoint() - QPoint( self.horizontalOffset(), self.verticalOffset() )
         for index in self.itemPos.keys():
             r = self.itemRect(index)
             if r.contains( p ):
                 None
-                #print index.model().data(index)
-#                return index
+                print index.model().data(index)
+                return index
             
     
     def visualRect(self, index):
@@ -227,42 +230,7 @@ class Tree(QAbstractItemView):
     
     def setItemRect(self, r):
         self.rect = r 
-        
-    def treeDepth(self):
-        nb = 0
-        for r in range( 0, self.model().rowCount() ):
-            d = self.itemDepth( self.model().index(r, 0 ) )
-            if d > nb:
-                nb = d
-        return nb
-    
-    def itemDepth(self, index, depth=0):
-        if not index.isValid():
-            return 0
-        if self.model().rowCount( index ) == 0:
-            self.setY( index, depth + 1 )
-            return 1
-        
-        childDepth = 0
-        for r in range( 0, self.model().rowCount( index ) ):
-            child = index.child( r, 0 )
-            d = self.itemDepth( child, depth + 1 )
-            if d > childDepth:
-                childDepth = d
-        
-        self.setY( index, depth + 1 )
-        
-        return childDepth + 1
-    
-    def treeWidth(self):
-        left = 0
-        for r in range( 0, self.model().rowCount() ):
-            left += self.itemWidth( self.model().index( r, 0 ), 0 )
-        return left
-            
-    def itemWidth(self, index, left):
-        raise "Must be implemented"
-        
+                
     def setX(self, index, x):
         if not self.itemPos.has_key( index ):
             self.itemPos[ index ] = QPointF()
@@ -277,10 +245,19 @@ class Tree(QAbstractItemView):
         
     def paintEvent(self, event):
         painter = QPainter( self.viewport() )
-        painter.setClipRect( event.rect() )
+#        painter.setClipRect( event.rect() )
         painter.setRenderHint( QPainter.Antialiasing )
         self.paintConnections(painter)
         self.paintItems(painter)
+        
+#        circle = QPainterPath()
+#        circle.addEllipse( self.rect.center(), float(self.radius), float(self.radius) )
+#        r = QRect( 0, 0, self.radius * 2, self.radius * 2 )
+#        circle.moveTo( self.radius * 2, self.radius )
+#        circle.arcTo( r, 0, -180 )
+#        painter.setPen( Qt.black )
+#        painter.drawPath( circle.translated( self.itemOffset.x() - self.radius, self.itemOffset.y()  - self.radius ) )
+#        painter.drawRect( r.translated( self.itemOffset.x(), self.itemOffset.y() ) )
         
         
     def paintItems(self, painter):

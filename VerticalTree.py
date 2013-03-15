@@ -25,33 +25,6 @@ class VerticalTree(Tree):
         p = self.itemPos[ self.model().index(0, 0) ]
         self.itemOffset = QPointF( self.width() / 2 - p.x(), 0 )
 
-    def itemWidth(self, index, left ):
-        rows = self.model().rowCount( index )
-        if not index.isValid():
-            return 0
-        elif rows == 0:
-            self.setX( index, left )
-            return left + 1
-        
-        for r in range(0, rows):
-            child = index.child( r, 0 )
-            left = self.itemWidth( child, left )
-        
-        left = self.itemPos[ self.model().index(0, index.column(), index) ].x()
-        if rows >= 2:
-            if rows % 2 == 1:
-                r = math.floor( rows/2 ) + 1
-                v = self.itemPos[ self.model().index( r - 1, index.column(), index ) ].x()
-                self.setX( index, v )
-            else:
-                right =  self.itemPos[ self.model().index( rows - 1, index.column(), index ) ].x()
-                self.setX( index, (right + left) / 2 )
-        else:
-            self.setX( index, left )
-        
-        return self.itemPos[ self.model().index( rows - 1, index.column(), index ) ].x() + 1
-                        
-
     def scan(self, index, left, depth):
         rows = self.model().rowCount( index )
         if not index.isValid():
@@ -80,7 +53,7 @@ class VerticalTree(Tree):
             self.setX( index, left )
             
         self.setY(index, depth + 1)
-        return ( right +1 , childDepth + 1 ) 
+        return ( right + 1 , childDepth + 1 ) 
             
         
     def resolvePositions(self):
@@ -88,6 +61,7 @@ class VerticalTree(Tree):
         
         self.realSize.setWidth( ( self.left ) * ( self.xDistance + self.rect.width() ) );
         self.realSize.setHeight( self.depth * ( self.yDistance + self.rect.height() ) + 40 )
+        
         self.setScrollBarValues()
         for index in self.itemPos.keys():
             p = self.itemPos[ index ]

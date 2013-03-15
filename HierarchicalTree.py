@@ -25,6 +25,27 @@ class HierarchicalTree(VerticalTree):
         self.horizontalScrollBar().setRange( 0, dw )
         self.verticalScrollBar().setRange( 0, dh )
         self.centralItemPos = QPointF( self.width() / 2, self.height() / 2 )
+        
+        
+    def scan(self, index, left, depth):
+        rows = self.model().rowCount( index )
+        self.setX( index, left )
+        if not index.isValid():
+            return None
+        elif rows == 0:
+            self.setY(index, depth)
+            return (left + 1 , 1)
+        
+        left += 1
+        childDepth = 0
+        for r in range( 0, self.model().rowCount( index ) ):
+            child = index.child( r, 0 )
+            (left, d) = self.scan( child, left, depth + 1 )
+            childDepth = max( childDepth, d )
+        
+        self.setY(index, depth)
+        return ( left, childDepth + 1 )
+    
          
     def itemWidth(self, index):
         rows = self.model().rowCount( index )

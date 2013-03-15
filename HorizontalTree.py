@@ -20,10 +20,8 @@ class HorizontalTree(VerticalTree):
         self.itemOffset = QPointF( 0, self.height() / 2 - p.y() )
          
     def resolvePositions(self):
-        self.left = 0
-        self.treeWidth()
-        self.depth = self.treeDepth()
-        self.left += 1
+        (self.left, self.depth) = self.scan( self.model().index(0,0) , 0, 0)
+
         self.realSize.setWidth( ( self.left ) * ( self.xDistance + self.rect.width() ) );
         self.realSize.setHeight( self.depth * ( self.yDistance + self.rect.height() ) + 40 )
         self.setScrollBarValues()
