@@ -1,6 +1,6 @@
 from VerticalTree import VerticalTree
 from Global import Shape
-from Tree import TreeStyle
+from Tree import ItemStyle
 from PySide.QtCore import QRect, QPoint, QPointF
 
 
@@ -12,12 +12,11 @@ class HierarchicalTree(VerticalTree):
         self._rotateText = False
         self.orderedIndexes = []
         self.rect = QRect( -20, -20, 40, 40 )
-        style = TreeStyle()
+        style = ItemStyle()
         style.setShape( Shape.Ellipse )
-        self.setTreeStyle( style )
+        self.delegate.setItemStyle(style)
         self.yDistance = 0
         self.xDistance = 40
-        
         
     def setScrollBarValues(self):
         dw = max( 0, ( self.realSize.width() - self.width() )/2  )
