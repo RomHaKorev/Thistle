@@ -1,7 +1,7 @@
 from Tree import Tree
 
 import math
-from PySide.QtCore import QPointF, Qt, QPoint, QRect
+from PySide.QtCore import QPointF, Qt, QPoint, QRect, QSize
 from PySide.QtGui import QPixmap, QPainter
 
 class VerticalTree(Tree):
@@ -29,7 +29,7 @@ class VerticalTree(Tree):
         index = self.model().index(0,0)
         if index in self.itemPos:
             p = self.itemPos[ index ]
-            self.itemOffset = QPointF( self.width() / 2 - p.x(), 0 )
+            self.itemOffset = QPointF( self.width() / 2 - p.x() + self.rect.width()/2, 0 )
 
 
     def scan(self, index, left, depth):
@@ -38,7 +38,7 @@ class VerticalTree(Tree):
             return 0
         elif rows == 0:
             self.setX( index, left )
-            self.setY(index, depth + 1)
+            self.setY(index, depth)
             return (left + 1, 1)
         
         childDepth = 0
@@ -66,18 +66,30 @@ class VerticalTree(Tree):
     def positionsInTree(self):
         self.itemTreePos = {}
         (self.left, self.depth) = self.scan( self.model().index(0,0) , 0, 0)
+        self.left = 0
+        for p in self.itemTreePos.values():
+            self.left = max( self.left, p.x() )
             
+        self.depth -= 1
+        for ind in self.itemTreePos.keys():
+            print ind.data(), self.itemTreePos[ind]
+        
+        print "l %s d %s" % (self.left, self.depth) 
+        
         self.positionsInView()
         
     def positionsInView(self):
-        self.realSize.setWidth( ( self.left + 1 ) * ( self.xDistance + self.rect.width() ) + 40 );
-        self.realSize.setHeight( self.depth * ( self.yDistance + self.rect.height() ) + 40 )
+        self.realSize.setWidth( ( self.left ) * ( self.xDistance + self.rect.width() ) + self.rect.width() )
+        self.realSize.setHeight( self.depth * ( self.yDistance + self.rect.height() ) + self.rect.height() )
+        
+        print self.realSize 
         
         self.setScrollBarValues()
         
+        offset = QPointF( self.rect.width()/2, self.rect.height()/2 )
         for index in self.itemTreePos.keys():
             p = self.itemTreePos[ index ]
-            self.itemPos[index] = QPointF( ( 1 + p.x() ) * ( self.xDistance + self.rect.width() ), p.y() * ( self.yDistance + self.rect.height() ) )
+            self.itemPos[index] = QPointF( p.x() * ( self.xDistance + self.rect.width() ), p.y() * ( self.yDistance + self.rect.height() ) ) + offset
     
     
     def paintConnectionsFor(self, painter, index, offset ):
@@ -110,12 +122,16 @@ class VerticalTree(Tree):
                 painter.drawLine( p1, p2 )
         painter.restore()
         
+
     def save(self, filename ):
-        pix = QPixmap( self.realSize )
+        s = self.realSize + QSize( 20, 20 )
+        pix = QPixmap( s )
         pix.fill( Qt.transparent )
         painter = QPainter( pix )
         painter.setRenderHint( QPainter.Antialiasing )
-        self.paintConnections( painter, QPointF( 0, 0 ) )
-        self.paintItems(painter , QPointF( 0, 0 ) )
+        x = 10
+        y = 10
+        self.paintConnections( painter, QPointF( x, y ) )
+        self.paintItems(painter , QPointF( x, y ) )
         painter.end()
         return pix.save( filename )

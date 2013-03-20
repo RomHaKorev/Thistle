@@ -12,7 +12,7 @@ class ItemStyle:
         self._textColor = QColor( Color.White )
         self._displayText = True
         self._shape = Shape.Rectangle
-        
+        self.itemOffset = QPointF(0,0)
     
     def setBackground(self, brush):
         self._brush = brush
@@ -168,11 +168,11 @@ class Tree(QAbstractItemView):
     
     
     def scan(self, index, left, depth):
-        raise("Must be implemented. Should resolve the left and depth for each node.")
+        raise( "Must be implemented. Should resolve the left and depth for each node." )
     
     
     def positionsInTree(self):
-        raise("Must be implemented. Should resolve the position (x,y) in the tree for each node.")
+        raise( "Must be implemented. Should resolve the position (x,y) in the tree for each node." )
     
     def positionsInView(self):
         raise( "Must be implemented. Should resolve the position (x, y) in pixel in viewport for each node." )
@@ -259,29 +259,29 @@ class Tree(QAbstractItemView):
         self.setScrollBarValues()
     
     
-    def setItemRect(self, r):
-        self.rect = r
+    def setItemSize(self, size ):
+        self.rect = QRect( -size.width()/2, -size.height()/2, size.width(), size.height() )
+#        self.rect = r
         self.positionsInView()
         self.viewport().update()
     
                 
     def setX(self, index, x):
-        if not self.itemTreePos.has_key( index ):
+        if not index in self.itemTreePos:
             self.itemTreePos[ index ] = QPointF()
         self.itemTreePos[index].setX(x)
     
     
     def setY(self, index, y):
-        if not self.itemTreePos.has_key( index ):
+        if not index in self.itemTreePos:
             self.itemTreePos[ index ] = QPointF()
             
         self.itemTreePos[index].setY(y)
         
         
     def paintEvent(self, event):
-        print self.itemTreePos[ self.model().index(0,0) ]
         painter = QPainter( self.viewport() )
-#        painter.setClipRect( event.rect() )
+        painter.setClipRect( event.rect() )
         painter.setRenderHint( QPainter.Antialiasing )
         self.paintConnections( painter, self.itemOffset )
         self.paintItems( painter, self.itemOffset )
@@ -311,4 +311,4 @@ class Tree(QAbstractItemView):
           
 
     def save(self, filename ):
-        raise "Must be implemented. Save the graph in a file named 'filename'"
+        raise( "Must be implemented. Save the graph in a file named 'filename'" )

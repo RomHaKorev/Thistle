@@ -9,14 +9,14 @@ class HierarchicalTree(VerticalTree):
     _min = 0
     def __init__(self, parent=None):
         super(HierarchicalTree, self).__init__( parent )
-        self._rotateText = False
-        self.orderedIndexes = []
-        self.rect = QRect( -20, -20, 40, 40 )
-        style = ItemStyle()
-        style.setShape( Shape.Ellipse )
-        self.delegate.setItemStyle(style)
-        self.yDistance = 0
-        self.xDistance = 40
+#        self._rotateText = False
+#        self.orderedIndexes = []
+#        self.rect = QRect( -20, -20, 40, 40 )
+#        style = ItemStyle()
+#        style.setShape( Shape.Ellipse )
+#        self.delegate.setItemStyle(style)
+#        self.yDistance = 0
+#        self.xDistance = 40
         
     def setScrollBarValues(self):
         dw = max( 0, ( self.realSize.width() - self.width() )/2  )
@@ -44,18 +44,9 @@ class HierarchicalTree(VerticalTree):
         
         self.setY(index, depth)
         return ( left, childDepth + 1 )
+   
     
-         
-    def itemWidth(self, index):
-        rows = self.model().rowCount( index )
-        self.setX( index, self.left )
-        self.left += 1
-        for r in range( 0, rows ):
-            child = index.child( r, 0 )
-            self.itemWidth(child)
-    
-    
-    def paintConnectionsFor(self, painter, index):
+    def paintConnectionsFor(self, painter, index, offset):
         for index in self.itemPos.keys():
             parent = self.model().parent( index )
             if parent.isValid():

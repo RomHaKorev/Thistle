@@ -4,7 +4,7 @@ from Global import Shape
 
 import math
 from PySide.QtGui import QPainterPath, QPainter, QPen, QPixmap
-from PySide.QtCore import QRect, QPointF
+from PySide.QtCore import QRect, QPointF, Qt, QPoint, QSize
 
 
 class RadialTree(Tree):
@@ -34,9 +34,10 @@ class RadialTree(Tree):
         
         
     def setScrollBarValues(self):
-        dw = max( 0, ( self.realSize.width() - self.width() )/2  )
-        dh = max ( 0, ( self.realSize.height() - self.height() )/2 )
-        self.horizontalScrollBar().setRange( -dw/2, dw/2 )
+        s = self.realSize + QSize( 50, 50 )
+        dw = max( 0, ( s.width() - self.width() )/2  )
+        dh = max ( 0, ( s.height() - self.height() )/2 )
+        self.horizontalScrollBar().setRange( -dw, dw )
         self.verticalScrollBar().setRange( -dh, dh )
         self.itemOffset = QPointF( self.width() / 2, self.height() / 2 )
         
@@ -105,8 +106,8 @@ class RadialTree(Tree):
         
         self.updatePerimeter()
         
-        self.realSize.setWidth( ( self.rect.width() + self.radius ) * 2 )
-        self.realSize.setHeight( ( self.rect.height() + self.radius ) * 2 )
+        self.realSize.setWidth( self.radius * 2 )
+        self.realSize.setHeight( self.radius * 2 )
         self.setScrollBarValues()
         
         self.itemPos = {}
@@ -187,13 +188,14 @@ class RadialTree(Tree):
             painter.drawEllipse( center, r, r )
             
     def save(self, filename ):
-        pix = QPixmap( self.realSize )
+        s = self.realSize + QSize( 20, 20 )
+        pix = QPixmap( s )
         pix.fill( Qt.transparent )
         painter = QPainter( pix )
         painter.setRenderHint( QPainter.Antialiasing )
         painter.drawRect( QRect(QPoint(0,0), self.realSize) )
-        x = self.realSize.width() / 2
-        y = self.realSize.height() / 2
+        x = self.realSize.width()/2
+        y = self.realSize.height()/2
         self.paintConnections( painter, QPointF( x, y ) )
         self.paintItems(painter , QPointF( x, y ) )
         painter.end()
