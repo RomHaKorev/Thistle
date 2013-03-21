@@ -75,10 +75,10 @@ class TreeItemDelegate(QStyledItemDelegate):
             
     def _createDiamond(self, rect):
         poly = QPolygon()
-        poly.append( rect.topLeft() + QPoint(rect.width()/2, 0) )
+        poly.append( rect.top_left() + QPoint(rect.width()/2, 0) )
         poly.append( rect.topRight() + QPoint(0, rect.height()/2) )
-        poly.append(rect.bottomLeft() + QPoint( rect.width()/2, 0 ))
-        poly.append(rect.topLeft() + QPoint( 0, rect.height()/2 ))
+        poly.append(rect.bottom_left() + QPoint( rect.width()/2, 0 ))
+        poly.append(rect.top_left() + QPoint( 0, rect.height()/2 ))
         return poly
     
     
@@ -112,14 +112,14 @@ class TreeItemDelegate(QStyledItemDelegate):
             painter.drawPolygon( self.createDiamond( r ) )
         elif self.itemStyle.shape() == Shape.Triangle:
             poly = QPolygon()
-            poly.append( r.topLeft() + QPoint( r.width()/2, 0 ) )
-            poly.append( r.bottomLeft() )
+            poly.append( r.top_left() + QPoint( r.width()/2, 0 ) )
+            poly.append( r.bottom_left() )
             poly.append( r.bottomRight() )
             painter.drawPolygon( poly )
         elif self.itemStyle.shape() == Shape.ReversedTriangle:
             poly = QPolygon()
-            poly.append( r.bottomLeft() + QPoint( r.width()/2, 0 ) )
-            poly.append( r.topLeft() )
+            poly.append( r.bottom_left() + QPoint( r.width()/2, 0 ) )
+            poly.append( r.top_left() )
             poly.append( r.topRight() )
             painter.drawPolygon( poly )
         else:
@@ -138,24 +138,24 @@ class TreeItemDelegate(QStyledItemDelegate):
 class Tree(QAbstractItemView):          
     def __init__(self, parent=None):
         super(Tree, self).__init__( parent )
-        self.realSize = QSize( 200, 200)
-        self.rect = QRect( -40, -20, 80, 40 );
-        self.yDistance = 50
-        self.xDistance = 20
-        self.depth = 0
-        self.left = 0
+        self._realSize = QSize( 200, 200)
+        self._rect = QRect( -40, -20, 80, 40 );
+        self._yDistance = 50
+        self._xDistance = 20
+        self._depth = 0
+        self._left = 0
         self._connectionPen = QPen( QColor(Color.LightGray), 2 )
         self.itemOffset = QPoint()
         delegate = TreeItemDelegate( self )
         self.setItemDelegate( delegate )
-        self.itemPos = {}
-        self.itemTreePos = {}
+        self._itemPos = {}
+        self._itemTreePos = {}
         
         
     def setSpacing(self, horizontal, vertical ):
-        self.xDistance = horizontal
-        self.yDistance = vertical
-        self.positionsInView()
+        self._xDistance = horizontal
+        self._yDistance = vertical
+        self._positionsInView()
         self.update()
         
             
@@ -167,14 +167,14 @@ class Tree(QAbstractItemView):
         return self._connectionPen
     
     
-    def scan(self, index, left, depth):
-        raise( "Must be implemented. Should resolve the left and depth for each node." )
+    def scan(self, index, _left, _depth):
+        raise( "Must be implemented. Should resolve the _left and _depth for each node." )
     
     
-    def positionsInTree(self):
+    def _positionsInTree(self):
         raise( "Must be implemented. Should resolve the position (x,y) in the tree for each node." )
     
-    def positionsInView(self):
+    def _positionsInView(self):
         raise( "Must be implemented. Should resolve the position (x, y) in pixel in viewport for each node." )
         
     def setScrollBarValues(self):
@@ -193,8 +193,8 @@ class Tree(QAbstractItemView):
     def itemRect(self, index):
         if not index.isValid():
             return QRect()
-        p  = self.itemPos[ index ] - QPointF( self.horizontalOffset(), self.verticalOffset() )
-        return self.rect.translated( p.x(), p.y() )
+        p  = self._itemPos[ index ] - QPointF( self.horizontalOffset(), self.verticalOffset() )
+        return self._rect.translated( p.x(), p.y() )
     
     
     def horizontalOffset(self):
@@ -208,7 +208,7 @@ class Tree(QAbstractItemView):
     def indexAt(self, point):
         return QModelIndex() # BUG IN PySide
         p = point - self.itemOffset.toPoint() - QPoint( self.horizontalOffset(), self.verticalOffset() )
-        for index in self.itemPos.keys():
+        for index in self._itemPos.keys():
             r = self.itemRect(index)
             if r.contains( p ):
                 None
@@ -236,47 +236,47 @@ class Tree(QAbstractItemView):
     
     def setModel(self, *args, **kwargs):
         QAbstractItemView.setModel(self, *args, **kwargs)
-        self.positionsInTree()
+        self._positionsInTree()
     
     
-    def dataChanged(self, topLeft, bottomRight ):
-        QAbstractItemView.dataChanged(self, topLeft, bottomRight)
-        self.positionsInTree()
+    def dataChanged(self, top_left, bottomRight ):
+        QAbstractItemView.dataChanged(self, top_left, bottomRight)
+        self._positionsInTree()
         self.update( self.model().index(0,0) )
     
         
     def rowsAboutToBeRemoved(self, parent, start, end):
         QAbstractItemView.rowsAboutToBeRemoved(self, parent, start, end)
-        self.positionsInTree()
+        self._positionsInTree()
         self.viewport().update()
         self.setScrollBarValues()
     
     
     def rowsInserted(self, parent, start, end):
         QAbstractItemView.rowsInserted(self, parent, start, end)
-        self.positionsInTree()
+        self._positionsInTree()
         self.viewport().update()
         self.setScrollBarValues()
     
     
     def setItemSize(self, size ):
-        self.rect = QRect( -size.width()/2, -size.height()/2, size.width(), size.height() )
-#        self.rect = r
-        self.positionsInView()
+        self._rect = QRect( -size.width()/2, -size.height()/2, size.width(), size.height() )
+#        self._rect = r
+        self._positionsInView()
         self.viewport().update()
     
                 
     def setX(self, index, x):
-        if not index in self.itemTreePos:
-            self.itemTreePos[ index ] = QPointF()
-        self.itemTreePos[index].setX(x)
+        if not index in self._itemTreePos:
+            self._itemTreePos[ index ] = QPointF()
+        self._itemTreePos[index].setX(x)
     
     
     def setY(self, index, y):
-        if not index in self.itemTreePos:
-            self.itemTreePos[ index ] = QPointF()
+        if not index in self._itemTreePos:
+            self._itemTreePos[ index ] = QPointF()
             
-        self.itemTreePos[index].setY(y)
+        self._itemTreePos[index].setY(y)
         
         
     def paintEvent(self, event):
@@ -288,7 +288,7 @@ class Tree(QAbstractItemView):
        
         
     def paintItems( self, painter, offset ):
-        for index in self.itemPos.keys():
+        for index in self._itemPos.keys():
             option = QStyleOptionViewItem()
             option.rect = self.itemRect( index ).translated( offset.x(), offset.y() )
             self.itemDelegate().paint( painter, option, index )
@@ -297,7 +297,7 @@ class Tree(QAbstractItemView):
     def paintConnections( self, painter, offset ):
         painter.save()
         painter.setPen( self._connectionPen )
-        for index in self.itemPos.keys():
+        for index in self._itemPos.keys():
             self.paintConnectionsFor( painter, index, offset )
         painter.restore()
     
