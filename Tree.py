@@ -112,23 +112,30 @@ class TreeItemDelegate(QStyledItemDelegate):
             painter.drawPolygon( self.createDiamond( r ) )
         elif self.itemStyle.shape() == Shape.Triangle:
             poly = QPolygon()
-            poly.append( r.top_left() + QPoint( r.width()/2, 0 ) )
-            poly.append( r.bottom_left() )
+            poly.append( r.topLeft() + QPoint( r.width()/2, 0 ) )
+            poly.append( r.bottomLeft() )
             poly.append( r.bottomRight() )
             painter.drawPolygon( poly )
         elif self.itemStyle.shape() == Shape.ReversedTriangle:
             poly = QPolygon()
-            poly.append( r.bottom_left() + QPoint( r.width()/2, 0 ) )
-            poly.append( r.top_left() )
+            poly.append( r.bottomLeft() + QPoint( r.width()/2, 0 ) )
+            poly.append( r.topLeft() )
             poly.append( r.topRight() )
             painter.drawPolygon( poly )
         else:
             painter.drawRect( r )
-        painter.restore()
         
         if self.itemStyle.displayText() == True:
             painter.setPen( QPen( self.itemStyle.textColor(), 1 ) )
-            painter.drawText( r, Qt.AlignCenter, index.model().data(index) )
+            flags = Qt.AlignCenter
+            if self.itemStyle.shape() == Shape.Triangle:
+                flags = Qt.AlignBottom | Qt.AlignHCenter
+            elif self.itemStyle.shape() == Shape.ReversedTriangle:
+                flags = Qt.AlignTop | Qt.AlignHCenter
+            
+            painter.drawText( r, flags, index.model().data(index) )
+        
+        painter.restore()
       
             
     def updateEditorGeometry(self, editor, option, index):
@@ -303,11 +310,13 @@ class Tree(QAbstractItemView):
     
     
     def paintConnectionsFor( self, painter, index, offset ):
+        painter.save()
         parent = self.model().parent( index )
         if parent.isValid():
             p1 = self.itemRect(index).translated( offset.x(), offset.y() ).center()
             p2 = self.itemRect(parent).translated( offset.x(), offset.y() ).center()
             painter.drawLine( p1, p2 )
+        painter.restore()
           
 
     def save(self, filename ):

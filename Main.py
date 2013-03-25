@@ -62,7 +62,7 @@ if __name__ == "__main__":
     model.appendRow( it0 )
 
     style = Marb.ItemStyle()
-    style.setShape( Marb.Shape.Ellipse )
+    style.setShape( Marb.Shape.Triangle )
     h = Marb.HorizontalTree()
 #    h.setDirectConnection()
     delegate = h.itemDelegate()

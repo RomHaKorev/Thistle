@@ -174,6 +174,7 @@ class RadialTree(Tree):
 
         
     def paintCircles(self, painter, offset):
+        painter.save()
         c = self._connectionPen.color()
         c.setAlpha( c.alpha() * 0.15 )
         pen = QPen(self._connectionPen)
@@ -186,6 +187,7 @@ class RadialTree(Tree):
         for rd in range( 1, int(self._depth) + 1 ):
             r = float(self.radius) * rd / self._depth
             painter.drawEllipse( center, r, r )
+        painter.restore()
             
     def save(self, filename ):
         s = self._realSize + QSize( 20, 20 )
