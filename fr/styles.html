@@ -1,0 +1,107 @@
+				<h2>Le rendu des items</h2>
+				<p>
+					Clint utilise un <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstyleditemdelegate.html">QStyledItemDelegate</a>
+					personnalisé afin d'afficher les items d'un arbre. Ce delegate, appelé <a class="clintLink" href="about:blank">TreeDelegate</a>,
+					 possède six rendus prédéfinis ainsi que plusieurs méthodes permettant de définir la taille, les couleurs et les polices d'écriture.<br />
+					Vous pouvez également appliquer votre propre delegate si celui-ci ne vous convient pas.
+				</p>
+				<h3>Forme des items</h3>
+				<p>
+					La forme des items est définie avec la méthode <a href="about:blank" class="clintLink">TreeDelegate::setItemShape</a>.
+					 Voici la liste des valeurs possibles et un aperçu.
+				</p>
+				<table class="image">
+					<tr>
+						<td>
+							<img src="images/delegateRectangle.png" alt="image of the Rectangle shape" title="Rectangle shape" />
+							</td>
+						<td>
+							<img src="images/delegateRoundedRectangle.png" alt="image of the Rounded Rectangle shape" title="Rounded Rectangle shape" />
+							</td>
+						<td>
+							<img src="images/delegateEllipse.png" alt="image of the Ellipse shape" title="Ellipse shape" />
+						</td>
+						<td>
+							<img src="images/delegateDiamond.png" alt="image of the Diamond shape" title="Diamond shape" />
+						</td>
+					</tr>
+					<tr>
+						<td>Tree::Rectangle</td>
+						<td>Tree::RoundedRectangle</td>
+						<td>Tree::Ellipse</td>
+						<td>Tree::Diamond</td>
+					</tr>
+				</table>
+				<h3>Couleurs des items</h3>
+				<p> Vous pouvez modifier la couleurs des items (fond, bordure et police d'écriture) ainsi que celle des liens entre les items grâce aux fonctions associées.<br />
+					Clint met à disposition quelques couleurs prédéfinies en plus des <a href="http://qt-project.org/doc/qt-4.8/qt.html">couleurs prédéfinies de Qt</a>.</p>
+				<table class="image">
+					<tr>
+						<td>
+							<div style="margin:0 auto; background-color: #4889F1; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #0839A1; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #AADC5A; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #7CC00E; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #8264A0; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #6D3AA0; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Tree::Blue</td>
+						<td>Tree::DarkBlue</td>
+						<td>Tree::Green</td>
+						<td>Tree::DarkGreen</td>
+						<td>Tree::Purple</td>
+						<td>Tree::DarkPruple</td>
+					</tr>
+					<tr>
+						<td>
+							<div style="margin:0 auto; background-color: #FA7814; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #E46B0F; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #FFF43A; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #FFF219; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #707070; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+						<td>
+							<div style="margin:0 auto; background-color: #505050; width: 40px; height: 40px;"><br />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Tree::Orange</td>
+						<td>Tree::DarkOrange</td>
+						<td>Tree::Yellow</td>
+						<td>Tree::DarkYellow</td>
+						<td>Tree::Gray</td>
+						<td>Tree::DarkGray</td>
+					</tr>
+				</table>

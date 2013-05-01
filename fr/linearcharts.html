@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link type="image/x-icon" href="./images/favicon.ico" rel="icon" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../style.css" />
+		<title>Marb Project</title>
+	</head>
+	<body>
+	<table class="mainContainer"><tr><td class="mainContainer">
+		<div class="menu">
+			<img src="../images/logo.png" alt="logo.png"/><br/>
+			<div  class="menuItem"><a href="./index.html">Accueil</a></div>
+			<div  class="menuItem"><a href="https://github.com/RomHaKorev/Marb">Téléchargements</a></div>
+			<div  class="menuItem"><a href="./screenshots.html">Captures d'écran</a></div>
+		</div>
+		</td><td class="mainContainer">
+			<section>
+			  <h2>Les graphiques linéaires</h2>
+					<article>
+						<p>
+							Les graphiques linéaires représentent des données sous forme de
+							courbes, histogrammes ou de points. Cette vue peut afficher plusieurs
+							types de graphiques à la fois.<br />
+						</p>
+						<div class="code">
+							qsrand( QDateTime::currentDateTime().toTime_t() );<br />
+							QStandardItemModel model( 10, 2 );<br />
+							for ( int i = 0; i &lt; 10; ++i ) {<br />
+							<span style="padding-left:15px;">qreal value =<br />
+							</span> <span style="padding-left:15px;">model.setData(
+								model-&gt;index( i, 0 ), value, Qt::DisplayRole );<br />
+							</span> <span style="padding-left:15px;">model.setData(
+								model-&gt;index( i, 1 ), value, Qt::DisplayRole );<br />
+							</span> }<br />
+							LinearChart chart;<br />
+							chart.setModel( model );<br />
+						</div>
+					</article>
+			</section>
+		</td></tr></table>
+	</body>
+</html>

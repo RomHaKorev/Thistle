@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link type="image/x-icon" href="./images/favicon.ico" rel="icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../style.css" />
+    <title>Marb - Module: Trees</title>
+  </head>
+	<nav>
+		<div class="menu">
+			<img src="../images/logo.png" alt="logo.png"/><br/>
+			<div  class="menuItem"><a href="./index.html">Accueil</a></div>
+			<div  class="menuItem"><a href="https://github.com/RomHaKorev/Marb">Téléchargements</a></div>
+			<div  class="menuItem"><a href="./screenshots.html">Captures d'écran</a></div>
+    </div>
+  </nav>
+  <body>
+    <section>
+			<h2>Les arbres</h2>
+			<article>
+			Marb est capable d'afficher un arbre quelconque en se basant sur un <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> en utilisant le même principe que la vue <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qtreeview.html">QTreeView</a>.<br />
+				La racine correspond au premier item du modèle (i.e. l'item à l'index 0,0). Les autres noeuds correspondent aux enfants de ce noeud.<br />
+				Voici un exemple de <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> rempli de manière à être compatible avec les arbres de Marb :
+				<p>
+					Les arbres peuvent être de trois types :
+				</p>
+				<h2>Arbre vertical</h2>
+				<p>Un arbre vertical est un arbre dont la racine se situe tout en haut et au milieu de la vue.  Les autres noeuds se positionnent en-dessous.<br />
+					Un exemple d'abre vertical :
+				</p>
+				<table class="image">
+					<tr>
+						<td>
+							<img src="../images/verticalTree.jpeg" alt="Vertical tree" title="Vertical tree" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Représentation d'un arbre vertical
+						</td>
+					</tr>
+				</table>
+				<p>
+					Comme nous pouvons le voir, un arbre peut être quelconque et n'est pas forcément binaire ou équilibré.
+				</p>
+				<p>
+					Voici le code source permettant de générer ce type d'arbre :
+				</p>
+				<div class="code">
+					<br />
+				</div>
+			</article>
+			<h2>Arbre horizontal</h2>
+			<article>
+				<p>
+					La strucuture d'un arbre horizontal est relativement semblable à celle d'un
+					<a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtwidgets/qtreeview.html#key-bindings">QTreeView</a>
+					à la dfférence que les enfants d'un noeud sont représentés sur le même niveau.
+				</p>
+				<table class="image">
+					<tr>
+						<td>
+							<img src="../images/horizontalTree.jpeg" alt="image of a horizontal tree" title="horizontal tree" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Représentation d'un arbre horizontal
+						</td>
+					</tr>
+				</table>
+			</article>
+			<h2>Arbre circulaire</h2>
+			<article>
+				<p>
+			Un arbre circulaire représente un arbre en plaçant la racine au centre et en disposant ses fils et petits fils en cercle autour d'elle. Chaque cercle représente une profondeur dans l'arbre.
+			Les items sur le cercle extérieur représentent les feuilles les plus profondes de l'arbre.<br/>
+			Cette vue se dissocie des autres vues du module Trees et ne propose pas exactement les mêmes méthodes (il n'est pas possible de changer le type de lien, par exemple).
+				</p>
+				<table class="image">
+					<tr>
+						<td>
+							<img src="../images/radialTree.jpeg" alt="image of a radial tree" title="radialTree tree" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Représentation d'un arbre circulaire
+						</td>
+					</tr>
+				</table>
+			</article>
+			</section>
+	</body>
+</html>
