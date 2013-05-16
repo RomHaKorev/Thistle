@@ -29,9 +29,10 @@ protected:
   bool    myRing;
   qreal   myStartAngle;
   QString myLegend;
-  void updateChart();
-  QPainterPath itemPath( const QModelIndex& index ) const;
-  QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
+  virtual void updateChart();
+  virtual QPainterPath itemPath( const QModelIndex& index ) const;
+  virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
+  virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
 
   QModelIndex moveCursor(QAbstractItemView::CursorAction cursorAction,
                          Qt::KeyboardModifiers modifiers);
@@ -42,8 +43,9 @@ protected:
   bool isIndexHidden(const QModelIndex &index) const;
 
   void paintEvent(QPaintEvent *event);
-  void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
-  void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
+  virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
+  virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
+  virtual void configureColor( QPainter& painter, QColor base, int flag ) const;
 
   QRegion visualRegionForSelection(const QItemSelection &selection) const;
   void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);

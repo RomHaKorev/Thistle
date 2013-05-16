@@ -1,34 +1,25 @@
 #ifndef RADIALCHART_H
 #define RADIALCHART_H
+#include "chart.h"
 
-#include "pointchart.h"
-#include "chartspec.h"
 
-class RadialChart : public PointChart {
+class RadialChart: public Chart {
   Q_OBJECT
-
 protected:
-  QMap<int, QColor> myColors;
-  QList<int>        myHiddenColumns;
-  QLineF            myLine;
-  ChartSpec         mySpec;
-  QRect             myRect;
-  qreal             myOffset;
-  void              updateChart();
+  qreal myCenterHoleDiam;
+
+  QRectF itemRect(const QModelIndex &index) const;
+  void setAlphaBeta();
+  void processSpec();
+  void paintTextAxis( QPainter& painter) const;
+  void paintValues( QPainter& painter, int column ) const;
+  void paintAxis( QPainter& painter ) const;
+  void paintTicks( QPainter& painter ) const;
+  virtual void paintChart(QPainter &);
 
 public:
-  explicit RadialChart( QWidget* parent = 0 );
-  void resizeEvent( QResizeEvent* event );
-  void paintChart(QPainter& painter);
-  void paintAxis( QPainter& painter );
-  void paintGrid( QPainter& painter );
-  void paintValue( QPainter& painter, QModelIndex& index, qreal delta, qreal angle );
-  void paintEvent(QPaintEvent *);
-  void setModel(QAbstractItemModel *model);
-  void setColumnVisible( int column, bool visible = true );
-signals:
-  
-public slots:
+  RadialChart( QWidget* parent = 0 );
+  void process();
 };
 
-#endif // RADIALCHART_H
+#endif //RADIALCHART_H

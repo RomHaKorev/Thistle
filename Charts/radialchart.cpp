@@ -1,151 +1,166 @@
 #include "radialchart.h"
+
 #include <QPainter>
-#include <QDebug>
+#include <QPaintEvent>
 
-RadialChart::RadialChart( QWidget* parent ) : PointChart( parent ) {
-  my_manualBounds = false;
+RadialChart::RadialChart( QWidget* parent ) : Chart( parent ) {
+  myOrigin = QPointF(20, 20);
+  myCenterHoleDiam = 0;
+  myNbTicks = 5;
 }
 
-void RadialChart::setModel( QAbstractItemModel* model ) {
-  PointChart::setModel( model );
-  mySpec.model = model;
+QRectF RadialChart::itemRect(const QModelIndex &index) const {
+  return QRect();
 }
 
-void RadialChart::updateChart() {
-  my_points.clear();
-  if ( model() == 0 || model()->rowCount() == 0 ) {
+void RadialChart::process() {
+  if ( model() == 0 ) {
     return;
   }
-  QList<int> l;
-  for( int i = 0; i < model()->columnCount(); ++i ) {
-    if ( !myHiddenColumns.contains( i ) ) {
-      l << i;
-    }
-  }
-  mySpec.calculate( l );
-  updateMinMax();
-
-  /* Equation of coordinates transform */
-  myLine.setP1( QPointF( mySpec.min, 5.0/100.0 * myRect.width()) );
-  myLine.setP2( QPointF( mySpec.max, myRect.width()) );
-
-  mySpec.m = (0.9) / (mySpec.max - mySpec.min );
-  mySpec.p = -mySpec.m * mySpec.min + 0.1;
+  myMin = 0;
+  myMax = 0;
+  processSpec();
 }
 
-void RadialChart::resizeEvent( QResizeEvent* ev ) {
-
-  QAbstractItemView::resizeEvent( ev );
-
-  mySpec.chartSize = QSize( width() - 40 - mySpec.yLabelsLength, height() - 40 );
-  updateChart();
+void RadialChart::setAlphaBeta() {
+  qreal w = myValuesRect.width();
+  myCenterHoleDiam =  w * 0.2;
+  qreal m = w * 0.3;
+  myAlpha = float( w - m )  / float( myMaxBound - myMinBound );
+  myBeta = w - myAlpha * myMaxBound;
 }
 
-void RadialChart::paintEvent( QPaintEvent* ) {
-  qreal w = ( width() - 20 );
-  qreal h = ( height() - 20 );
-
-  if ( w < h ) {
-    myRect = QRect( 10, 10 + (h-w)/2, w , w );
-  } else {
-    myRect = QRect( 10 + (w-h)/2, 10, h , h );
+void RadialChart::processSpec() {
+  if ( model() == 0 ) {
+    return;
   }
 
-  QPainter painter(viewport());
-  painter.setRenderHint( QPainter::Antialiasing );
+  myChartRect = QRect( QPoint( 20, 20 ), size() - QSize( 40, 40 ) );
 
-  paintChart( painter );
+  QFontMetrics metrics( font() );
 
-  painter.setPen( QPen( my_color, 2 ) );
-  int centerWidth = myRect.width()/2 * 0.1;
-  painter.setBrush( Qt::white );
-  painter.drawEllipse( myRect.center(), centerWidth, centerWidth );
+  if ( myTitle != "" ) {
+    QRect r( 0, 0, myCenterHoleDiam, 0 );
+    myTitleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
+    myChartRect.setHeight( myChartRect.height() - myTitleRect.height() );
+  }
+
+  int w = qMin( myChartRect.width(), myChartRect.height() );
+
+  myValuesRect = QRect( -w/2, -w/2, w, w );
+  myValuesRect.translate( myChartRect.center().x(), myChartRect.center().y() );
+
+  scanValues();
+  calculateBounds();
+
+  myX = 360.0 / qreal( model()->rowCount() );
+
+  setAlphaBeta();
+
+  myTitleRect.translate( myValuesRect.center().x(), myChartRect.height() + 30 );
 }
 
-void RadialChart::paintChart( QPainter& painter ) {
+void RadialChart::paintTextAxis( QPainter& painter) const {
+  QFontMetrics metrics( font() );
+  int h = metrics.height();
 
+  qreal x = myMinBound;
+  while ( x <= myMaxBound ) {
+    qreal v = valueToPx( x )/2;
+    int w = metrics.width( QString::number( x ) );
+    painter.save();
+    painter.setPen( QPen( QColor( Marb::DarkGray ), 1.5 ) );
+    painter.rotate( -90 );
+    painter.translate( -myValuesRect.center().y(), myValuesRect.center().x() + v );
+    painter.drawText( -w - 5, h / 2, QString::number(x) );
+    x += myTickSize;
+    painter.restore();
+  }
+}
+
+void RadialChart::paintValues( QPainter& painter, int column ) const {
+  int rows = model()->rowCount();
   painter.save();
-  painter.setRenderHint( QPainter::Antialiasing );
-  updateChart();
 
-  paintGrid( painter );
+  qreal angle = ( myX / model()->columnCount() );
 
-  qreal delta = ( 360.0 / model()->rowCount() );
-  delta /= ( model()->columnCount() - myHiddenColumns.count() );
+  qreal startAngle = angle * column + 10;
 
-  qreal angle = 0;
+  QPainterPath pathCenter;
+  QRect rectangle( -myCenterHoleDiam/2, -myCenterHoleDiam/2, myCenterHoleDiam, myCenterHoleDiam );
+  rectangle.translate( myValuesRect.center() );
 
-  for ( int i = 0; i < model()->rowCount(); ++i ) {
-    for ( int j = 0; j < model()->columnCount(); ++j ) {
-      if ( !myHiddenColumns.contains( j ) ) {
-        QModelIndex index = model()->index( i, j );
-        paintValue( painter, index, delta, angle );
-        angle += delta;
-      }
-    }
+  pathCenter.addEllipse( rectangle );
+
+
+  for (int r = 0; r < rows; ++r ) {
+    QModelIndex index = model()->index( r, column );
+    qreal y = valueToPx( index.data( Qt::DisplayRole ).toReal() );
+    QRect rectangle( -y/2, -y/2, y, y );
+    rectangle.translate( myValuesRect.center() );
+    QPainterPath path;
+    path.moveTo( myValuesRect.center() );
+    path.arcTo( rectangle, startAngle + 1, angle - 2 );
+    path.closeSubpath();
+    path = path.subtracted( pathCenter );
+
+    painter.drawPath( path );
+
+    startAngle += myX;
   }
 
+  painter.restore();
+}
+
+void RadialChart::paintAxis( QPainter& painter ) const {
+  painter.save();
+  paintTicks( painter );
+  painter.setRenderHint( QPainter::Antialiasing, false );
+  painter.setPen( QPen( Qt::darkGray, 1.5 ) );
+  QPoint p1 = myValuesRect.center();
+  QPoint p2 = p1 + QPoint( myValuesRect.width()/2, 0 );
+  painter.drawLine( p1, p2 );
+  painter.restore();
+
+}
+
+void RadialChart::paintTicks( QPainter& painter ) const {
+  qreal y = myMinBound;
+  painter.save();
+  QColor c = QColor( Qt::lightGray );
+  c.setAlpha( 100 );
+  painter.setPen( QPen( c , 1.5) );
+
+  while ( y <= myMaxBound ) {
+    qreal v = valueToPx( y );
+    QRect rectangle( -v/2, -v/2, v, v );
+    rectangle.translate( myValuesRect.center() );
+    QPainterPath path;
+    path.addEllipse( rectangle );
+    painter.drawPath( path );
+    y += myTickSize;
+  }
+
+  painter.restore();
+}
+
+
+void RadialChart::paintChart(QPainter& painter) {
+  painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
+
+  int cols = model()->columnCount();
+  painter.save();
   paintAxis( painter );
-
-  painter.restore();
-}
-
-void RadialChart::paintValue( QPainter& painter, QModelIndex& index, qreal delta, qreal angle ) {
-  painter.save();
-  QColor c = myColors.value( index.column(), Clint::predefinedColor( index.column() ) );
-  painter.setPen( QPen( c, 2 ) );
-  c.setAlpha( c.alpha() * 0.75 );
-  painter.setBrush( c );
-
-  qreal v = model()->data( index ).toReal();
-  qreal w = mySpec.valueToPixel( v );
-  w = myLine.pointAt( w ).y();
-  QPainterPath path;
-  path.moveTo( myRect.center() );
-  QRect r1( myRect.center().x() - w/2, myRect.center().y() - w/2, w, w );
-  path.arcTo( r1, angle + 1, delta - 2 );
-  path.closeSubpath();
-  painter.drawPath( path );
-  painter.restore();
-}
-
-void RadialChart::paintGrid( QPainter& painter ) {
-  painter.save();
-  painter.setPen( QPen( Qt::lightGray, 2 ) );
-
-  QPoint start( myRect.center() );
-  QPoint end( myRect.center().x() + myRect.width()/2, myRect.center().y() );
-  for ( qreal i = mySpec.gridStartValue() + mySpec.yStep; i < mySpec.max;
-        i +=  mySpec.yStep ) {
-    qreal radius = mySpec.valueToPixel( i );
-    radius = myLine.pointAt( radius ).y();
-
-    painter.drawEllipse( myRect.center(), radius/2.0, radius/2.0 );
+  for ( int c = 0; c < cols; ++c ) {
+    ChartStyle style = columnStyle( c );
+    painter.setPen( style.pen() );
+    painter.setBrush( style.brush() );
+    paintValues( painter, c );
   }
+
   painter.restore();
-}
+  paintTextAxis( painter );
 
-void RadialChart::paintAxis( QPainter& painter ) {
-  painter.save();
+  painter.drawText( myTitleRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
 
-  painter.setPen( QColor( 0x303030 ) );
-
-  QPoint start( myRect.center() );
-  QPoint end( myRect.center().x() + myRect.width()/2, myRect.center().y() );
-  painter.drawLine( start, end );
-  for ( qreal i = mySpec.gridStartValue() + mySpec.yStep; i < mySpec.max;
-        i +=  mySpec.yStep ) {
-    qreal radius = mySpec.valueToPixel( i );
-    radius = myLine.pointAt( radius ).y();
-    painter.drawText( start + QPoint( radius/2, 0 ), QString::number(i) );
-  }
-  painter.restore();
-}
-
-void RadialChart::setColumnVisible( int column, bool visible ) {
-  myHiddenColumns.removeAll( column );
-  if ( visible == false ) {
-    myHiddenColumns << column;
-  }
-  update();
 }

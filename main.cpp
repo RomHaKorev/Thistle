@@ -15,24 +15,48 @@
 #include "charts/piechart.h"
 #include "charts/piechart3D.h"
 
+
+#include <QFile>
+
 int main( int argc, char* argv[] ) {
   QApplication a(argc, argv);
 
-  QStandardItemModel* model = new QStandardItemModel(5,5);
+  QStandardItemModel* model = new QStandardItemModel(5,2);
   model->setHeaderData(0, Qt::Horizontal, ("Label"));
   model->setHeaderData(1, Qt::Horizontal, ("Value"));
-  model->setVerticalHeaderLabels( QStringList() << "test" << "test" );
   qsrand( QDateTime::currentDateTime().toTime_t() );
   for (int i = 0; i < model->rowCount(); ++i ) {
     qreal v = (qrand() % ( 30 - 10) + 10);
     model->setData( model->index( i, 0 ), v, Qt::DisplayRole );
     v = (qrand() % ( 25));
     model->setData( model->index( i, 1 ), v, Qt::DisplayRole );
-    model->setData( model->index( i, 1 ), i * 10, Qt::DisplayRole );
-    model->setData( model->index( i, 2 ), i * 10, Qt::DisplayRole );
-    model->setData( model->index( i, 3 ), i * 10, Qt::DisplayRole );
-    model->setData( model->index( i, 4 ), i * 10, Qt::DisplayRole );
+    v = (qrand() % ( 25));
+    model->setData( model->index( i, 2 ), v, Qt::DisplayRole );
+    model->setData( model->index( i, 3 ), v - v/2, Qt::DisplayRole );
+    v = (qrand() % ( 25));
+    model->setData( model->index( i, 4 ), 3, Qt::DisplayRole );
   }
+
+  /*QVariant(double, 20)
+  QVariant(double, 12)
+  QVariant(double, 20)
+  QVariant(double, 24)
+  QVariant(double, 17)
+  QVariant(double, 14) */
+
+  model->setData( model->index( 0, 0 ), 20, Qt::DisplayRole );
+  model->setData( model->index( 1, 0 ), 20, Qt::DisplayRole );
+  model->setData( model->index( 2, 0 ), 20, Qt::DisplayRole );
+  model->setData( model->index( 3, 0 ), 24, Qt::DisplayRole );
+  model->setData( model->index( 4, 0 ), 17, Qt::DisplayRole );
+  model->setData( model->index( 5, 0 ), 14, Qt::DisplayRole );
+
+  qDebug() << "Values";
+  for (int i = 0; i < model->rowCount(); ++i ) {
+    qDebug() << model->data( model->index( i, 0 ) );
+  }
+  qDebug() << "!!!Values";
+
 
   /*QColor c( 50, 50, 90 );
   for (int i = 0; i < model->rowCount(); ++i ) {
@@ -42,54 +66,15 @@ int main( int argc, char* argv[] ) {
 
   //model->setData( model->index( 0, 0 ), -24, Qt::DisplayRole );
   //model->setData( model->index( 1, 0 ), 80, Qt::DisplayRole );
-
-  LinearChart* linear = new LinearChart();
-  linear->setModel( model );
-  linear->setDataStyle( 1, LinearChart::Bar );
-  linear->setDataStyle( 0, LinearChart::Line );
-
-  RadialChart* chart = new RadialChart();
-  chart->setModel( model );
-
-  /*QWidget w;
-  QHBoxLayout layout( &w );
-  layout.addWidget( chart );
-  layout.addWidget( linear );
-  w.showMaximized();*/
-  //chart->setFixedSize( 500, 500 );
-  //chart->show();
-  chart->resize( 500, 500 );
-  //chart->setColumnVisible( 1, false );
-  //linear->show();
-
-  PieChart pie;
-  pie.setModel( model );
-  pie.setLegend( "An example of a pie chart" );
-  pie.show();
-  pie.setRing( true );
-  pie.setGeometry(0, 100, 500, 500 );
-  pie.setSplitted( true );
-  QFont f("Helvetica [Cronyx]", 20);
-
-  f.setBold( true );
-  pie.setFont( f );
-  pie.update();
-
-  PieChart ring;
+  /*PieChart ring;
   ring.setModel( model );
-  //ring.setRing( true );
+  ring.setRing( true );
   ring.show();
-  ring.setGeometry( 500, 100, 500, 500 );
+  ring.setGeometry( 500, 100, 500, 500 );*/
 
-  PieChart3D pie3D;
-  pie3D.setModel( model );
-  pie3D.show();
-  pie3D.setGeometry(1000, 100, 500, 500 );
-
-  QItemSelectionModel *selectionModel = new QItemSelectionModel(model);
-  pie.setSelectionModel(selectionModel);
-  ring.setSelectionModel(selectionModel);
-
+  PieChart3D pie;
+  pie.setModel( model );
+  pie.show();
 
   return a.exec();
 }

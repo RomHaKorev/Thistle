@@ -1,6 +1,6 @@
 #include "piechart.h"
 
-#include "Clint.h"
+#include "Marb.h"
 #include <QDebug>
 #include <QPainter>
 #include <QPaintEvent>
@@ -142,6 +142,10 @@ void PieChart::updateChart() {
     myRect = QRect( 20 + (w-h)/2, 20, h , h );
   }
 
+  myRect.translate( myRect.width() * 0.05, myRect.height() * 0.05 );
+  myRect.setWidth( 0.9 * myRect.width() );
+  myRect.setHeight( 0.9 * myRect.height() );
+
   myTotal = 0;
   for ( int i = 0; i < model()->rowCount(); ++i ) {
     QModelIndex index = model()->index( i, 0 );
@@ -171,7 +175,7 @@ void PieChart::paintEvent(QPaintEvent *event) {
 
     QColor color( model()->data( index, Qt::DecorationRole ).toString() );
     if ( !color.isValid() ) {
-      color = Clint::predefinedColor( i );
+      color = Marb::predefinedColor( i );
     }
 
     qreal v = qAbs( model()->data( index ).toReal() );
@@ -203,10 +207,8 @@ void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor co
 
   painter.save();
   painter.setClipPath( part ); /* To avoid the "borders superposition" */
-  painter.setPen( QPen( color, 4 ) );
-  color = color.lighter( 120 );
-  qDebug() << color;
-  painter.setBrush( color );
+  int flag = 0;
+  configureColor( painter, color, flag );
   painter.drawPath( part );
 
   painter.restore();
@@ -217,18 +219,34 @@ void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
 
   QPainterPath part = itemPart( angle, delta, true );
 
+  painter.save();
   if ( mySplitted == true
        && ( !selectionModel()->selectedIndexes().isEmpty() || currentIndex().isValid() )
        && isSelected == false ) {
-    color.setAlpha( color.alpha() / 4 );
+    configureColor( painter, color, 2 );
+  } else {
+    configureColor( painter, color, 1 );
   }
-
-  painter.save();
-  painter.setPen( QPen(color, 2) );
-  color = color.lighter( 120 );
-  painter.setBrush( color );
   painter.drawPath( part );
   painter.restore();
+}
+
+void PieChart::configureColor(QPainter &painter, QColor base, int flag ) const {
+  switch ( flag ) {
+    case 0:
+    default:
+      painter.setPen( QPen( base.darker( 105 ), 4 ) );
+      painter.setBrush( base );
+    break;
+    case 1:
+      painter.setPen( QPen( base.darker( 105 ), 2 ) );
+      painter.setBrush( base );
+    break;
+    case 2:
+      base.setAlpha( base.alpha() * 0.75 );
+      painter.setPen( QPen( base.lighter( 110 ), 2 ) );
+      painter.setBrush( base.lighter( 120 ) );
+  }
 }
 
 QPainterPath PieChart::itemPath( const QModelIndex& index ) const {
@@ -252,21 +270,25 @@ QPainterPath PieChart::itemPath( const QModelIndex& index ) const {
   return path;
 }
 
+QPointF PieChart::splittedOffset( qreal angle, qreal delta ) const {
+  QPainterPath part;
+  part.moveTo( myRect.center() );
+  part.arcTo( myRect, -angle, -delta );
+  part.closeSubpath();
+  QPointF p = part.pointAtPercent( 0.5 );
+  QLineF line( p, myRect.center() );
+  line.setLength( line.length() * 1.1 );
+  p = line.p2();
+  return myRect.center() - p;
+}
+
 QPainterPath PieChart::itemPart( qreal angle, qreal delta, bool splitted ) const {
   QPainterPath part;
   part.moveTo( myRect.center() );
   part.arcTo( myRect, -angle, -delta );
   if ( splitted == true ) {
-    part.closeSubpath();
-    QPointF p = part.pointAtPercent( 0.5 );
-    QLineF line( p, myRect.center() );
-    line.setLength( line.length() + 10 );
-    p = line.p2();
-    QRect r = myRect.translated( myRect.center().x() - p.x(),
-                                 myRect.center().y() - p.y() );
-    part = QPainterPath();
-    part.moveTo( r.center() );
-    part.arcTo( r, -angle, -delta );
+    QPointF p = splittedOffset( angle, delta );
+    part.translate( p.x(), p.y() );
   }
 
   part.closeSubpath();

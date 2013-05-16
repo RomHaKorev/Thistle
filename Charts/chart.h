@@ -1,68 +1,64 @@
 #ifndef CHART_H
 #define CHART_H
 
-#include <QPointer>
 #include <QAbstractItemView>
-#include "chartspec.h"
-#include "Clint.h"
-//#include "point.h"
+#include "abstractmarbview.h"
+#include "Marb.h"
+#include "chartstyle.h"
 
 class PointChart;
 class RadialChart;
 
-class Chart : public QAbstractItemView {
+class Chart : public AbstractMarbView {
   Q_OBJECT
 
 protected:
-  ChartSpec                mySpec;
-  QAbstractItemModel*      myModel;
-  QItemSelectionModel*     mySelections;
-  QMap< int, QPointer<PointChart> > myCharts;
+  QPointF myOrigin;
+  qreal myMin;
+  qreal myMax;
+  qreal myMinBound;
+  qreal myMaxBound;
+  qreal myOrder;
+  int myNbTicks;
+  qreal myTickSize;
+  qreal myAlpha;
+  qreal myBeta;
+  QRect myChartRect;
+  QRect myValuesRect;
+  QRect myLegendRect;
+  QString myTitle;
+  QRect myTitleRect;
+  QMap<int, ChartStyle> myStyle;
 
-  QPointF     myOrigin;
-  int         myTopChart;
+  int myX;
+  int myNbDigits;
+  int myMarginX;
+  int myMarginY;
+  int myMinBottomMargin;
 
-  void        resizeEvent(QResizeEvent * ev);
-
-  void        updateChart();
-
-  QModelIndex indexAt(const QPoint &point) const;
-  QRect       itemRect(const QModelIndex &index) const;
-  void        setSelection(const QRect&, QItemSelectionModel::SelectionFlags command);
-
-  QModelIndex moveCursor(QAbstractItemView::CursorAction cursorAction,
-                         Qt::KeyboardModifiers modifiers);
-
-  void         paintEvent(QPaintEvent *event);
-  virtual void paintAxis( QPainter& painter );
-  virtual void paintGrid( QPainter& painter );
-  virtual void paintText( QPainter& painter );
-
-  int         rows(const QModelIndex &index = QModelIndex()) const;
-
-  void        scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
-
-  bool        isIndexHidden(const QModelIndex &index) const;
-
-  int         horizontalOffset() const;
-  int         verticalOffset() const;
-
-  QRect       visualRect(const QModelIndex &index) const;
-  QRegion     visualRegionForSelection(const QItemSelection &selection) const;
-
+  virtual void process();
+  virtual void processSpec() = 0;
+  int scanValues();
+  void calculateBounds();
+  void calculateLegendRect();
+  qreal calculateOrder( qreal value ) const;
+  qreal valueToPx( qreal value) const;
+  void setAlphaBeta();
+  virtual QRectF itemRect( const QModelIndex& index ) const = 0;
+  virtual void resizeEvent( QResizeEvent* ev );
+  virtual void paintLegend( QPainter& painter );
+  virtual void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight );
+  virtual void paintChart( QPainter& ) = 0;
+  virtual void paintEvent(QPaintEvent *event);
 public:
   explicit Chart( QWidget* parent = 0 );
            ~Chart();
   void     setModel( QAbstractItemModel* model );
-  void     setSelectionModel( QItemSelectionModel* s );
 
-  void     hideData( int column );
-
-protected slots:
-    void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
-    void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
-    void rowsInserted(const QModelIndex &parent, int start, int end);
-    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+  void setTitle( QString title );
+  void setColumnStyle( int column, ChartStyle style);
+  ChartStyle columnStyle( int column ) const;
+  bool save( QString filename );
 };
 
 #endif // CHART_H
