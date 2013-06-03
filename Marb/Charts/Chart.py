@@ -224,6 +224,8 @@ class Chart(QAbstractItemView):
 	
 
 	def calculateLegendRect(self):
+		if self.model() == None:
+			return None
 		'''Calculates the rectangle needed to display the legend according to the title of each column (given by the QHeaderView).
 		'''
 		metrics = QFontMetrics( self.font() )
@@ -412,13 +414,7 @@ class Chart(QAbstractItemView):
 		painter.setBrush( style.brush() )
 		painter.drawRect (r )
 		painter.restore()
-			
-			
-	def save(self, filename):
-		'''Save the chart in a PNG file.
-		returns true if the chart is saved. Returns False otherwise
-		'''
-		raise( NotImplementedError, "Must be implemented." )
+
 
 	def paintEvent( self, event ) :
 		if self.model() == None:
@@ -439,10 +435,10 @@ class Chart(QAbstractItemView):
 	def save(self, filename, size = None ):
 		if size == None:
 			size = self.size()
-		
 		pixmap = QPixmap( size )
 		pixmap.fill( Qt.white )
 		painter = QPainter( pixmap )
+		self.process()
 		self.paintChart( painter )
 		painter.end()
 		return pixmap.save( filename )

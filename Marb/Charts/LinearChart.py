@@ -20,7 +20,9 @@ class LinearChart(Chart):
 
 
 	def _processSpec(self):
-		self._chartRect = QRect( QPoint(self._marginX, self._marginY),  self.viewport().size() - QSize( self._marginX*2, self._marginY*2 ) )
+		if self.model() == None:
+			return None
+		self._chartRect = QRect( QPoint(self._marginX, self._marginY),  self.size() - QSize( self._marginX*2, self._marginY*2 ) )
 		metrics = QFontMetrics( self.font() )
 		
 		self.calculateLegendRect()
@@ -28,8 +30,11 @@ class LinearChart(Chart):
 		self._chartRect.translate( 0, self._legendRect.height() + 10 )
 		
 		if self._title != "":
+			font = self.font()
+			font.setItalic( True )
+			m = QFontMetrics( font )
 			r = QRect( 0, 0, self._chartRect.width() - 40, 0 )
-			self._titleRect = metrics.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
+			self._titleRect = m.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
 		
 			self._chartRect.setHeight( self._chartRect.height() - self._titleRect.height() - 20 )
 			
@@ -150,9 +155,13 @@ class LinearChart(Chart):
 			self._paintValues( painter, c )
 		
 		self._paintTextAxis(painter)
-		painter.drawText( self._titleRect, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
-		
+				
 		self._paintLegend(painter)
+		
+		font = self.font()
+		font.setItalic( True )
+		painter.setFont( font )
+		painter.drawText( self._titleRect, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
 
 
 	def _paintAxis(self, painter):

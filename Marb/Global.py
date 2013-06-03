@@ -7,28 +7,29 @@ def enum(**enums):
 class Color:
 	'''List of predefined colors
 	'''
-	Blue			 = 0x6090e4
-	Green			= 0x9AEC7A
-	Purple		 = 0x8600C8
-	Red				= 0xDB0000
-	Orange		 = 0xFF8000
-	Gray			 = 0x868686
+	Blue		= 0x6090e4
+	Green		= 0x9AEC7A
+	Purple		= 0x8600C8
+	Red			= 0xDB0000
+	Orange		= 0xFF8000
+	Yellow      = 0xFDEF46
+	Gray		= 0x868686
 		
-	LightBlue	 = 0x68B9FF
+	LightBlue	= 0x68B9FF
 	LightGreen	= 0xc9ff71
 	LightPurple = 0x8274B0
-	LightRed		= 0xFF5656
+	LightRed	= 0xFF5656
 	LightOrange = 0xFFB366
-	LightGray	 = 0xBEBEBE
+	LightGray	= 0xBEBEBE
 	
-	DarkBlue	 = 0x0839A1
-	DarkGreen	= 0x8CD01E
+	DarkBlue   = 0x0839A1
+	DarkGreen  = 0x8CD01E
 	DarkPurple = 0x7300AB
-	DarkRed		= 0xBA0000
+	DarkRed	   = 0xBA0000
 	DarkOrange = 0xFFF219
-	DarkGray	 = 0x505050
+	DarkGray   = 0x505050
 	
-	__regularColors = [ Blue, Green, Orange, Purple, Red, Orange, Gray	]
+	__regularColors = [ Blue, Green, Purple, Red, Orange, Yellow, Gray	]
 	__lightColors = [ LightBlue, LightGreen, LightOrange, LightPurple, LightRed, LightOrange, LightGray	]
 	__darkColors = [ DarkBlue, DarkGreen, DarkOrange, DarkPurple, DarkRed, DarkOrange, DarkGray	]
 	
@@ -79,3 +80,8 @@ class Type:
 	Point = 1
 	Line	= 2
 	Bar	 = 4
+
+class Render:
+	Plain = 1
+	Translucent = 2
+	Wireframe = 3

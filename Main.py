@@ -1,17 +1,37 @@
 import Marb
 
-from PySide.QtGui import QApplication, QStandardItemModel, QStandardItem, QPen, QColor
+from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout
 from PySide.QtCore import QSize, Qt
 import sys
 import random
 
 if __name__ == "__main__":
-		
 	app = QApplication(sys.argv)
-	model = QStandardItemModel( 6, 1 )
+	model = QStandardItemModel( 6, 2 )
+	for r in range(model.columnCount()):
+		model.setHeaderData(r, Qt.Horizontal, "Column "+str(r) )
+	for r in range(model.rowCount()):
+		model.setHeaderData(r, Qt.Vertical, "Row "+str(r) )
+	
+	
+	i = 0
+	for v in (768,1399,82,1902,1575,266):
+		model.setData(model.index(i,1), v, Qt.DisplayRole )
+		i += 1
+	i = 0
+	for v in (831,1220,608,1555,1093,1188):
+		model.setData(model.index(i,0), v, Qt.DisplayRole )
+		i += 1
+	
+
+	
 	for r in range(model.rowCount()):
 		v = random.randint(0, 20 )
+		#v = 10
 		model.setData(model.index(r,0), v, Qt.DisplayRole )
+		v = random.randint(0, 20 )
+		model.setData(model.index(r,1), v, Qt.DisplayRole )
+		#print v
 	#model = QStandardItemModel()
 	#it0 = QStandardItem( "Root" )
 	
@@ -82,9 +102,42 @@ if __name__ == "__main__":
 	
 	#h.save("test.png")
 	
-	t = Marb.RadialChart()
-	t.setModel( model ) 
-	t.show()
+	w = QWidget()
+	l = QHBoxLayout( w )
+		
+	lc1 = Marb.LinearChart()
+
+	lc1.setModel( model )
+	style = lc1.columnStyle(0)
+	style.setType( Marb.Type.Bar )
+	lc1.setColumnStyle( 0,style )
+	style = lc1.columnStyle(1)
+	style.setType( Marb.Type.Bar )
+	lc1.setColumnStyle( 1,style )
+	l.addWidget( lc1 )
+	
+	lc2 = Marb.LinearChart()
+
+	lc2.setModel( model )
+	l.addWidget( lc2 )
+	
+	lc3 = Marb.LinearChart()
+
+	lc3.setModel( model )
+	style = lc3.columnStyle(0)
+	style.setType( Marb.Type.Bar )
+	lc3.setColumnStyle( 0,style )
+	l.addWidget( lc3 )
+	
+	rc = Marb.RadialChart()
+
+	rc.setModel( model )
+	l.addWidget( rc )
+
+	
+	w.show()
+	
+	
 	
 	app.exec_()
 
