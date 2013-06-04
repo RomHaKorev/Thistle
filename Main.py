@@ -1,9 +1,11 @@
 import Marb
 
-from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout
+from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout, QPainterPath
 from PySide.QtCore import QSize, Qt
 import sys
 import random
+
+import re
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
@@ -26,11 +28,7 @@ if __name__ == "__main__":
 
 	
 	for r in range(model.rowCount()):
-		v = random.randint(0, 20 )
-		#v = 10
-		model.setData(model.index(r,0), v, Qt.DisplayRole )
-		v = random.randint(0, 20 )
-		model.setData(model.index(r,1), v, Qt.DisplayRole )
+		model.setData(model.index(r,0), r, Qt.DisplayRole )
 		#print v
 	#model = QStandardItemModel()
 	#it0 = QStandardItem( "Root" )
@@ -102,41 +100,50 @@ if __name__ == "__main__":
 	
 	#h.save("test.png")
 	
-	w = QWidget()
-	l = QHBoxLayout( w )
-		
-	lc1 = Marb.LinearChart()
+#	w = QWidget()
+#	l = QHBoxLayout( w )
+#		
+#	lc1 = Marb.LinearChart()
+#
+#	lc1.setModel( model )
+#	style = lc1.columnStyle(0)
+#	style.setType( Marb.Type.Bar )
+#	lc1.setColumnStyle( 0,style )
+#	style = lc1.columnStyle(1)
+#	style.setType( Marb.Type.Bar )
+#	lc1.setColumnStyle( 1,style )
+#	l.addWidget( lc1 )
+#	
+#	lc2 = Marb.LinearChart()
+#
+#	lc2.setModel( model )
+#	l.addWidget( lc2 )
+#	
+#	lc3 = Marb.LinearChart()
+#
+#	lc3.setModel( model )
+#	style = lc3.columnStyle(0)
+#	style.setType( Marb.Type.Bar )
+#	lc3.setColumnStyle( 0,style )
+#	l.addWidget( lc3 )
+#	
+#	rc = Marb.RadialChart()
+#
+#	rc.setModel( model )
+#	l.addWidget( rc )
+#
+#	
+#	w.show()
 
-	lc1.setModel( model )
-	style = lc1.columnStyle(0)
-	style.setType( Marb.Type.Bar )
-	lc1.setColumnStyle( 0,style )
-	style = lc1.columnStyle(1)
-	style.setType( Marb.Type.Bar )
-	lc1.setColumnStyle( 1,style )
-	l.addWidget( lc1 )
-	
-	lc2 = Marb.LinearChart()
+	path = QPainterPath()
+	path.addEllipse( -10, -10, 20, 20 )
+	#path.moveTo( 0, 10 )
+	#path.lineTo( 10, 10 )
 
-	lc2.setModel( model )
-	l.addWidget( lc2 )
-	
-	lc3 = Marb.LinearChart()
-
-	lc3.setModel( model )
-	style = lc3.columnStyle(0)
-	style.setType( Marb.Type.Bar )
-	lc3.setColumnStyle( 0,style )
-	l.addWidget( lc3 )
-	
-	rc = Marb.RadialChart()
-
-	rc.setModel( model )
-	l.addWidget( rc )
-
-	
-	w.show()
-	
+	t = Marb.Timeline()
+	t.setPath( path )
+	t.setModel( model )
+	t.show()
 	
 	
 	app.exec_()

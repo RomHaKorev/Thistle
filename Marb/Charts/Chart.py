@@ -101,7 +101,110 @@ class Chart(QAbstractItemView):
 		self._marginX = 20
 		self._marginY = 20
 		
-		self.resize( QSize(500, 400) )		
+		self.resize( QSize(500, 400) )	
+		
+	##
+	## Qt methods
+	##
+	def itemRect(self, index):
+		'''Returns the QRect in which the index value is displayed on the view.
+		'''
+		return QRect()
+	
+		
+	def resizeEvent(self, ev ):
+		'''Overloaded method.
+		'''
+		QAbstractItemView.resizeEvent(self, ev )
+		self._processSpec()
+	
+	
+	def moveCursor(self, cursorAction, modifiers):
+		'''Overloaded method.
+		'''
+		return QModelIndex()
+	
+	
+	def horizontalOffset(self):
+		return self.horizontalScrollBar().value()
+	
+	
+	def verticalOffset(self):
+		return self.verticalScrollBar().value()
+
+
+	def indexAt(self, point):
+		'''Overloaded method.
+		'''
+		return QModelIndex() # BUG IN PySide
+		p = point - QPoint( self.horizontalOffset(), self.verticalOffset() )
+		for index in self._itemPos.keys():
+			r = self.itemRect(index)
+			if r.contains( p ):
+				None
+		return index
+
+	
+	def visualRect(self, index):
+		'''Overloaded method.
+		'''
+		r = self.itemRect(index)
+		return r
+	
+	
+	def visualRegionForSelection(self, selection):
+		'''Overloaded method.
+		'''
+		ranges = selection.count()
+		region = QRegion()
+		for i in range(0, ranges):
+			ran = self.selection.at(i)
+			for row in range( ran.top(), ran.bottom() ):
+				index = self.model().index( row, 0, self.rootIndex() )
+				region += self.visualRect( index )
+	
+
+	def rows(self, index):
+		'''Overloaded method.
+		'''
+		return self.model().rowCount( self.model().parent(index))
+	
+	
+	def setModel(self, *args, **kwargs):
+		'''Overloaded method.
+		'''
+		QAbstractItemView.setModel(self, *args, **kwargs)
+		self.process()
+	
+	
+	def dataChanged(self, top_left, bottomRight ):
+		'''Overloaded method.
+		'''
+		QAbstractItemView.dataChanged(self, top_left, bottomRight)
+		self.process()
+		self.update( self.model().index(0,0) )
+	
+
+	def rowsAboutToBeRemoved(self, parent, start, end):
+		'''Overloaded method.
+		'''
+		QAbstractItemView.rowsAboutToBeRemoved(self, parent, start, end)
+		self.process()
+		self.viewport().update()
+		self.setScrollBarValues()
+	
+	
+	def rowsInserted(self, parent, start, end):
+		'''Overloaded method.
+		'''
+		QAbstractItemView.rowsInserted(self, parent, start, end)
+		self.process()
+		self.viewport().update()
+		self.setScrollBarValues()
+		
+	#
+	# Marb methods
+	#
 	
 	def setColumnStyle(self, column, style):
 		'''Sets the style for the column.
@@ -266,105 +369,7 @@ class Chart(QAbstractItemView):
 		self._alpha = -float(self._valuesRect.height()) / float( self._maxBound - self._minBound )
 		self._beta = (self._maxBound * self._valuesRect.height() ) / ( self._maxBound - self._minBound ) + self._valuesRect.y()
 
-		self._origin.setY( self._beta )
-	
-	
-	def itemRect(self, index):
-		'''Returns the QRect in which the index value is displayed on the view.
-		'''
-		return QRect()
-	
-		
-	def resizeEvent(self, ev ):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.resizeEvent(self, ev )
-		self._processSpec()
-	
-	
-	def moveCursor(self, cursorAction, modifiers):
-		'''Overloaded method.
-		'''
-		return QModelIndex()
-	
-	
-	def horizontalOffset(self):
-		return self.horizontalScrollBar().value()
-	
-	
-	def verticalOffset(self):
-		return self.verticalScrollBar().value()
-
-
-	def indexAt(self, point):
-		'''Overloaded method.
-		'''
-		return QModelIndex() # BUG IN PySide
-		p = point - QPoint( self.horizontalOffset(), self.verticalOffset() )
-		for index in self._itemPos.keys():
-			r = self.itemRect(index)
-			if r.contains( p ):
-				None
-		return index
-
-	
-	def visualRect(self, index):
-		'''Overloaded method.
-		'''
-		r = self.itemRect(index)
-		return r
-	
-	
-	def visualRegionForSelection(self, selection):
-		'''Overloaded method.
-		'''
-		ranges = selection.count()
-		region = QRegion()
-		for i in range(0, ranges):
-			ran = self.selection.at(i)
-			for row in range( ran.top(), ran.bottom() ):
-				index = self.model().index( row, 0, self.rootIndex() )
-				region += self.visualRect( index )
-	
-
-	def rows(self, index):
-		'''Overloaded method.
-		'''
-		return self.model().rowCount( self.model().parent(index))
-	
-	
-	def setModel(self, *args, **kwargs):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.setModel(self, *args, **kwargs)
-		self.process()
-	
-	
-	def dataChanged(self, top_left, bottomRight ):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.dataChanged(self, top_left, bottomRight)
-		self.process()
-		self.update( self.model().index(0,0) )
-	
-
-	def rowsAboutToBeRemoved(self, parent, start, end):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.rowsAboutToBeRemoved(self, parent, start, end)
-		self.process()
-		self.viewport().update()
-		self.setScrollBarValues()
-	
-	
-	def rowsInserted(self, parent, start, end):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.rowsInserted(self, parent, start, end)
-		self.process()
-		self.viewport().update()
-		self.setScrollBarValues()
-		
+		self._origin.setY( self._beta )		
 	
 	def _paintLegend(self, painter):
 		'''Paint the legend in the QRect self._legendRect
