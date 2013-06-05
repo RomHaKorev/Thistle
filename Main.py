@@ -136,9 +136,11 @@ if __name__ == "__main__":
 #	w.show()
 
 	path = QPainterPath()
-	path.addEllipse( -10, -10, 20, 20 )
-	#path.moveTo( 0, 10 )
-	#path.lineTo( 10, 10 )
+	#path.addEllipse( -10, -10, 20, 20 )
+	path.moveTo(0, 10);
+	path.lineTo( 10, 10 )
+
+	
 
 	t = Marb.Timeline()
 	t.setPath( path )

@@ -4,12 +4,27 @@ from PySide.QtGui import QAbstractItemView, QPen, QBrush, \
 QRegion, QColor, QFontMetrics, QPainter, QPixmap, QPainterPath, QTransform, QStyleOptionViewItem
 from PySide.QtCore import QRect, QPoint, Qt, QModelIndex, QSize
 
+
+from .Delegates import SimpleTimelineDelegate, TimelineDelegate
+
+#	path = QPainterPath()
+#	path.moveTo(0, 0);
+#	path.cubicTo(0, 0,  50, 60,  50, 200);
+# 	path.moveTo(150, 50);
+#	path.cubicTo(60, 50,  50, 100,  50, 200);
+
 class TimelineStyle:
 	def __init__(self):
 		self._pen = QPen( QBrush(Color.Green), 3 )
+		self._brush = QBrush( Color.LightGreen )
+	def brush(self):
+		return QBrush( self._brush )
 	
 	def pen(self):
 		return QPen( self._pen )
+	
+	def setBrush(self, brush):
+		self._brush = brush
 	
 	def setPen( self, pen ):
 		self._pen = pen
@@ -25,6 +40,9 @@ class Timeline(QAbstractItemView):
 		self._path = QPainterPath()
 		self._referencePath = QPainterPath()
 		self._timelineStyle = TimelineStyle()
+		self._rect = QRect( -25, -25, 50, 50 )
+		
+		self.setItemDelegate( SimpleTimelineDelegate( self ) )
 	
 	##
 	## Qt methods
@@ -32,7 +50,9 @@ class Timeline(QAbstractItemView):
 	def itemRect(self, index):
 		'''Returns the QRect in which the index value is displayed on the view.
 		'''
-		return QRect( -10, -10, 20, 20 )
+		offset = self._path.pointAtPercent( float(index.row() + 0.5)/float(self.model().rowCount()) )
+	
+		return self._rect.translated( offset.x(), offset.y() )
 	
 		
 	def resizeEvent(self, ev ):
@@ -131,11 +151,11 @@ class Timeline(QAbstractItemView):
 	def updatePath(self):
 		factorW= 1
 		try:
-			factorW = float(self.width() - 20) / self._referencePath.boundingRect().width()
+			factorW = float(self.width() - 20 - self._rect.width()) / self._referencePath.boundingRect().width()
 		except ZeroDivisionError as e:
 			factorW= -1
 		try:
-			factorH = float(self.height() - 20) / self._referencePath.boundingRect().height()
+			factorH = float(self.height() - 20 - self._rect.height()) / self._referencePath.boundingRect().height()
 		except ZeroDivisionError as e:
 			factorH= -1
 				
@@ -149,8 +169,6 @@ class Timeline(QAbstractItemView):
 		transform = QTransform()
 		transform.scale( factor, factor )
 		self._path = transform.map( self._referencePath )
-		
-		print factorW, factorH, factor
 		
 		centerView = QPoint( self.width()/2, self.height()/2 )
 		centerPath = self._path.boundingRect().center()
@@ -169,12 +187,14 @@ class Timeline(QAbstractItemView):
 	def paintTimeline( self, painter ):
 		painter.save()
 		painter.setPen(self._timelineStyle.pen())
+		painter.setBrush( self._timelineStyle.brush() )
 		painter.drawPath( self._path )
+
 		for r in range( self.model().rowCount() ):
-			offset = self._path.pointAtPercent( float(r + 0.5)/float(self.model().rowCount()) )
 			index = self.model().index( r, 0 )
 			option = QStyleOptionViewItem()
-			option.rect = self.itemRect( index ).translated( offset.x(), offset.y() )
+			option.rect = self.itemRect( index )
+			#painter.drawRect( option.rect )
 			self.itemDelegate().paint( painter, option, index )
 		painter.restore()
 
