@@ -5,7 +5,7 @@ QRegion, QColor, QFontMetrics, QPainter, QPixmap, QPainterPath, QTransform, QSty
 from PySide.QtCore import QRect, QPoint, Qt, QModelIndex, QSize
 
 
-from .Delegates import SimpleTimelineDelegate, TimelineDelegate
+from .Delegates import SimpleTimelineItemDelegate, TimelineItemDelegate
 
 #	path = QPainterPath()
 #	path.moveTo(0, 0);
@@ -39,10 +39,12 @@ class Timeline(QAbstractItemView):
 		self._itemRect = QRect()
 		self._path = QPainterPath()
 		self._referencePath = QPainterPath()
+		self._referenceItemPath =  QPainterPath()
+		self._itemPath =  QPainterPath()
 		self._timelineStyle = TimelineStyle()
 		self._rect = QRect( -25, -25, 50, 50 )
 		
-		self.setItemDelegate( SimpleTimelineDelegate( self ) )
+		self.setItemDelegate( SimpleTimelineItemDelegate( self ) )
 	
 	##
 	## Qt methods
@@ -50,7 +52,14 @@ class Timeline(QAbstractItemView):
 	def itemRect(self, index):
 		'''Returns the QRect in which the index value is displayed on the view.
 		'''
-		offset = self._path.pointAtPercent( float(index.row() + 0.5)/float(self.model().rowCount()) )
+		
+		path = self._path
+		if self._itemPath != QPainterPath():
+			path = self._itemPath
+		
+		if not index.isValid():
+			return QRect()
+		offset = path.pointAtPercent( float(index.row() + 0.5)/float(self.model().rowCount()) )
 	
 		return self._rect.translated( offset.x(), offset.y() )
 	
@@ -146,16 +155,37 @@ class Timeline(QAbstractItemView):
 		self.setScrollBarValues()
 
 	def setPath(self, path):
+		'''Set the path to display on the view
+		This path will be used by default if itemPath is not setted
+		'''
 		self._referencePath = path
+		
+		
+	def setItemPath(self, path):
+		'''Set the path that items must follow. This path is used to calculate the item position.
+		The path will be not displayed in the view.
+		'''
+		self._referenceItemPath = path
+
 	
 	def updatePath(self):
+		
+		r1 = self._referenceItemPath.boundingRect()
+		r2 = self._referencePath.boundingRect()
+		tl = QPoint( min(r1.topLeft().x(), r2.topLeft().x()),
+					min(r1.topLeft().y(), r2.topLeft().y()) )
+		br = QPoint( max(r1.bottomRight().x(), r2.bottomRight().x()),
+					max(r1.bottomRight().y(), r2.bottomRight().y()) )
+		rect = QRect( tl, br )
+		
 		factorW= 1
+		factorH = 1
 		try:
-			factorW = float(self.width() - 20 - self._rect.width()) / self._referencePath.boundingRect().width()
+			factorW = float(self.width() - 20 - self._rect.width()) / rect.width()
 		except ZeroDivisionError as e:
 			factorW= -1
 		try:
-			factorH = float(self.height() - 20 - self._rect.height()) / self._referencePath.boundingRect().height()
+			factorH = float(self.height() - 20 - self._rect.height()) / rect.height()
 		except ZeroDivisionError as e:
 			factorH= -1
 				
@@ -165,14 +195,26 @@ class Timeline(QAbstractItemView):
 			factor = min( factorW, factorH )
 		else:
 			factor = 1
-		
+						
 		transform = QTransform()
 		transform.scale( factor, factor )
 		self._path = transform.map( self._referencePath )
+		self._itemPath = transform.map( self._referenceItemPath )
 		
+		r1 = self._itemPath.boundingRect()
+		r2 = self._path.boundingRect()
+		tl = QPoint( min(r1.topLeft().x(), r2.topLeft().x()),
+					min(r1.topLeft().y(), r2.topLeft().y()) )
+		br = QPoint( max(r1.bottomRight().x(), r2.bottomRight().x()),
+					max(r1.bottomRight().y(), r2.bottomRight().y()) )
+		rect = QRect( tl, br )
 		centerView = QPoint( self.width()/2, self.height()/2 )
-		centerPath = self._path.boundingRect().center()
+		centerPath = rect.center()
+			
 		self._path.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
+		self._itemPath.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
+		 
+		#print self._itemPath.boundingRect(), self._path.boundingRect()
 
 	def paintEvent( self, event ) :
 		if self.model() == None:
@@ -186,6 +228,7 @@ class Timeline(QAbstractItemView):
 
 	def paintTimeline( self, painter ):
 		painter.save()
+		painter.drawPath( self._itemPath )
 		painter.setPen(self._timelineStyle.pen())
 		painter.setBrush( self._timelineStyle.brush() )
 		painter.drawPath( self._path )
@@ -194,10 +237,9 @@ class Timeline(QAbstractItemView):
 			index = self.model().index( r, 0 )
 			option = QStyleOptionViewItem()
 			option.rect = self.itemRect( index )
-			#painter.drawRect( option.rect )
 			self.itemDelegate().paint( painter, option, index )
 		painter.restore()
-
+		
 	
 	def save(self, filename, size = None ):
 		if size == None:

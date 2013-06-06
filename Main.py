@@ -137,13 +137,16 @@ if __name__ == "__main__":
 
 	path = QPainterPath()
 	#path.addEllipse( -10, -10, 20, 20 )
-	path.moveTo(0, 10);
-	path.lineTo( 10, 10 )
+	path.moveTo(200, 100);
+	path.lineTo( 250, 100 )
 
-	
+	itemPath = QPainterPath()
+	itemPath.moveTo(200, 80);
+	itemPath.lineTo( 250, 80 )
 
 	t = Marb.Timeline()
 	t.setPath( path )
+	t.setItemPath( itemPath )
 	t.setModel( model )
 	t.show()
 	

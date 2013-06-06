@@ -13,36 +13,31 @@ from PySide.QtCore import Qt
 #		path.moveTo(150, 50)
 #		path.cubicTo(60, 50,  50, 100,  50, 200)
 
-class TimelineDelegate( QStyledItemDelegate ):
+class TimelineItemDelegate( QStyledItemDelegate ):
 	def __init__(self, parent ):
-		super(TimelineDelegate, self).__init__( parent )
-	
-	def painConnection( self, painter, option, index ):		
-		raise NotImplementedError
+		super(TimelineItemDelegate, self).__init__( parent )
 	
 	def paint(self, painter, option, index ):
 		raise NotImplementedError
-	
 
-class SimpleTimelineDelegate( TimelineDelegate ):
+
+class SimpleTimelineItemDelegate( TimelineItemDelegate ):
 	def __init__(self, parent ):
-		super(SimpleTimelineDelegate, self).__init__( parent )
+		super(SimpleTimelineItemDelegate, self).__init__( parent )
 	
 	def paint(self, painter, option, index ):
 		r = option.rect
 		text = index.data( Qt.DisplayRole )
-		if index.row() == 0 or index.row() == index.model().rowCount() - 1:
-			painter.drawEllipse( option.rect.center(), 10, 10 )
-		else:
-			painter.drawEllipse( option.rect.center(), 5, 5 )
-		
+				
 		painter.save()
 		painter.setPen( QColor(20, 20, 20) )
 		painter.setBrush( Qt.NoBrush )
-		painter.drawRect( r )
 		painter.drawText( r, Qt.AlignHCenter | Qt.TextWordWrap, str(text) )
 		painter.restore()
 	
 	
-	def painConnection( self, painter, option, index ):
-		pass
+#	def paintConnection( self, painter, option, index ):
+#		if index.row() == 0 or index.row() == index.model().rowCount() - 1:
+#			painter.drawEllipse( option.rect.center(), 10, 10 )
+#		else:
+#			painter.drawEllipse( option.rect.center(), 5, 5 )
