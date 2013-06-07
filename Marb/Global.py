@@ -85,3 +85,8 @@ class Render:
 	Plain = 1
 	Translucent = 2
 	Wireframe = 3
+
+
+class DistancePolicy:
+	IgnoreDistance = 0
+	KeepDistance = 1

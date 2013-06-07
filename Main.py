@@ -1,7 +1,7 @@
 import Marb
 
-from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout, QPainterPath
-from PySide.QtCore import QSize, Qt
+from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout, QPainterPath, QPushButton, QRegion
+from PySide.QtCore import QSize, Qt, QRect
 import sys
 import random
 
@@ -137,19 +137,16 @@ if __name__ == "__main__":
 
 	path = QPainterPath()
 	#path.addEllipse( -10, -10, 20, 20 )
-	path.moveTo(200, 100);
-	path.lineTo( 250, 100 )
+	path.moveTo(10, 10);
+	path.lineTo( 10, 300 )
 
-	itemPath = QPainterPath()
-	itemPath.moveTo(200, 80);
-	itemPath.lineTo( 250, 80 )
-
+	itemPath = path.translated( 50, 0 )
 	t = Marb.Timeline()
+	t.setDistancePolicy( Marb.DistancePolicy.KeepDistance )
 	t.setPath( path )
 	t.setItemPath( itemPath )
 	t.setModel( model )
 	t.show()
-	
 	
 	app.exec_()
 

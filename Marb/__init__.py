@@ -1,4 +1,4 @@
-from Marb.Global import Color, Type, Shape
+from Marb.Global import Color, Type, Shape, DistancePolicy
 #import Marb.Charts
 from .Charts import *
 from .Trees import *

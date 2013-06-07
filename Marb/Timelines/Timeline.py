@@ -1,4 +1,4 @@
-from ..Global import Color, Shape, Type
+from ..Global import Color, Shape, Type, DistancePolicy
 
 from PySide.QtGui import QAbstractItemView, QPen, QBrush, \
 QRegion, QColor, QFontMetrics, QPainter, QPixmap, QPainterPath, QTransform, QStyleOptionViewItem
@@ -34,16 +34,19 @@ class Timeline(QAbstractItemView):
 	
 	The Chart class defines the standard interface for every chart views in Marb. It is not supposed to be instantiated directly but should be subclassed.  
 	'''
+		
 	def __init__(self, parent=None):
 		super(Timeline, self).__init__( parent )
 		self._itemRect = QRect()
 		self._path = QPainterPath()
 		self._referencePath = QPainterPath()
-		self._referenceItemPath =  QPainterPath()
+		self._referenceItemPath = QPainterPath()
+		self._referenceAlternativePath = QPainterPath()
+		self._alternativePath = QPainterPath()
 		self._itemPath =  QPainterPath()
 		self._timelineStyle = TimelineStyle()
 		self._rect = QRect( -25, -25, 50, 50 )
-		
+		self._distancePolicy = DistancePolicy.IgnoreDistance
 		self.setItemDelegate( SimpleTimelineItemDelegate( self ) )
 	
 	##
@@ -52,7 +55,6 @@ class Timeline(QAbstractItemView):
 	def itemRect(self, index):
 		'''Returns the QRect in which the index value is displayed on the view.
 		'''
-		
 		path = self._path
 		if self._itemPath != QPainterPath():
 			path = self._itemPath
@@ -154,6 +156,14 @@ class Timeline(QAbstractItemView):
 		self.viewport().update()
 		self.setScrollBarValues()
 
+	
+	def setDistancePolicy(self, policy):
+		self._distancePolicy = policy
+	
+	
+	def distancePolicy(self, policy):
+		return self._distancePolicy
+
 	def setPath(self, path):
 		'''Set the path to display on the view
 		This path will be used by default if itemPath is not setted
@@ -201,18 +211,35 @@ class Timeline(QAbstractItemView):
 		self._path = transform.map( self._referencePath )
 		self._itemPath = transform.map( self._referenceItemPath )
 		
-		r1 = self._itemPath.boundingRect()
-		r2 = self._path.boundingRect()
-		tl = QPoint( min(r1.topLeft().x(), r2.topLeft().x()),
-					min(r1.topLeft().y(), r2.topLeft().y()) )
-		br = QPoint( max(r1.bottomRight().x(), r2.bottomRight().x()),
-					max(r1.bottomRight().y(), r2.bottomRight().y()) )
-		rect = QRect( tl, br )
-		centerView = QPoint( self.width()/2, self.height()/2 )
-		centerPath = rect.center()
+		if self._distancePolicy == DistancePolicy.IgnoreDistance:
+			r1 = self._itemPath.boundingRect()
+			r2 = self._path.boundingRect()
+			r3 = self._alternativePath.boundingRect()
+			x1 = r2.topLeft().x()
+			x2 = r2.bottomRight().x()
+			y1 = r2.topLeft().y(), r2.topLeft().y()
+			y2 = r2.bottomRight().y()
+			if self._itemPath != QPainterPath(): 
+				x1 = min(x1, r1.topLeft().x(), r2.topLeft().x())
+				y1 = min(x1, r1.topLeft().y(), r2.topLeft().y())
+				x2 = max(x2, r1.bottomRight().x())
+				y2 = max(y2, r2.bottomRight().y())
 			
-		self._path.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
-		self._itemPath.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
+			
+			centerView = QPoint( self.width()/2, self.height()/2 )
+			centerPath = rect.center()
+				
+			self._path.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
+			self._itemPath.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
+		else:
+			r1 = self._itemPath.boundingRect()
+			r2 = self._path.boundingRect()
+			centerView = QPoint( self.width()/2, self.height()/2 )
+			offset = ( self._referenceItemPath.boundingRect().x() - self._referencePath.boundingRect().x(), self._referenceItemPath.boundingRect().y() - self._referencePath.boundingRect().y() )
+			self._path.translate( centerView.x() - r2.center().x(), centerView.y() - r2.center().y() )
+			self._itemPath.translate( centerView.x() - r1.center().x(), centerView.y() - r1.center().y() )
+			self._itemPath.translate( offset[0], offset[1] )
+		#self._itemPath.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
 		 
 		#print self._itemPath.boundingRect(), self._path.boundingRect()
 
