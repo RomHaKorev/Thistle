@@ -214,6 +214,9 @@ bool Chart::save( QString filename ) {
 }
 
 void Chart::paintEvent( QPaintEvent* event ) {
+  if ( model() == 0 ) {
+    return;
+  }
     QPainter painter( viewport() );
     painter.setClipRect( event->rect() );
     paintChart( painter );

@@ -16,6 +16,7 @@ public:
   void setRing( bool ring = true );
   void setSplitted( bool splitted = true );
   void setLegend( QString legend );
+  virtual bool save( QString filename );
 
 protected slots:
   void dataChanged( const QModelIndex& topLeft, const QModelIndex& bottomRight );
@@ -43,9 +44,12 @@ protected:
   bool isIndexHidden(const QModelIndex &index) const;
 
   void paintEvent(QPaintEvent *event);
+  virtual void paintChart( QPainter& painter );
   virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
   virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
   virtual void configureColor( QPainter& painter, QColor base, int flag ) const;
+
+
 
   QRegion visualRegionForSelection(const QItemSelection &selection) const;
   void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);

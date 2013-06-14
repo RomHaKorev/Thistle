@@ -153,22 +153,10 @@ void PieChart::updateChart() {
   }
 }
 
-void PieChart::paintEvent(QPaintEvent *event) {
-
-  Q_UNUSED( event )
-
-  if ( model() == 0 ) {
-    return;
-  }
-
-  int rows = model()->rowCount();
-
+void PieChart::paintChart( QPainter &painter ) {
   updateChart();
-  QPainter painter( viewport() );
   painter.save();
-  painter.setRenderHint( QPainter::Antialiasing );
-  //painter.setClipRect( event->rect() );
-
+  int rows = model()->rowCount();
   qreal angle = myStartAngle;
   for ( int i = 0; i < rows; ++i ) {
     QModelIndex index = model()->index( i, 0 );
@@ -195,6 +183,21 @@ void PieChart::paintEvent(QPaintEvent *event) {
   painter.drawText( 10, myRect.bottomLeft().y() + 10,
                     width() - 20, height() - myRect.height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
   painter.restore();
+}
+
+void PieChart::paintEvent(QPaintEvent *event) {
+  Q_UNUSED( event )
+
+  if ( model() == 0 ) {
+    return;
+  }
+
+  QPainter painter( viewport() );
+  painter.setRenderHint( QPainter::Antialiasing );
+  paintChart( painter );
+  //painter.setClipRect( event->rect() );
+
+
 }
 
 void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) {
@@ -348,4 +351,13 @@ void PieChart::setSplitted( bool splitted ) {
 
 void PieChart::setLegend( QString legend ) {
   myLegend = legend;
+}
+
+bool PieChart::save( QString filename ) {
+  QPixmap pix( size() );
+  pix.fill( Qt::white );
+  QPainter painter( &pix );
+  painter.setRenderHint( QPainter::Antialiasing );
+  paintChart( painter );
+  return pix.save( filename );
 }
