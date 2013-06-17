@@ -138,15 +138,6 @@ class LinearChart(Chart):
 	def paintChart(self, painter):
 		'''Overloaded method.
 		'''
-#		painter.save()
-#		painter.drawRect( self._legendRect )
-#		painter.setPen( Qt.blue )
-#		painter.drawRect(self._chartRect)
-#		painter.setPen( Qt.red )
-#		painter.drawRect(self._valuesRect)
-#		painter.setPen( Qt.green )
-#		painter.drawRect(self._titleRect)
-#		painter.restore()
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
 
 		self._paintAxis(painter)
@@ -232,7 +223,6 @@ class LinearChart(Chart):
 			
 		while y <= self._maxBound:
 			p1 = QPoint( self._origin.x(), self.valueToPx(y)  )
-			#if self._order >= 1:
 			s = str(round(y, self._nbDigits))
 			s = s.rstrip("0")
 			s = s.rstrip(".")

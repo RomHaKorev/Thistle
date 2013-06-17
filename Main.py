@@ -1,6 +1,6 @@
 import Marb
 
-from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout, QPainterPath, QPushButton, QRegion
+from PySide.QtGui import QApplication, QStandardItemModel, QWidget, QHBoxLayout, QPainterPath, QPushButton, QRegion, QLabel, QPalette, QColor, QTableWidget, QTableWidgetItem
 from PySide.QtCore import QSize, Qt, QRect
 import sys
 import random
@@ -135,18 +135,33 @@ if __name__ == "__main__":
 #	
 #	w.show()
 
-	path = QPainterPath()
-	#path.addEllipse( -10, -10, 20, 20 )
-	path.moveTo(10, 10);
-	path.lineTo( 10, 300 )
+	model = QStandardItemModel( 14, 2)
+	l = ("<center><b>1976</b></center>High Voltage","<center><b>1976</b></center>Dirty Deeds Done Dirt Cheap","<center><b>1977</b></center>Let There Be Rock",
+"<center><b>1978</b></center>Powerage","<center><b>1979</b></center>Highway to Hell","<center><b>1980</b></center>Back in Black","<center><b>1981</b></center>For Those About to Rock We Salute You",
+"<center><b>1983</b></center>Flick of the Switch","<center><b>1985</b></center>Fly on the Wall","<center><b>1988</b></center>Blow Up Your Video","<center><b>1990</b></center>The Razors Edge",
+"<center><b>1995</b></center>Ballbreaker","<center><b>2000</b></center>Stiff Upper Lip","<center><b>2008</b></center>Black Ice")
+	for i in range( 14 ):
+		model.setData( model.index( i, 0 ), l[i] )
+	
 
-	itemPath = path.translated( 50, 0 )
+
+	path = QPainterPath()
+	
+	path.moveTo( 20, 50 )
+	path.lineTo( 45, 200 )
+	
+	itemPath = path.translated( 0, -40 )	
 	t = Marb.Timeline()
+	t.setItemSize( QRect( -32, -40, 64, 80 ) )
 	t.setDistancePolicy( Marb.DistancePolicy.KeepDistance )
 	t.setPath( path )
 	t.setItemPath( itemPath )
 	t.setModel( model )
 	t.show()
+	
+	table = QTableWidget( 1, 2)
+
+	
 	
 	app.exec_()
 
