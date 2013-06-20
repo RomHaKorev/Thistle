@@ -311,7 +311,6 @@ class Tree(QAbstractItemView):
 				painter.setRenderHint( QPainter.Antialiasing )
 				self.paintConnections( painter, self.itemOffset )
 				self.paintItems( painter, self.itemOffset )
-			 
 				
 		def paintItems( self, painter, offset ):
 				for index in self._itemPos.keys():
