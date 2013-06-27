@@ -16,28 +16,18 @@
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
 
-#ifndef RADIALCHART_H
-#define RADIALCHART_H
-#include "chart.h"
+#ifndef HORIZONTALTREE_H
+#define HORIZONTALTREE_H
 
+#include "verticaltree.h"
 
-class RadialChart: public Chart {
-  Q_OBJECT
+class HorizontalTree : public VerticalTree {
 protected:
-  qreal myCenterHoleDiam;
-
-  QRectF itemRect(const QModelIndex &index) const;
-  void setAlphaBeta();
-  void processSpec();
-  void paintTextAxis( QPainter& painter) const;
-  void paintValues( QPainter& painter, int column ) const;
-  void paintAxis( QPainter& painter ) const;
-  void paintTicks( QPainter& painter ) const;
-  virtual void paintChart(QPainter &);
-
+  virtual void positionsInView();
+  virtual void setScrollBarValues();
 public:
-  RadialChart( QWidget* parent = 0 );
-  void process();
+  HorizontalTree();
+  //virtual void paintEvent(QPaintEvent *);
 };
 
-#endif //RADIALCHART_H
+#endif // HORIZONTALTREE_H

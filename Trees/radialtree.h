@@ -16,28 +16,37 @@
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
 
-#ifndef RADIALCHART_H
-#define RADIALCHART_H
-#include "chart.h"
+#ifndef RADIALTREE_H
+#define RADIALTREE_H
 
+#include "tree.h"
 
-class RadialChart: public Chart {
+class RadialTree : public Tree {
   Q_OBJECT
+
 protected:
-  qreal myCenterHoleDiam;
+  qreal myDiagonal;
+  qreal myPerimeter;
+  qreal myRadius;
+  QList<QModelIndex> myOrderedIndexes;
+  qreal my_rotateText;
+  qreal my_maxRad;
+  QPointF my_currentCenter;
 
-  QRectF itemRect(const QModelIndex &index) const;
-  void setAlphaBeta();
-  void processSpec();
-  void paintTextAxis( QPainter& painter) const;
-  void paintValues( QPainter& painter, int column ) const;
-  void paintAxis( QPainter& painter ) const;
-  void paintTicks( QPainter& painter ) const;
-  virtual void paintChart(QPainter &);
+  void paintEvent( QPaintEvent* ev );
+  void updatePerimeter();
 
+  virtual void setScrollBarValues();
 public:
-  RadialChart( QWidget* parent = 0 );
-  void process();
+  explicit RadialTree( QWidget* parent = 0 );
+  virtual void positionsInTree();
+  virtual void positionsInView();
+  virtual QPointF scan(QModelIndex index, QPointF leftDepth);
+  void setRotateText( bool rotate = true );
+
+signals:
+  
+public slots:
 };
 
-#endif //RADIALCHART_H
+#endif // RADIALTREE_H

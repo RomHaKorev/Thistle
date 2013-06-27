@@ -16,28 +16,30 @@
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
 
-#ifndef RADIALCHART_H
-#define RADIALCHART_H
-#include "chart.h"
+#ifndef CHARTSTYLE_H
+#define CHARTSTYLE_H
 
+#include <QBrush>
+#include <QPen>
+#include "Marb.h"
 
-class RadialChart: public Chart {
-  Q_OBJECT
+class ChartStyle {
 protected:
-  qreal myCenterHoleDiam;
-
-  QRectF itemRect(const QModelIndex &index) const;
-  void setAlphaBeta();
-  void processSpec();
-  void paintTextAxis( QPainter& painter) const;
-  void paintValues( QPainter& painter, int column ) const;
-  void paintAxis( QPainter& painter ) const;
-  void paintTicks( QPainter& painter ) const;
-  virtual void paintChart(QPainter &);
+  QBrush myBrush;
+  QPen myPen;
+  Marb::Shape myShape;
+  Marb::Types myType;
 
 public:
-  RadialChart( QWidget* parent = 0 );
-  void process();
+  ChartStyle();
+  void setBrush( const QBrush brush);
+  void setPen( const QPen pen);
+  void setShape( const Marb::Shape shape);
+  void setType( const Marb::Types type);
+  QBrush brush() const;
+  QPen pen() const;
+  Marb::Shape shape() const;
+  Marb::Types type() const;
 };
 
-#endif //RADIALCHART_H
+#endif // CHARTSTYLE_H
