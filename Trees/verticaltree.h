@@ -49,10 +49,13 @@ public:
 
   void paintConnectionsElbow( QPainter& painter, QModelIndex id );
   void paintConnectionsStraight( QPainter& painter, QModelIndex id );
-  virtual void paintEvent(QPaintEvent *);
+  virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
 
   void setConnectorType( ConnectorType type );
   ConnectorType connectorType() const;
+
+public slots:
+  virtual bool save( QString filename );
 };
 
 #endif // VERTICALTREE_H

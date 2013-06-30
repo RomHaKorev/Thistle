@@ -33,10 +33,13 @@ protected:
   qreal my_maxRad;
   QPointF my_currentCenter;
 
-  void paintEvent( QPaintEvent* ev );
   void updatePerimeter();
 
   virtual void setScrollBarValues();
+  virtual void paintCircles( QPainter& painter, QPointF offset );
+  //virtual void paintItems( QPainter& painter, QPointF offset );
+  virtual void paintConnections( QPainter& painter, QPointF offset );
+  //virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
 public:
   explicit RadialTree( QWidget* parent = 0 );
   virtual void positionsInTree();
@@ -47,6 +50,7 @@ public:
 signals:
   
 public slots:
+  virtual bool save( QString filename );
 };
 
 #endif // RADIALTREE_H

@@ -54,6 +54,11 @@ protected:
   virtual void setX( QModelIndex index, qreal x );
   virtual void setY( QModelIndex index, qreal y );
 
+  void paintEvent( QPaintEvent* event);
+  virtual void paintItems( QPainter& painter, QPointF offset );
+  virtual void paintConnections( QPainter& painter, QPointF offset );
+  virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
+
 public:
 
   explicit Tree(QWidget* parent = 0);
@@ -85,6 +90,7 @@ protected slots:
   
 public slots:
   void show();
+  virtual bool save( QString filename ) = 0;
 };
 
 #endif // TREE_H

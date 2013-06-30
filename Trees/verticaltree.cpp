@@ -22,7 +22,6 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QScrollBar>
-#include <QDebug>
 #include <QModelIndex>
 #include <qmath.h>
 
@@ -56,26 +55,39 @@ void VerticalTree::setScrollBarValues() {
 
 }
 
-void VerticalTree::paintEvent( QPaintEvent* ev ) {
-  QPainter painter( viewport() );
-  painter.setClipRect( ev->rect() );
-  painter.setRenderHint( QPainter::Antialiasing );
+void VerticalTree::paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset ) {
+        painter.save();
+        painter.setPen( myConnectionPen );
 
-  foreach ( QModelIndex id, myItemPos.keys() ) {
-    switch ( myConnectorType ) {
-    case Straight:
-      paintConnectionsStraight( painter, id );
-    break;
-    case Elbow:
-      paintConnectionsElbow( painter, id );
-    }
-  }
+        if ( myConnectorType == Straight ) {
+            Tree::paintConnectionsFor( painter, index, offset );
+        } else {
+            int rows = model()->rowCount( index );
+            QRect r = itemRect(index).translated( offset.x(), offset.y() );
+            if ( rows > 1 ) {
+                QRect child1 = itemRect( model()->index( 0, 0, index ) ).translated( offset.x(), offset.y() );
+                QRect child2 = itemRect( model()->index( rows - 1, 0, index ) ).translated( offset.x(), offset.y() );
+                QPointF p1( child1.center().x(), child1.top() - myYDistance / 2 );
+                QPointF p2( child2.center().x(), child2.top() - myYDistance / 2 );
+                painter.drawLine( p1, p2 );
 
-  foreach ( QModelIndex id, myItemPos.keys() ) {
-    QStyleOptionViewItem option = viewOptions();
-    option.rect = itemRect( id );
-    itemDelegate()->paint(&painter, option, id);
-  }
+                p1 = QPointF( r.center().x(), r.bottom() + 1 );
+                p2 = QPointF( r.center().x(), r.bottom() + myYDistance / 2 );
+                painter.drawLine( p1, p2 );
+
+                for ( int i = 0; i < model()->rowCount(index); ++i ) {
+                    QRect r = itemRect( model()->index( i, 0, index ) ).translated( offset.x(), offset.y() );
+                    p1 = QPointF( r.center().x(), r.top() );
+                    p2 = QPointF( r.center().x(), r.top() - myYDistance / 2 );
+                    painter.drawLine( p1, p2 );
+                }
+            } else if ( rows == 1 ) {
+                QPointF p1( r.center().x(), r.bottom() + 1 );
+                QPointF p2( p1.x(), p1.y() + myYDistance - 2 );
+                painter.drawLine( p1, p2 );
+            }
+        }
+        painter.restore();
 }
 
 void VerticalTree::paintConnectionsElbow( QPainter& painter, QModelIndex id ) {
@@ -129,14 +141,12 @@ void VerticalTree::paintConnectionsStraight( QPainter& painter, QModelIndex id )
 ***************************************/
 
 void VerticalTree::positionsInTree() {
-    qDebug() << Q_FUNC_INFO;
     myItemTreePos.clear();
     myDepth = scan( model()->index(0,0), QPointF(0,0)).y();
     myLeft = 0;
     //foreach( QPointF p, myItemTreePos.values() ) {
     foreach( QModelIndex idx, myItemTreePos.keys() ) {
       QPointF p = myItemTreePos[idx];
-      qDebug() << idx.data() << p;
       myLeft = qMax( myLeft, p.x() );
     }
     myDepth -= 1;
@@ -200,4 +210,19 @@ void VerticalTree::setConnectorType( VerticalTree::ConnectorType type ) {
 
 VerticalTree::ConnectorType VerticalTree::connectorType() const {
   return myConnectorType;
+}
+
+
+bool VerticalTree::save( QString filename ) {
+    QSize s = myRealSize + QSize( 20, 20 );
+    QPixmap pix( s );
+    pix.fill( Qt::transparent );
+    QPainter painter( &pix );
+    painter.setRenderHint( QPainter::Antialiasing );
+    qreal x = -myItemOffset.x() + 10;
+    qreal y = -myItemOffset.y() + 10;
+    paintConnections( painter, QPointF( x, y ) );
+    paintItems(painter , QPointF( x, y ) );
+    painter.end();
+    return pix.save( filename );
 }

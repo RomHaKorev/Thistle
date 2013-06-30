@@ -18,7 +18,6 @@
 
 #include "horizontaltree.h"
 #include <QPainter>
-#include <QDebug>
 #include <QScrollBar>
 
 HorizontalTree::HorizontalTree() : VerticalTree() {
@@ -41,7 +40,6 @@ void HorizontalTree::positionsInView() {
 void HorizontalTree::setScrollBarValues() {
   VerticalTree::setScrollBarValues();
   qreal delta = height() - myRealSize.height();
-  qDebug() << Q_FUNC_INFO << delta;
   if ( delta > 20 ) {
     myItemOffset = QPointF( 10, delta/2.0 );
   }

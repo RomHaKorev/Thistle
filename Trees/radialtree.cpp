@@ -20,7 +20,6 @@
 
 #include <QPaintEvent>
 #include <QPainter>
-#include <QDebug>
 #include <QAbstractItemModel>
 #include <QFontMetrics>
 #include <QScrollBar>
@@ -188,8 +187,6 @@ void RadialTree::positionsInView() {
     QPainterPath circle;
     circle.addEllipse( myItemRect.center(), radius, radius );
 
-    qDebug() << index.data() << myItemRect.center() << radius;
-
     myItemPos[index] = circle.pointAtPercent( myItemPos[index].x() ) + myItemOffset;
   }
   myItemPos[ model()->index(0,0) ] = myItemOffset;
@@ -211,38 +208,43 @@ void RadialTree::updatePerimeter() {
   if ( myRadius*2 < myDiagonal * myDepth ) {
     myRadius = ( myDiagonal * myDepth )/2 * 1.5;
   }
-  qDebug() << myRadius;
 }
 
-void RadialTree::paintEvent(QPaintEvent *ev) {
-  QPainter painter( viewport() );
-  painter.setClipRect( viewport()->rect() );
-  painter.setClipRect( ev->rect() );
-  painter.setRenderHints( QPainter::Antialiasing );
 
-  QPen p( Qt::black );
-  QColor c = p.color();
-  c.setAlpha( c.alpha() * 0.3 );
-  p.setColor( c );
-  painter.setPen( p );
-  for ( qreal i = 1; i < myDepth; ++i ) {
-    qreal factor = i / myDepth;
-    painter.drawEllipse( itemRect(model()->index( 0, 0 )).center(), myRadius* factor, myRadius* factor );
-  }
+void RadialTree::paintConnections( QPainter& painter, QPointF offset ) {
+        paintCircles( painter, offset );
+        Tree::paintConnections( painter, offset );
+}
 
-  painter.setPen( Qt::black );
-  foreach ( QModelIndex index, myOrderedIndexes ) {
-    QModelIndex parent = model()->parent( index );
-    if ( parent.isValid() ) {
-      QPoint p1 = itemRect(index).center();
-      QPoint p2 = itemRect(parent).center();
-      painter.drawLine( p1, p2 );
-    }
+void RadialTree::paintCircles( QPainter& painter, QPointF offset ) {
+  painter.save();
+  QColor c = myConnectionPen.color();
+  c.setAlpha( c.alpha() * 0.15 );
+  QPen pen( myConnectionPen );
+  pen.setColor( c );
+  pen.setWidth( pen.width() * 2 );
+  painter.setPen( pen );
+  painter.setRenderHint( QPainter::Antialiasing );
+  QModelIndex index = model()->index(0,0);
+  QPointF center = itemRect(index).translated( offset.x(), offset.y() ).center();
+  for( int rd = 1; rd < myDepth; ++rd ) {
+      qreal r = myRadius * rd / myDepth;
+      painter.drawEllipse( center, r, r );
   }
+  painter.restore();
+}
 
-  foreach ( QModelIndex i, myOrderedIndexes ) {
-    QStyleOptionViewItem option = viewOptions();
-    option.rect = itemRect(i);
-    itemDelegate()->paint( &painter, option, i );
-  }
+
+bool RadialTree::save( QString filename ) {
+    QSize s = myRealSize + QSize( 20, 20 );
+    QPixmap pix( s );
+    pix.fill( Qt::transparent );
+    QPainter painter( &pix );
+    painter.setRenderHint( QPainter::Antialiasing );
+    qreal x = myRealSize.width()/2 + 10 - myItemOffset.x();
+    qreal y = myRealSize.height()/2 + 10 - myItemOffset.y();
+    paintConnections( painter, QPointF( x, y ) );
+    paintItems( painter , QPointF( x, y ) );
+    painter.end();
+    return pix.save( filename );
 }

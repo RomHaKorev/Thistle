@@ -21,7 +21,8 @@
 #include "treeitemdelegate.h"
 
 #include <QScrollBar>
-#include <QDebug>
+#include <QPainter>
+#include <QPaintEvent>
 
 #include <QStandardItem>
 
@@ -232,10 +233,54 @@ void Tree::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*
 
 void Tree::resizeEvent( QResizeEvent* event ) {
   QAbstractItemView::resizeEvent( event );
-  //setScrollBarValues();
   positionsInView();
 }
 
+
+/***************************************
+**
+**        PUBLIC SLOTS
+**
+***************************************/
+
+void Tree::paintEvent( QPaintEvent* event) {
+  qDebug( Q_FUNC_INFO);
+  QPainter painter( viewport() );
+  painter.setClipRect( event->rect() );
+  painter.setRenderHint( QPainter::Antialiasing );
+  paintConnections( painter, QPointF(0,0) );
+  //paintItems( painter, myItemOffset );
+  paintItems( painter, QPointF(0,0) );
+}
+
+void Tree::paintItems( QPainter& painter, QPointF offset ) {
+    foreach ( QModelIndex index, myItemPos.keys() ) {
+        QStyleOptionViewItem option;
+        option.rect = itemRect( index ).translated( offset.x(), offset.y() );
+        itemDelegate()->paint( &painter, option, index );
+    }
+}
+
+void Tree::paintConnections( QPainter& painter, QPointF offset ) {
+    painter.save();
+    painter.setPen( myConnectionPen );
+    foreach ( QModelIndex index, myItemPos.keys() ) {
+        paintConnectionsFor( painter, index, offset );
+    }
+    painter.restore();
+
+}
+
+void Tree::paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset ) {
+    painter.save();
+    QModelIndex parent = model()->parent( index );
+    if ( parent.isValid() ) {
+        QPointF p1 = itemRect( index ).translated( offset.x(), offset.y() ).center();
+        QPointF p2 = itemRect( parent ).translated( offset.x(), offset.y() ).center();
+        painter.drawLine( p1, p2 );
+    }
+    painter.restore();
+}
 /***************************************
 **
 **        PUBLIC SLOTS

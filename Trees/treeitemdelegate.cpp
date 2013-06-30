@@ -19,7 +19,6 @@
 #include "treeitemdelegate.h"
 
 #include <QPainter>
-#include <QDebug>
 #include <QLineEdit>
 
 TreeItemDelegate::TreeItemDelegate( Tree* parent ) :
