@@ -7,40 +7,123 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="./style.css" />
+		<script src="./scripts.js" type="text/javascript"></script>
 		<title>Marb Project</title>
 	</head>
-	<body>
-	<table class="mainContainer"><tr><td class="mainContainer">
-		<div class="menu">
-			<img src="./images/logo.png" alt="logo.png"/><br/>
-			<div  class="menuItem"><a href="./index.html">Accueil</a></div>
-			<div  class="menuItem"><a href="https://github.com/RomHaKorev/Marb">Téléchargements</a></div>
-			<div  class="menuItem"><a href="./screenshots.html">Captures d'écran</a></div>
-		</div>
-		</td><td class="mainContainer">
-			<section>
-			  <h2>Les graphiques linéaires</h2>
-					<article>
-						<p>
-							Les graphiques linéaires représentent des données sous forme de
-							courbes, histogrammes ou de points. Cette vue peut afficher plusieurs
-							types de graphiques à la fois.<br />
-						</p>
-						<div class="code">
-							qsrand( QDateTime::currentDateTime().toTime_t() );<br />
-							QStandardItemModel model( 10, 2 );<br />
-							for ( int i = 0; i &lt; 10; ++i ) {<br />
-							<span style="padding-left:15px;">qreal value =<br />
-							</span> <span style="padding-left:15px;">model.setData(
-								model-&gt;index( i, 0 ), value, Qt::DisplayRole );<br />
-							</span> <span style="padding-left:15px;">model.setData(
-								model-&gt;index( i, 1 ), value, Qt::DisplayRole );<br />
-							</span> }<br />
-							LinearChart chart;<br />
-							chart.setModel( model );<br />
-						</div>
-					</article>
-			</section>
-		</td></tr></table>
+	<body onLoad="foo('C++', 'Python')">
+		<table class="mainContainer">
+			<tr><td class="mainContainer">
+				<div class="menu">
+					<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+					<div class="item"><a class="menuItem" href="./index.html">Homepage</a></div>
+					<div class="subItem1"><a class="subMenuCurrentItem" href="./charts.html">Charts</a></div>
+					<div class="subItem2"><a class="subMenuCurrentItem" href="./linearcharts.html">Linear charts</a></div>
+					<div class="subItem2"><a class="subMenuItem" href="./radialcharts.html">Radial Charts</a></div>
+					<div class="subItem2"><a class="subMenuItem" href="./piecharts.html">Pie Charts</a></div>
+					<div class="subItem1"><a class="subMenuItem" href="./trees.html">Trees</a></div>
+					<div class="subItem1"><a class="subMenuItem" href="./timelines.html">Timelines</a></div>
+					<div class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></div>
+					<div height="50px;"><br/></div>
+				</div>
+			</td><td class="mainContainer">
+				<section>
+				  <h2>Linear charts</h2>
+						<article>
+							<h3>Overview</h3>
+							<p>
+							Linear charts display data with points, curves or bars.<br/>
+							This view can display several serie of data. A serie of data corresponds to a column in the model.
+							</p>
+							<p>An example of linear charts:</p>
+							<table class="image">
+								<tr>
+									<td>
+										<img src="./images/charts/linear1.png" alt="curve chart" title="Curve chart 1" />
+									</td>
+									<td>
+										<img src="./images/charts/linear2.png" alt="curve chart" title="Curve chart 1" />
+									</td>
+								</tr>
+								<tr height="15px"></tr>
+								<tr>
+									<td>
+										<img src="./images/charts/linear3.png" alt="curve chart" title="Curve chart 1" />
+									</td>
+								</tr>
+							</table>
+							<h3>How to use</h3>
+							<p>
+							LinearChart class works as every class inheriting from QAbstractItemView:
+							<div>
+								<div>
+								<input class="left" value='C++' type=button  onClick="foo('C++', 'Python')" /><input class="right" value='Python' type=button onClick="foo('Python', 'C++')" /> 
+								</div>
+								<div>
+									<div class="code" style="display:block;" name="C++">
+									<pre>
+ for (int i = 0; i < model->rowCount(); ++i ) {
+    qreal v = (qrand() % ( 30 - 10) + 10);
+    model->setData( model->index( i, 0 ), v, Qt::DisplayRole );
+    v = (qrand() % ( 50 - 10) + 10);
+    model->setData( model->index( i, 1 ), v, Qt::DisplayRole );
+}
+
+LinearChart chart;
+chart.setModel( model );
+chart.show();
+									</pre>
+									</div>
+									<div class="code" style="display:block;" name="Python">
+									<pre>
+model = QStandardItemModel( 6, 1 )
+for r in range(model.rowCount()):
+	v = random.randint(10, 2000 )
+	model.setData(model.index(r,0), v, Qt.DisplayRole )
+
+chart = Marb.LinearChart()
+chart.setModel( model )
+chart.show()
+
+
+									</pre>
+									</div>
+								</div>
+							</div>
+							</p>
+							<h3>Custom chart</h3>
+							<p>
+							Each column has its own style defined by ChartStyle class. This class detemrines the type (line, point or bar), the shape of points (ellipse, rectangle, etc.), the pen and the brush.<br/>
+							The easiest way to modify the style of a serie is to get the style with LinearChart::columnStyle( int column ).</p>
+							<p>An example of how to change the type of the first column:</p>
+							<div>
+								<input class="left" value='C++' type=button  onClick="foo('C++', 'Python')" /><input class="right" value='Python' type=button onClick="foo('Python', 'C++')" /> 
+								</div>
+								<div>
+									<div class="code" style="display:block;" name="C++">
+									<pre>
+LinearChart chart;
+chart.setModel( model );
+ChartStyle style = chart.columnStyle( 0 );
+style.setType( Marb::Bar );
+chart.setColumnStyle( 0, style );
+chart.show();
+									</pre>
+									</div>
+									<div class="code" style="display:block;" name="Python">
+									<pre>
+chart = Marb.LinearChart()
+chart.setModel( model )
+style = chart.columnStyle( 0 )
+style.setType( Marb.Type.Bar )
+chart.setColumnStyle( 0, style )
+chart.show()
+									</pre>
+								</div>
+							<p/>
+						
+						</article>
+				</section>
+			</td></tr>
+		</table>
 	</body>
 </html>

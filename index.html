@@ -12,38 +12,42 @@
 	<body>
 	<table class="mainContainer"><tr><td class="mainContainer">
 		<div class="menu">
-			<img src="./images/logo.png" alt="logo.png"/><br/>
-			<div  class="menuItem"><a href="./index.html">Accueil</a></div>
-			<div  class="menuItem"><a href="https://github.com/RomHaKorev/Marb">Téléchargements</a></div>
-			<div  class="menuItem"><a href="./screenshots.html">Captures d'écran</a></div>
+			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+			<div class="item"><a class="menuItem" href="./index.html">Homepage</a></div>
+			<div class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></div>
+			<div height="50px;"><br/></div>
 		</div>
 		</td><td class="mainContainer">
 			<section>
-			<h2>Les modules de Marb</h2>
+			<h2>Marb</h2>
 			<article>
+				<p>Marb is a chart library for Qt applications. The GUI components in Marb are based on the <a href="http://qt-project.org/doc/qt-5.0/qtwidgets/qabstractitemview.html" class="docLink">QAbstractIemView</a> class from Qt framework.
+				 Marb doesn't need anything else than Qt (version >= 4.7).<br/>
+				 Marb is an open source project under GPL license.
+				</p>
 				<p>
-				Marb se décompose en trois modules permettant chacun de représenter les données d'un modèle classique Qt :
+				Marb contains three modules: Charts, Trees and Timelines. Each module contains several view to represent data stored in a model.
 				</p>
 				<table class="module">
 						<tr>
 							<td class="module">
 								<a href="./charts.html">
-									<img src="./images/charts.png" alt="charts.png"/>
+									<img class="module" src="./images/linearChart.png" alt="charts.png"/>
 								</a>
 							</td>
 							<td class="module">
 								<a href="./trees.html">
-									<img src="./images/trees.png" alt="trees.png"/>
+									<img class="module" src="./images/trees.png" alt="trees.png"/>
 								</a>
 							</td>
 							<td class="module">
 								<a href="./timelines.html">
-									<img src="./images/timelines.png" alt="timelines.png"/>
+									<img  class="module" src="./images/timelines.png" alt="timelines.png"/>
 								</a>
 							</td>
 						</tr>
 						<tr>
-							<td class="module1"><h3 class="module">Charts</h3>Create curves and bar charts</td>
+							<td class="module1"><h3 class="module">Charts</h3>Create curves, bar and pie charts</td>
 							<td class="module1"><h3 class="module">Trees</h3>Viewes for tree models</td>
 							<td class="module1"><h3 class="module">Timelines</h3>Another way to display lists</td>
 						</tr>

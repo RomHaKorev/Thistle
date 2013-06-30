@@ -12,43 +12,46 @@
 	<body>
 	<table class="mainContainer"><tr><td class="mainContainer">
 		<div class="menu">
-			<img src="./images/logo.png" alt="logo.png"/><br/>
-			<div  class="menuItem"><a href="./index.html">Accueil</a></div>
-			<div  class="menuItem"><a href="https://github.com/RomHaKorev/Marb">Téléchargements</a></div>
-			<div  class="menuItem"><a href="./screenshots.html">Captures d'écran</a></div>
+			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+			<div class="item"><a class="menuItem" href="./index.html">Homepage</a></div>
+			<div class="subItem1"><a class="subMenuCurrentItem" href="./charts.html">Charts</a></div>
+			<div class="subItem1"><a class="subMenuItem" href="./trees.html">Trees</a></div>
+			<div class="subItem1"><a class="subMenuItem" href="./timelines.html">Timelines</a></div>
+			<div class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></div>
+			<div height="50px;"><br/></div>
 		</div>
 		</td><td class="mainContainer">
 			<section>
-			<h2>Le module Charts</h2>
+			<h2>Charts Module</h2>
 			<article>
-				<p>Le module Charts regroupe un ensemble de vues compatible avec un modèle héritant de QAbstractItemModel.</p>
-				<p>Chaque colonne du modèle représente une série de valeurs. Cependant, certaines vues, comme les camemberts simples,
-				ne sont pas capables d'afficher plus d'une série de valeurs (i.e. n'affiche que la première colonne du modèle).</p>
-				<p>Les données sont converties en nombres réels. Les valeurs non numériques (caractères alphabétiques, par exemple) sont considérées comme étant égales à zéro et ne seront pas ignorées.<br/><br/>
-				Les valeurs des abscisses sont déterminées par le nom de chaque ligne du modèle (la valeur du QHorizontalHeaderItem correspondant).
-				Le nom de chaque série est déterminé par le nom de la colonne correspondante (la valeur du QHorizontalHeaderItem correspondant).</p>
+			<p>The Charts module contains a set of viewes compatibles with QAbstractItemModel subclasses.</p>
+			<p>Each column repsresents a serie of data. Nevertheless, some view, like the simple Pie Chart only use the first column.</p>
+			<p>The model data are converted in float numbers. The non
+				<p>The data are converted to floatl numbers. Non-numeric values ​​(alphabetic characters, for example) are considered equal to zero.<br/>
+The X-axis values ​​are determined by the name of each model row (the value of the corresponding QVerticalHeaderItem).
+The name of each series is determined by the name of the corresponding column (the value of the corresponding QHorizontalHeaderItem).</p>
 				<table class="module">
 					<tr>
 						<td class="module">
-							<a href="./charts.html">
-								<img src="./images/linearChart.png" alt="linearChart.png"/>
+							<a href="./linearcharts.html">
+								<img class="module" src="./images/linearChart.png" alt="linearChart.png"/>
 							</a>
 						</td>
 						<td class="module">
-							<a href="./trees.html">
-								<img src="./images/radialChart.png" alt="radialChart.png"/>
+							<a href="./radialcharts.html">
+								<img class="module" src="./images/radialChart.png" alt="radialChart.png"/>
 							</a>
 						</td>
 						<td class="module">
-							<a href="./timelines.html">
-								<img src="./images/pieChart.png" alt="pieChart.png"/>
+							<a href="./piecharts.html">
+								<img class="module" src="./images/pieChart.png" alt="pieChart.png"/>
 							</a>
 						</td>
 					</tr>
 					<tr>
 						<td class="module1"><h3 class="module">Linear Charts</h3>Create curves and bar charts</td>
 						<td class="module1"><h3 class="module">Radial Charts</h3>Charts on a circle</td>
-						<td class="module1"><h3 class="module">Pie Charts</h3></td>
+						<td class="module1"><h3 class="module">Pie Charts</h3>Useful for percentage</td>
 					</tr>
 				</table>
 			</article>
