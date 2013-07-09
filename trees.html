@@ -22,66 +22,54 @@
 		</div>
 		</td><td class="mainContainer">
 			<section>
-			<h2>Les arbres</h2>
+			<h2>Trees</h2>
 			<article>
-			Marb est capable d'afficher un arbre quelconque en se basant sur un <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> en utilisant le même principe que la vue <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qtreeview.html">QTreeView</a>.<br />
-				La racine correspond au premier item du modèle (i.e. l'item à l'index 0,0). Les autres noeuds correspondent aux enfants de ce noeud.<br />
-				Voici un exemple de <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> rempli de manière à être compatible avec les arbres de Marb :
-				<p>
-					Les arbres peuvent être de trois types :
+			Marb can display a tree based on a <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> using the same principle than <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qtreeview.html">QTreeView</a>.<br />
+				The root corresponds to the first item int the modèle (i.e. the item at 0,0).<br />
+				Here, an example of <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> well filled:<p>
+					There is three types of trees:
 				</p>
-				<h2>Arbre vertical</h2>
-				<p>Un arbre vertical est un arbre dont la racine se situe tout en haut et au milieu de la vue.  Les autres noeuds se positionnent en-dessous.<br />
-					Un exemple d'abre vertical :
+				<h3>Vertical tree</h3>
+				<p>In a vertical tree, the root is displayed at the top of the view. The children are displayed below their parent.<br />
 				</p>
 				<table class="image">
 					<tr>
 						<td>
-							<img src="./images/verticalTree.png" alt="Vertical tree" title="Vertical tree" />
+							<img src="./images/vertical.png" alt="Vertical tree" title="Vertical tree" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							Représentation d'un arbre vertical
+							A vertical tree
 						</td>
 					</tr>
 				</table>
 				<p>
-					Comme nous pouvons le voir, un arbre peut être quelconque et n'est pas forcément binaire ou équilibré.
-				</p>
-				<p>
-					Voici le code source permettant de générer ce type d'arbre :
+					This snippet creates an example of a vertical tree:
 				</p>
 				<div class="code">
 					<br />
 				</div>
-			</article>
-			<h2>Arbre horizontal</h2>
-			<article>
+			<h3>Horizontal tree</h3>
 				<p>
-					La strucuture d'un arbre horizontal est relativement semblable à celle d'un
-					<a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtwidgets/qtreeview.html#key-bindings">QTreeView</a>
-					à la dfférence que les enfants d'un noeud sont représentés sur le même niveau.
+					The structure is similar to a vertical tree. But, the item children are displayed in column to the right of their parent.
 				</p>
 				<table class="image">
 					<tr>
 						<td>
-							<img src="./images/horizontalTree.jpeg" alt="image of a horizontal tree" title="horizontal tree" />
+							<img src="./images/horizontal.png" alt="image of a horizontal tree" title="horizontal tree" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							Représentation d'un arbre horizontal
+							A horizontal tree
 						</td>
 					</tr>
 				</table>
-			</article>
-			<h2>Arbre circulaire</h2>
-			<article>
+			<h3>Radial tree</h3>
 				<p>
-			Un arbre circulaire représente un arbre en plaçant la racine au centre et en disposant ses fils et petits fils en cercle autour d'elle. Chaque cercle représente une profondeur dans l'arbre.
-			Les items sur le cercle extérieur représentent les feuilles les plus profondes de l'arbre.<br/>
-			Cette vue se dissocie des autres vues du module Trees et ne propose pas exactement les mêmes méthodes (il n'est pas possible de changer le type de lien, par exemple).
+				A radial tree displays items by placing the root in the center and arranging the items in circles around it. Each circle represents the depth of the nodes.<br/>
+				This view has a behavior a bit different from other views. It has therefore not quite the same functionality (it is not possible to change the type of connectors, for example).
 				</p>
 				<table class="image">
 					<tr>
@@ -91,10 +79,14 @@
 					</tr>
 					<tr>
 						<td>
-							Représentation d'un arbre circulaire
+							A radial tree
 						</td>
 					</tr>
 				</table>
+			</article>
+			<h2>Documentation</h2>
+			<article>
+			
 			</article>
 			</section>
 		</td></tr></table>

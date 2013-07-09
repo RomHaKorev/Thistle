@@ -124,6 +124,25 @@ h2 {
 	box-shadow: 3px 3px 4px #050505
 }
 
+article h2 {
+	margin-top: 50px;
+	margin-bottom: 30px;
+	border: 2px #202020 solid;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-bottomright: 15px;
+	border-top-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	padding: 15px;
+	color: #DDDDDD;
+	background-color: #DDDDDD;
+	background-image: -moz-linear-gradient(#202020, #808080);
+	background-image: -webkit-linear-gradient(#202020, #808080);
+	background-image: linear-gradient(#202020, #808080);
+	box-shadow: 3px 3px 4px #050505
+}
+
 h1 {
 	color: #8DCC28;
 }
