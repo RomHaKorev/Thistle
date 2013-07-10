@@ -105,8 +105,8 @@ Returns the depth and the larger (i.e., the number of leafs) of the given tree.<
 <p>the the X coordinate of an item.</p>
 <p class="function">void Tree::setY( QModelIndex index, int y )</p>
 <p>the the Y coordinate of an item.</p>
-<p class="function">void Tree::paintItems( QPainter& painter, offset )</p>
-<p>Paints the items in the view (called by paintEvent).</p>
+<p class="function">void Tree::paintItems( QPainter& painter, QPointF offset )</p>
+<p>Paints the items in the view (called by paintEvent). offset is used to translate the painting.</p>
 <p class="function">void Tree::paintConnections( QPainter& painter, QPointF offset )</p>
 <p>Paints the connections between the items (called by paintEvent).</p>
 <p class="function">void Tree::paintConnectionsFor(QPainter& painter, QModelIndex index, QPointF offset )</p>
