@@ -44,9 +44,6 @@
 						</td>
 					</tr>
 				</table>
-				<p>
-					This snippet creates an example of a vertical tree:
-				</p>
 				<div class="code">
 					<br />
 				</div>
@@ -100,7 +97,7 @@ Returns the depth and the larger (i.e., the number of leafs) of the given tree.<
 <p>Determines the absolute position in the tree of each item.</p>
 <p class="function">void Tree::positionsInView()</p>
 <p>Calculates the position of each item in the view. Uses the tree positions to determinate the view position.</p>
-<p class="function">QRect Tree::itemRect( index )</p>
+<p class="function">QRect Tree::itemRect( QModelIndex index )</p>
 <p>Returns a QRect defining the bounding rect int the view of the given item.</p>
 <p class="function">void Tree::setItemSize( QSize size )</p>
 <p>Sets the item size to size.</p>
