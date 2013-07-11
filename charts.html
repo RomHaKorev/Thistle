@@ -328,6 +328,32 @@ pie.show()
 				</article>
 				<h2>Documentation</h2>
 				<article>
+					<h4>Chart class</h4>
+					<p class="function">void process()</p>
+<p>Sets the charts specifications (min, max values, order of values, etc.). Called when the model has changed</p>
+<p class="function">void processSpec()</p>
+<p>Sets the charts specifications relative to view size (Y steps, X steps, etc.)</p>
+<p class="function">int scanValues()</p>
+<p>Scans values in the model to set min, max, order of values, etc.</p>
+<p class="function">void calculateBounds()</p>
+<p>Calculates the min and max bounds of the model values</p>
+<p class="function">void calculateLegendRect()</p>
+<p>Calculates the rectngle in where the legend will be painted</p>
+<p class="function">qreal calculateOrder( qreal value ) const</p>
+<p>Returns the order of the value</p>
+<p class="function">qreal valueToPx( qreal value ) const</p>
+<p>Converts a model value to its equivalent in pixel in the view.</p>
+<p class="function">void setAlphaBeta()</p>
+<p>Sets variables alpha and beta used to convert a model value to position in the view.</p>
+<p class="function">QRectF itemRect( const QModelIndex& index ) const</p>
+<p>Returns the rectangle in which the point or bar will be painted.</p>
+<p class="function">void paintLegend( QPainter& painter )</p>
+<p>Paints legend in the rectangle specified by calculateLegendRect</p>
+<p class="function">void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight )</p>
+<p>Paints the legend for the given column. Called by paintLegend()</p>
+<p class="function">void paintChart( QPainter& painter )</p>
+<p>Paints chart in the view. Called by paintEvent()</p>
+					<h4>PieChart class</h4>
 					<p class="function">void PieChart::setSplitted( bool splitted )</p>
 					<p>If <span class="inline">splitted</span> is true, the pie chart displays the sectors apart from each other. Otherwise, the sectors are contiguous.
 					</p>
