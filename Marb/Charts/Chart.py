@@ -1,27 +1,10 @@
-
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
 from ..Global import Color, Shape, Type
 
-from PySide.QtGui import QAbstractItemView, QPen, QBrush, \
+from PySide.QtGui import QPen, QBrush, \
 QRegion, QColor, QFontMetrics, QPainter, QPixmap
 from PySide.QtCore import QRect, QPoint, Qt, QModelIndex, QSize
+
+from ..MarbAbstractItemView import MarbAbstractItemView
 
 class ChartStyle:
 	'''
@@ -92,7 +75,7 @@ class ChartStyle:
 
 
 
-class Chart(QAbstractItemView):
+class Chart(MarbAbstractItemView):
 	'''The Chart class provides an abstract base for the chart viewes.
 	
 	The Chart class defines the standard interface for every chart views in Marb. It is not supposed to be instantiated directly but should be subclassed.  
@@ -121,109 +104,9 @@ class Chart(QAbstractItemView):
 		self._marginY = 20
 		
 		self.resize( QSize(500, 400) )	
-		
-	##
-	## Qt methods
-	##
-	def itemRect(self, index):
-		'''Returns the QRect in which the index value is displayed on the view.
-		'''
-		return QRect()
 	
-		
-	def resizeEvent(self, ev ):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.resizeEvent(self, ev )
-		self._processSpec()
-	
-	
-	def moveCursor(self, cursorAction, modifiers):
-		'''Overloaded method.
-		'''
-		return QModelIndex()
-	
-	
-	def horizontalOffset(self):
-		return self.horizontalScrollBar().value()
-	
-	
-	def verticalOffset(self):
-		return self.verticalScrollBar().value()
-
-
-	def indexAt(self, point):
-		'''Overloaded method.
-		'''
-		return QModelIndex() # BUG IN PySide
-		p = point - QPoint( self.horizontalOffset(), self.verticalOffset() )
-		for index in self._itemPos.keys():
-			r = self.itemRect(index)
-			if r.contains( p ):
-				None
-		return index
-
-	
-	def visualRect(self, index):
-		'''Overloaded method.
-		'''
-		r = self.itemRect(index)
-		return r
-	
-	
-	def visualRegionForSelection(self, selection):
-		'''Overloaded method.
-		'''
-		ranges = selection.count()
-		region = QRegion()
-		for i in range(0, ranges):
-			ran = self.selection.at(i)
-			for row in range( ran.top(), ran.bottom() ):
-				index = self.model().index( row, 0, self.rootIndex() )
-				region += self.visualRect( index )
-	
-
-	def rows(self, index):
-		'''Overloaded method.
-		'''
-		return self.model().rowCount( self.model().parent(index))
-	
-	
-	def setModel(self, *args, **kwargs):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.setModel(self, *args, **kwargs)
-		self.process()
-	
-	
-	def dataChanged(self, top_left, bottomRight ):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.dataChanged(self, top_left, bottomRight)
-		self.process()
-		self.update( self.model().index(0,0) )
-	
-
-	def rowsAboutToBeRemoved(self, parent, start, end):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.rowsAboutToBeRemoved(self, parent, start, end)
-		self.process()
-		self.viewport().update()
-		self.setScrollBarValues()
-	
-	
-	def rowsInserted(self, parent, start, end):
-		'''Overloaded method.
-		'''
-		QAbstractItemView.rowsInserted(self, parent, start, end)
-		self.process()
-		self.viewport().update()
-		self.setScrollBarValues()
-		
-	#
-	# Marb methods
-	#
+	def updateValues(self):
+		self.process()	
 	
 	def setColumnStyle(self, column, style):
 		'''Sets the style for the column.
@@ -258,7 +141,8 @@ class Chart(QAbstractItemView):
 			self.update()
 		else:
 			raise( TypeError, "title must be a string" )
-	
+
+
 	def process( self ):
 		'''Defines the metrics and components to display the chart.
 		 Called when model ha changed.
@@ -270,12 +154,14 @@ class Chart(QAbstractItemView):
 								
 		self._processSpec()
 
+
 	def _processSpec(self):
 		'''Calculates the size and the position of each view part (legend, title,chart)
 		Called when the view is resized or model has changed.
 		'''
 		raise( NotImplementedError, "Must be implemented." )
-	
+
+
 	def _scanValues(self):
 		'''Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
 		
@@ -374,12 +260,12 @@ class Chart(QAbstractItemView):
 		The pixel value is given by the equation: y = alpha * value + beta 
 		'''
 		try:
-			float(value)
+			value = float(value)
 		except:
 			value = 0
 		return value * self._alpha + self._beta
 		
-		
+
 	def _setAlphaBeta(self):
 		'''Calculates the coefficients alpha and beta used to convert a value in the model in the corresponding value in pixel in the chart.
 		

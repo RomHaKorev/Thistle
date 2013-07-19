@@ -1,25 +1,7 @@
+from .Tree import Tree
 
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
-from .Tree import Tree, TreeItemDelegate
-from .Tree import TreeStyle
 from ..Global import Shape
+from ..MarbItemDelegate import MarbItemDelegate, MarbItemStyle
 
 import math
 from PySide.QtGui import QPainterPath, QPainter, QPen, QPixmap
@@ -32,12 +14,10 @@ class RadialTree(Tree):
 				self._rotateText = False
 				self.orderedIndexes = []
 				self._rect = QRect( -20, -20, 40, 40 )
-				style = TreeStyle()
+				style = MarbItemStyle()
 				style.setShape( Shape.Ellipse )
 				
-				delegate = TreeItemDelegate( self )
-				delegate.setTreeStyle( style )
-				self.setItemDelegate( delegate )
+				self.itemDelegate().setItemStyle( style )
 				
 				self._yDistance = 40
 				self._xDistance = 40

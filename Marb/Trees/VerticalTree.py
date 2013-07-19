@@ -1,22 +1,3 @@
-
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
 from .Tree import Tree
 
 import math
@@ -43,6 +24,10 @@ class VerticalTree(Tree):
 				self.horizontalScrollBar().setRange( 0, dw )
 				self.verticalScrollBar().setRange( 0, dh )
 				self.itemOffset = QPointF( 10, 10 )
+				delta = self.width() - self._realSize.width()
+				if delta > 20:
+					self.itemOffset = QPointF( delta/2.0, 10 )
+					
 
 
 		def scan(self, index, __left, _depth):
