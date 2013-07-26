@@ -186,7 +186,12 @@ class RadialTree(Tree):
 				painter.setRenderHint( QPainter.Antialiasing )
 				index = self.model().index(0,0)
 				center = offset
-				for rd in range( 1, int(self._depth) ):
+				nbCircles = 0
+				if self.model().rowCount() > 1:
+					nbCircles = int(self._depth + 2)
+				else:
+					nbCircles = int(self._depth) - 1
+				for rd in range( 1, nbCircles ):
 						r = float(self.radius) * rd / self._depth
 						painter.drawEllipse( center, r, r )
 				painter.restore()
