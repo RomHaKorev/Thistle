@@ -63,7 +63,10 @@ class VerticalTree(Tree):
 				
 		def _positionsInTree(self):
 				self._itemTreePos = {}
-				(self._left, self._depth) = self.scan( self.model().index(0,0) , 0, 0)
+				for row in range( self.model().rowCount() ) :
+					(self._left, self._depth) = self.scan( self.model().index(row,0) , self._left, 0)
+				for idx in self._itemTreePos:
+					print idx.data(), self._itemTreePos[ idx ]
 				self._left = 0
 				for p in self._itemTreePos.values():
 						self._left = max( self._left, p.x() )

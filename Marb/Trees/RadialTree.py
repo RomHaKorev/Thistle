@@ -49,8 +49,8 @@ class RadialTree(Tree):
 				factor = 1
 				for index in self._itemTreePos.keys():
 						if self.model().rowCount( index ) == 0:
-								factor = self._depth / self._itemTreePos[index].y()
-								self.perimeter += self.diagonal * factor
+							factor = self._depth / self._itemTreePos[index].y()
+							self.perimeter += self.diagonal * factor
 				
 				self.radius = self.perimeter / ( 2 * math.pi )
 				if self.radius * 2 < self.diagonal * self._depth:
@@ -64,10 +64,10 @@ class RadialTree(Tree):
 						return 0
 				elif rows == 0:
 						self.setX( index, _left )
-						self.setY(index, _depth + 1)
+						self.setY(index, _depth + 1 )
 						return (_left + 1, 1)
 				
-				child_depth = 0
+				child_depth = _depth
 				for r in range( 0, self.model().rowCount( index ) ):
 						child = index.child( r, 0 )
 						(_left, d) = self.scan( child, _left, _depth + 1 )
@@ -85,83 +85,86 @@ class RadialTree(Tree):
 				else:
 						self.setX( index, _left )
 
-				self.setY(index, _depth )
+				self.setY(index, _depth + 1 )
 				return ( right + 1 , child_depth + 1 ) 
 				
 		
 		def _positionsInTree(self):
 				self._itemTreePos = {}
 				self.orderedIndexes = []
-				
-				(self._left, self._depth) = self.scan( self.model().index(0,0) , 0, 0)
+				rows = self.model().rowCount()
+				for row in range( self.model().rowCount() ): 
+					(self._left, self._depth) = self.scan( self.model().index(row,0) , self._left, 0 )
+					self._left += 1
 				self._left += 1
 
 				self._positionsInView()
 				
 				
 		def _positionsInView(self):
-				if len(self._itemTreePos.keys()) == 0:
-						return None
+			if len(self._itemTreePos.keys()) == 0:
+				return None
+			
+			self.updatePerimeter()
+			
+			self._realSize.setWidth( self.radius * 2 + self._rect.width())
+			self._realSize.setHeight( self.radius * 2 + self._rect.height() )
+			self.setScrollBarValues()
+			
+			self._itemPos = {}
+			
+			for index in self._itemTreePos.keys():
+				p = self._itemTreePos[ index ]
+				self._itemPos[ index ] = QPointF( p.x(), p.y() )
+			
+			path = QPainterPath()
+			path.addEllipse( self.itemOffset + self._rect.center(), self.radius, self.radius )
+			
+			l = 0
+			factor = 0
+			for index in self.orderedIndexes:
+				if self.model().rowCount( index ) != 0:
+					continue
+				factor = float(self._depth) / float(self._itemPos[index].y())
 				
-				self.updatePerimeter()
+				if self.model().rowCount( index ) == 0:
+					l += (float(self.diagonal)/2.0) * float(factor)
 				
-				self._realSize.setWidth( self.radius * 2 + self._rect.width())
-				self._realSize.setHeight( self.radius * 2 + self._rect.height() )
-				self.setScrollBarValues()
-				
-				self._itemPos = {}
-				
-				for index in self._itemTreePos.keys():
-						p = self._itemTreePos[ index ]
-						self._itemPos[ index ] = QPointF( p.x(), p.y() )
-				
-				path = QPainterPath()
-				path.addEllipse( self.itemOffset + self._rect.center(), self.radius, self.radius )
-				
-				l = 0
-				factor = 0
-				for index in self.orderedIndexes:
-						if self.model().rowCount( index ) != 0:
-								continue
-						
-						factor = float(self._depth) / float(self._itemPos[index].y())
-						
-						if self.model().rowCount( index ) == 0:
-								l +=	(float(self.diagonal)/2.0) * float(factor)
-						
-						percent = path.percentAtLength( l )
-						self._itemPos[index] = QPointF( percent, self._itemPos[index].y() )
+				percent = path.percentAtLength( l )
+				self._itemPos[index] = QPointF( percent, self._itemPos[index].y() )
 
-						if self.model().rowCount( index ) == 0:
-								l +=	(float(self.diagonal)/2.0) * float(factor)
-											 
-				self.orderedIndexes.reverse()
-				for index in self.orderedIndexes:
-						if self.model().rowCount( index ) == 0:
-								continue
-						_left = self.model().index( 0,0, index )
-						right = self.model().index( self.model().rowCount(index) - 1,0, index )
-						self._itemPos[index] = QPointF( float(self._itemPos[_left].x() + self._itemPos[right].x()) / 2.0, self._itemPos[index].y() )				
+				if self.model().rowCount( index ) == 0:
+					l +=(float(self.diagonal)/2.0) * float(factor)
+										 
+			self.orderedIndexes.reverse()
+			for index in self.orderedIndexes:
+				if self.model().rowCount( index ) == 0:
+					continue
+				_left = self.model().index( 0,0, index )
+				right = self.model().index( self.model().rowCount(index) - 1,0, index )
+				self._itemPos[index] = QPointF( float(self._itemPos[_left].x() + self._itemPos[right].x()) / 2.0, self._itemPos[index].y() )				
+			
+			self.orderedIndexes.reverse()
+			
+			for index in self.orderedIndexes:
+				y = float(self._itemPos[index].y())
+				if self.model().rowCount() == 1:
+					y -= 1.0
+				if self._depth == y:
+					factor = 1.0
+				else:
+					if y != 0:
+						factor = float(self._depth) / y
+					else:
+						factor = 1.0
+				radius = float(self.radius) / float(factor)
+				circle = QPainterPath()
+				circle.addEllipse( self._rect.center(), radius, radius )
 				
-				self._itemPos[self.model().index(0,0)] = QPointF(0, 0)
-				
-				self.orderedIndexes.reverse()
-				
-				for index in self.orderedIndexes:
-						if self._depth == self._itemPos[index].y():
-								factor = 1.0
-						else:
-								if self._itemPos[index].y() != 0:
-										factor = float(self._depth) / float(self._itemPos[index].y())
-								else:
-										factor = 1.0
-
-						radius = float(self.radius) / float(factor)
-						circle = QPainterPath()
-						circle.addEllipse( self._rect.center(), radius, radius )
-						
-						self._itemPos[index] = circle.pointAtPercent( self._itemPos[index].x() )
-						
+				self._itemPos[index] = circle.pointAtPercent( self._itemPos[index].x() )
+			
+			
+			if self.model().rowCount() == 1:
 				self._itemPos[self.model().index(0,0)] = QPointF(0, 0)
 
 				
@@ -182,12 +185,13 @@ class RadialTree(Tree):
 				painter.setPen( pen )
 				painter.setRenderHint( QPainter.Antialiasing )
 				index = self.model().index(0,0)
-				center = self.itemRect(index).translated( offset.x(), offset.y() ).center()
-				for rd in range( 1, int(self._depth) + 1 ):
+				center = offset
+				for rd in range( 1, int(self._depth) ):
 						r = float(self.radius) * rd / self._depth
 						painter.drawEllipse( center, r, r )
 				painter.restore()
-						
+
+	
 		def save(self, filename ):
 				s = self._realSize + QSize( 20, 20 )
 				pix = QPixmap( s )
