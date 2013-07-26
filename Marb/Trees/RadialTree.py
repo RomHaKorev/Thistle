@@ -94,7 +94,8 @@ class RadialTree(Tree):
 				self.orderedIndexes = []
 				rows = self.model().rowCount()
 				for row in range( self.model().rowCount() ): 
-					(self._left, self._depth) = self.scan( self.model().index(row,0) , self._left, 0 )
+					(self._left, d) = self.scan( self.model().index(row,0) , self._left, 0 )
+					self._depth = max( self._depth, d )
 					self._left += 1
 				self._left += 1
 
@@ -186,12 +187,7 @@ class RadialTree(Tree):
 				painter.setRenderHint( QPainter.Antialiasing )
 				index = self.model().index(0,0)
 				center = offset
-				nbCircles = 0
-				if self.model().rowCount() > 1:
-					nbCircles = int(self._depth + 2)
-				else:
-					nbCircles = int(self._depth) - 1
-				for rd in range( 1, nbCircles ):
+				for rd in range( 1, int(self._depth) ):
 						r = float(self.radius) * rd / self._depth
 						painter.drawEllipse( center, r, r )
 				painter.restore()
