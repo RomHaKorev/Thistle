@@ -20,14 +20,15 @@
 #define CHART_H
 
 #include <QAbstractItemView>
-#include "abstractmarbview.h"
 #include "../Marb.h"
 #include "chartstyle.h"
+
+#include "../marbabstractitemview.h"
 
 class PointChart;
 class RadialChart;
 
-class Chart : public AbstractMarbView {
+class Chart : public MarbAbstractItemView {
   Q_OBJECT
 
 protected:
@@ -55,7 +56,7 @@ protected:
   int myMinBottomMargin;
 
   virtual void process();
-  virtual void processSpec() = 0;
+  virtual void updateValues() = 0;
   int scanValues();
   void calculateBounds();
   void calculateLegendRect();
@@ -68,6 +69,10 @@ protected:
   virtual void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight ) = 0;
   virtual void paintChart( QPainter& ) = 0;
   virtual void paintEvent(QPaintEvent *event);
+
+  virtual void setScrollBarValues();
+  virtual QModelIndex indexAt(const QPoint &point) const;
+
 public:
   explicit Chart( QWidget* parent = 0 );
            ~Chart();

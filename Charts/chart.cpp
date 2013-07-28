@@ -26,7 +26,7 @@
 #include <QScrollBar>
 #include <QDebug>
 
-Chart::Chart( QWidget* parent ) : AbstractMarbView( parent ) {
+Chart::Chart( QWidget* parent ) : MarbAbstractItemView( parent ) {
   myMin = 0;
   myMax = 0;
   myMinBound = 0;
@@ -47,15 +47,38 @@ Chart::Chart( QWidget* parent ) : AbstractMarbView( parent ) {
   myMarginY = 20;
 }
 
+
 void Chart::resizeEvent(QResizeEvent * ev) {
   QAbstractItemView::resizeEvent( ev );
-  processSpec();
+  updateValues();
 }
+
 
 void Chart::setModel( QAbstractItemModel* model ) {
   QAbstractItemView::setModel( model );
   process();
 }
+
+
+void Chart::setScrollBarValues() {
+}
+
+
+QModelIndex Chart::indexAt(const QPoint &point) const {
+  if ( this->model() == 0 ) {
+    return QModelIndex();
+  }
+  for ( int r = 0; r < this->model()->rowCount(); ++r ) {
+    for ( int c = 0; c < this->model()->columnCount(); ++c ) {
+      QModelIndex idx = this->model()->index( r, c );
+      if ( itemRect( idx ).contains( point ) ) {
+        return idx;
+      }
+    }
+  }
+  return QModelIndex();
+}
+
 
 void Chart::process() {
   if ( model() == 0 ) {
@@ -66,7 +89,7 @@ void Chart::process() {
 
   myMinBottomMargin = scanValues() + 10.0;
 
-  processSpec();
+  updateValues();
 }
 
 Chart::~Chart() {

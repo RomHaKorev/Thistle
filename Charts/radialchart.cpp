@@ -38,7 +38,7 @@ void RadialChart::process() {
   }
   myMin = 0;
   myMax = 0;
-  processSpec();
+  updateValues();
 }
 
 void RadialChart::setAlphaBeta() {
@@ -49,7 +49,7 @@ void RadialChart::setAlphaBeta() {
   myBeta = w - myAlpha * myMaxBound;
 }
 
-void RadialChart::processSpec() {
+void RadialChart::updateValues() {
   if ( model() == 0 ) {
     return;
   }

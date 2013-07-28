@@ -16,12 +16,12 @@
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
 
-#include "treeitemdelegate.h"
+#include "marbitemdelegate.h"
 
 #include <QPainter>
 #include <QLineEdit>
 
-MarbItemDelegate::MarbItemDelegate( Tree* parent ) :
+MarbItemDelegate::MarbItemDelegate( QWidget* parent ) :
   QStyledItemDelegate(parent) {
   myStyle  = MarbStyle();
 }
@@ -107,6 +107,10 @@ void MarbItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionV
 }
 
 
-void MarbItemDelegate::setTreeStyle( MarbStyle s ) {
+void MarbItemDelegate::setItemStyle( MarbStyle s ) {
   myStyle = s;
+}
+
+MarbStyle MarbItemDelegate::itemStyle() const {
+  return myStyle;
 }

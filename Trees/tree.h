@@ -19,13 +19,14 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include <QAbstractItemView>
+#include "../marbabstractitemview.h"
+
 #include <QPen>
 #include <QPointer>
 
-class TreeItemDelegate;
+class MarbItemDelegate;
 
-class Tree : public QAbstractItemView {
+class Tree : public MarbAbstractItemView {
   Q_OBJECT
 protected:
   QPen myConnectionPen;
@@ -38,16 +39,11 @@ protected:
   qreal        myLeft;
   QPoint       myCentralItemPos;
   QPointF      myItemOffset;
-  QPointer<TreeItemDelegate> myDelegate;
+  QPointer<MarbItemDelegate> myDelegate;
   QMap<QModelIndex, QPointF> myItemPos;
   QMap<QModelIndex, QPointF> myItemTreePos;
 
-
-  virtual void setScrollBarValues() = 0;
-  virtual void resizeEvent( QResizeEvent* event );
-  QModelIndex moveCursor( QAbstractItemView::CursorAction cursorAction,
-                          Qt::KeyboardModifiers modifiers );
-
+  virtual void updateValues();
   virtual void positionsInTree() = 0;
   virtual void positionsInView() = 0;
   virtual QPointF scan( QModelIndex index, QPointF leftDepth = QPointF( 0, 0 ) ) = 0;
@@ -55,6 +51,9 @@ protected:
   virtual void setY( QModelIndex index, qreal y );
 
   void paintEvent( QPaintEvent* event);
+  QModelIndex indexAt(const QPoint &point) const;
+  virtual void resizeEvent( QResizeEvent* event );
+
   virtual void paintItems( QPainter& painter, QPointF offset );
   virtual void paintConnections( QPainter& painter, QPointF offset );
   virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
@@ -63,18 +62,7 @@ public:
 
   explicit Tree(QWidget* parent = 0);
 
-  int         horizontalOffset() const;
-  int         verticalOffset() const;
-  QModelIndex indexAt( const QPoint& point ) const;
-  bool        isIndexHidden( const QModelIndex& index ) const;
-  void        setSelection( const QRect&, QItemSelectionModel::SelectionFlags command );
-  void        scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
-  QRect       visualRect( const QModelIndex& index ) const;
-  QRegion     visualRegionForSelection( const QItemSelection& selection ) const;
-
-
-  virtual QRect itemRect( const QModelIndex& index ) const;
-  int rows( const QModelIndex& index ) const;
+  virtual QRectF itemRect( const QModelIndex& index ) const;
 
   /*  DESIGN METHODS */
   void setItemSize( const QSize& s );
@@ -82,15 +70,8 @@ public:
   QPen connectionPen() const;
   void setItemSpacing( int w, int h );
 
-
-protected slots:
-  void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
-  void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
-  void rowsInserted(const QModelIndex &parent, int start, int end);
-  
 public slots:
   void show();
-  virtual bool save( QString filename ) = 0;
 };
 
 #endif // TREE_H

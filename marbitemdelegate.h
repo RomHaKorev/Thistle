@@ -1,3 +1,6 @@
+#ifndef MARBITEMDELEGATE_H
+#define MARBITEMDELEGATE_H
+
 /*
  This file is part of Marb.
 
@@ -16,14 +19,10 @@
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
 
-#ifndef TREEITEMDELEGATE_H
-#define TREEITEMDELEGATE_H
-
 #include <QStyledItemDelegate>
 #include <QPen>
 #include <QBrush>
-#include "../Marb.h"
-#include "tree.h"
+#include "Marb.h"
 
 class MarbStyle {
   QBrush myBrush;
@@ -101,8 +100,9 @@ protected:
   MarbStyle myStyle;
 public:
 
-  void setTreeStyle( MarbStyle myStyle );
-  explicit MarbItemDelegate(Tree *parent = 0);
+  void setItemStyle( MarbStyle myStyle );
+  MarbStyle itemStyle() const;
+  explicit MarbItemDelegate(QWidget* parent = 0);
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void setEditorData(QWidget *editor, const QModelIndex &index) const;
   void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
@@ -116,4 +116,4 @@ public slots:
 
 };
 
-#endif // TREEITEMDELEGATE_H
+#endif // MARBITEMDELEGATE_H

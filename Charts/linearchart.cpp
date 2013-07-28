@@ -34,7 +34,7 @@ LinearChart::LinearChart( QWidget* parent ) : Chart( parent ) {
     myVerticalXAxis = false;
 }
 
-void LinearChart::processSpec() {
+void LinearChart::updateValues() {
     myChartRect = QRect( QPoint(10, 20),  viewport()->size() - QSize( 20, 40 ) );
     QFontMetrics metrics( font() );
 

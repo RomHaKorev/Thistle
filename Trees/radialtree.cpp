@@ -26,17 +26,17 @@
 
 #include <qmath.h>
 
-#include "treeitemdelegate.h"
+#include "marbitemdelegate.h"
 
 RadialTree::RadialTree( QWidget* parent ) : Tree( parent ) {
   //myRotateText = false;
   //myDisplayCircle = true;
   myItemRect = QRect( -20, -20, 40, 40 );
-  TreeStyle style = TreeStyle();
+  MarbStyle style = MarbStyle();
   style.setShape( Marb::Ellipse );
 
-  myDelegate = new TreeItemDelegate( this );
-  myDelegate->setTreeStyle( style );
+  myDelegate = new MarbItemDelegate( this );
+  myDelegate->setItemStyle( style );
   setItemDelegate( myDelegate );
 
   myYDistance = 40;

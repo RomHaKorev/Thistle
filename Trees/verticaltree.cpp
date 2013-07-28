@@ -63,10 +63,10 @@ void VerticalTree::paintConnectionsFor( QPainter& painter, QModelIndex index, QP
             Tree::paintConnectionsFor( painter, index, offset );
         } else {
             int rows = model()->rowCount( index );
-            QRect r = itemRect(index).translated( offset.x(), offset.y() );
+            QRectF r = itemRect(index).translated( offset.x(), offset.y() );
             if ( rows > 1 ) {
-                QRect child1 = itemRect( model()->index( 0, 0, index ) ).translated( offset.x(), offset.y() );
-                QRect child2 = itemRect( model()->index( rows - 1, 0, index ) ).translated( offset.x(), offset.y() );
+                QRectF child1 = itemRect( model()->index( 0, 0, index ) ).translated( offset.x(), offset.y() );
+                QRectF child2 = itemRect( model()->index( rows - 1, 0, index ) ).translated( offset.x(), offset.y() );
                 QPointF p1( child1.center().x(), child1.top() - myYDistance / 2 );
                 QPointF p2( child2.center().x(), child2.top() - myYDistance / 2 );
                 painter.drawLine( p1, p2 );
@@ -76,7 +76,7 @@ void VerticalTree::paintConnectionsFor( QPainter& painter, QModelIndex index, QP
                 painter.drawLine( p1, p2 );
 
                 for ( int i = 0; i < model()->rowCount(index); ++i ) {
-                    QRect r = itemRect( model()->index( i, 0, index ) ).translated( offset.x(), offset.y() );
+                    QRectF r = itemRect( model()->index( i, 0, index ) ).translated( offset.x(), offset.y() );
                     p1 = QPointF( r.center().x(), r.top() );
                     p2 = QPointF( r.center().x(), r.top() - myYDistance / 2 );
                     painter.drawLine( p1, p2 );
@@ -94,10 +94,10 @@ void VerticalTree::paintConnectionsElbow( QPainter& painter, QModelIndex id ) {
   painter.save();
   painter.setPen( myConnectionPen );
   int rowCount = model()->rowCount( id );
-  QRect r = itemRect( id );
+  QRectF r = itemRect( id );
   if ( rowCount > 1 ) {
-    QRect child1 = itemRect( model()->index( 0, 0, id ) );
-    QRect child2 = itemRect( model()->index( rowCount - 1, 0, id ) );
+    QRectF child1 = itemRect( model()->index( 0, 0, id ) );
+    QRectF child2 = itemRect( model()->index( rowCount - 1, 0, id ) );
 
     QPointF p1( child1.center().x(), child1.top() - myYDistance / 2 );
     QPointF p2( child2.center().x(), child2.top() - myYDistance / 2 );

@@ -28,7 +28,7 @@ protected:
 
   QRectF itemRect(const QModelIndex &index) const;
   void setAlphaBeta();
-  void processSpec();
+  void updateValues();
   void paintTextAxis( QPainter& painter) const;
   void paintValues( QPainter& painter, int column ) const;
   void paintAxis( QPainter& painter ) const;
