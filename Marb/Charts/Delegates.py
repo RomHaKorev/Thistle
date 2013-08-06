@@ -1,7 +1,7 @@
 from ..Global import Shape
 
-from PySide.QtGui import QPen, QStyledItemDelegate, QPolygon, QStyleOptionViewItem
-from PySide.QtCore import QPoint, Qt
+from PySide.QtGui import QPen, QStyledItemDelegate, QPolygon, QStyleOptionViewItem, QRadialGradient, QLinearGradient, QBrush, QColor, QStyle
+from PySide.QtCore import QPoint, Qt, QRect
 
 
 class PointDelegate( QStyledItemDelegate ):
@@ -25,10 +25,16 @@ class PointDelegate( QStyledItemDelegate ):
 		poly.append(rect.topLeft() + QPoint( 0, rect.height()/2 ))
 		return poly
 		
-		
+	
 	def paint( self, painter, option, index ):
 		'''Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
 		'''
+		if ( option.state == QStyle.State_Off ):
+			self._paintDisabled(painter, option, index)
+		else:
+			self._paintEnabled(painter, option, index)
+	
+	def _paintEnabled( self, painter, option, index ):
 		chartItemStyle = self.parent().columnStyle( index.column() )
 
 		painter.save()
@@ -58,6 +64,22 @@ class PointDelegate( QStyledItemDelegate ):
 			painter.drawRect( r )
 		painter.restore()
 
+
+	def _paintDisabled(self, painter, option, index ):
+		chartItemStyle = self.parent().columnStyle( index.column() )
+		painter.save()
+		r = option.rect
+		r2 = QRect( r.topLeft() - QPoint( 5, 5 ), r.bottomRight() + QPoint( 5, 5 ) )
+		painter.setPen( Qt.NoPen )
+		gradient = QRadialGradient( r2.center(), r2.width() / 2.0, r2.center() )
+		c = QColor( Qt.gray )
+		c.setAlpha( 150 )
+		gradient.setColorAt( 0, c )
+		gradient.setColorAt( 1, Qt.transparent )
+		gradient.setSpread( QRadialGradient.ReflectSpread )
+		painter.setBrush( QBrush( gradient ) )
+		painter.drawEllipse( r2 )
+		painter.restore()
 
 class BarDelegate( QStyledItemDelegate ):
 	'''BarDelegate class provides display facilities for the Linear Chart.
@@ -101,6 +123,43 @@ class BarDelegate( QStyledItemDelegate ):
 		
 		painter.restore()
 
+	def paintDisabled( self, painter, option, index ):
+		'''Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
+		'''
+		chartItemStyle = self.parent().columnStyle( index.column() )
+		r = option.rect
 
+		painter.save()
+
+		painter.setPen( Qt.NoPen )
+		gradient = QLinearGradient( r.topLeft() + QPoint( 5, 0 ), r.topLeft()  )
+		c = QColor( Qt.gray )
+		c.setAlpha( 150 )
+		gradient.setColorAt( 0, c )
+		gradient.setColorAt( 1, Qt.transparent )
+		painter.setBrush( QBrush( gradient ) )
+		
+		r1 = QRect( r.topLeft() + QPoint( 0, 5 ),
+				r.bottomLeft() + QPoint( 10, -5 ) )
+		
+		painter.drawRect( r1 )
+		
+		gradient = QLinearGradient( r.topRight() - QPoint( 5, 0 ), r.topRight()  )
+		c = QColor( Qt.gray )
+		c.setAlpha( 150 )
+		gradient.setColorAt( 0, c )
+		gradient.setColorAt( 1, Qt.transparent )
+		painter.setBrush( QBrush( gradient ) )
+		
+		r2 = QRect( r.topRight() + QPoint( -10, 5 ),
+				r.bottomRight() + QPoint( 0, 5 ) )
+		painter.drawRect( r2 )
+		
+		c = QColor( Qt.gray )
+		c.setAlpha( 150 )
+		painter.setBrush( QBrush( c ) )
+		painter.drawRect( QRect( r1.topRight() + QPoint(1,0), r2.bottomLeft() - QPoint(1,0) ) )
+		
+		painter.restore()
 
 

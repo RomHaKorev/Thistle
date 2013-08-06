@@ -66,11 +66,14 @@ class MarbItemDelegate(QStyledItemDelegate):
 		def __init__(self, parent=None):
 				super(MarbItemDelegate, self).__init__(parent)
 				self._textVisible = True
-				self.itemStyle = MarbItemStyle()
+				self._itemStyle = MarbItemStyle()
 		
 		
 		def setItemStyle(self, style):
-				self.itemStyle = style
+				self._itemStyle = style
+		
+		def itemStyle(self):
+			return self._itemStyle
 		
 						
 		def _createDiamond(self, rect):
@@ -83,14 +86,14 @@ class MarbItemDelegate(QStyledItemDelegate):
 		
 		
 		def createEditor(self, parent, option, index):
-				editor = QLineEdit()
+				editor = QLineEdit( parent )
 				editor.setGeometry( option.rect )
 				return editor
 		
 		
 		def setEditorData(self, editor, index):
 				if isinstance( editor , QLineEdit):
-						editor.setText( index.model().data( index ) )
+						editor.setText( str( index.model().data( index ) ) )
 		
 				
 		def setModelData(self, editor, model, index):
@@ -100,23 +103,23 @@ class MarbItemDelegate(QStyledItemDelegate):
 		
 		def paint(self, painter, option, index):
 				painter.save()
-				painter.setBrush( self.itemStyle.background() )
-				painter.setPen( self.itemStyle.border() )
+				painter.setBrush( self._itemStyle.background() )
+				painter.setPen( self._itemStyle.border() )
 				r = option.rect
 				
-				if self.itemStyle.shape() == Shape.Ellipse:
+				if self._itemStyle.shape() == Shape.Ellipse:
 						painter.drawEllipse( r )
-				elif self.itemStyle.shape() == Shape.RoundedRect:
+				elif self._itemStyle.shape() == Shape.RoundedRect:
 						painter.drawRoundedRect( r, 5, 5 )
-				elif self.itemStyle.shape() == Shape.Diamond:
+				elif self._itemStyle.shape() == Shape.Diamond:
 						painter.drawPolygon( self.createDiamond( r ) )
-				elif self.itemStyle.shape() == Shape.Triangle:
+				elif self._itemStyle.shape() == Shape.Triangle:
 						poly = QPolygon()
 						poly.append( r.topLeft() + QPoint( r.width()/2, 0 ) )
 						poly.append( r.bottomLeft() )
 						poly.append( r.bottomRight() )
 						painter.drawPolygon( poly )
-				elif self.itemStyle.shape() == Shape.ReversedTriangle:
+				elif self._itemStyle.shape() == Shape.ReversedTriangle:
 						poly = QPolygon()
 						poly.append( r.bottomLeft() + QPoint( r.width()/2, 0 ) )
 						poly.append( r.topLeft() )
@@ -125,15 +128,15 @@ class MarbItemDelegate(QStyledItemDelegate):
 				else:
 						painter.drawRect( r )
 				
-				if self.itemStyle.displayText() == True:
-						painter.setPen( QPen( self.itemStyle.textColor(), 1 ) )
+				if self._itemStyle.displayText() == True:
+						painter.setPen( QPen( self._itemStyle.textColor(), 1 ) )
 						flags = Qt.AlignCenter
-						if self.itemStyle.shape() == Shape.Triangle:
+						if self._itemStyle.shape() == Shape.Triangle:
 								flags = Qt.AlignBottom | Qt.AlignHCenter
-						elif self.itemStyle.shape() == Shape.ReversedTriangle:
+						elif self._itemStyle.shape() == Shape.ReversedTriangle:
 								flags = Qt.AlignTop | Qt.AlignHCenter
 						
-						painter.drawText( r, flags, index.model().data(index) )
+						painter.drawText( r, flags, str( index.model().data(index) ) )
 				
 				painter.restore()
 			

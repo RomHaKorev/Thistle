@@ -8,11 +8,6 @@ from PySide.QtCore import QRect, QPoint, Qt, QModelIndex, QSize
 from .Delegates import SimpleTimelineItemDelegate, TimelineItemDelegate
 from .Connections import simpleTLConnection
 
-#	path = QPainterPath()
-#	path.moveTo(0, 0);
-#	path.cubicTo(0, 0,  50, 60,  50, 200);
-# 	path.moveTo(150, 50);
-#	path.cubicTo(60, 50,  50, 100,  50, 200);
 
 class TimelineStyle:
 	def __init__(self):
@@ -41,9 +36,7 @@ class Timeline(QAbstractItemView):
 		self._path = QPainterPath()
 		self._referencePath = QPainterPath()
 		self._referenceItemPath = QPainterPath()
-		self._referenceAlternativePath = QPainterPath()
-		self._alternativePath = QPainterPath()
-		self._itemPath =  QPainterPath()
+		self._itemPath = QPainterPath()
 		self._timelineStyle = TimelineStyle()
 		self._itemRect = QRect( -25, -30, 50, 60 )
 		self._distancePolicy = DistancePolicy.IgnoreDistance
@@ -235,7 +228,6 @@ class Timeline(QAbstractItemView):
 		if self._distancePolicy == DistancePolicy.IgnoreDistance:
 			r1 = self._itemPath.boundingRect()
 			r2 = self._path.boundingRect()
-			r3 = self._alternativePath.boundingRect()
 			x1 = r2.topLeft().x()
 			x2 = r2.bottomRight().x()
 			y1 = r2.topLeft().y(), r2.topLeft().y()

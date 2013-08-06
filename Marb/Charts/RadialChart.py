@@ -15,9 +15,9 @@ class RadialChart(Chart):
 		
 	def _setAlphaBeta(self):
 		w = self._valuesRect.width()
-		self._centerHoleDiam =  w * 0.2
+		self._centerHoleDiam = w * 0.2
 		m = w * 0.3 
-		self._alpha = float( w - m )  / float( self._maxBound - self._minBound )
+		self._alpha = float( w - m ) / float( self._maxBound - self._minBound )
 		self._beta = w - self._alpha * self._maxBound
 
 
@@ -27,7 +27,7 @@ class RadialChart(Chart):
 		
 		textWidth = self._scanValues()
 		
-		self._chartRect = QRect( QPoint(self._marginX, self._marginY),  self.size() - QSize( self._marginX*2, self._marginY*2 ) )
+		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
 		self.calculateLegendRect()
 		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
 		self._chartRect.translate( 0, self._legendRect.height() + 10 )
@@ -61,7 +61,7 @@ class RadialChart(Chart):
 		if column in self._style:
 			return self._style[ column ]
 		else:
-			style =  ChartStyle()
+			style = ChartStyle()
 			c1 = Color.lightColorAt( column )
 			c2 = Color.regularColorAt( column )
 			c1.setAlpha( 200 )
@@ -213,7 +213,7 @@ class RadialChart(Chart):
 			rectangle.translate( self._valuesRect.center() )
 			path = QPainterPath()
 			path.moveTo( self._valuesRect.center() )
-			path.arcTo( rectangle, -(startAngle + delta), -(angle - delta * 2)  )
+			path.arcTo( rectangle, -(startAngle + delta), -(angle - delta * 2) )
 			path.closeSubpath();
 			path = path.subtracted( pathCenter )
 			

@@ -15,8 +15,9 @@ class Tree(MarbAbstractItemView):
 				self._xDistance = 20
 				self._depth = 0
 				self._left = 0
+				self._treeWidth = 0
 				self._connectionPen = QPen( QColor(Color.LightGray), 2 )
-				self.itemOffset = QPoint()
+				self.itemOffset = QPoint(0, 0)
 				delegate = MarbItemDelegate( self )
 				self.setItemDelegate( delegate )
 				self._itemPos = {}
@@ -57,7 +58,7 @@ class Tree(MarbAbstractItemView):
 		def itemRect(self, index):
 				if not index.isValid():
 						return QRect()
-				p	= self._itemPos[ index ] - QPointF( self.horizontalOffset(), self.verticalOffset() )
+				p	= self._itemPos[ index ] - QPointF( self.horizontalOffset(), self.verticalOffset() ) + self.itemOffset
 				return self._rect.translated( p.x(), p.y() )
 
 		
@@ -85,18 +86,18 @@ class Tree(MarbAbstractItemView):
 				painter = QPainter( self.viewport() )
 				painter.setClipRect( event.rect() )
 				painter.setRenderHint( QPainter.Antialiasing )
-				self.paintConnections( painter, self.itemOffset )
-				self.paintItems( painter, self.itemOffset )
+				self.paintConnections( painter, QPointF(0,0) )
+				self.paintItems( painter )
 			 
 				
-		def paintItems( self, painter, offset ):
+		def paintItems( self, painter, offset = QPointF(0,0) ):
 				for index in self._itemPos.keys():
 						option = QStyleOptionViewItem()
 						option.rect = self.itemRect( index ).translated( offset.x(), offset.y() )
 						self.itemDelegate().paint( painter, option, index )
 		
 		
-		def paintConnections( self, painter, offset ):
+		def paintConnections( self, painter, offset = QPointF(0,0) ):
 				painter.save()
 				painter.setPen( self._connectionPen )
 				for index in self._itemPos.keys():

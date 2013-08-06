@@ -144,7 +144,7 @@ class PieChart( MarbAbstractItemView ):
 				self._leftLabels.append( (i, centerAngle, color) )
 				
 			# A part can be splitted if self._Splitted is True or if self._Splitted is False and the value is selected in the model.
-			#  For now, only the first case is implemented (see, "bug in PySide ?")
+			# For now, only the first case is implemented (see, "bug in PySide ?")
 			if self._Splitted == False:
 				self.paintPart( painter, angle, delta, color )
 			else:

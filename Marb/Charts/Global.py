@@ -28,9 +28,9 @@ class Color:
 	DarkOrange = 0xFFF219
 	DarkGray   = 0x505050
 	
-	__regularColors = [ Blue, Green, Orange, Purple, Red, Orange, Gray  ]
-	__lightColors = [ LightBlue, LightGreen, LightOrange, LightPurple, LightRed, LightOrange, LightGray  ]
-	__darkColors = [ DarkBlue, DarkGreen, DarkOrange, DarkPurple, DarkRed, DarkOrange, DarkGray  ]
+	__regularColors = [ Blue, Green, Orange, Purple, Red, Orange, Gray ]
+	__lightColors = [ LightBlue, LightGreen, LightOrange, LightPurple, LightRed, LightOrange, LightGray ]
+	__darkColors = [ DarkBlue, DarkGreen, DarkOrange, DarkPurple, DarkRed, DarkOrange, DarkGray ]
 	
 	@staticmethod
 	def regularColorAt(index):

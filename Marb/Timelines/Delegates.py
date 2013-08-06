@@ -1,17 +1,6 @@
 from PySide.QtGui import QColor, QStyledItemDelegate, QPen
 from PySide.QtCore import Qt, QRect
 from PySide import QtGui
-#class TimelineDelegate( QStyledItemDelegate ):
-#	def __init__(self, parent ):
-#		super(TimelineDelegate, self).__init__( parent )
-#	
-#	def paint(self, painter, option, index ):
-#		path = QPainterPath()
-#		r = option.rect
-#		path.moveTo(r.topLeft())		
-#		path.cubicTo(0, 0,  50, 60,  50, 200)
-#		path.moveTo(150, 50)
-#		path.cubicTo(60, 50,  50, 100,  50, 200)
 
 class TimelineItemDelegate( QStyledItemDelegate ):
 	def __init__(self, parent ):

@@ -1,7 +1,7 @@
 from ..Global import Color, Shape, Type
 
 from PySide.QtGui import QPen, QBrush, \
-QRegion, QColor, QFontMetrics, QPainter, QPixmap
+QRegion, QColor, QFontMetrics, QPainter, QPixmap, QAbstractItemView
 from PySide.QtCore import QRect, QPoint, Qt, QModelIndex, QSize
 
 from ..MarbAbstractItemView import MarbAbstractItemView
@@ -78,10 +78,11 @@ class ChartStyle:
 class Chart(MarbAbstractItemView):
 	'''The Chart class provides an abstract base for the chart viewes.
 	
-	The Chart class defines the standard interface for every chart views in Marb. It is not supposed to be instantiated directly but should be subclassed.  
+	The Chart class defines the standard interface for every chart views in Marb. It is not supposed to be instantiated directly but should be subclassed.
 	'''
 	def __init__(self, parent=None):
 		super(Chart, self).__init__( parent )
+		self.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self._min = 0
 		self._max = 0
 		self._minBound = 0
@@ -103,7 +104,25 @@ class Chart(MarbAbstractItemView):
 		self._marginX = 20
 		self._marginY = 20
 		
-		self.resize( QSize(500, 400) )	
+		self.resize( QSize(500, 400) )
+
+
+	def indexAt(self, point):
+		if self.model() == None:
+			return QModelIndex()
+		for row in range( self.model().rowCount() ):
+			for col in range( self.model().columnCount() ):
+				index = self.model().index( row, col )
+				r = self.itemRect(index)
+				if r.contains( point ):
+					return index
+		return QModelIndex()
+
+
+	def resizeEvent(self, ev ):
+		self.updateValues()
+		return MarbAbstractItemView.resizeEvent(self, ev )
+	
 	
 	def updateValues(self):
 		self.process()	
@@ -122,7 +141,7 @@ class Chart(MarbAbstractItemView):
 		if column in self._style:
 			return self._style[ column ]
 		else:
-			style =  ChartStyle()
+			style = ChartStyle()
 			c1 = Color.lightColorAt( column )
 			c2 = Color.regularColorAt( column )
 			style.setPen( QPen( QColor(c2), 2 ) )
@@ -191,7 +210,7 @@ class Chart(MarbAbstractItemView):
 		'''Calculates the minimum bounds and the maximum bounds (i.e., the minimum and the maximum displayed on the chart).
 		Calculates the order and the tick size(delta between two ticks on the Y axis) of the charts values.
 		
-		If the minimum is equal to the maximum, the minimum bound is equal to minimum - 1 and the maximum bound to maximum + 1  
+		If the minimum is equal to the maximum, the minimum bound is equal to minimum - 1 and the maximum bound to maximum + 1
 		'''
 		self._minBound = self._min
 		self._maxBound = self._max
@@ -216,7 +235,7 @@ class Chart(MarbAbstractItemView):
 		'''
 		order = 1.0
 		v = abs( value )
-		if  v >= 1:
+		if v >= 1:
 			while v > 1:
 				order *= 10.0
 				v /= 10.0
@@ -301,7 +320,7 @@ class Chart(MarbAbstractItemView):
 				w = sWidth
 				pos += QPoint( sWidth, 0 )
 			else:
-				p = pos + QPoint( -40,  0 )
+				p = pos + QPoint( -40, 0 )
 				w += sWidth
 				pos += QPoint( sWidth, 0 )
 			self._paintColumnLegend(painter, c, p, metricsH)
@@ -331,8 +350,9 @@ class Chart(MarbAbstractItemView):
 			return None
 		
 		painter = QPainter( self.viewport() )
-		
 		painter.setClipRect( event.rect() )
+		
+		painter.setClipRect( QRect( 0, 0, self.width(), self.height() ) )
 		
 		self.paintChart( painter )
 

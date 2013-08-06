@@ -1,5 +1,5 @@
-from PySide.QtGui import QAbstractItemView
-from PySide.QtCore import QModelIndex
+from PySide.QtGui import QAbstractItemView, QTableView, QItemSelection, QRegion
+from PySide.QtCore import QModelIndex, QPoint, QRect
 
 class MarbAbstractItemView( QAbstractItemView ):
 	def __init__(self, parent=None):
@@ -7,7 +7,10 @@ class MarbAbstractItemView( QAbstractItemView ):
 
 	def setScrollBarValues(self):
 		None 
-
+		
+	
+	def isIndexHidden(self, index):
+		return False
 
 	def resizeEvent(self, ev ):
 		self.setScrollBarValues()
@@ -15,11 +18,16 @@ class MarbAbstractItemView( QAbstractItemView ):
 
 
 	def moveCursor(self, cursorAction, modifiers):
-		return QModelIndex()
+		if self.model() == None:
+			return QModelIndex()
+		return self.model().index(0,0)
 
 
 	def itemRect(self, index):
 		return QRectF()
+	
+	def itemRegion(self, index ):
+		return QRegion( self.itemRect(index) )
 
 
 	def horizontalOffset(self):
@@ -31,29 +39,69 @@ class MarbAbstractItemView( QAbstractItemView ):
 		
 			
 	def indexAt(self, point):
-		return QModelIndex() # BUG IN PySide
-		p = point - self.itemOffset.toPoint() - QPoint( self.horizontalOffset(), self.verticalOffset() )
+		if self.model() == None:
+			return QModelIndex()
 		for index in self._itemPos.keys():
 				r = self.itemRect(index)
-				if r.contains( p ):
-						None
+				if r.contains( point ):
 						return index
+		return QModelIndex()
 
 	
 	def visualRect(self, index):
-		r = self.itemRect(index).translated( self.itemOffset.x(), self.itemOffset.y() )
+		r = self.itemRect(index)
 		return r
 	
 	
 	def visualRegionForSelection(self, selection):
-		ranges = selection.count()
-		region = QRegion()
-		for i in range(0, ranges):
-				ran = self.selection.at(i)
-				for row in range( ran.top(), ran.bottom() ):
-						index = self.model().index( row, 0, self.rootIndex() )
-						region += self.visualRect( index )
+		return QRegion( QRect(0, 0, self.width(), self.height() ) )
+#		ranges = selection.count()
+#		region = QRegion()
+#		for i in range(0, ranges):
+#				ran = selection.at(i)
+#				for row in range( ran.top(), ran.bottom() ):
+#						index = self.model().index( row, 0, self.rootIndex() )
+#						region += self.visualRect( index )
+#		return region
+		
+	def setSelection( self, rect, command ):
+		contentsRect = rect.translated(
+						self.horizontalScrollBar().value(),
+						self.verticalScrollBar().value()).normalized()
+		rows = self.model().rowCount( self.rootIndex() )
+		columns = self.model().columnCount( self.rootIndex() )
+		indexes = [];
+
+		for row in range( rows ):
+			for col in range( columns ):
+				index = self.model().index(row, col, self.rootIndex())
+				region = self.itemRegion(index)
+				if not region.intersects(contentsRect):
+					indexes.append(index)
+		
+		if len( indexes ) > 0:
+			firstRow = indexes[0].row();
+			lastRow = indexes[0].row();
+			firstColumn = indexes[0].column();
+			lastColumn = indexes[0].column();
+			
+			for i in range ( len( indexes ) ):
+				firstRow = min(firstRow, indexes[i].row());
+				lastRow = max(lastRow, indexes[i].row());
+				firstColumn = min(firstColumn, indexes[i].column());
+				lastColumn = max(lastColumn, indexes[i].column());
+			
+			selection = QItemSelection(
+			self.model().index(firstRow, firstColumn, self.rootIndex()),
+			self.model().index(lastRow, lastColumn, self.rootIndex()));
+			self.selectionModel().select(selection, command);
+		else:
+			self.selectionModel().clear()
+		
+		self.viewport().repaint();
 	
+	def scrollTo( self, index, hint ):
+		pass
 	
 	def rows(self, index):
 		return self.model().rowCount( self.model().parent(index))

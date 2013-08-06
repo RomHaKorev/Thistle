@@ -30,22 +30,23 @@ class VerticalTree(Tree):
 					
 
 
-		def scan(self, index, __left, _depth):
+		def scan(self, index, left, depth):
 				rows = self.model().rowCount( index )
 				if not index.isValid():
 						return 0
 				elif rows == 0:
-						self.setX( index, __left )
-						self.setY(index, _depth)
-						return (__left + 1, 1)
+						self.setX( index, left )
+						self.setY(index, depth)
+						self._treeWidth += 1
+						return (left + 1, 1)
 				
 				child_depth = 0
 				for r in range( 0, self.model().rowCount( index ) ):
 						child = index.child( r, 0 )
-						(__left, d) = self.scan( child, __left, _depth + 1 )
+						(left, d) = self.scan( child, left, depth + 1 )
 						child_depth = max( child_depth, d )
 				
-				__left = self._itemTreePos[ self.model().index(0, index.column(), index) ].x()
+				left = self._itemTreePos[ self.model().index(0, index.column(), index) ].x()
 				right = self._itemTreePos[ self.model().index( rows - 1, index.column(), index ) ].x()
 				if rows >= 2:
 						if rows % 2 == 1:
@@ -53,20 +54,19 @@ class VerticalTree(Tree):
 								v = self._itemTreePos[ self.model().index( r - 1, index.column(), index ) ].x()
 								self.setX( index, v )
 						else:
-								self.setX( index, (right + __left) / 2 )
+								self.setX( index, (right + left) / 2 )
 				else:
-						self.setX( index, __left )
+						self.setX( index, left )
 						
-				self.setY(index, _depth)
+				self.setY(index, depth)
 				return ( right + 1 , child_depth + 1 ) 
 						
 				
 		def _positionsInTree(self):
 				self._itemTreePos = {}
 				for row in range( self.model().rowCount() ) :
-					(self._left, self._depth) = self.scan( self.model().index(row,0) , self._left, 0)
-				for idx in self._itemTreePos:
-					print idx.data(), self._itemTreePos[ idx ]
+					(self._left, self._depth) = self.scan( self.model().index(row,0) , self._treeWidth, 0)
+					self._left += 1
 				self._left = 0
 				for p in self._itemTreePos.values():
 						self._left = max( self._left, p.x() )
@@ -80,7 +80,7 @@ class VerticalTree(Tree):
 				 
 				self.setScrollBarValues()
 				
-				offset = QPointF( self._rect.width()/2, self._rect.height()/2 )
+				offset = QPointF( self._rect.width()/2, self._rect.height()/2 ) + QPointF(20, 20)
 				for index in self._itemTreePos.keys():
 						p = self._itemTreePos[ index ]
 						self._itemPos[index] = QPointF( p.x() * ( self._xDistance + self._rect.width() ), p.y() * ( self._yDistance + self._rect.height() ) ) + offset
