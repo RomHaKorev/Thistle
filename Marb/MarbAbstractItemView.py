@@ -54,37 +54,33 @@ class MarbAbstractItemView( QAbstractItemView ):
 	
 	
 	def visualRegionForSelection(self, selection):
+		'''
+		By default, we repaint the whole viewport."
+		'''
 		return QRegion( QRect(0, 0, self.width(), self.height() ) )
-#		ranges = selection.count()
-#		region = QRegion()
-#		for i in range(0, ranges):
-#				ran = selection.at(i)
-#				for row in range( ran.top(), ran.bottom() ):
-#						index = self.model().index( row, 0, self.rootIndex() )
-#						region += self.visualRect( index )
-#		return region
-		
+
+
 	def setSelection( self, rect, command ):
 		contentsRect = rect.translated(
 						self.horizontalScrollBar().value(),
 						self.verticalScrollBar().value()).normalized()
 		rows = self.model().rowCount( self.rootIndex() )
 		columns = self.model().columnCount( self.rootIndex() )
-		indexes = [];
+		indexes = []
 
 		for row in range( rows ):
 			for col in range( columns ):
 				index = self.model().index(row, col, self.rootIndex())
 				region = self.itemRegion(index)
-				if not region.intersects(contentsRect):
+				if region.intersects(contentsRect):
 					indexes.append(index)
 		
 		if len( indexes ) > 0:
-			firstRow = indexes[0].row();
-			lastRow = indexes[0].row();
-			firstColumn = indexes[0].column();
-			lastColumn = indexes[0].column();
-			
+			firstRow = indexes[0].row()
+			lastRow = indexes[0].row()
+			firstColumn = indexes[0].column()
+			lastColumn = indexes[0].column()
+
 			for i in range ( len( indexes ) ):
 				firstRow = min(firstRow, indexes[i].row());
 				lastRow = max(lastRow, indexes[i].row());
