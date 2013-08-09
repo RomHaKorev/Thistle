@@ -352,9 +352,8 @@ class Chart(MarbAbstractItemView):
 		painter = QPainter( self.viewport() )
 		painter.setClipRect( event.rect() )
 		
-		painter.setClipRect( QRect( 0, 0, self.width(), self.height() ) )
-		
 		self.paintChart( painter )
+
 
 	def paintChart( self, painter ):
 		'''Overloaded method.

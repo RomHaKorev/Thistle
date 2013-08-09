@@ -1,9 +1,10 @@
-from PySide.QtGui import QAbstractItemView, QTableView, QItemSelection, QRegion
-from PySide.QtCore import QModelIndex, QPoint, QRect
+from PySide.QtGui import QAbstractItemView, QTableView, QItemSelection, QRegion, QRubberBand
+from PySide.QtCore import QModelIndex, QPoint, QRect, QSize
 
 class MarbAbstractItemView( QAbstractItemView ):
 	def __init__(self, parent=None):
 		super(MarbAbstractItemView, self).__init__( parent )
+		self.rubberBand = QRubberBand(QRubberBand.Rectangle, self.viewport())
 
 	def setScrollBarValues(self):
 		None 
@@ -53,6 +54,24 @@ class MarbAbstractItemView( QAbstractItemView ):
 		return r
 	
 	
+	def mousePressEvent( self, event ):
+		super(MarbAbstractItemView, self).mousePressEvent( event )
+		self._rubberBandOrigin = event.pos()
+		self.rubberBand.setGeometry(QRect(event.pos(), QSize()))
+		self.rubberBand.show()
+
+	def mouseMoveEvent( self, event ):
+		self.rubberBand.setGeometry(QRect(self._rubberBandOrigin, event.pos()).normalized())
+		super(MarbAbstractItemView, self).mouseMoveEvent( event )
+
+
+	def mouseReleaseEvent(self, event):
+		super(MarbAbstractItemView, self).mouseReleaseEvent( event )
+		if self.rubberBand != None:
+			self.rubberBand.hide();
+		self.viewport().update();
+
+
 	def visualRegionForSelection(self, selection):
 		'''
 		By default, we repaint the whole viewport."
