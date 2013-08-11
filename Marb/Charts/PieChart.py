@@ -1,29 +1,11 @@
-
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
 from Marb.Global import Color, Render
 
-from PySide.QtGui import QAbstractItemView, QPen, \
-QRegion, QColor, QFontMetrics, QPainter, QPixmap, QPainterPath
+from PySide.QtGui import QAbstractItemView, QPen, QRegion, QColor, QFontMetrics, QPainter, QPixmap, QPainterPath
 from PySide.QtCore import QRect, QPointF, Qt, QModelIndex, QLineF
 
-class PieChart( QAbstractItemView ):
+from ..MarbAbstractItemView import MarbAbstractItemView
+
+class PieChart( MarbAbstractItemView ):
 	class ColorConf:
 		Normal = 0
 		Lighter = 1
@@ -43,6 +25,7 @@ class PieChart( QAbstractItemView ):
 		self._chartRect = QRect()
 		self._leftLabelRect = QRect()
 		self._rightLabelRect = QRect()
+
 
 	def configureColor(self, painter, base, flag):
 		painter.setPen( QPen( base, 2 ) )
@@ -79,42 +62,13 @@ class PieChart( QAbstractItemView ):
 		pass
 
 
-	def indexAt( self, point ):
-		x = point.x() + self.horizontalOffset()
-		y = point.y() + self.verticalOffset()
-
-		for r in range( 0, self.model().rowCount() ) :
-			index = self.model().index( r, 0 )
-			path = self.itemPath( index )
-			if ( path.contains( QPointF( x, y ) ) ) :
-				return index
-		
-		return QModelIndex()
-	
-
-	def moveCursor( self, cursorAction, modifiers ) :
-		return QModelIndex()
-
-
-	def horizontalOffset( self ):
-		return 0
-	
-
-	def verticalOffset( self ):
-		return 0
-	
-
-	def isIndexHidden( self, index ):
-		return False
-	
-
-	def updateChart( self ):
+	def updateValues( self ):
 		metrics = QFontMetrics( self.font() )
 		maxLabelWidth = 0
 		self._Total = 0
 		for i in range( 0, self.model().rowCount() ):
 			index = self.model().index( i, 0 )
-			self._Total += abs( self.model().data( index ) )
+			self._Total += abs( float(self.model().data( index )) )
 			text = str(self.model().headerData( i, Qt.Vertical ))
 			maxLabelWidth = max( metrics.width( text ), maxLabelWidth )
 		
@@ -160,7 +114,7 @@ class PieChart( QAbstractItemView ):
 	def paintChart( self, painter ):
 		rows = self.model().rowCount()
 
-		self.updateChart()
+		self.updateValues()
 
 		painter.save()
 		painter.setRenderHint( QPainter.Antialiasing )
@@ -178,7 +132,7 @@ class PieChart( QAbstractItemView ):
 			if not color.isValid():
 				color = Color.colorAt( i )
 
-			v = abs( self.model().data( index ) )
+			v = abs( float(self.model().data( index )) )
 			delta = 360.0 * v/self._Total
 						
 			centerAngle = angle + delta/2.0
@@ -190,7 +144,7 @@ class PieChart( QAbstractItemView ):
 				self._leftLabels.append( (i, centerAngle, color) )
 				
 			# A part can be splitted if self._Splitted is True or if self._Splitted is False and the value is selected in the model.
-			#  For now, only the first case is implemented (see, "bug in PySide ?")
+			# For now, only the first case is implemented (see, "bug in PySide ?")
 			if self._Splitted == False:
 				self.paintPart( painter, angle, delta, color )
 			else:
@@ -339,282 +293,3 @@ class PieChart( QAbstractItemView ):
 		painter = QPainter ( pix )
 		self.paintChart( painter )
 		return pix.save( filename )
-	
-
-
-'''
-
-#include "piechart.h"
-
-#include "Marb.h"
-#include <QDebug>
-#include <QPainter>
-#include <QPaintEvent>
-
-PieChart::PieChart( QWidget* parent ) :
-  QAbstractItemView( parent ) {
-  setEditTriggers( QAbstractItemView::NoEditTriggers );
-  myRing = false;
-  mySplitted = false;
-  myStartAngle = 0;
-  myLegend = QString();
-}
-
-QRect PieChart::visualRect( const QModelIndex& index ) const {
-  /* To force to repaint the whole chart. Not only the area of the part*/
-  return QRect( 0, 0, width(), height() );
-}
-
-QRegion PieChart::visualRegionForSelection(const QItemSelection& selection ) const {
-  QRegion region;
-  region += QRect( 0, 0, width(), height() );
-  return region;
-}
-
-#if 0
-QRect PieChart::visualRect( const QModelIndex& index ) const {
-  QPainterPath path = itemPath( index );
-  return path.boundingRect().translated( horizontalOffset(), verticalOffset() ).toRect();
-}
-
-QRegion PieChart::visualRegionForSelection(const QItemSelection& selection ) const {
-  int ranges = selection.count();
-
-  if (ranges == 0)
-      return QRect();
-
-  QRegion region;
-  for (int i = 0; i < ranges; ++i) {
-      QItemSelectionRange range = selection.at(i);
-      for (int row = range.top(); row <= range.bottom(); ++row) {
-          for (int col = range.left(); col <= range.right(); ++col) {
-              QModelIndex index = model()->index(row, col, rootIndex());
-              region += visualRect(index);
-          }
-      }
-  }
-  return region;
-}
-#endif
-
-void PieChart::scrollTo(const QModelIndex &/*index*/, ScrollHint /*hint*/) {
-
-}
-
-QModelIndex PieChart::indexAt(const QPoint & point ) const {
-  int x = point.x() + horizontalOffset();
-  int y = point.y() + verticalOffset();
-
-  for ( int r = 0; r < model()->rowCount(); ++r ) {
-    QModelIndex index = model()->index( r, 0 );
-    QPainterPath path = itemPath( index );
-    if ( path.contains( QPointF( x, y ) ) ) {
-      return index;
-    }
-  }
-  return QModelIndex();
-}
-
-void PieChart::dataChanged(const QModelIndex &/*topLeft*/, const QModelIndex&/*bottomRight*/) {
-
-}
-
-void PieChart::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*/) {
-
-}
-
-void PieChart::rowsAboutToBeRemoved(const QModelIndex& /*parent*/, int /*start*/, int /*end*/) {
-
-}
-
-QModelIndex PieChart::moveCursor(QAbstractItemView::CursorAction cursorAction,
-                       Qt::KeyboardModifiers modifiers ) {
-  Q_UNUSED( modifiers )
-
-  QModelIndex current = currentIndex();
-  if ( !current.isValid() ) {
-    return QModelIndex();
-  }
-
-  switch ( cursorAction ) {
-  case QAbstractItemView::MoveDown:
-  case QAbstractItemView::MoveRight:
-    if (current.row() == model()->rowCount() - 1) {
-      current = model()->index( 0, 0 );
-    } else {
-      current = model()->index( current.row() + 1, 0 );
-    }
-  break;
-  case QAbstractItemView::MoveUp:
-  case QAbstractItemView::MoveLeft:
-    if ( current.row() == 0 ) {
-      current = model()->index(model()->rowCount() - 1, 0 );
-    } else {
-      current = model()->index( current.row() - 1 , 0 );
-    }
-  break;
-  default:
-  break;
-  }
-  viewport()->update();
-  return current;
-}
-
-int PieChart::horizontalOffset() const {
-  return 0;
-}
-
-int PieChart::verticalOffset() const {
-  return 0;
-}
-
-bool PieChart::isIndexHidden(const QModelIndex& /*index*/ ) const {
-  return false;
-}
-
-void PieChart::updateChart() {
-
-  qreal w = ( width() - 40 );
-  qreal h = ( height() - 40 );
-  if ( !myLegend.isNull() ) {
-    QFontMetrics metrics( font() );
-    QRect r = metrics.boundingRect( 10, 0, width() - 20, height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
-    h -=  10 + r.height();
-  }
-
-  if ( w < h ) {
-    myRect = QRect( 20, 20 + (h-w)/2, w , w );
-  } else {
-    myRect = QRect( 20 + (w-h)/2, 20, h , h );
-  }
-
-  myRect.translate( myRect.width() * 0.05, myRect.height() * 0.05 );
-  myRect.setWidth( 0.9 * myRect.width() );
-  myRect.setHeight( 0.9 * myRect.height() );
-
-  myTotal = 0;
-  for ( int i = 0; i < model()->rowCount(); ++i ) {
-    QModelIndex index = model()->index( i, 0 );
-    myTotal += qAbs( model()->data( index ).toReal() );
-  }
-}
-
-void PieChart::paintEvent(QPaintEvent *event) {
-
-  Q_UNUSED( event )
-
-  if ( model() == 0 ) {
-    return;
-  }
-
-  int rows = model()->rowCount();
-
-  updateChart();
-  QPainter painter( viewport() );
-  painter.save();
-  painter.setRenderHint( QPainter::Antialiasing );
-  //painter.setClipRect( event->rect() );
-
-  qreal angle = myStartAngle;
-  for ( int i = 0; i < rows; ++i ) {
-    QModelIndex index = model()->index( i, 0 );
-
-    QColor color( model()->data( index, Qt::DecorationRole ).toString() );
-    if ( !color.isValid() ) {
-      color = Clint::predefinedColor( i );
-    }
-
-    qreal v = qAbs( model()->data( index ).toReal() );
-    qreal delta = 360.0 * v/myTotal;
-
-    bool isSelected = selectionModel()->selectedIndexes().contains( index )
-                      || currentIndex() == index;
-
-    if ( mySplitted == false ) {
-      paintPart( painter, angle, delta, color, isSelected );
-    } else {
-      paintPartSplitted( painter, angle, delta, color, isSelected );
-    }
-    angle += delta;
-  }
-
-  painter.drawText( 10, myRect.bottomLeft().y() + 10,
-                    width() - 20, height() - myRect.height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
-  painter.restore();  
-}
-
-void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) {
-
-  if ( isSelected == true ) {
-    paintPartSplitted( painter, angle, delta, color );
-    return;
-  }
-  QPainterPath part = itemPart( angle, delta );
-
-  painter.save();
-  painter.setClipPath( part ); /* To avoid the "borders superposition" */
-  int flag = 0;
-  configureColor( painter, color, flag );
-  painter.drawPath( part );
-
-  painter.restore();
-}
-
-void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
-                                  QColor color, bool isSelected ) {
-
-  QPainterPath part = itemPart( angle, delta, true );
-
-  painter.save();
-  if ( mySplitted == true
-       && ( !selectionModel()->selectedIndexes().isEmpty() || currentIndex().isValid() )
-       && isSelected == false ) {
-    configureColor( painter, color, 2 );
-  } else {
-    configureColor( painter, color, 1 );
-  }
-  painter.drawPath( part );
-  painter.restore();
-}
-
-void PieChart::configureColor(QPainter &painter, QColor base, int flag ) const {
-  switch ( flag ) {
-    case 0:
-    default:
-      painter.setPen( QPen( base.darker( 105 ), 4 ) );
-      painter.setBrush( base );
-    break;
-    case 1:
-      painter.setPen( QPen( base.darker( 105 ), 2 ) );
-      painter.setBrush( base );
-    break;
-    case 2:
-      base.setAlpha( base.alpha() * 0.75 );
-      painter.setPen( QPen( base.lighter( 110 ), 2 ) );
-      painter.setBrush( base.lighter( 120 ) );
-  }
-}
-
-QPainterPath PieChart::itemPath( const QModelIndex& index ) const {
-  QPainterPath path;
-  qreal angle = myStartAngle;
-  for ( int r = 0; r < index.row(); ++r ) {
-    QModelIndex id = model()->index( r, 0 );
-    qreal v = qAbs( model()->data( id ).toReal() );
-    qreal delta = 360.0 * v/myTotal;
-    angle += delta;
-  }
-
-  qreal v = qAbs( model()->data( index ).toReal() );
-  qreal delta = 360.0 * v/myTotal;
-
-  if ( selectionModel()->selectedIndexes().contains( index )) {
-    path = itemPart( angle, delta, true );
-  } else {
-    path = itemPart( angle, delta );
-  }
-  return path;
-}
-
-
-'''

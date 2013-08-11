@@ -1,22 +1,3 @@
-
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
 from PySide.QtGui import QColor
 
 def enum(**enums):
@@ -47,9 +28,9 @@ class Color:
 	DarkOrange = 0xFFF219
 	DarkGray   = 0x505050
 	
-	__regularColors = [ Blue, Green, Orange, Purple, Red, Orange, Gray  ]
-	__lightColors = [ LightBlue, LightGreen, LightOrange, LightPurple, LightRed, LightOrange, LightGray  ]
-	__darkColors = [ DarkBlue, DarkGreen, DarkOrange, DarkPurple, DarkRed, DarkOrange, DarkGray  ]
+	__regularColors = [ Blue, Green, Orange, Purple, Red, Orange, Gray ]
+	__lightColors = [ LightBlue, LightGreen, LightOrange, LightPurple, LightRed, LightOrange, LightGray ]
+	__darkColors = [ DarkBlue, DarkGreen, DarkOrange, DarkPurple, DarkRed, DarkOrange, DarkGray ]
 	
 	@staticmethod
 	def regularColorAt(index):

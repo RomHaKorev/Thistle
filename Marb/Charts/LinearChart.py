@@ -1,28 +1,9 @@
-
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
 from ..Global import Color, Type
 from .Chart import Chart, ChartStyle
 from .Delegates import PointDelegate, BarDelegate
 
-from PySide.QtGui import QPainter, QPen, QStyleOptionViewItem, QColor, QFontMetrics
-from PySide.QtCore import QSize, QRect, QPointF, QPoint, Qt
+from PySide.QtGui import QPainter, QPen, QStyleOptionViewItem, QColor, QFontMetrics, QLinearGradient, QBrush, QStyle, QPainterPath
+from PySide.QtCore import QSize, QRect, QPointF, QPoint, Qt, QLineF, QModelIndex
 
 class LinearChart(Chart):
 	''' LinearChart class provides a view for QAbstractItemModel to display data in each column as line chart or bar chart.
@@ -41,7 +22,7 @@ class LinearChart(Chart):
 	def _processSpec(self):
 		if self.model() == None:
 			return None
-		self._chartRect = QRect( QPoint(self._marginX, self._marginY),  self.size() - QSize( self._marginX*2, self._marginY*2 ) )
+		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
 		metrics = QFontMetrics( self.font() )
 		
 		self.calculateLegendRect()
@@ -93,6 +74,7 @@ class LinearChart(Chart):
 				
 		return bars + lines + points
 
+
 	def process( self ):
 		if self.model() == None:
 			return None
@@ -124,7 +106,6 @@ class LinearChart(Chart):
 				bars.append( c )
 		return bars
 
-
 	def itemRect(self, index ):
 		'''Overloaded method.
 		'''
@@ -134,7 +115,7 @@ class LinearChart(Chart):
 		if value == None:
 			return QRect()
 		y = self.valueToPx(value)
-		x = self._origin.x() + index.row() *  self._x
+		x = self._origin.x() + index.row() * self._x
 		space = self._x * 0.2
 		orderedColumns = self._calculateOrderedColumn()
 		
@@ -192,7 +173,7 @@ class LinearChart(Chart):
 		x = self._x + self._origin.x()
 		i = 0
 		while (i < self.model().rowCount() ):
-			p1 = QPoint( x, self._origin.y() - 3  )
+			p1 = QPoint( x, self._origin.y() - 3 )
 			p2 = p1 + QPoint( 0, 6 )		
 			painter.drawLine( p1, p2 )
 			i += 1
@@ -211,7 +192,7 @@ class LinearChart(Chart):
 		y = self._minBound
 		
 		while y <= self._maxBound:
-			p1 = QPoint( self._origin.x(), self.valueToPx(y)  )
+			p1 = QPoint( self._origin.x(), self.valueToPx(y) )
 			p2 = p1 + QPoint( self._valuesRect.width(), 0 )
 			painter.drawLine( p1, p2 )
 			y += self._tickSize
@@ -227,7 +208,7 @@ class LinearChart(Chart):
 		x = self._x + self._origin.x()
 		i = 0
 		while (i < self.model().rowCount() ):
-			p1 = QPoint( x, self._origin.y() - 3  )
+			p1 = QPoint( x, self._origin.y() - 3 )
 			s = str(self.model().headerData( i, Qt.Vertical ))
 			painter.save()
 			painter.setPen( QPen( QColor(Color.DarkGray), 1.5 ) )
@@ -241,7 +222,7 @@ class LinearChart(Chart):
 		y = self._minBound
 			
 		while y <= self._maxBound:
-			p1 = QPoint( self._origin.x(), self.valueToPx(y)  )
+			p1 = QPoint( self._origin.x(), self.valueToPx(y) )
 			s = str(round(y, self._nbDigits))
 			s = s.rstrip("0")
 			s = s.rstrip(".")
@@ -268,8 +249,17 @@ class LinearChart(Chart):
 		style = self.columnStyle( column )
 		painter.setBrush( style.brush() )
 		painter.setPen( style.pen() )
-
-		for r in range(0, rows):
+		
+		isActive = True
+		if self.selectionModel() != None:
+			selectedIndexes = self.selectionModel().selectedIndexes()
+			if len( selectedIndexes ) != 0:
+				isActive = False
+				for idx in selectedIndexes:
+					if idx.column() == column:
+						isActive = True
+						break
+		for r in range( rows ):
 			index = self.model().index( r, column )
 			option = QStyleOptionViewItem()
 			value = index.data()
@@ -277,14 +267,37 @@ class LinearChart(Chart):
 				option.decorationPosition = QStyleOptionViewItem.Bottom
 			else:
 				option.decorationPosition = QStyleOptionViewItem.Top
+			
+			if isActive == False:
+				option.state = QStyle.State_Off
+			elif index in self.selectionModel().selectedIndexes():
+				option.state = QStyle.State_Selected
 
 			option.rect = self.itemRect( index )
 
 			if t | Type.Line == t:
 				if r < (rows - 1):
-					p1 = option.rect.center()
-					p2 = self.itemRect( self.model().index( r + 1, column ) ).center()
-					painter.drawLine( p1, p2 )
+					if isActive == False:
+						p1 = option.rect.center()
+						p2 = self.itemRect( self.model().index( r + 1, column ) ).center()
+						line = QLineF( p1, p2 )
+						l = QLineF( line.pointAt( 0.5 ), line.p2() ).normalVector()
+						l.setLength( 4 )
+						gradient = QLinearGradient( l.p1(), l.p2() )
+						c = QColor( Qt.darkGray )
+						c.setAlpha( 50 )
+						gradient.setColorAt( 0, c )
+						gradient.setColorAt( 1, Qt.transparent )
+						gradient.setSpread( QLinearGradient.ReflectSpread )
+						painter.save()
+						pen = QPen( QBrush( gradient ), 8 )
+						painter.setPen( pen ) 
+						painter.drawLine( p1, p2 )
+						painter.restore()
+					else:
+						p1 = option.rect.center()
+						p2 = self.itemRect( self.model().index( r + 1, column ) ).center()
+						painter.drawLine( p1, p2 )
 
 			if delegate != None:
 				delegate.paint( painter, option, index )
@@ -321,16 +334,3 @@ class LinearChart(Chart):
 			self._pointDelegate.paint( painter, option, self.model().index(0,c) )
 		
 		painter.restore()
-
-
-
-
-
-
-
-
-
-
-
-
-

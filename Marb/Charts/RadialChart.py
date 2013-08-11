@@ -1,22 +1,3 @@
-
-# This file is part of Marb.
-# 
-#     Marb is free software: you can redistribute it and/or modify
-#     it under the terms of the Lesser GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License.
-# 
-#     Marb is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#     Lesser GNU General Public License for more details.
-# 
-#     You should have received a copy of the Lesser GNU General Public License
-#     along with Marb.  If not, see <http://www.gnu.org/licenses/>.
-# 
-# Marb  Copyright (C) 2013  Dimitry Ernot
-
-
-
 from ..Global import Color
 from .Chart import Chart, ChartStyle
 
@@ -30,13 +11,35 @@ class RadialChart(Chart):
 		self._origin = QPointF(20, 20)
 		self._centerHoleDiam = 0
 		self._nbTicks = 5
+
 	
+	def itemPath( self, index ):
+		angle = float( self._x / self.model().columnCount() )
+		delta = 0.1 * angle
+		
+		startAngle = angle * index.column()
+		startAngle += index.row() * self._x
+		
+		pathCenter = QPainterPath()
+		rectangle = QRect( -self._centerHoleDiam/2, -self._centerHoleDiam/2, self._centerHoleDiam, self._centerHoleDiam )
+		rectangle.translate( self._valuesRect.center() )
+		
+		pathCenter.addEllipse( rectangle )
+		y = self.valueToPx( index.data( Qt.DisplayRole ) )
+		rectangle = QRect( -y/2, -y/2, y, y )
+		rectangle.translate( self._valuesRect.center() )
+		path = QPainterPath()
+		path.moveTo( self._valuesRect.center() )
+		path.arcTo( rectangle, -(startAngle + delta), -(angle - delta * 2) )
+		path.closeSubpath();
+		path = path.subtracted( pathCenter )
+		return path
 		
 	def _setAlphaBeta(self):
 		w = self._valuesRect.width()
-		self._centerHoleDiam =  w * 0.2
+		self._centerHoleDiam = w * 0.2
 		m = w * 0.3 
-		self._alpha = float( w - m )  / float( self._maxBound - self._minBound )
+		self._alpha = float( w - m ) / float( self._maxBound - self._minBound )
 		self._beta = w - self._alpha * self._maxBound
 
 
@@ -46,7 +49,7 @@ class RadialChart(Chart):
 		
 		textWidth = self._scanValues()
 		
-		self._chartRect = QRect( QPoint(self._marginX, self._marginY),  self.size() - QSize( self._marginX*2, self._marginY*2 ) )
+		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
 		self.calculateLegendRect()
 		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
 		self._chartRect.translate( 0, self._legendRect.height() + 10 )
@@ -80,7 +83,7 @@ class RadialChart(Chart):
 		if column in self._style:
 			return self._style[ column ]
 		else:
-			style =  ChartStyle()
+			style = ChartStyle()
 			c1 = Color.lightColorAt( column )
 			c2 = Color.regularColorAt( column )
 			c1.setAlpha( 200 )
@@ -89,20 +92,14 @@ class RadialChart(Chart):
 			return style
 
 	def paintChart(self, painter):		
-#		painter.drawRect( self._chartRect )
-#		painter.setPen( Qt.red )
-#		painter.drawRect(self._valuesRect)
-#		painter.setPen( Qt.blue )
-#		painter.drawRect(self._titleRect)
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
 		
 		self._paintText(painter)
 		self.__paintTicks( painter )
-		#self._paintAxis( painter )
-		
+
 		cols = self.model().columnCount()
 		painter.save()
-		for c in range(0, cols):	
+		for c in range( cols ):
 			style = self.columnStyle( c )
 			painter.setPen( style.pen() )				
 			painter.setBrush( style.brush() )
@@ -114,19 +111,8 @@ class RadialChart(Chart):
 		font.setItalic( True )
 		painter.setFont( font )
 		painter.drawText( self._titleRect, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
-	
-	
-	# def _paintAxis( self, painter ):
-		# painter.save()
-		# self.__paintTicks( painter )
-		# painter.setRenderHint( QPainter.Antialiasing, False )
-		# painter.setPen( QPen( Qt.darkGray, 1.5) )
-		# p1 = self._valuesRect.center() - QPoint(0, self._centerHoleDiam/2)
-		# p2 = QPoint( self._valuesRect.center().x(), self._valuesRect.top() )
-		# painter.drawLine( p1, p2 )
-		# painter.restore()
+
 		
-	
 	def __paintTicks(self, painter):
 			y = self._minBound
 			painter.save()
@@ -144,26 +130,6 @@ class RadialChart(Chart):
 				y += self._tickSize
 			
 			painter.restore()
-	
-	
-	# def _paintTextAxis(self, painter):
-		# painter.save()
-		# metrics = QFontMetrics( self.font() )
-		# h = metrics.height()
-
-		# x = self._minBound
-		# painter.setPen( QPen( QColor( Color.DarkGray ), 1.5 ) )
-		# while ( x <= self._maxBound ):
-			# v = self.valueToPx( x )
-			# s = str(round(x, self._nbDigits))
-			# s = s.rstrip("0")
-			# s = s.rstrip(".")
-			# w = metrics.width( s )		
-			# p = self._valuesRect.center() + QPoint( -w - 5, -v/2 + h/2 )
-			# painter.drawText( p, s )
-			# x += self._tickSize
-		
-		# painter.restore()
 
 
 	def _paintText(self, painter):
@@ -213,33 +179,25 @@ class RadialChart(Chart):
 		rows = self.model().rowCount()
 		painter.save()
 		
-		angle = float( self._x / self.model().columnCount() )
-		delta = 0.1 * angle
-		
-		startAngle = angle * column
-		
-		pathCenter = QPainterPath()
-		rectangle = QRect( -self._centerHoleDiam/2, -self._centerHoleDiam/2, self._centerHoleDiam, self._centerHoleDiam )
-		rectangle.translate( self._valuesRect.center() )
-		
-		pathCenter.addEllipse( rectangle )
-		
-			
 		for r in range(0, rows):
 			index = self.model().index( r, column )
-			y = self.valueToPx( index.data( Qt.DisplayRole ) )
-			rectangle = QRect( -y/2, -y/2, y, y )
-			rectangle.translate( self._valuesRect.center() )
-			path = QPainterPath()
-			path.moveTo( self._valuesRect.center() )
-			path.arcTo( rectangle, -(startAngle + delta), -(angle - delta * 2)  )
-			path.closeSubpath();
-			path = path.subtracted( pathCenter )
-			
+			selectedIndexes = self.selectionModel().selectedIndexes()
+			painter.save()
+			if len( selectedIndexes ) != 0:
+				if index not in selectedIndexes:
+					pen = painter.pen()
+					c = pen.color()
+					c.setAlpha( c.alpha() * 0.5 )
+					pen.setColor( c )
+					painter.setPen( pen )
+					brush = painter.brush()
+					c = brush.color()
+					c.setAlpha( c.alpha() * 0.5 )
+					brush.setColor( c )
+					painter.setBrush( brush )
+			path = self.itemPath( index )
 			painter.drawPath( path )
-
-			startAngle += self._x
-		
+			painter.restore()
 		painter.restore()
 
 
@@ -256,5 +214,3 @@ class RadialChart(Chart):
 		painter.setBrush( style.brush() )
 		painter.drawPie( r, 210 * 16, -60 * 16 )
 		painter.restore()
-
-
