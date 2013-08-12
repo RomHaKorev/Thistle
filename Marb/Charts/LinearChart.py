@@ -22,22 +22,8 @@ class LinearChart(Chart):
 	def _processSpec(self):
 		if self.model() == None:
 			return None
-		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
+		self.defineRects()
 		metrics = QFontMetrics( self.font() )
-		
-		self.calculateLegendRect()
-		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
-		self._chartRect.translate( 0, self._legendRect.height() + 10 )
-		
-		if self._title != "":
-			font = self.font()
-			font.setItalic( True )
-			m = QFontMetrics( font )
-			r = QRect( 0, 0, self._chartRect.width() - 40, 0 )
-			self._titleRect = m.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
-		
-			self._chartRect.setHeight( self._chartRect.height() - self._titleRect.height() - 20 )
-			
 		self._calculateBounds()
 		self._origin.setX( metrics.width( str(-1 * self._order) ) + metrics.width("0") * self._nbDigits + self._marginX )
 		

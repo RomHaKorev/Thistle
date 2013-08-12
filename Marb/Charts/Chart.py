@@ -180,6 +180,35 @@ class Chart(MarbAbstractItemView):
 		'''
 		raise( NotImplementedError, "Must be implemented." )
 
+	def defineRects(self):
+		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
+		metrics = QFontMetrics( self.font() )
+		
+		self.calculateLegendRect()
+		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
+		self._chartRect.translate( 0, self._legendRect.height() + 10 )
+		
+		if self._title != "":
+			font = self.font()
+			font.setItalic( True )
+			m = QFontMetrics( font )
+			r = QRect( 0, 0, self._chartRect.width() - 40, 0 )
+			self._titleRect = m.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
+		
+			self._chartRect.setHeight( self._chartRect.height() - self._titleRect.height() - 20 )
+#		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
+#		self.calculateLegendRect()
+#		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
+#		self._chartRect.translate( 0, self._legendRect.height() + 10 )
+#		
+#		metrics = QFontMetrics( self.font() )
+#		if self._title != "":
+#			font = self.font()
+#			font.setItalic( True )
+#			m = QFontMetrics( font )
+#			r = QRect( 0, 0, self._centerHoleDiam, 0 )
+#			self._titleRect = m.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
+#			self._chartRect.setHeight( self._chartRect.height() - self._titleRect.height() )
 
 	def _scanValues(self):
 		'''Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.

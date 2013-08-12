@@ -49,19 +49,7 @@ class RadialChart(Chart):
 		
 		textWidth = self._scanValues()
 		
-		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
-		self.calculateLegendRect()
-		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
-		self._chartRect.translate( 0, self._legendRect.height() + 10 )
-		
-		metrics = QFontMetrics( self.font() )
-		if self._title != "":
-			font = self.font()
-			font.setItalic( True )
-			m = QFontMetrics( font )
-			r = QRect( 0, 0, self._centerHoleDiam, 0 )
-			self._titleRect = m.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
-			self._chartRect.setHeight( self._chartRect.height() - self._titleRect.height() )
+		self.defineRects()
 			
 		w = min( self._chartRect.width(), self._chartRect.height() ) - (textWidth + 10 )
 		self._valuesRect = QRect( -w/2, -w/2, w, w )
@@ -178,23 +166,40 @@ class RadialChart(Chart):
 	def _paintValues( self, painter, column ):
 		rows = self.model().rowCount()
 		painter.save()
-		
+		isActive = False
+		selectedIndexes = self.selectionModel().selectedIndexes()
+		if selectedIndexes != []:
+			for idx in selectedIndexes:
+				if idx.column() == column:
+					isActive = True
+					break
+		else:
+			isActive = True
 		for r in range(0, rows):
 			index = self.model().index( r, column )
-			selectedIndexes = self.selectionModel().selectedIndexes()
 			painter.save()
 			if len( selectedIndexes ) != 0:
 				if index not in selectedIndexes:
-					pen = painter.pen()
-					c = pen.color()
-					c.setAlpha( c.alpha() * 0.5 )
-					pen.setColor( c )
-					painter.setPen( pen )
-					brush = painter.brush()
-					c = brush.color()
-					c.setAlpha( c.alpha() * 0.5 )
-					brush.setColor( c )
-					painter.setBrush( brush )
+					if isActive == False:
+						c = QColor(Color.Gray)
+						c.setAlpha( 125 )
+						pen = painter.pen()
+						pen.setColor( c )
+						painter.setPen( pen )
+						c = QColor(Color.LightGray)
+						c.setAlpha( 150 )
+						painter.setBrush( QBrush( c ) )
+					else:
+						pen = painter.pen()
+						c = pen.color()
+						c.setAlpha( c.alpha() * 0.5 )
+						pen.setColor( c )
+						painter.setPen( pen )
+						brush = painter.brush()
+						c = brush.color()
+						c.setAlpha( c.alpha() * 0.5 )
+						brush.setColor( c )
+						painter.setBrush( brush )
 			path = self.itemPath( index )
 			painter.drawPath( path )
 			painter.restore()

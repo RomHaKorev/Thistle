@@ -3,9 +3,10 @@ from Marb.Global import Color, Render
 from PySide.QtGui import QAbstractItemView, QPen, QRegion, QColor, QFontMetrics, QPainter, QPixmap, QPainterPath
 from PySide.QtCore import QRect, QPointF, Qt, QModelIndex, QLineF
 
-from ..MarbAbstractItemView import MarbAbstractItemView
+#from ..MarbAbstractItemView import MarbAbstractItemView
+from .Chart import Chart
 
-class PieChart( MarbAbstractItemView ):
+class PieChart( Chart ):
 	class ColorConf:
 		Normal = 0
 		Lighter = 1
@@ -61,7 +62,16 @@ class PieChart( MarbAbstractItemView ):
 	def scrollTo( self, index, hint ):
 		pass
 
+	def _processSpec(self):
+		if self.model() == None:
+			return None
+		self.defineRects()
+		metrics = QFontMetrics( self.font() )
 
+		self._titleRect.moveTo( self._chartRect.bottomLeft() )
+		self._titleRect.translate( (self._chartRect.width() - self._titleRect.width())/2, 20 )
+
+	
 	def updateValues( self ):
 		metrics = QFontMetrics( self.font() )
 		maxLabelWidth = 0
@@ -90,14 +100,11 @@ class PieChart( MarbAbstractItemView ):
 		else :
 			self._Rect = QRect( x + (w-h)/2, y, h , h )
 		
-		if self._Splitted == True:
-			w = self._Rect.width() * 0.80
-			h = self._Rect.height() * 0.80
-			dw = self._Rect.width() - w
-			dh = self._Rect.height() - h
-			self._chartRect = QRect( self._Rect.x() + dw/2.0, self._Rect.y() + dh/2.0, w, h )
-		else:
-			self._chartRect = QRect( self._Rect )
+		w = self._Rect.width() * 0.80
+		h = self._Rect.height() * 0.80
+		dw = self._Rect.width() - w
+		dh = self._Rect.height() - h
+		self._chartRect = QRect( self._Rect.x() + dw/2.0, self._Rect.y() + dh/2.0, w, h )
 		
 		self._rightLabelRect.translate( self._Rect.topRight().x(), 0 )
 		self._leftLabelRect.translate( self._Rect.topLeft().x() - self._leftLabelRect.width(), 0 )
@@ -124,6 +131,8 @@ class PieChart( MarbAbstractItemView ):
 		self._leftLabels = []
 		self._rightLabels = []
 		
+		selectedIndexes = self.selectionModel().selectedIndexes()
+		
 		for i in range( 0, rows ):
 			index = self.model().index( i, 0 )
 			
@@ -144,11 +153,24 @@ class PieChart( MarbAbstractItemView ):
 				self._leftLabels.append( (i, centerAngle, color) )
 				
 			# A part can be splitted if self._Splitted is True or if self._Splitted is False and the value is selected in the model.
-			# For now, only the first case is implemented (see, "bug in PySide ?")
+			isSelected = False
+			if selectedIndexes != []:
+				for idx in selectedIndexes:
+					if idx == index:
+						isSelected = True
+						break
 			if self._Splitted == False:
-				self.paintPart( painter, angle, delta, color )
+				if isSelected == False:
+					self.paintPart( painter, angle, delta, color )
+				else:
+					self.paintPartSplitted( painter, angle, delta, color )
 			else:
-				self.paintPartSplitted( painter, angle, delta, color )
+				if selectedIndexes != [] and isSelected == False:
+					c = QColor( color )
+					c.setAlpha( c.alpha() * 0.5 )
+					self.paintPartSplitted( painter, angle, delta, c )
+				else:
+					self.paintPartSplitted( painter, angle, delta, color )
 				
 			angle += delta
 		
@@ -203,18 +225,17 @@ class PieChart( MarbAbstractItemView ):
 			painter.drawLine( p1, p )
 			painter.setPen( pen )
 
-	
 
 	def paintPart( self, painter, angle, delta, color ):		
 		part = self.itemPart( angle, delta )
-
+		
 		painter.save()
 		painter.setClipPath( part ) # To avoid the "borders superposition"
 		self.configureColor(painter, color, PieChart.ColorConf.Lighter)
 		painter.drawPath( part )
 
 		painter.restore()
-	
+
 
 	def paintPartSplitted( self, painter, angle, delta, color ):
 		part = self.itemPart( angle, delta, True )
@@ -241,14 +262,14 @@ class PieChart( MarbAbstractItemView ):
 			path = self.itemPart( angle, delta, True )
 		else :
 			path = self.itemPart( angle, delta )
-		
 		return path
 	
 	
-	def splittedOffset( self, angle, delta ):
-		if self._Splitted == False:
+	def splittedOffset( self, angle, delta, splitted ):
+		print("splittedOffset", splitted)
+		if splitted == False:
 			return ( 0, 0 )
-		line = QLineF( QPointF(0,0), QPointF(self._chartRect.width()/2, 0) )
+		line = QLineF( QPointF(0,0), QPointF((self._chartRect.width()/2), 0) )
 		line.setAngle( -angle - delta/2 )
 		p1 = line.p2()
 		line.setLength( line.length() * self._Rect.width() / self._chartRect.width() )
@@ -262,7 +283,7 @@ class PieChart( MarbAbstractItemView ):
 		part.arcTo( self._chartRect, -angle, -delta )
 
 		if splitted == True:
-			(x, y) = self.splittedOffset(angle, delta)
+			(x, y) = self.splittedOffset(angle, delta, True)
 			part.translate( x, y )
 			
 		part.closeSubpath()
