@@ -156,7 +156,7 @@ class Chart(MarbAbstractItemView):
 		'''
 		if isinstance( title, str):
 			self._title = title
-			self._processSpec()
+			self._updateRects()
 			self.update()
 		else:
 			raise( TypeError, "title must be a string" )
@@ -171,10 +171,10 @@ class Chart(MarbAbstractItemView):
 		self._min = 0
 		self._max = 0
 								
-		self._processSpec()
+		self._updateRects()
 
 
-	def _processSpec(self):
+	def _updateRects(self):
 		'''Calculates the size and the position of each view part (legend, title,chart)
 		Called when the view is resized or model has changed.
 		'''
@@ -194,7 +194,6 @@ class Chart(MarbAbstractItemView):
 			m = QFontMetrics( font )
 			r = QRect( 0, 0, self._chartRect.width() - 40, 0 )
 			self._titleRect = m.boundingRect( r, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
-		
 			self._chartRect.setHeight( self._chartRect.height() - self._titleRect.height() - 20 )
 #		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
 #		self.calculateLegendRect()

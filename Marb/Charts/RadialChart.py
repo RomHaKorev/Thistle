@@ -43,7 +43,7 @@ class RadialChart(Chart):
 		self._beta = w - self._alpha * self._maxBound
 
 
-	def _processSpec(self):
+	def _updateRects(self):
 		if self.model() == None:
 			return None
 		

@@ -19,7 +19,7 @@ class LinearChart(Chart):
 		self._minBottomMargin = 0
 
 
-	def _processSpec(self):
+	def _updateRects(self):
 		if self.model() == None:
 			return None
 		self.defineRects()
@@ -69,7 +69,7 @@ class LinearChart(Chart):
 		
 		self._minBottomMargin = self._scanValues() + 10
 		
-		self._processSpec()
+		self._updateRects()
 
 
 	def columnType(self, column):
