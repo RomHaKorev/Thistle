@@ -1,3 +1,4 @@
+
 #include <QApplication>
 #include <QStandardItemModel>
 #include <QTableView>
@@ -9,14 +10,14 @@
 #include <QScrollBar>
 
 //#if 0
-#include "trees/horizontaltree.h"
-#include "trees/verticaltree.h"
+#include "Trees/horizontaltree.h"
+#include "Trees/verticaltree.h"
 #include "Trees/radialtree.h"
 #include "Trees/treeitemdelegate.h"
 #include "Trees/tree.h"
 #include "Graphs/graph.h"
 
-#include "charts/linearchart.h"
+#include "Charts/linearchart.h"
 
 #include <QPropertyAnimation>
 #include <QLabel>

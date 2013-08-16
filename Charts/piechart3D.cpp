@@ -16,7 +16,7 @@
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
 
-#include "piechart3d.h"
+#include "piechart3D.h"
 
 #include "Marb.h"
 #include <QDebug>
