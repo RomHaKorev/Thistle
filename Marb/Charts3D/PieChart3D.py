@@ -52,8 +52,8 @@ class PieChart3D( PieChart ):
 			angle += delta
 		
 		self._Angles.append(360.0)
-	
-	
+
+
 	def paintChart( self, painter) :
 		painter = QPainter( self.viewport() )
 		painter.save()
@@ -68,20 +68,26 @@ class PieChart3D( PieChart ):
 		self.paintExternal( painter, False )
 #		else:
 #			self.paintExternal( painter, False )
-
+		
 		i = 0
 		while ( i < len( self._Angles ) - 2 ):		
 			index = self.model().index( i/2, 0 )
 			color = QColor( self.model().data( index, Qt.DecorationRole ) )
 			if not color.isValid():
 				color = Color.colorAt( int(i/2) )
-	
-			#isSelected = index in self.selectionModel().selectedIndexes() or self.currentIndex() == index
-	
+			isSelected = index in self.selectionModel().selectedIndexes()
 			if self._Splitted == False:
-				self.paintPart( painter, self._Angles[i], self._Angles[i + 1], color )
-			else :
-				self.paintPartSplitted( painter, self._Angles[i], self._Angles[i + 1], color )
+				if isSelected == False:
+					self.paintPart( painter, self._Angles[i], self._Angles[i + 1], color )
+				else:
+					self.paintPartSplitted( painter, self._Angles[i], self._Angles[i + 1], color )
+			else:
+				if self.selectionModel().selectedIndexes() != [] and isSelected == False:
+					c = QColor( color )
+					c.setAlpha( c.alpha() * 0.5 )
+					self.paintPartSplitted( painter, self._Angles[i], self._Angles[i + 1], c )
+				else:
+					self.paintPartSplitted( painter, self._Angles[i], self._Angles[i + 1], color )
 			i+=2
 				
 		painter.restore()
@@ -102,15 +108,6 @@ class PieChart3D( PieChart ):
 			
 			if top == False:
 				if a1 <= 180 and a2 > 180:
-#					if self._Render == Render.Plain:
-#						self.configureColor( painter, color, PieChart.ColorConf.Normal )
-#						delta = 180.0 - a1
-#						offset = self.splittedOffset( self._Angles[i], delta )
-#						path = self.itemExternalPart( self._Angles[i], delta, self._Splitted )
-#						painter.drawPath( path )
-#						painter.setPen( Qt.NoPen )
-#						path = self.side( 180, offset )
-#						painter.drawPath( path )
 					painter.restore()
 					i += 2
 					continue
@@ -124,8 +121,9 @@ class PieChart3D( PieChart ):
 					painter.restore()
 					i += 2
 					continue
-				
-			path = self.itemExternalPart( a1, delta, self._Splitted )
+			
+			isSelected = self._Splitted or (index in self.selectionModel().selectedIndexes())
+			path = self.itemExternalPart( a1, delta, isSelected )
 	
 			self.configureColor( painter, color, PieChart.ColorConf.Darker )
 			
@@ -136,7 +134,7 @@ class PieChart3D( PieChart ):
 			else:
 				painter.drawPath( path )
 				if a1 < 180 and a2 > 180:
-					self.paintLeft( painter, a1, delta );
+					self.paintLeft( painter, a1, delta, isSelected );
 			painter.restore()
 			i += 2
 	
@@ -155,9 +153,10 @@ class PieChart3D( PieChart ):
 			if not color.isValid():
 				color = Color.colorAt( int(i/2) )
 			
-			offset = self.splittedOffset( self._Angles[i], self._Angles[i + 1], False )
+			isSelected = self._Splitted or (index in self.selectionModel().selectedIndexes())
+			offset = self.splittedOffset( self._Angles[i], self._Angles[i + 1], isSelected )
 	
-			path = self.side( self._Angles[i], offset )
+			path = self.side( self._Angles[i], offset, isSelected )
 	
 			if self._Angles[i] <= 90:
 				rightBottom.append( (path, color) )
@@ -168,7 +167,7 @@ class PieChart3D( PieChart ):
 			else:
 				rightTop.append( (path, color) )
 			
-			path = self.side( self._Angles[i] + self._Angles[i+1], offset )
+			path = self.side( self._Angles[i] + self._Angles[i+1], offset, isSelected )
 	
 			if self._Angles[i] <= 90:
 				rightBottom.append( (path, color) )
@@ -187,12 +186,12 @@ class PieChart3D( PieChart ):
 			painter.drawPath( pair[0] )
 
 	
-	def side( self, angle, centerOffset ):
+	def side( self, angle, centerOffset, splitted ):
 		ell = QPainterPath()
 	
 		r = QRect(self._valuesRect)
 		
-		if (self._Splitted == True ) :
+		if (splitted == True ) :
 			r.translate( centerOffset[0], centerOffset[1] )
 		
 		ell.addEllipse( r )
@@ -255,7 +254,7 @@ class PieChart3D( PieChart ):
 		outside.lineTo( p1 )
 	
 		if splitted == True :
-			(x, y) = self.splittedOffset( angle, delta )
+			(x, y) = self.splittedOffset( angle, delta, True )
 			outside.translate( x, y )
 		
 		return outside
@@ -265,30 +264,32 @@ class PieChart3D( PieChart ):
 		self._Render = r
 	
 		
-	def paintLeft( self, painter, angle, delta ):
+	def paintLeft( self, painter, angle, delta, splitted ):
 		if self._Render == Render.Wireframe:
 			return None
 		painter.save()
 		#self.configureColor( painter, color, 3 );
-		width = painter.pen().width()/2.0;
-		painter.setPen( Qt.NoPen );
+		width = painter.pen().width()/2.0
+		painter.setPen( Qt.NoPen )
 		path = QPainterPath()
 		ellipse1 = QPainterPath()
 		ellipse2 = QPainterPath()
-		ellipse1.addEllipse( self._valuesRect );
-		ellipse2.addEllipse( self._valuesRect.translated( 0, self._Height ) );
+		ellipse1.addEllipse( self._valuesRect )
+		ellipse2.addEllipse( self._valuesRect.translated( 0, self._Height ) )
 		
-		(x, y) = self.splittedOffset( angle, delta, False )
+		(x, y) = self.splittedOffset( angle, delta, splitted )
 		ellipse1.translate( x, y )
 		ellipse2.translate( x, y )
 		
-		path.moveTo( ellipse1.pointAtPercent( 0.5 ) + QPointF( -width, 0 ) );
-		path.lineTo( ellipse2.pointAtPercent( 0.5 ) + QPointF( -width, 0 ) );
-		path.arcTo( self._valuesRect.translated( 0, self._Height ), 180, -90 );
-		path.moveTo( ellipse1.pointAtPercent( 0.5 ) );
-		path.arcTo( self._valuesRect, 180, 90 );
-		path = path.subtracted( ellipse1 );
-		path = path.subtracted( ellipse2 );
+		path.moveTo( ellipse1.pointAtPercent( 0.5 ) + QPointF( -width, 0 ) )
+		path.lineTo( ellipse2.pointAtPercent( 0.5 ) + QPointF( -width, 0 ) )
+		path.arcTo( self._valuesRect.translated( 0, self._Height ), 180, -90 )
+		path.moveTo( ellipse1.pointAtPercent( 0.5 ) )
+		path.arcTo( self._valuesRect, 180, 90 )
+		path = path.subtracted( ellipse1 )
+		path = path.subtracted( ellipse2 )
 		
-		painter.fillPath( path, painter.brush().color() );
-		painter.restore();
+		painter.fillPath( path, painter.brush().color() )
+		painter.restore()
+		
+	
