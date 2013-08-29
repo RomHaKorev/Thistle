@@ -25,6 +25,17 @@ ChartStyle::ChartStyle() {
   myType = Marb::Line | Marb::Point;
 }
 
+
+QBrush ChartStyle::brush() const {
+  return myBrush;
+}
+
+
+QPen ChartStyle::pen() const {
+  return myPen;
+}
+
+
 void ChartStyle::setBrush( const QBrush brush) {
   myBrush = brush;
 }
@@ -41,15 +52,12 @@ void ChartStyle::setType( const Marb::Types type) {
   myType = type;
 }
 
-QBrush ChartStyle::brush() const {
-  return myBrush;
-}
-QPen ChartStyle::pen() const {
-  return myPen;
-}
+
 Marb::Shape ChartStyle::shape() const {
   return myShape;
 }
+
+
 Marb::Types ChartStyle::type() const {
   return myType;
 }

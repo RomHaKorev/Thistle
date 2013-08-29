@@ -23,7 +23,6 @@
 #include <QAbstractItemModel>
 #include <QFontMetrics>
 #include <QScrollBar>
-
 #include <qmath.h>
 
 #include "marbitemdelegate.h"
@@ -42,6 +41,7 @@ RadialTree::RadialTree( QWidget* parent ) : Tree( parent ) {
   myYDistance = 40;
   myXDistance = 40;
 
+  myItemOffset = QPoint( 0, 0 );
   myRadius = 1;
   myDiagonal = 1;
 }
@@ -61,6 +61,7 @@ void RadialTree::setRotateText( bool rotate ) {
   my_rotateText = rotate;
 }
 
+
 /***************************************
 **
 **        RESOLVING POSITIONS
@@ -68,7 +69,7 @@ void RadialTree::setRotateText( bool rotate ) {
 ***************************************/
 QPointF RadialTree::scan(QModelIndex index, QPointF leftDepth) {
   myOrderedIndexes.append( index );
-  int rows = model()->rowCount( index );
+  int rows = this->model()->rowCount( index );
   if ( !index.isValid() ) {
     return QPointF();
   } else if ( rows == 0 ) {
@@ -85,12 +86,12 @@ QPointF RadialTree::scan(QModelIndex index, QPointF leftDepth) {
       childDepth = qMax( childDepth, p.y() );
   }
 
-  qreal left = myItemTreePos[ model()->index(0, 0, index) ].x();
-  qreal right =  myItemTreePos[ model()->index( rows - 1, 0, index ) ].x();
+  qreal left = myItemTreePos[ this->model()->index(0, 0, index) ].x();
+  qreal right =  myItemTreePos[ this->model()->index( rows - 1, 0, index ) ].x();
   if ( rows >= 2 ) {
       if ( rows % 2 == 1 ) {
           qreal r = qFloor( rows/2 ) + 1;
-          qreal v = myItemTreePos[ model()->index( r - 1, 0, index ) ].x();
+          qreal v = myItemTreePos[ this->model()->index( r - 1, 0, index ) ].x();
           setX( index, v );
       } else {
           setX( index, ( right + left + 1 ) / 2.0 );
@@ -107,25 +108,23 @@ void RadialTree::positionsInTree() {
   myItemTreePos.clear();
   myOrderedIndexes.clear();
 
-  QPointF p = scan( model()->index(0,0) , QPointF(0,0));
+  QPointF p = scan( this->model()->index(0,0) , QPointF(0,0));
   myLeft = p.x() + 1;
   myDepth = p.y();
-
-//  foreach( QModelIndex idx, myItemTreePos.keys() ) {
-//    qDebug() << idx.data() << myItemTreePos[idx];
-//  }
-
-  //myItemTreePos[ model()->index(0,0) ] = QPointF(0, 0);
 
   positionsInView();
 }
 
 void RadialTree::positionsInView() {
-  if ( myItemTreePos.isEmpty() ) {
+  if ( myItemTreePos.isEmpty() || (myRadius == INFINITY) || (myRadius == NAN) ) {
       return;
   }
 
   updatePerimeter();
+
+  if ( (myRadius == INFINITY) || (myRadius == NAN) ) {
+    return;
+  }
 
   myRealSize.setWidth( myRadius * 2 + myItemRect.width());
   myRealSize.setHeight( myRadius * 2 + myItemRect.height() );
@@ -140,18 +139,18 @@ void RadialTree::positionsInView() {
   qreal factor = 0;
 
   foreach( QModelIndex index, myOrderedIndexes ) {
-    if ( model()->rowCount( index ) != 0 ) {
+    if ( this->model()->rowCount( index ) != 0 ) {
           continue;
     }
     factor = qreal(myDepth) / qreal(myItemPos[index].y());
 
-    if ( model()->rowCount( index ) == 0 ) {
+    if ( this->model()->rowCount( index ) == 0 ) {
         l +=	(qreal(myDiagonal)/2.0) * qreal(factor);
     }
     qreal percent = path.percentAtLength( l );
     myItemPos[index] = QPointF( percent, myItemPos[index].y() );
 
-    if ( model()->rowCount( index ) == 0 ) {
+    if ( this->model()->rowCount( index ) == 0 ) {
         l +=	(qreal(myDiagonal)/2.0) * qreal(factor);
     }
   }
@@ -162,11 +161,11 @@ void RadialTree::positionsInView() {
   }
 
   foreach ( QModelIndex index, reversedOrderedIndexes ) {
-      if ( model()->rowCount( index ) == 0 ) {
+      if ( this->model()->rowCount( index ) == 0 ) {
           continue;
       }
-      QModelIndex left = model()->index( 0,0, index );
-      QModelIndex right = model()->index( model()->rowCount(index) - 1,0, index );
+      QModelIndex left = this->model()->index( 0,0, index );
+      QModelIndex right = this->model()->index( this->model()->rowCount(index) - 1,0, index );
       myItemPos[index] = QPointF( float(myItemPos[left].x() + myItemPos[right].x()) / 2.0, myItemPos[index].y() );
   }
 
@@ -189,7 +188,7 @@ void RadialTree::positionsInView() {
 
     myItemPos[index] = circle.pointAtPercent( myItemPos[index].x() ) + myItemOffset;
   }
-  myItemPos[ model()->index(0,0) ] = myItemOffset;
+  myItemPos[ this->model()->index(0,0) ] = myItemOffset;
 }
 
 void RadialTree::updatePerimeter() {
@@ -199,7 +198,7 @@ void RadialTree::updatePerimeter() {
   myPerimeter = 0;
   qreal factor = 1;
   foreach ( QModelIndex index, myItemTreePos.keys() ) {
-    if ( model()->rowCount( index ) == 0 ) {
+    if ( this->model()->rowCount( index ) == 0 ) {
       factor = ( myDepth ) / ( myItemTreePos.value( index ).y() );
       myPerimeter += myDiagonal * factor;
     }
@@ -225,7 +224,7 @@ void RadialTree::paintCircles( QPainter& painter, QPointF offset ) {
   pen.setWidth( pen.width() * 2 );
   painter.setPen( pen );
   painter.setRenderHint( QPainter::Antialiasing );
-  QModelIndex index = model()->index(0,0);
+  QModelIndex index = this->model()->index(0,0);
   QPointF center = itemRect(index).translated( offset.x(), offset.y() ).center();
   for( int rd = 1; rd < myDepth; ++rd ) {
       qreal r = myRadius * rd / myDepth;

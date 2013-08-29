@@ -56,32 +56,33 @@ protected:
   int myMinBottomMargin;
 
   virtual void process();
-  virtual void updateValues() = 0;
+  virtual void defineRects();
   int scanValues();
   void calculateBounds();
   void calculateLegendRect();
   qreal calculateOrder( qreal value ) const;
   qreal valueToPx( qreal value) const;
   void setAlphaBeta();
-  virtual QRectF itemRect( const QModelIndex& index ) const = 0;
   virtual void resizeEvent( QResizeEvent* ev );
   virtual void paintLegend( QPainter& painter );
-  virtual void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight ) = 0;
+  virtual void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight );
   virtual void paintChart( QPainter& ) = 0;
   virtual void paintEvent(QPaintEvent *event);
 
   virtual void setScrollBarValues();
   virtual QModelIndex indexAt(const QPoint &point) const;
+  virtual QPainterPath itemPath(const QModelIndex &index) const;
+  virtual void updateRects() = 0;
+  virtual void updateValues();
 
 public:
   explicit Chart( QWidget* parent = 0 );
            ~Chart();
-  void     setModel( QAbstractItemModel* model );
-
-  void setTitle( QString title );
-  void setColumnStyle( int column, ChartStyle style);
   ChartStyle columnStyle( int column ) const;
   bool save( QString filename );
+  void setModel( QAbstractItemModel* model );
+  void setColumnStyle( int column, ChartStyle style);
+  void setTitle( QString title );
 };
 
 #endif // CHART_H

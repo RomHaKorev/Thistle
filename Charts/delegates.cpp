@@ -20,7 +20,6 @@
 #include "chart.h"
 #include "Marb.h"
 #include "chartstyle.h"
-#include <QDebug>
 #include <QPainter>
 
 PointDelegate::PointDelegate( Chart* parent ) : QStyledItemDelegate( parent ) {
@@ -36,9 +35,36 @@ QPolygon PointDelegate::createDiamond( QRect rect ) const {
   return poly;
 }
 
+/* Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
+*/
 void PointDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-  ChartStyle style = myParent->columnStyle( index.column() );
+  if ( option.state == QStyle::State_Off ) {
+    this->paintDisabled(painter, option, index);
+  } else {
+    this->paintEnabled(painter, option, index);
+  }
+}
 
+
+void PointDelegate::paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+  painter->save();
+  QRect r = option.rect;
+  QRect r2 = QRect( r.topLeft() - QPoint( 5, 5 ), r.bottomRight() + QPoint( 5, 5 ) );
+  painter->setPen( Qt::NoPen );
+  QRadialGradient gradient( r2.center(), r2.width() / 2.0, r2.center() );
+  QColor c( Qt::gray );
+  c.setAlpha( 150 );
+  gradient.setColorAt( 0, c );
+  gradient.setColorAt( 1, Qt::transparent );
+  gradient.setSpread( QRadialGradient::ReflectSpread );
+  painter->setBrush( QBrush( gradient ) );
+  painter->drawEllipse( r2 );
+  painter->restore();
+}
+
+
+void PointDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+  ChartStyle style = myParent->columnStyle( index.column() );
   painter->save();
   painter->setBrush( style.brush() );
   painter->setPen( style.pen() );
@@ -68,11 +94,45 @@ void PointDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
   painter->restore();
 }
 
+
+
+
 BarDelegate::BarDelegate(Chart* parent) : QStyledItemDelegate( parent ) {
   myParent = parent;
 }
 
-void BarDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+/* Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
+*/
+void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+  if ( option.state == QStyle::State_Off ) {
+    this->paintDisabled(painter, option, index);
+  } else {
+    this->paintEnabled(painter, option, index);
+  }
+}
+
+/*Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
+*/
+void BarDelegate::paintDisabled(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+  QRect r = option.rect.normalized();
+
+  painter->save();
+
+  painter->setPen( Qt::NoPen );
+  QLinearGradient gradient( r.topLeft() + QPoint( r.width()/2, 0 ), r.topLeft()  );
+  gradient.setSpread( QLinearGradient::ReflectSpread );
+  QColor c( Qt::gray );
+  c.setAlpha( 100 );
+  gradient.setColorAt( 0, c );
+  gradient.setColorAt( 0.4, c );
+  gradient.setColorAt( 1, Qt::transparent );
+  painter->setBrush( QBrush( gradient ) );
+  painter->setClipRect( r );
+  painter->drawRect( r );
+
+  painter->restore();
+}
+void BarDelegate::paintEnabled(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
       ChartStyle style = myParent->columnStyle( index.column() );
       QRect r = option.rect;
 

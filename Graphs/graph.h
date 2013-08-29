@@ -1,8 +1,26 @@
+/*
+ This file is part of Marb.
+
+  Marb is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License.
+
+  Marb is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with Marb.  If not, see <http://www.gnu.org/licenses/>.
+
+ Marb  Copyright (C) 2013  Dimitry Ernot
+*/
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
 #include <QTimer>
-
+#include <QTime>
 #include "../marbabstractitemview.h"
 #include "node.h"
 
@@ -20,18 +38,19 @@ protected:
   bool myMovableItem;
   bool myElasticItem;
   QModelIndex myMovedItem;
+  QTime myDragDropTime;
 
   qreal myWeight;
 
   virtual void setScrollBarValues();
-  QModelIndex indexAt(const QPoint& point) const;
+  void resizeEvent( QResizeEvent* event );
 
 public:
   explicit Graph(QWidget *parent = 0);
 
     void updateValues();
 
-  virtual QRectF itemRect( const QModelIndex& index ) const;
+  virtual QPainterPath itemPath(const QModelIndex &index) const;
 
   void calculateForces( QModelIndex& index );
   void addEdge( QModelIndex idx1, QModelIndex idx2, Edge::Type type = Edge::NoArrow );
@@ -48,6 +67,7 @@ public:
   void paintArrow( QPainter& painter, QLineF line );
 
   void setNodeWeight( qreal weight );
+  void setElasticNode( bool enabled );
 
 public slots:
   virtual bool save( QString filename );

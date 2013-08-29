@@ -63,6 +63,7 @@ public:
   explicit Tree(QWidget* parent = 0);
 
   virtual QRectF itemRect( const QModelIndex& index ) const;
+  virtual QPainterPath itemPath( const QModelIndex& index ) const;
 
   /*  DESIGN METHODS */
   void setItemSize( const QSize& s );

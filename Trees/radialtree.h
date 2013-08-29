@@ -48,7 +48,7 @@ public:
   void setRotateText( bool rotate = true );
 
 signals:
-  
+
 public slots:
   virtual bool save( QString filename );
 };

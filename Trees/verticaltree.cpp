@@ -62,11 +62,11 @@ void VerticalTree::paintConnectionsFor( QPainter& painter, QModelIndex index, QP
         if ( myConnectorType == Straight ) {
             Tree::paintConnectionsFor( painter, index, offset );
         } else {
-            int rows = model()->rowCount( index );
+            int rows = this->model()->rowCount( index );
             QRectF r = itemRect(index).translated( offset.x(), offset.y() );
             if ( rows > 1 ) {
-                QRectF child1 = itemRect( model()->index( 0, 0, index ) ).translated( offset.x(), offset.y() );
-                QRectF child2 = itemRect( model()->index( rows - 1, 0, index ) ).translated( offset.x(), offset.y() );
+                QRectF child1 = itemRect( this->model()->index( 0, 0, index ) ).translated( offset.x(), offset.y() );
+                QRectF child2 = itemRect( this->model()->index( rows - 1, 0, index ) ).translated( offset.x(), offset.y() );
                 QPointF p1( child1.center().x(), child1.top() - myYDistance / 2 );
                 QPointF p2( child2.center().x(), child2.top() - myYDistance / 2 );
                 painter.drawLine( p1, p2 );
@@ -75,8 +75,8 @@ void VerticalTree::paintConnectionsFor( QPainter& painter, QModelIndex index, QP
                 p2 = QPointF( r.center().x(), r.bottom() + myYDistance / 2 );
                 painter.drawLine( p1, p2 );
 
-                for ( int i = 0; i < model()->rowCount(index); ++i ) {
-                    QRectF r = itemRect( model()->index( i, 0, index ) ).translated( offset.x(), offset.y() );
+                for ( int i = 0; i < this->model()->rowCount(index); ++i ) {
+                    QRectF r = itemRect( this->model()->index( i, 0, index ) ).translated( offset.x(), offset.y() );
                     p1 = QPointF( r.center().x(), r.top() );
                     p2 = QPointF( r.center().x(), r.top() - myYDistance / 2 );
                     painter.drawLine( p1, p2 );
@@ -93,11 +93,11 @@ void VerticalTree::paintConnectionsFor( QPainter& painter, QModelIndex index, QP
 void VerticalTree::paintConnectionsElbow( QPainter& painter, QModelIndex id ) {
   painter.save();
   painter.setPen( myConnectionPen );
-  int rowCount = model()->rowCount( id );
+  int rowCount = this->model()->rowCount( id );
   QRectF r = itemRect( id );
   if ( rowCount > 1 ) {
-    QRectF child1 = itemRect( model()->index( 0, 0, id ) );
-    QRectF child2 = itemRect( model()->index( rowCount - 1, 0, id ) );
+    QRectF child1 = itemRect( this->model()->index( 0, 0, id ) );
+    QRectF child2 = itemRect( this->model()->index( rowCount - 1, 0, id ) );
 
     QPointF p1( child1.center().x(), child1.top() - myYDistance / 2 );
     QPointF p2( child2.center().x(), child2.top() - myYDistance / 2 );
@@ -107,8 +107,8 @@ void VerticalTree::paintConnectionsElbow( QPainter& painter, QModelIndex id ) {
     p2 = QPointF( r.center().x(), r.bottom() + myYDistance / 2 );
     painter.drawLine( p1, p2 );
 
-    for( int i = 0; i < model()->rowCount( id ); ++i ) {
-      r = itemRect( model()->index( i, 0, id ) );
+    for( int i = 0; i < this->model()->rowCount( id ); ++i ) {
+      r = itemRect( this->model()->index( i, 0, id ) );
       p1 = QPointF( r.center().x(), r.top() );
       p2 = QPointF( r.center().x(), r.top() - myYDistance / 2 );
       painter.drawLine( p1, p2 );
@@ -124,10 +124,10 @@ void VerticalTree::paintConnectionsElbow( QPainter& painter, QModelIndex id ) {
 void VerticalTree::paintConnectionsStraight( QPainter& painter, QModelIndex id ) {
   painter.save();
   painter.setPen( myConnectionPen );
-  int rowCount = model()->rowCount( id );
+  int rowCount = this->model()->rowCount( id );
   QPointF p1 = itemRect( id ).center();
   for( int i = 0; i < rowCount; ++i ) {
-    QPointF p2 = itemRect( model()->index( i, 0, id ) ).center();
+    QPointF p2 = itemRect( this->model()->index( i, 0, id ) ).center();
     painter.drawLine( p1, p2 );
   }
   painter.restore();
@@ -142,7 +142,7 @@ void VerticalTree::paintConnectionsStraight( QPainter& painter, QModelIndex id )
 
 void VerticalTree::positionsInTree() {
     myItemTreePos.clear();
-    myDepth = scan( model()->index(0,0), QPointF(0,0)).y();
+    myDepth = scan( this->model()->index(0,0), QPointF(0,0)).y();
     myLeft = 0;
     //foreach( QPointF p, myItemTreePos.values() ) {
     foreach( QModelIndex idx, myItemTreePos.keys() ) {
@@ -168,7 +168,7 @@ void VerticalTree::positionsInView() {
 }
 
 QPointF VerticalTree::scan( QModelIndex index, QPointF leftDepth ) {
-  int rows = model()->rowCount( index );
+  int rows = this->model()->rowCount( index );
 
   if ( !index.isValid() ) {
     return QPointF(0, 0);
@@ -186,12 +186,12 @@ QPointF VerticalTree::scan( QModelIndex index, QPointF leftDepth ) {
       childDepth = qMax( childDepth, p.y() );
   }
 
-  qreal left = myItemTreePos[ model()->index(0, index.column(), index) ].x();
-  qreal right = myItemTreePos[ model()->index( rows - 1, index.column(), index ) ].x();
+  qreal left = myItemTreePos[ this->model()->index(0, index.column(), index) ].x();
+  qreal right = myItemTreePos[ this->model()->index( rows - 1, index.column(), index ) ].x();
   if ( rows >= 2 ) {
       if ( rows % 2 == 1 ) {
         qreal r = qFloor( rows/2 ) + 1;
-        qreal v = myItemTreePos[ model()->index( r - 1, index.column(), index ) ].x();
+        qreal v = myItemTreePos[ this->model()->index( r - 1, index.column(), index ) ].x();
         setX( index, v );
       } else {
         setX( index, (right + left) / 2 );

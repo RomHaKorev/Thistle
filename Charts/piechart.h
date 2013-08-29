@@ -19,27 +19,21 @@
 #ifndef PIECHART_H
 #define PIECHART_H
 
-#include <QAbstractItemView>
+#include "chart.h"
 
-class PieChart : public QAbstractItemView {
+class PieChart : public Chart {
   Q_OBJECT
-
+  Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle)
 public:
-  explicit PieChart(QWidget *parent = 0);
+  explicit PieChart( QWidget* parent = 0 );
 
-  QRect visualRect(const QModelIndex &index) const;
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
-  QModelIndex indexAt(const QPoint &point) const;
+  QRect visualRect( const QModelIndex& index ) const;
 
-  void setRing( bool ring = true );
-  void setSplitted( bool splitted = true );
-  void setLegend( QString legend );
   virtual bool save( QString filename );
-
-protected slots:
-  void dataChanged( const QModelIndex& topLeft, const QModelIndex& bottomRight );
-  void rowsInserted( const QModelIndex& parent, int start, int end );
-  void rowsAboutToBeRemoved( const QModelIndex& parent, int start, int end );
+  void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
+  void setLegend( QString legend );
+  void setSplitted( bool splitted = true );
+  void setRing( bool ring = true );
 
 protected:
   QRect   myRect;
@@ -48,29 +42,26 @@ protected:
   bool    myRing;
   qreal   myStartAngle;
   QString myLegend;
-  virtual void updateChart();
-  virtual QPainterPath itemPath( const QModelIndex& index ) const;
-  virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
-  virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
 
-  QModelIndex moveCursor(QAbstractItemView::CursorAction cursorAction,
-                         Qt::KeyboardModifiers modifiers);
+  qreal startAngle() const;
 
-  int horizontalOffset() const;
-  int verticalOffset() const;
-
-  bool isIndexHidden(const QModelIndex &index) const;
-
-  void paintEvent(QPaintEvent *event);
-  virtual void paintChart( QPainter& painter );
-  virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
-  virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
   virtual void configureColor( QPainter& painter, QColor base, int flag ) const;
 
+  virtual QPainterPath itemPath( const QModelIndex& index ) const;
+  virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
 
+  virtual void paintChart( QPainter& painter );
+  virtual void paintEvent(QPaintEvent* event);
+  virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
+  virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
 
-  QRegion visualRegionForSelection(const QItemSelection &selection) const;
-  void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
+  //void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
+  virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
+  virtual void updateChart();
+  virtual void updateRects();
+
+public slots:
+  void setStartAngle( qreal angle );
 };
 
 #endif // PIECHART_H

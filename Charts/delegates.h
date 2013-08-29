@@ -26,8 +26,11 @@ class PointDelegate : public QStyledItemDelegate {
 protected:
   Chart* myParent;
   QPolygon createDiamond( QRect rect) const;
+
 public:
   explicit PointDelegate( Chart* parent = 0 );
+  virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
@@ -36,6 +39,8 @@ protected:
   Chart* myParent;
 public:
   explicit BarDelegate( Chart* parent = 0 );
+  virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 

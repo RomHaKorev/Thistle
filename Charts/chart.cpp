@@ -24,7 +24,6 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QScrollBar>
-#include <QDebug>
 
 Chart::Chart( QWidget* parent ) : MarbAbstractItemView( parent ) {
   myMin = 0;
@@ -48,89 +47,19 @@ Chart::Chart( QWidget* parent ) : MarbAbstractItemView( parent ) {
 }
 
 
-void Chart::resizeEvent(QResizeEvent * ev) {
-  QAbstractItemView::resizeEvent( ev );
-  updateValues();
-}
-
-
-void Chart::setModel( QAbstractItemModel* model ) {
-  QAbstractItemView::setModel( model );
-  process();
-}
-
-
-void Chart::setScrollBarValues() {
-}
-
-
-QModelIndex Chart::indexAt(const QPoint &point) const {
-  if ( this->model() == 0 ) {
-    return QModelIndex();
-  }
-  for ( int r = 0; r < this->model()->rowCount(); ++r ) {
-    for ( int c = 0; c < this->model()->columnCount(); ++c ) {
-      QModelIndex idx = this->model()->index( r, c );
-      if ( itemRect( idx ).contains( point ) ) {
-        return idx;
-      }
-    }
-  }
-  return QModelIndex();
-}
-
-
-void Chart::process() {
-  if ( model() == 0 ) {
-    return;
-  }
-  myMin = 0;
-  myMax = 0;
-
-  myMinBottomMargin = scanValues() + 10.0;
-
-  updateValues();
-}
-
 Chart::~Chart() {
-
 }
 
-void Chart::setTitle( QString title ) {
-  myTitle = title;
-  process();
-}
-
-int Chart::scanValues() {
-  int rows = model()->rowCount();
-  int cols = model()->columnCount();
-
-  QFontMetrics metrics( font() );
-  int textWidth = 0;
-  for (int r = 0; r < rows; ++r ) {
-    QString s = model()->headerData( r, Qt::Vertical ).toString();
-    textWidth = qMax( textWidth, metrics.width( s ) + 5 );
-    for (int c = 0; c < cols; ++c ) {
-      qreal value = model()->index( r, c ).data().toReal();
-      myMin = qMin( myMin, value );
-      myMax = qMax( myMax, value );
-    }
-  }
-  return textWidth;
-}
 
 void Chart::calculateBounds() {
   myMinBound = myMin;
   myMaxBound = myMax;
-
   if ( myMaxBound == myMinBound ) {
     ++myMaxBound;
     --myMinBound;
   }
-
   myOrder = calculateOrder( myMax - myMin );
   myTickSize = (myMax - myMin ) / (myNbTicks - 1);
-
   if ( myOrder >= 10 ) {
     myNbDigits = 0;
   } else if ( myOrder == 1 ) {
@@ -141,16 +70,17 @@ void Chart::calculateBounds() {
   }
 }
 
+
 void Chart::calculateLegendRect() {
     QFontMetrics metrics( font() );
     int h = metrics.height() + 5;
-    int cols = model()->columnCount();
+    int cols = this->model()->columnCount();
     int nbLines = 1;
-    int w = 50;
+    int w = 40;
     int maxWidth = myChartRect.width();
     for( int c = 0; c < cols; ++c ) {
-      QString s( model()->headerData( c, Qt::Horizontal ).toString() );
-      int sWidth = metrics.width( s ) + 50;
+      QString s( this->model()->headerData( c, Qt::Horizontal ).toString() );
+      int sWidth = metrics.width( s ) + 40;
       if ( ( w + sWidth ) > maxWidth ) {
         ++nbLines;
         w = sWidth;
@@ -161,6 +91,7 @@ void Chart::calculateLegendRect() {
     myLegendRect = QRect( myMarginX, myMarginY, maxWidth, nbLines * h );
 }
 
+
 qreal Chart::calculateOrder( qreal value ) const {
   qreal order = 1.0;
   qreal v = qAbs( value );
@@ -170,7 +101,6 @@ qreal Chart::calculateOrder( qreal value ) const {
       v /= 10.0;
     }
     order /= 10.0;
-
   } else if ( v != 0 ) {
     while ( v < 1 ) {
       order /= 10.0;
@@ -178,19 +108,9 @@ qreal Chart::calculateOrder( qreal value ) const {
     }
     order *= 10.0;
   }
-
   return order;
 }
 
-void Chart::setAlphaBeta() {
-  myAlpha = -qreal(myValuesRect.height()) / ( myMaxBound - myMinBound );
-  myBeta = (myMaxBound * myValuesRect.height() ) / ( myMaxBound - myMinBound ) + myValuesRect.y();
-  myOrigin.setY( myBeta );
-}
-
-qreal Chart::valueToPx( qreal value) const {
-  return value * myAlpha + myBeta;
-}
 
 ChartStyle Chart::columnStyle( int column ) const {
   if ( myStyle.contains( column ) ) {
@@ -204,12 +124,79 @@ ChartStyle Chart::columnStyle( int column ) const {
   return style;
 }
 
-void Chart::setColumnStyle( int column, ChartStyle style ) {
-    myStyle[ column ] = style;
+void Chart::defineRects() {
+  myChartRect = QRect( QPoint( myMarginX, myMarginY ),
+                       this->size() - QSize( myMarginX * 2, myMarginY * 2 ) );
+
+  this->calculateLegendRect();
+  myChartRect.setHeight( myChartRect.height() - myLegendRect.height() - 10 );
+  myChartRect.translate( 0, myLegendRect.height() + 10 );
+
+  if ( myTitle != "" ) {
+    QFont font = this->font();
+    font.setItalic( true );
+    QFontMetrics metrics( font );
+    QRect r( 0, 0, myChartRect.width() - 40, 0 );
+    myTitleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
+    myChartRect.setHeight( myChartRect.height() - myTitleRect.height() - 20 );
+  }
 }
 
-/*Paint the legend in the QRect self._legendRect
 
+QModelIndex Chart::indexAt(const QPoint &point) const {
+  if ( this->model() == 0 ) {
+    return QModelIndex();
+  }
+  for( int row = 0; row < this->model()->rowCount(); ++row ) {
+    for( int col = 0; col < this->model()->columnCount(); ++col ) {
+      QModelIndex index = this->model()->index( row, col );
+      QPainterPath r = this->itemPath( index );
+      if ( r.contains( point ) ) {
+        return index;
+      }
+    }
+  }
+  return QModelIndex();
+}
+
+
+QPainterPath Chart::itemPath(const QModelIndex &index) const {
+  QPainterPath path;
+  path.addRect( this->itemRect( index ) );
+  return path;
+}
+
+
+/*Paint the legend for the given column. The kind of legend should be defined by each view (linear and radial represent legend differently).
+The column legend is represented by a square colored with the pen and brush style and the column name.
+*/
+void Chart::paintColumnLegend( QPainter& painter, int column, QPoint pos, int metricsH ) {
+  QRect r( pos.x() + 20, pos.y() - 10, 20, 20 );
+  QPoint posText = pos + QPoint( 45, metricsH/2 );
+
+  ChartStyle style = this->columnStyle( column );
+
+  QString s = this->model()->headerData( column, Qt::Horizontal ).toString();
+  painter.drawText( posText, s );
+  painter.save();
+  painter.setPen( style.pen() );
+  painter.setBrush( style.brush() );
+  painter.drawRect (r );
+  painter.restore();
+}
+
+
+void Chart::paintEvent( QPaintEvent* event ) {
+  if ( this->model() == 0 ) {
+    return;
+  }
+    QPainter painter( viewport() );
+    painter.setClipRect( event->rect() );
+    paintChart( painter );
+}
+
+
+/*Paint the legend in the QRect self._legendRect
 The legend corresponds to the text in the Horizontal QHeaderView and the style defined for each column.
 */
 void Chart::paintLegend( QPainter& painter) {
@@ -217,14 +204,13 @@ void Chart::paintLegend( QPainter& painter) {
     QFontMetrics metrics( font() );
     int metricsH = metrics.height();
     int h = metricsH + 5;
-    int cols = model()->columnCount();
+    int cols = this->model()->columnCount();
     int w = 0;
     int maxWidth = myLegendRect.width();
-
     QPoint legendPos( myLegendRect.topLeft() );
     QPoint pos = legendPos + QPoint( 50, 0);
     for (int c = 0; c < cols; ++c ) {
-      QString s( model()->headerData( c, Qt::Horizontal ).toString() );
+      QString s( this->model()->headerData( c, Qt::Horizontal ).toString() );
       int sWidth = metrics.width( s ) + 50;
       QPoint p;
       if ( ( w + sWidth ) > maxWidth ) {
@@ -238,24 +224,89 @@ void Chart::paintLegend( QPainter& painter) {
         w += sWidth;
         pos += QPoint( sWidth, 0 );
       }
-      paintColumnLegend(painter, c, p + QPoint(0, metricsH), metricsH);
+      this->paintColumnLegend(painter, c, p + QPoint(0, metricsH), metricsH);
     }
     painter.restore();
 }
+
+
+void Chart::process() {
+  if ( this->model() == 0 ) {
+    return;
+  }
+  myMin = 0;
+  myMax = 0;
+  myMinBottomMargin = this->scanValues() + 10.0;
+  this->updateRects();
+}
+
+
+void Chart::resizeEvent(QResizeEvent * ev) {
+  QAbstractItemView::resizeEvent( ev );
+  this->updateValues();
+}
+
 
 bool Chart::save( QString filename ) {
   QPixmap pix( size() );
   pix.fill( Qt::white );
   QPainter painter( &pix );
-  paintChart( painter );
+  this->paintChart( painter );
   return pix.save( filename );
 }
 
-void Chart::paintEvent( QPaintEvent* event ) {
-  if ( model() == 0 ) {
-    return;
+
+int Chart::scanValues() {
+  int rows = this->model()->rowCount();
+  int cols = this->model()->columnCount();
+  QFontMetrics metrics( font() );
+  int textWidth = 0;
+  for (int r = 0; r < rows; ++r ) {
+    QString s = this->model()->headerData( r, Qt::Vertical ).toString();
+    textWidth = qMax( textWidth, metrics.width( s ) + 5 );
+    for (int c = 0; c < cols; ++c ) {
+      qreal value = this->model()->index( r, c ).data().toReal();
+      myMin = qMin( myMin, value );
+      myMax = qMax( myMax, value );
+    }
   }
-    QPainter painter( viewport() );
-    painter.setClipRect( event->rect() );
-    paintChart( painter );
+  return textWidth;
+}
+
+
+void Chart::setAlphaBeta() {
+  myAlpha = -qreal(myValuesRect.height()) / ( myMaxBound - myMinBound );
+  myBeta = (myMaxBound * myValuesRect.height() ) / ( myMaxBound - myMinBound ) + myValuesRect.y();
+  myOrigin.setY( myBeta );
+}
+
+
+void Chart::setColumnStyle( int column, ChartStyle style ) {
+    myStyle[ column ] = style;
+}
+
+
+void Chart::setModel( QAbstractItemModel* model ) {
+  QAbstractItemView::setModel( model );
+  this->process();
+}
+
+
+void Chart::setScrollBarValues() {
+}
+
+
+void Chart::setTitle( QString title ) {
+  myTitle = title;
+  this->updateRects();
+}
+
+
+void Chart::updateValues() {
+  this->process();
+}
+
+
+qreal Chart::valueToPx( qreal value) const {
+  return value * myAlpha + myBeta;
 }

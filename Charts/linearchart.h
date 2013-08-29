@@ -37,10 +37,10 @@ protected:
   bool myVerticalXAxis;
 
   QList<int> calculateColumnsOrder();
-  virtual void updateValues();
+  virtual void updateRects();
   Marb::Types columnType( int column ) const;
   QList<int> barStyleColumns() const;
-  QRectF itemRect( const QModelIndex& index ) const;
+  virtual QRectF itemRect( const QModelIndex& index ) const;
   void paintAxis( QPainter& painter );
   void paintXAxis( QPainter& painter );
   void paintYAxis( QPainter& painter );

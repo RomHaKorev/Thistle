@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     Charts/delegates.cpp \
     Charts/chartstyle.cpp \
     Charts/chart.cpp \
-    Charts/abstractmarbview.cpp \
     Graphs/graph.cpp \
 	Graphs/node.cpp \
     marbitemdelegate.cpp \
@@ -42,7 +41,6 @@ HEADERS  += Marb.h \
     Charts/delegates.h \
     Charts/chartstyle.h \
     Charts/chart.h \
-    Charts/abstractmarbview.h \
     Graphs/graph.h \
 	Graphs/node.h \
     marbitemdelegate.h \

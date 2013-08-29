@@ -3,12 +3,10 @@
 #include <QTableView>
 #include <QHBoxLayout>
 #include <QTreeView>
-#include <QDebug>
 #include <QTreeView>
 #include <QPushButton>
 #include <QScrollBar>
 
-//#if 0
 #include "trees/horizontaltree.h"
 #include "trees/verticaltree.h"
 #include "Trees/radialtree.h"
@@ -17,6 +15,7 @@
 #include "Graphs/graph.h"
 
 #include "charts/linearchart.h"
+#include "charts/piechart3D.h"
 
 #include <QPropertyAnimation>
 #include <QLabel>
@@ -82,11 +81,7 @@ int main( int argc, char* argv[] ) {
   vertical->resolvePositions();
   horizontal->resolvePositions();*/
 
-  RadialTree t;
-  t.setModel( model );
-  t.show();
-
-  model = new QStandardItemModel(0,1);
+  model = new QStandardItemModel( 0, 1 );
   for( int i = 0; i < 6; ++i  ) {
     model->appendRow( new QStandardItem( QChar( i + 65 ) ) );
   }
@@ -110,21 +105,38 @@ int main( int argc, char* argv[] ) {
   graph.addEdge( 2, 0, 9, 0 );*/
 
 
-  graph.showMaximized();
+  //graph.show();
   //graph.updateValues();
+
 
 
   QStandardItemModel* model2 = new QStandardItemModel( 10, 2 );
   for ( int i = 0; i < 10; ++i ) {
-    model2->setData( model2->index( i, 0 ), i );
+    model2->setData( model2->index( i, 0 ), i + 10 );
     model2->setData( model2->index( i, 1 ), -i );
   }
 
   LinearChart linear;
   linear.setModel( model2 );
-  linear.show();
+  ChartStyle style = linear.columnStyle( 0 );
+  style.setType( Marb::Bar );
+  linear.setColumnStyle( 0, style );
+  //linear.show();
 
+  PieChart3D pie;
+  pie.setModel( model2 );
+  pie.show();
 
+  RadialTree t;
+  t.setModel( model );
+  //t.show();
+
+  QPropertyAnimation animation( &pie, "startAngle" );
+  animation.setLoopCount( 2 );
+  animation.setStartValue( 0 );
+  animation.setEndValue( 360 );
+  animation.setDuration( 6000 );
+  //animation.start();
 
   return a.exec();
 }

@@ -33,7 +33,7 @@ QRectF RadialChart::itemRect(const QModelIndex &index) const {
 }
 
 void RadialChart::process() {
-  if ( model() == 0 ) {
+  if ( this->model() == 0 ) {
     return;
   }
   myMin = 0;
@@ -50,7 +50,7 @@ void RadialChart::setAlphaBeta() {
 }
 
 void RadialChart::updateValues() {
-  if ( model() == 0 ) {
+  if ( this->model() == 0 ) {
     return;
   }
 
@@ -72,7 +72,7 @@ void RadialChart::updateValues() {
   scanValues();
   calculateBounds();
 
-  myX = 360.0 / qreal( model()->rowCount() );
+  myX = 360.0 / qreal( this->model()->rowCount() );
 
   setAlphaBeta();
 
@@ -98,10 +98,10 @@ void RadialChart::paintTextAxis( QPainter& painter) const {
 }
 
 void RadialChart::paintValues( QPainter& painter, int column ) const {
-  int rows = model()->rowCount();
+  int rows = this->model()->rowCount();
   painter.save();
 
-  qreal angle = ( myX / model()->columnCount() );
+  qreal angle = ( myX / this->model()->columnCount() );
 
   qreal startAngle = angle * column + 10;
 
@@ -113,7 +113,7 @@ void RadialChart::paintValues( QPainter& painter, int column ) const {
 
 
   for (int r = 0; r < rows; ++r ) {
-    QModelIndex index = model()->index( r, column );
+    QModelIndex index = this->model()->index( r, column );
     qreal y = valueToPx( index.data( Qt::DisplayRole ).toReal() );
     QRect rectangle( -y/2, -y/2, y, y );
     rectangle.translate( myValuesRect.center() );
@@ -167,7 +167,7 @@ void RadialChart::paintTicks( QPainter& painter ) const {
 void RadialChart::paintChart(QPainter& painter) {
   painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
 
-  int cols = model()->columnCount();
+  int cols = this->model()->columnCount();
   painter.save();
   paintAxis( painter );
   for ( int c = 0; c < cols; ++c ) {

@@ -1,6 +1,24 @@
-#include "marbabstractitemview.h"
+/*
+ This file is part of Marb.
 
+  Marb is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License.
+
+  Marb is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with Marb.  If not, see <http://www.gnu.org/licenses/>.
+
+ Marb  Copyright (C) 2013  Dimitry Ernot
+*/
+
+#include "marbabstractitemview.h"
 #include "marbitemdelegate.h"
+#include "Marb.h"
 
 #include <QScrollBar>
 #include <QPainter>
@@ -8,16 +26,27 @@
 
 #include <QStandardItem>
 
-#include "Marb.h"
 
-MarbAbstractItemView::MarbAbstractItemView(QWidget *parent) : QAbstractItemView( parent ) {
+
+MarbAbstractItemView::MarbAbstractItemView(QWidget *parent) : QAbstractItemView( parent ),
+  myRubberBand( QRubberBand::Rectangle, this ) {
   myDelegate = new MarbItemDelegate( this );
   setItemDelegate( myDelegate );
 }
 
-void MarbAbstractItemView::setModel(QAbstractItemModel *model) {
-  QAbstractItemView::setModel( model );
-  updateValues();
+
+QList<int> MarbAbstractItemView::calculateColumnsOrder() const {
+  QList<int> l;
+  for ( int i = 0; i < this->model()->columnCount(); ++i ) {
+    l << i;
+  }
+  return ( l );
+}
+
+
+void MarbAbstractItemView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight) {
+  QAbstractItemView::dataChanged(topLeft, bottomRight);
+  update( this->model()->index(0, 0) );
 }
 
 
@@ -26,45 +55,28 @@ int MarbAbstractItemView::horizontalOffset() const {
 }
 
 
-void MarbAbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command ) {
-  QRect selectRect = rect;
-
-  int rows = model()->rowCount(rootIndex());
-  QModelIndexList indexes;
-
-  for (int row = 0; row < rows; ++row) {
-    QModelIndex index = model()->index(row, 0, rootIndex());
-    if ( !itemRect( index ).intersected( selectRect ).isEmpty() ) {
-      indexes.append( index );
-    }
+QModelIndex MarbAbstractItemView::indexAt(const QPoint &point) const {
+  QPoint p = point  + QPoint( horizontalOffset(), verticalOffset() );
+  if ( this->model() == 0 ) {
+    return QModelIndex();
   }
-
-  if ( indexes.isEmpty() ) {
-    QModelIndex dummyIndex;
-    QItemSelection selection(dummyIndex, dummyIndex);
-    selectionModel()->select(selection, command);
-    return;
+  foreach( QModelIndex index, myItemPos.keys() ) {
+      QPainterPath path = this->itemPath( index );
+      if ( path.contains( p ) ) {
+        return index;
+      }
   }
-    int firstRow = indexes[0].row();
-    int lastRow = indexes[0].row();
-
-    for (int i = 1; i < indexes.size(); ++i) {
-        firstRow = qMin(firstRow, indexes[i].row());
-        lastRow = qMax(lastRow, indexes[i].row());
-    }
-
-    QItemSelection selection(
-                              model()->index(firstRow, 0, rootIndex()),
-                              model()->index(lastRow, 0, rootIndex())
-                            );
-
-    selectionModel()->select(selection, command);
-    viewport()->update();
+  return QModelIndex();
 }
 
 
 bool MarbAbstractItemView::isIndexHidden(const QModelIndex& /*index*/ ) const {
   return false;
+}
+
+
+QRectF MarbAbstractItemView::itemRect( const QModelIndex& index ) const {
+  return this->itemPath( index ).boundingRect();
 }
 
 
@@ -81,8 +93,28 @@ QModelIndex MarbAbstractItemView::moveCursor( QAbstractItemView::CursorAction cu
 }
 
 
+void MarbAbstractItemView::resizeEvent( QResizeEvent* event ) {
+  setScrollBarValues();
+  QAbstractItemView::resizeEvent( event );
+}
+
+
 int MarbAbstractItemView::rows(const QModelIndex &index) const {
-  return model()->rowCount(model()->parent(index));
+  return this->model()->rowCount(model()->parent(index));
+}
+
+
+void MarbAbstractItemView::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) {
+  QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
+  updateValues();
+  viewport()->update();
+  setScrollBarValues();
+}
+
+void MarbAbstractItemView::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*/) {
+  updateValues();
+  viewport()->update();
+  setScrollBarValues();
 }
 
 
@@ -114,6 +146,41 @@ void MarbAbstractItemView::scrollTo(const QModelIndex& index, ScrollHint hint ) 
 }
 
 
+void MarbAbstractItemView::setModel(QAbstractItemModel *model) {
+  QAbstractItemView::setModel( model );
+  updateValues();
+}
+
+
+
+void MarbAbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command ) {
+  QRect contentsRect = rect.translated(
+          this->horizontalScrollBar()->value(),
+          this->verticalScrollBar()->value()).normalized();
+  int rows = this->model()->rowCount( this->rootIndex() );
+
+  QList<int> columns = this->calculateColumnsOrder();
+  int count = 0;
+  QPainterPath contentsPath;
+  contentsPath.addRect( contentsRect );
+  for ( int row = 0; row < rows; ++row ) {
+    Q_FOREACH( int col, columns ) {
+      QModelIndex index = this->model()->index( row, col, this->rootIndex() );
+      QPainterPath path = this->itemPath( index );
+      if ( !path.intersected(contentsPath).isEmpty() ) {
+        count += 1;
+        this->selectionModel()->select( index, command );
+      }
+    }
+  }
+  if ( count == 0 ) {
+    this->selectionModel()->clear();
+  }
+
+  this->viewport()->update();
+}
+
+
 int MarbAbstractItemView::verticalOffset() const {
   return verticalScrollBar()->value();
 }
@@ -126,46 +193,5 @@ QRect MarbAbstractItemView::visualRect(const QModelIndex &index) const {
 
 
 QRegion MarbAbstractItemView::visualRegionForSelection(const QItemSelection &selection) const {
-  int ranges = selection.count();
-
-  QRegion region;
-  for (int i = 0; i < ranges; ++i) {
-
-      QItemSelectionRange range = selection.at(i);
-      for (int row = range.top(); row <= range.bottom(); ++row) {
-        QModelIndex index = model()->index(row, 0, rootIndex());
-        region += visualRect(index);
-      }
-  }
-  viewport()->update();
-  return region;
-}
-
-
-QRectF MarbAbstractItemView::itemRect(const QModelIndex &index) const {
-  return QRectF();
-}
-
-
-/***************************************
-**
-**        PROTECTED SLOTS
-**
-***************************************/
-void MarbAbstractItemView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight) {
-  QAbstractItemView::dataChanged(topLeft, bottomRight);
-  update( model()->index(0, 0) );
-}
-
-void MarbAbstractItemView::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) {
-  QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
-  updateValues();
-  viewport()->update();
-  setScrollBarValues();
-}
-
-void MarbAbstractItemView::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*/) {
-  updateValues();
-  viewport()->update();
-  setScrollBarValues();
+  return QRegion( QRect( 0, 0, this->width(), this->height() ) );
 }

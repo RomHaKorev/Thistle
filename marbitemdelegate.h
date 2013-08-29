@@ -1,6 +1,3 @@
-#ifndef MARBITEMDELEGATE_H
-#define MARBITEMDELEGATE_H
-
 /*
  This file is part of Marb.
 
@@ -18,6 +15,9 @@
 
  Marb  Copyright (C) 2013  Dimitry Ernot
 */
+
+#ifndef MARBITEMDELEGATE_H
+#define MARBITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
 #include <QPen>

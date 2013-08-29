@@ -43,7 +43,7 @@ protected:
   virtual void updateChart();
   virtual QPainterPath itemSidesPath( const QModelIndex& index ) const;
   virtual QPainterPath itemExternalPart( qreal angle, qreal delta, bool splitted = false ) const;
-  virtual QPainterPath side( qreal angle, QPointF centerOffset ) const;
+  virtual QPainterPath side( qreal angle, QPointF centerOffset, bool splitted ) const;
   virtual void configureColor(QPainter &painter, QColor base, int flag) const;
 
   void paintEvent(QPaintEvent *event);
