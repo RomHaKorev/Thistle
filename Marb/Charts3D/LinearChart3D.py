@@ -2,7 +2,7 @@ from ..Global import Color, Render, Type
 from ..Charts.Chart import ChartStyle
 from ..Charts.Delegates import PointDelegate, BarDelegate
 
-from PySide.QtGui import QColor, QPainter, QPainterPath, QPolygonF, QStyleOptionViewItem, QTransform, QMatrix4x4, QVector3D, QPen, QBrush 
+from PySide.QtGui import QColor, QPainter, QPainterPath, QPolygonF, QStyleOptionViewItem, QTransform, QMatrix4x4, QVector3D, QPen, QBrush, QRadialGradient, QLinearGradient
 from PySide.QtCore import QRectF, QRect, QPoint, QPointF, Qt, QLineF
 
 from ..Charts.LinearChart import LinearChart
@@ -12,10 +12,14 @@ import math
 class LinearChart3D( LinearChart ):
 	def __init__( self, parent = None ):
 		super(LinearChart3D, self).__init__( parent )
-		self._depth = 100
+		self._depth = 200
+		self.angleX = 45
+		self.angleY = 10
+		self.angleZ = 10 
+		self.scale = 1
 
 
-	def itemRect(self, index ):	
+	def itemRect(self, index ):
 		'''Overloaded method.
 		'''
 		r = QRect()
@@ -23,443 +27,255 @@ class LinearChart3D( LinearChart ):
 		value = index.data()
 		if value == None:
 			return QRect()
-		
 		y = self.valueToPx(value)
-		x = self._origin.x() + index.row() *  self._x	
-		
-		space = self._x * 0.2
+		x = self._origin.x() + index.row() * self._x
+		space = 0
 		orderedColumns = self._calculateOrderedColumn()
-		
 		if t == Type.Bar:
-			bars = self._barStyleColumns()
-			w = float(self._x) / len(bars)
-			x += w * orderedColumns.index( index.column() )
-			tl = QPointF( x + space/2, y )             # top left
-			br = QPointF( x + w, self._origin.y() )    # bottom right
-			r = QRectF( tl, br )
+			w = float(self._x)
+			tl = QPoint( x + space/2, y )             # top left
+			br = QPoint( x + w, self._origin.y() )    # bottom right
+			r = QRect( tl, br )
 			if value < 0:
 				r.translate( 0, 1 )
 			else:
 				r.translate( 0, -2 )
 		else:
-			r = QRectF( -5, -5, 10 ,10 ).translated( x + self._x/2, y ) 
+			r = QRect( -5, -5, 10 ,10 ).translated( x + self._x/2, y ) 
 		return r.normalized()
 
+
+	def _paintXAxis(self, painter):
+		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCubePoints(self._chartRect, self._depth, depthOffset=0, flatted=True )
+		line = QLineF( pBL_F, pBR_F )
+		painter.drawLine( line )
+		line = QLineF( pBR_F, pBR_B )
+		line.setLength( line.length() + 10 )
+		painter.drawLine( line )
+		line = QLineF( pBL_F, pBL_B )
+		line.setLength( line.length() + 10 )
+		painter.drawLine( line )
+
+
+	def _paintYAxis(self, painter):
+		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCubePoints(self._chartRect, self._depth, depthOffset=0, flatted=True )
+		line = QLineF( pTL_F, pTL_B )
+		line.setLength( line.length() + 10 )
+		painter.drawLine( line )
+
+	def getScale(self):
+		w = self._chartRect.width()
+		h = self._chartRect.height()
+		mW = self._chartRect.width() + self._depth
+		mH = self._chartRect.height() + self._depth
+		return min( h/mH, w/mW )
+		
 
 	def paintChart(self, painter):
 		'''Overloaded method.
 		'''
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
-		for c in range(0, self.model().columnCount()):
-			self._paintValues( painter, c )
-			
-	
-	def _3DPoints(self, point, level ):
-		m = level * ( self._depth + 20 )
-		center = QVector3D(point.x(), point.y(), 0)
-		p1 = QVector3D(point.x(), point.y(), -self._depth/2 + m )
-		p2 = QVector3D(point.x(), point.y(), self._depth/2 + m )
-		
-		m = QMatrix4x4()
-		m.rotate(20, 0, 1.0, 0);
-		m.rotate(10, 1.0, 0, 0);
-				
-		p1 -= center
-		p1 *= m
-		p1 += center
-		p2 -= center
-		p2 *= m
-		p2 += center
-		
-		return (p1.toPointF(), p2.toPointF())
-		
-		
-	def _calculatePoint(self, column):
-		rows = self.model().rowCount()
 
-		frontPoints = []
-		backPoints = []
-		for r in range( 0, rows ):
-			index = self.model().index( r, column )
-			p =  self.itemRect( index ).center()
-			(p1, p2) = self._3DPoints(p, column)
-			frontPoints.append( p1 )
-			backPoints.append( p2 )
+		self.scale = self.getScale()
+
+		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCubePoints(self._chartRect, self._depth, 0)
+ 		
+		faces = self.rectToCubeFaces( self._chartRect, self._depth, 0, True )
+		for f in faces:
+			painter.drawPolygon( f )
+
+		for c in range(self.model().columnCount()-1, -1, -1):
+			self._paintValues( painter, c )
+
+
+	def _paintValues(self, painter, column ):
+		depth = self._depth/(self.model().columnCount() + 1)
+		depthOffset = -(depth * (column - self.model().columnCount()/2.0 +0.5 ))
 		
-		return (frontPoints, backPoints)
+		painter.save()
+		
+		style = self.columnStyle( column )
+		t = style.type()
+		painter.setPen( style.pen() )
+		painter.setBrush( style.brush() )
+		for r in range(0, self.model().rowCount() ):
+			idx = self.model().index( r, column )
+			if t | Type.Line == t:
+				self._paintLine(painter, idx, depthOffset)
+			if t | Type.Point == t:
+				self._paintPoint( painter, idx, depthOffset )
+			elif t | Type.Bar == t:
+				self._paintBar(painter, idx, depth, depthOffset)
+		
+		painter.restore()
+		painter.drawRect( self._chartRect )
+
+
+	def _paintBar(self, painter, idx, depth, depthOffset):
+		c = painter.brush().color()
+		c.setAlpha( c.alpha() * 0.75 )
+		painter.setBrush( c )
+		rect = self.itemRect( idx )
+		faces = self.rectToCubeFaces( rect, depth, depthOffset, True )
+		for i in (5,2,4,6,3,1):
+			f = faces[i-1]
+			painter.drawPolygon( f )
+
+
+	def _paintPoint(self, painter, idx, depth):
+		c = painter.brush().color()
+		rect = self.itemRect( idx )
+		pt = self.transform2DPoint( rect.center(), depth )
+		painter.save()
+		painter.translate( pt.x(), pt.y() )
+		gradient = QRadialGradient(-3, -3, 10)
+		gradient.setCenter(3, 3)
+		gradient.setFocalPoint(3, 3)
+		gradient.setColorAt(1, c.lighter(120))
+		gradient.setColorAt(0, c)
+		painter.setBrush(gradient)
+		painter.setPen(QPen(painter.pen().color(), 0))
+		painter.drawEllipse(-10, -10, 20, 20)
+		painter.restore()
+
+
+	def _paintLine(self, painter, idx, depth):
+		c = painter.brush().color()
+		rect = self.itemRect( idx )
+		pt = self.transform2DPoint( rect.center(), depth )
+		painter.save()
+		
+		if idx.row() < self.model().rowCount() - 1:
+			idx2 = self.model().index( idx.row() + 1, idx.column() )
+			p1 = self.itemRect(idx).center()
+			p1 = self.transform2DPoint(p1, depth)
+			p2 = self.itemRect(idx2).center()
+			p2 = self.transform2DPoint(p2, depth)
+			p3 = p1 + QPoint( 0, 5 )
+			p4 = p2 + QPoint( 0, 5 )
+			p1 -= QPoint( 0, 5)
+			p2 -= QPoint( 0, 5)
+			polygon = QPolygonF()
+			polygon.append( p1 )
+			polygon.append( p2 )
+			polygon.append( p4 )
+			polygon.append( p3 )
+			
+			l = QLineF( p1, p2 )
+			l.setLength( l.length() * 0.5 )
+			l1 = QLineF( l.p2(), l.p1() ).normalVector()
+			l1.setLength( 10 )
+			
+			gradient = QLinearGradient( l1.p1(), l1.p2() )
+			gradient.setColorAt(1, c.lighter(120))
+			gradient.setColorAt(0, c)
+			painter.setBrush( gradient )
+			painter.setPen(QPen(painter.pen().color(), 0))
+			painter.drawPolygon( polygon )
+		painter.restore()
 	
-	def rectToCube(self, rect):
-		
+	
+	
+
+	def rectToCubeFaces(self, rect, depth, depthOffset, rotate ):
+		( tl_f, tr_f, bl_f, br_f, tl_b, tr_b, bl_b, br_b ) = self.rectToCubePoints( rect, depth * 0.8, depthOffset, rotate )
+		f1 = QPolygonF()
+		f2 = QPolygonF()
+		f3 = QPolygonF()
+		f4 = QPolygonF()
+		f5 = QPolygonF()
+		f6 = QPolygonF()
+		for p in ( tl_f, tr_f, br_f, bl_f ):
+			f1.append( p.toPointF() )
+		for p in ( tl_b, tr_b, br_b, bl_b ):
+			f2.append( p.toPointF() )
+		for p in ( tl_f, tr_f, tr_b, tl_b ):
+			f3.append( p.toPointF() )
+		for p in ( bl_f, br_f, br_b, bl_b ):
+			f4.append( p.toPointF() )
+		for p in ( tl_f, tl_b, bl_b, bl_f ):
+			f5.append( p.toPointF() )
+		for p in ( tr_f, tr_b, br_b, br_f ):
+			f6.append( p.toPointF() )
+
+		return ( f1, f2, f3, f4, f5, f6 )
+
+
+	def rectToCubePoints(self, rect, depth, depthOffset, rotate = True, flatted=False):
 		p1 = rect.topLeft()
 		p2 = rect.topRight()
 		p3 = rect.bottomLeft()
 		p4 = rect.bottomRight()
 		
-		pTL_F = QVector3D( p1.x(), p1.y(), self._depth )
-		pTR_F = QVector3D( p2.x(), p2.y(), self._depth )
-		pBL_F = QVector3D( p3.x(), p3.y(), self._depth )
-		pBR_F = QVector3D( p4.x(), p4.y(), self._depth )
+		pTL_F = QVector3D( p1.x(), p1.y(), depthOffset + depth/2.0 )
+		pTR_F = QVector3D( p2.x(), p2.y(), depthOffset + depth/2.0 )
+		pBL_F = QVector3D( p3.x(), p3.y(), depthOffset + depth/2.0 )
+		pBR_F = QVector3D( p4.x(), p4.y(), depthOffset + depth/2.0 )
 		
-		pTL_B = QVector3D( p1.x(), p1.y(), -self._depth )
-		pTR_B = QVector3D( p2.x(), p2.y(), -self._depth )
-		pBL_B = QVector3D( p3.x(), p3.y(), -self._depth )
-		pBR_B = QVector3D( p4.x(), p4.y(), -self._depth )		
-		
-		return ( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B )
-	
-	def _2DTo3D(self, points):
-		pts3D_front = []
-		for pt in points:
-			pt3D = QVector3D( pt.x(), pt.y(), self._depth )
-			pts3D_front.append(pt3D)
-			
-		pts3D_back = []
-		for pt in points:
-			pt3D = QVector3D( pt.x(), pt.y(), self._depth )
-			pts3D_back.append(pt3D)
-		return (pts3D_front, pts3D_back)
-	
-	def _paintValues(self, painter, column ):		
-		center = QVector3D( self._chartRect.center().x(), self._chartRect.center().y(), 0 )
-		
-		def boundedLine( bound1, bound2, line ):
-			_, intersectPoint = bound1.intersect( line )
-			p1 = intersectPoint
-			
-			_, intersectPoint = bound2.intersect( line )
-			p2 = intersectPoint
-			return QLineF( p1, p2 )
-		
-		def rotate( p, rev = False, scale = None ):
-			m = QMatrix4x4()
-			if scale != None:
-				m.scale( scale, scale, scale )						
-			if rev == True:
-				m.rotate(-20, 0, 1, 0)
-				m.rotate(-20, 0, 0, -1)
-				m.rotate(-45, 1, 0, 0)				
-			else:
-				m.rotate(45, 1.0, 0, 0)
-				m.rotate(20, 0, 0, -1.0)
-				m.rotate(20, 0, 1.0, 0)
-			p -= center
-			p *= m
-			p += center
-			return p
-			
-		#( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCube(self._chartRect)	
-		( _, _, _, pBR_F, pTL_B, _, _, _ ) = self.rectToCube(self._chartRect)
-		
-		lT = QLineF( self._chartRect.topLeft(),
-					self._chartRect.topRight() )
-		
-		lB = QLineF( self._chartRect.bottomLeft(),
-					self._chartRect.bottomRight() )
-		
-#		lL = QLineF( lT.p1(), lB.p1() )
-#		
-#		lR = QLineF( lT.p2(), lB.p2() )
-#		
-#		flatD1 = QLineF( self._chartRect.topLeft(),
-#						self._chartRect.bottomRight(), ) 
-		
-		
-		d1 = QLineF( rotate( pTL_B ).toPointF(),
-					 rotate( pBR_F ).toPointF() ) 
-		
-		boundedD1 = boundedLine(lT, lB, d1)
-		
-#		painter.setPen( Qt.blue )
-#		painter.drawLine( lT )
-#		painter.drawLine( lB )
-#		painter.drawLine( lL )
-#		painter.drawLine( lR )
-#		painter.setPen( Qt.red )
-#		painter.drawLine( d1 )
-#		
-#		painter.setPen( Qt.green )
-#		painter.drawLine( d1 )
-#		
-#		painter.setPen( QPen( Qt.green, 3 ) )
-#		painter.drawLine( boundedD1 )
-#		
-#		painter.setPen( Qt.black )
-#		painter.drawLine( flatD1 )
-		
-		scale = float( boundedD1.length() / d1.length() )
-		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCube(self._chartRect)
-		l = []
-		for pt in ( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ):
-			l.append( rotate(QVector3D(pt), False, scale) )
-		( _pTL_F, _pTR_F, _pBL_F, _pBR_F, _pTL_B, _pTR_B, _pBL_B, _pBR_B ) = l
-		
-		painter.setBrush( Qt.gray )
-		polygon = QPolygonF()
-		polygon.append( _pTL_B.toPointF() )
-		polygon.append( _pTR_B.toPointF() )
-		polygon.append( _pBR_B.toPointF() )
-		polygon.append( _pBL_B.toPointF() )
-		painter.drawPolygon( polygon )
-		
-		painter.setBrush( Qt.lightGray )
-		polygon = QPolygonF()
-		polygon.append( _pTL_F.toPointF() )
-		polygon.append( _pTR_F.toPointF() )
-		polygon.append( _pBR_F.toPointF() )
-		polygon.append( _pBL_F.toPointF() )
-		painter.drawPolygon( polygon )
-		
-#		
-#		_, newCenter = boundedD1.intersect( boundedD2 )
-#		
-#		newCenter = QVector3D( newCenter.x(), newCenter.y(), 0 )
-#		
-#		painter.setPen( Qt.blue )
-#		painter.drawLine( lT )
-#		painter.drawLine( lB )
-#		painter.drawLine( lL )
-#		painter.drawLine( lR )
-#		
-#		painter.setPen( Qt.red )
-#		painter.drawLine( boundedD1 )
-#		painter.drawLine( boundedD2 )
-#		painter.setPen( QPen( Qt.green, 5 ) )
-#		painter.drawPoint( newCenter.toPointF() )
-#		painter.setPen( QPen( Qt.black, 5 ) )
-#		painter.drawPoint( center.toPointF() )
-#		
-#		
-#		p1 = rotate( QVector3D( boundedD1.p1().x(), boundedD1.p1().y(), -50 ), True, newCenter ).toPointF()
-#		p2 = rotate( QVector3D( boundedD1.p2().x(), boundedD1.p2().y(), 50 ), True, newCenter ).toPointF()
-#		
-#		p3 = rotate( QVector3D( boundedD2.p1().x(), boundedD2.p1().y(), -50 ), True, newCenter ).toPointF()
-#		p4 = rotate( QVector3D( boundedD2.p2().x(), boundedD2.p2().y(), -50 ), True, newCenter ).toPointF()
-#		
-#		painter.setPen( QPen( Qt.blue, 5 ) )
-#		painter.drawPoint( p1 )
-#		painter.drawPoint( p2 )
-#		painter.drawPoint( p3 )
-#		painter.drawPoint( p4 )
-#		
-#		painter.setPen( QPen( Qt.red, 5 ) )
-#		painter.drawPoint( QVector3D( boundedD1.p1().x(), boundedD1.p1().y(), -50 ).toPointF() )
-#		painter.drawPoint( QVector3D( boundedD1.p2().x(), boundedD1.p2().y(), 50 ).toPointF() )
-#		painter.drawPoint( QVector3D( boundedD2.p1().x(), boundedD2.p1().y(), -50 ).toPointF() )
-#		painter.drawPoint( QVector3D( boundedD2.p2().x(), boundedD2.p2().y(), -50 ).toPointF() )
-##
-#		
-#		pts = self.rectToCube(rect)
-#		l = []
-#		for pt in pts:
-#			l.append( rotate( pt ) )
-#
-#		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = l
-#		
-#		painter.setBrush( Qt.blue )
-#		polygon = QPolygonF()
-#		polygon.append( pTL_B.toPointF() )
-#		polygon.append( pTR_B.toPointF() )
-#		polygon.append( pBR_B.toPointF() )
-#		polygon.append( pBL_B.toPointF() )
-#		painter.drawPolygon( polygon )
-#		
-#		painter.setBrush( Qt.red )
-#		polygon = QPolygonF()
-#		polygon.append( pTL_F.toPointF() )
-#		polygon.append( pTR_F.toPointF() )
-#		polygon.append( pBR_F.toPointF() )
-#		polygon.append( pBL_F.toPointF() )
-#		painter.drawPolygon( polygon )
-#		
-#		painter.setBrush( Qt.NoBrush )
-#		painter.drawRect( self._chartRect )
-		
-#		painter.setPen( Qt.NoPen )
-#		p1 = QVector3D( self._chartRect.topLeft().x(), self._chartRect.topLeft().y(), 50 )
-#		p2 = QVector3D( self._chartRect.topRight().x(), self._chartRect.topRight().y(), 50 )
-#		
-#		p3 = QVector3D( self._chartRect.bottomLeft().x(), self._chartRect.bottomLeft().y(), 50 )
-#		p4 = QVector3D( self._chartRect.bottomRight().x(), self._chartRect.bottomRight().y(), 50 )
-#		
-#		p5 = QVector3D( self._chartRect.topLeft().x(), self._chartRect.topLeft().y(), -50 )
-#		p6 = QVector3D( self._chartRect.topRight().x(), self._chartRect.topRight().y(), -50 )
-#		
-#		p7 = QVector3D( self._chartRect.bottomLeft().x(), self._chartRect.bottomLeft().y(), -50 )
-#		p8 = QVector3D( self._chartRect.bottomRight().x(), self._chartRect.bottomRight().y(), -50 )
-#		
-#		center = QVector3D( self._chartRect.center().x(), self._chartRect.center().y(), 0 )
-#		
-#		m = QMatrix4x4()
-#		m.rotate(45, 1.0, 0, 0);
-#		m.rotate(20, 0, 0, -1.0);
-#		m.rotate(20, 0, 1.0, 0);
-#		
-#		p1 -= center
-#		p1 *= m
-#		p1 += center
-#		p2 -= center
-#		p2 *= m
-#		p2 += center
-#		p3 -= center
-#		p3 *= m
-#		p3 += center
-#		p4 -= center
-#		p4 *= m
-#		p4 += center
-#		
-#		p5 -= center
-#		p5 *= m
-#		p5 += center
-#		p6 -= center
-#		p6 *= m
-#		p6 += center
-#		p7 -= center
-#		p7 *= m
-#		p7 += center
-#		p8 -= center
-#		p8 *= m
-#		p8 += center
-#				
-#		painter.setBrush( Qt.blue )
-#		polygon = QPolygonF()
-#		polygon.append( p5.toPointF() )
-#		polygon.append( p6.toPointF() )
-#		polygon.append( p8.toPointF() )
-#		polygon.append( p7.toPointF() )
-#		painter.drawPolygon( polygon )
-#		
-#		painter.setBrush( Qt.red )
-#		polygon = QPolygonF()
-#		polygon.append( p1.toPointF() )
-#		polygon.append( p2.toPointF() )
-#		polygon.append( p4.toPointF() )
-#		polygon.append( p3.toPointF() )
-#		painter.drawPolygon( polygon )
-#		
-#		
-#		m2 = QMatrix4x4()
-#		m2.rotate(-20, 0, 1.0, 0);
-#		m2.rotate(-20, 0, 0, -1.0);
-#		m2.rotate(-45, 1.0, 0, 0);
-#		
-#		p1 -= center
-#		p1 *= m2
-#		p1 += center
-#		p2 -= center
-#		p2 *= m2
-#		p2 += center
-#		p3 -= center
-#		p3 *= m2
-#		p3 += center
-#		p4 -= center
-#		p4 *= m2
-#		p4 += center
-#		
-#		p5 -= center
-#		p5 *= m2
-#		p5 += center
-#		p6 -= center
-#		p6 *= m2
-#		p6 += center
-#		p7 -= center
-#		p7 *= m2
-#		p7 += center
-#		p8 -= center
-#		p8 *= m2
-#		p8 += center
-#		
-#		
-#		
-#		painter.setBrush( Qt.green )
-#		polygon = QPolygonF()
-#		polygon.append( p5.toPointF() )
-#		polygon.append( p6.toPointF() )
-#		polygon.append( p8.toPointF() )
-#		polygon.append( p7.toPointF() )
-#		painter.drawPolygon( polygon )
-#		
-#		painter.setBrush( Qt.yellow )
-#		polygon = QPolygonF()
-#		polygon.append( p1.toPointF() )
-#		polygon.append( p2.toPointF() )
-#		polygon.append( p4.toPointF() )
-#		polygon.append( p3.toPointF() )
-#		painter.drawPolygon( polygon )
-#		
-#		return None
-#		painter.save()
-#		style = self.columnStyle( column )
-#		backBrush = QBrush(style.brush())
-#		frontBrush = QBrush( style.brush() )
-#		backBrush.setColor( backBrush.color().darker(120) )
-#		
-#		painter.setPen( Qt.NoPen )
-#		
-#		( frontPoint, backPoint ) = self._calculatePoint( column )
-#		
-#		for  i in range( len(frontPoint) - 1):
-#			p1 = frontPoint[i]
-#			p2 = frontPoint[i + 1]
-#			p3 = backPoint[i]
-#			p4 = backPoint[i + 1]
-#			
-#			polygon = QPolygonF()
-#			polygon.append( p1 )
-#			polygon.append( p2 )
-#			polygon.append( p4 )
-#			polygon.append( p3 )
-#			
-#			if p1.y() > p2.y(): #Up, so bottom
-#				painter.setBrush( backBrush )
-#				painter.setPen( QPen(backBrush, 2) )
-#			else:
-#				painter.setBrush( style.brush() )
-#				painter.setPen( QPen(style.brush(), 2) )
-#				
-#			painter.drawPolygon( polygon )
-#			
-#
-##		painter.drawPolygon( polygon )
-#		
-#		painter.restore()
-		
-		
-			
+		pTL_B = QVector3D( p1.x(), p1.y(), depthOffset - depth/2.0 )
+		pTR_B = QVector3D( p2.x(), p2.y(), depthOffset - depth/2.0 )
+		pBL_B = QVector3D( p3.x(), p3.y(), depthOffset - depth/2.0 )
+		pBR_B = QVector3D( p4.x(), p4.y(), depthOffset - depth/2.0 )
+		if rotate == True:
+			l = []
+			for pt in ( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ):   		
+				l.append( self.rotate3DPoint(QVector3D(pt), False, self.scale) )
+			( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = l
+		if flatted == False:
+			return ( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B )
+		else:
+			l = []
+			for pt in ( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ):
+				l.append( pt.toPointF() )
+			return l
 
-#	def _paintValues(self, painter, column):
-#		t = self.columnType(column)
-#
-#		delegate = None
-#		
-#		if t | Type.Point == t:
-#			delegate = self._pointDelegate
-#		elif t == Type.Bar:
-#			delegate = self._barDelegate
-#		
-#		rows = self.model().rowCount()
-#		
-#		painter.save()
-#		style = self.columnStyle( column )
-#		painter.setBrush( style.brush() )
-#		painter.setPen( style.pen() )
-#
-#		for r in range(0, rows):
-#			index = self.model().index( r, column )
-#			option = QStyleOptionViewItem()
-#			value = index.data()
-#			if value < 0:
-#				option.decorationPosition = QStyleOptionViewItem.Bottom
-#			else:
-#				option.decorationPosition = QStyleOptionViewItem.Top
-#
-#			option.rect = self.itemRect( index )
-#
-#			if t | Type.Line == t:
-#				if r < (rows - 1):
-#					p1 = option.rect.center()
-#					p2 = self.itemRect( self.model().index( r + 1, column ) ).center()
-#					painter.drawLine( p1, p2 )
-#
-#			if delegate != None:
-#				delegate.paint( painter, option, index )
-#		painter.restore()
+
+	def rotate3DPoint(self, p, rev = False, scale = None ):
+		center = QVector3D( self._chartRect.center().x(), self._chartRect.center().y(), 0 )
+		m = QMatrix4x4()
+		if scale != None:
+			m.scale( scale, scale, scale )						
+		if rev == True:
+			m.rotate(-self.angleX, 1, 0, 0)
+			m.rotate(-self.angleY, 0, 1, 0)
+			m.rotate(-self.angleZ, 0, 0, -1)
+		else:
+			m.rotate(self.angleX, 1.0, 0, 0)
+			m.rotate(self.angleY, 0, 1.0, 0)
+			m.rotate(self.angleZ, 0, 0, -1.0)
+		p -= center
+		p *= m
+		p += center
+		return p
+
+
+	def transform2DPoint(self, point, depth):
+		pt =  QVector3D( point.x(), point.y(), depth )
+		return self.rotate3DPoint(pt, False, self.scale).toPointF()
+
+
+	def columnType( self, column ):
+		return Type.Bar
+
+
+	def rotate(self, angle, axis):
+		if axis == Qt.XAxis:
+			self.angleX = angle
+		elif axis == Qt.YAxis:
+			 self.angleY = angle
+		elif axis == Qt.YAxis:
+			 self.angleZ = angle
+		else:
+			raise( TypeError, "axis must be a Qt.Axis value" )
+
+
+	def setAngles(self, x, y ,z):
+		self.angleX = x
+		self.angleY = y
+		self.angleZ = z
+		self.viewport().update()
+
+
+	def setDepth(self, depth):
+		self._depth = depth
+

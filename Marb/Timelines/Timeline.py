@@ -254,7 +254,6 @@ class Timeline(QAbstractItemView):
 			self._itemPath.translate( offset[0], offset[1] )
 		#self._itemPath.translate( centerView.x() - centerPath.x(), centerView.y() - centerPath.y() )
 		 
-		#print self._itemPath.boundingRect(), self._path.boundingRect()
 
 	def paintEvent( self, event ) :
 		if self.model() == None:

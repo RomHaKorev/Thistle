@@ -19,14 +19,24 @@ class PieChart3D( PieChart ):
 		
 		self._updateRects()
 		
+		w = float( self._chartRect.width() )
+		h = float( self._chartRect.height() )
+		
+		if h >= (w * 0.8):
+			h = w * 0.8
+		else:
+			w = h / 0.8
+		
+		self._chartRect.setX( self._chartRect.x() + ( self._chartRect.width() - w )/2.0 )
+		self._chartRect.setY( self._chartRect.y() + ( self._chartRect.height() - h )/2.0 )
+		self._chartRect.setWidth( w )
+		self._chartRect.setHeight( h )
+		
 		for i in range( 0, self.model().rowCount() ):
 			index = self.model().index( i, 0 )
 			self._Total += abs( float(self.model().data( index )) )
 			text = str(self.model().headerData( i, Qt.Vertical ))
 			maxLabelWidth = max( metrics.width( text ), maxLabelWidth )
-
-		self._leftLabelRect = QRect( 0, 0, maxLabelWidth + 20, self.height() )
-		self._rightLabelRect = QRect( 0, 0, maxLabelWidth + 20, self.height() )
 
 		self._titleRect.moveTo( self._titleRect.x(), self._chartRect.bottom() + 10 )
 		w = self._chartRect.width() * 0.80
@@ -35,14 +45,13 @@ class PieChart3D( PieChart ):
 		dh = self._chartRect.height() - h
 		self._valuesRect = QRect( self._chartRect.x() + dw/2.0, self._chartRect.y() + dh/2.0, w, h )
 
-		self._rightLabelRect.translate( self._chartRect.topRight().x(), 0 )
-		self._leftLabelRect.translate( self._chartRect.topLeft().x() - self._leftLabelRect.width(), 0 )
-		self._Height = self._chartRect.height() * 0.25
-		self._chartRect.setHeight( self._chartRect.height() * 0.75 )
-	
+		self._Height = self._chartRect.height() * 0.20
+		#self._chartRect.setHeight( self._chartRect.height() * 0.80 )
+		self._valuesRect.setHeight( self._valuesRect.height() * 0.80 )
+
 		self._Angles = []
 		angle = 0
-		
+
 		for i in range( self.model().rowCount() ):
 			self._Angles.append(angle)
 			index = self.model().index( i, 0 )
@@ -89,10 +98,19 @@ class PieChart3D( PieChart ):
 				else:
 					self.paintPartSplitted( painter, self._Angles[i], self._Angles[i + 1], color )
 			i+=2
-				
+		
 		painter.restore()
-	
-	
+		font = self.font()
+		font.setItalic( True )
+		painter.setFont( font )
+		painter.drawText( self._titleRect, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
+		painter.setPen( Qt.red )
+		painter.drawRect( self._titleRect )
+		painter.setPen( Qt.blue )
+		painter.drawRect( self._chartRect )
+		painter.setPen( Qt.green )
+		painter.drawRect( self._valuesRect )
+
 	def paintExternal( self, painter, top ) :
 		i = 0
 		while i < (len( self._Angles ) - 2 ):

@@ -21,8 +21,7 @@ class PieChart( Chart ):
 		self._Render = Render.Plain
 		self._chartRect = QRect()
 		self._valuesRect = QRect()
-		self._leftLabelRect = QRect()
-		self._rightLabelRect = QRect()
+		self._ellipseFactor = 0.80
 
 
 	def configureColor(self, painter, base, flag):
@@ -106,7 +105,6 @@ class PieChart( Chart ):
 					if idx == index:
 						isSelected = True
 						break
-			print( isSelected )
 			if self._Splitted == False:
 				if isSelected == False:
 					self.paintPart( painter, angle, delta, color )
@@ -122,17 +120,7 @@ class PieChart( Chart ):
 			angle += delta
 		painter.drawText( 10, self._chartRect.bottomLeft().y(),
 						self.width() - 20, self.height() - self._valuesRect.height(), Qt.AlignHCenter | Qt.TextWordWrap, self._Legend )
-		#self.paintLabels(painter)
-# 		painter.drawRect( self._legendRect )
-# 		painter.drawRect( self._titleRect )
-# 		painter.setPen( Qt.red )
-# 		painter.drawRect( self._valuesRect )
-# 		painter.setPen( Qt.blue )
-# 		painter.drawRect( self._chartRect )
-# 		painter.restore()
-# 		for i in range( 0, rows ):
-# 			index = self.model().index( i, 0 )
-# 			painter.drawPath( self.itemPath(index) )
+		painter.restore()
 
 
 	def paintEvent( self, event ) :
@@ -222,15 +210,14 @@ class PieChart( Chart ):
 
 
 	def splittedOffset( self, angle, delta, splitted ):
-		print("splittedOffset", splitted)
-		if splitted == False:
-			return ( 0, 0 )
-		line = QLineF( QPointF(0,0), QPointF((self._valuesRect.width()/2), 0) )
-		line.setAngle( -angle - delta/2 )
-		p1 = line.p2()
-		line.setLength( line.length() * self._chartRect.width() / self._valuesRect.width() )
-		p2 = line.p2()
-		return ( p2.x() - p1.x(), p2.y() - p1.y() )
+ 		if splitted == False:
+ 			return ( 0, 0 )
+ 		line = QLineF( QPointF(0,0), QPointF((self._valuesRect.width()/2), 0) )
+ 		line.setAngle( -angle - delta/2 )
+ 		p1 = line.p2()
+ 		line.setLength( (line.length() * self._chartRect.width() / self._valuesRect.width()) )
+ 		p2 = line.p2()
+ 		return ( (p2.x() - p1.x()), (p2.y() - p1.y()) * 0.80 )
 
 
 	def _updateRects(self):
@@ -251,8 +238,6 @@ class PieChart( Chart ):
 			self._Total += abs( float(self.model().data( index )) )
 			text = str(self.model().headerData( i, Qt.Vertical ))
 			maxLabelWidth = max( metrics.width( text ), maxLabelWidth )
-		self._leftLabelRect = QRect( 0, 0, maxLabelWidth + 20, self.height() )
-		self._rightLabelRect = QRect( 0, 0, maxLabelWidth + 20, self.height() )
 		w = self._chartRect.width()
 		h = self._chartRect.height()
 		if w < h:
@@ -267,8 +252,6 @@ class PieChart( Chart ):
 		dw = self._chartRect.width() - w
 		dh = self._chartRect.height() - h
 		self._valuesRect = QRect( self._chartRect.x() + dw/2.0, self._chartRect.y() + dh/2.0, w, h )
-		self._rightLabelRect.translate( self._chartRect.topRight().x(), 0 )
-		self._leftLabelRect.translate( self._chartRect.topLeft().x() - self._leftLabelRect.width(), 0 )
 
 
 	def visualRect( self, index ):
