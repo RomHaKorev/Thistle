@@ -12,6 +12,9 @@ class PieChart( Chart ):
 
 
 	def __init__(self, parent=None):
+		''' Constructor. Constructs an instance with the given [parent].
+		parent: QWidget
+		'''
 		super(PieChart, self).__init__( parent )
 		self.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self._Ring = False
@@ -25,6 +28,8 @@ class PieChart( Chart ):
 
 
 	def configureColor(self, painter, base, flag):
+		''' Sets the pen and brush colors for the painter according to the bas color and the PieChart.ColorConf flags.
+		'''
 		painter.setPen( QPen( base, 3 ) )
 		c = base
 		if flag == PieChart.ColorConf.Darker:
@@ -41,6 +46,8 @@ class PieChart( Chart ):
 
 
 	def itemPart( self, angle, delta, splitted = False ):
+		''' Returns a QPainterPath representing the pie part for the given angle and delta.
+		'''
 		part = QPainterPath()
 		part.moveTo( self._valuesRect.center() )
 		part.arcTo( self._valuesRect, -angle, -delta )
@@ -56,6 +63,8 @@ class PieChart( Chart ):
 
 
 	def itemPath( self, index ):
+		''' Returns a QPainterPath representing the pie part for the given index.
+		'''
 		path = QPainterPath()
 		if index.column() != 0:
 			return path
@@ -89,7 +98,12 @@ class PieChart( Chart ):
 			color = QColor( self.model().data( index, Qt.DecorationRole ) )
 			if not color.isValid():
 				color = Color.colorAt( i )
-			v = abs( float(self.model().data( index )) )
+			value = 0
+			try:
+				value = float(self.model().data( index ))
+			except:
+				value = 0
+			v = abs( value )
 			delta = 360.0 * v/self._Total
 			centerAngle = angle + delta/2.0
 			if centerAngle < 90: # Right side
@@ -131,6 +145,8 @@ class PieChart( Chart ):
 
 
 	def paintLabels(self, painter):
+		''' Paints label for each part.
+		'''
 		# Paint labels
 		metrics = QFontMetrics( self.font() )
 		ell = QPainterPath()
@@ -169,7 +185,9 @@ class PieChart( Chart ):
 			painter.setPen( pen )
 
 
-	def paintPart( self, painter, angle, delta, color ):		
+	def paintPart( self, painter, angle, delta, color ):
+		''' Paints the part defined by angle and delta with the given color.
+		'''
 		part = self.itemPart( angle, delta )
 		painter.save()
 		painter.setClipPath( part ) # To avoid the "borders superposition"
@@ -179,6 +197,9 @@ class PieChart( Chart ):
 
 
 	def paintPartSplitted( self, painter, angle, delta, color ):
+		''' Does the same work than paintPart but with an offset.
+		Used to paint parts when the flag splitted is set.
+		'''
 		part = self.itemPart( angle, delta, True )
 		painter.save()
 		self.configureColor(painter, color, PieChart.ColorConf.Lighter)
@@ -202,10 +223,15 @@ class PieChart( Chart ):
 
 
 	def setRing( self, ring ) :
+		'''Defines the pie chart as a ring (paints a 'hole' at the center).
+		'''
 		self._Ring = ring
 
 
 	def setSplitted( self, splitted ) :
+		''' sets the flag self._Splitted to splitted.
+		If splitted is True, 
+		'''
 		self._Splitted = splitted
 
 
@@ -235,7 +261,12 @@ class PieChart( Chart ):
 		self._updateRects()
 		for i in range( 0, self.model().rowCount() ):
 			index = self.model().index( i, 0 )
-			self._Total += abs( float(self.model().data( index )) )
+			value = 0
+			try:
+				value = float(self.model().data( index ))
+			except:
+				value = 0
+			self._Total += abs( value )
 			text = str(self.model().headerData( i, Qt.Vertical ))
 			maxLabelWidth = max( metrics.width( text ), maxLabelWidth )
 		w = self._chartRect.width()

@@ -6,6 +6,9 @@ class RadialChart(Chart):
 
 
 	def __init__(self, parent=None):
+		''' Constructor. Constructs an instance with the given [parent].
+		*parent: QWidget
+		'''
 		super(RadialChart, self).__init__( parent )
 		self._origin = QPointF(20, 20)
 		self._centerHoleDiam = 0
@@ -13,25 +16,29 @@ class RadialChart(Chart):
 
 
 	def __paintTicks(self, painter):
-			y = self._minBound
-			painter.save()
-			c = QColor(Qt.lightGray)
-			c.setAlpha( 100 )
-			painter.setPen( QPen( c , 2) )
-			while y <= self._maxBound:
-				v = self.valueToPx( y )
-				rectangle = QRect( -v/2, -v/2, v, v )
-				rectangle.translate( self._valuesRect.center() )
-				path = QPainterPath()
-				path.addEllipse( rectangle )
-				painter.drawPath( path )
-				y += self._tickSize
-			painter.restore()
+		''' Paints ticks for axis on the paint device [painter].
+		*painter: QPainter
+		'''
+		y = self._minBound
+		painter.save()
+		c = QColor(Qt.lightGray)
+		c.setAlpha( 100 )
+		painter.setPen( QPen( c , 2) )
+		while y <= self._maxBound:
+			v = self.valueToPx( y )
+			rectangle = QRect( -v/2, -v/2, v, v )
+			rectangle.translate( self._valuesRect.center() )
+			path = QPainterPath()
+			path.addEllipse( rectangle )
+			painter.drawPath( path )
+			y += self._tickSize
+		painter.restore()
 
 
 	def columnStyle(self, column ):
 		'''Returns the style for the column.
 		If no style has been set for the column, returns the style by default
+		*column: integer
 		'''
 		if column in self._style:
 			return self._style[ column ]
@@ -46,6 +53,9 @@ class RadialChart(Chart):
 
 
 	def itemPath( self, index ):
+		'''Returns the bounding path for the item pointed by the 'index'.
+		*index: QModelIndex
+		'''
 		angle = float( self._x / self.model().columnCount() )
 		delta = 0.1 * angle
 		startAngle = angle * index.column()
@@ -65,7 +75,9 @@ class RadialChart(Chart):
 		return path
 
 
-	def paintChart(self, painter):		
+	def paintChart(self, painter):	
+		''' Paints the chart on the paint device [painter].
+		'''
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
 		self._paintText(painter)
 		self.__paintTicks( painter )

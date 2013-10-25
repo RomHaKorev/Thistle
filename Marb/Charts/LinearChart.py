@@ -10,6 +10,8 @@ class LinearChart(Chart):
 
 
 	def __init__(self, parent=None):
+		''' Constructor. Constructs an instance with the given 'parent'.
+		'''
 		super(LinearChart, self).__init__( parent )
 		self._origin = QPointF(20, 10)
 		self._x = 0
@@ -56,7 +58,7 @@ class LinearChart(Chart):
 
 
 	def itemRect(self, index ):
-		'''Overloaded method.
+		'''Reimplemented from Chart.itemRect()
 		'''
 		r = QRect()
 		t = self.columnType( index.column() )
@@ -84,6 +86,8 @@ class LinearChart(Chart):
 
 
 	def _paintAxis(self, painter):
+		''' Paints X-axis and Y-axis on the viewport.
+		'''
 		painter.save()
 		painter.setPen( QPen( QColor(Color.LightGray), 1.5 ) )
 		self._paintXAxis(painter)
@@ -92,8 +96,6 @@ class LinearChart(Chart):
 
 
 	def paintChart(self, painter):
-		'''Overloaded method.
-		'''
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
 		self._paintAxis(painter)
 		ordered = self._calculateOrderedColumn()
@@ -136,6 +138,8 @@ class LinearChart(Chart):
 
 
 	def _paintTextAxis(self, painter):
+		'''Paints text on the X & Y axis.
+		'''
 		painter.save()
 		metrics = QFontMetrics( self.font() )
 		h = metrics.height()
@@ -189,7 +193,12 @@ class LinearChart(Chart):
 		for r in range( rows ):
 			index = self.model().index( r, column )
 			option = QStyleOptionViewItem()
-			value = index.data()
+			value = 0
+			try: 
+				value = float( index.data() )
+			except:
+				value = 0
+			
 			if value < 0:
 				option.decorationPosition = QStyleOptionViewItem.Bottom
 			else:
@@ -227,7 +236,9 @@ class LinearChart(Chart):
 		painter.restore()
 
 
-	def _paintXAxis(self, painter):		
+	def _paintXAxis(self, painter):
+		'''Paints X-Axis
+		'''	
 		p1 = QPoint( self._origin.x(), self._origin.y() )
 		p2 = p1 + QPoint( self._valuesRect.width() + 6, 0 )
 		painter.drawLine( p1, p2 )
@@ -242,6 +253,8 @@ class LinearChart(Chart):
 
 
 	def _paintYAxis(self, painter):	
+		'''Paints Y-Axis
+		'''
 		p1 = QPoint( self._origin.x(), self._chartRect.y() )
 		p2 = QPoint( self._origin.x(), self._chartRect.bottom() )
 		painter.drawLine( p1, p2 )

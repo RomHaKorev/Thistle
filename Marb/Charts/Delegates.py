@@ -5,16 +5,15 @@ from PySide.QtCore import QPoint, Qt, QRect, QSize
 
 class ChartDelegate( QStyledItemDelegate ):
 	'''PointDelegate class provides display facilities for the Linear Chart.
-	
 	When displaying data from a linear Chart series configured with the flag Marb.Type, the values are drawn with the relative delegate.
 	'''
 	def __init__( self, parent ):
+		''' Constructor. Constructs an instance with the given 'parent'.
+		'''
 		super(ChartDelegate, self).__init__( parent )
 
 
 	def paint( self, painter, option, index ):
-		'''Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
-		'''
 		if ( option.state == QStyle.State_Off ):
 			self._paintDisabled(painter, option, index)
 		else:
@@ -22,10 +21,16 @@ class ChartDelegate( QStyledItemDelegate ):
 
 
 	def _paintEnabled(self, painter, option, index ):
+		'''Paints the index value when the index is enabled, according to the columnStyle shape.
+		An index is enabled if the selection is empty or contains the index.
+		'''
 		raise( NotImplementedError, "Should be implemented" )
 
 
 	def _paintDisabled(self, painter, option, index ):
+		'''Paints the index value when the index is disabled, according to the columnStyle shape.
+		An index is disabled if the selection is not empty and doesn't contains the index.
+		'''
 		raise( NotImplementedError, "Should be implemented" )
 
 
@@ -33,7 +38,6 @@ class ChartDelegate( QStyledItemDelegate ):
 class PointDelegate( ChartDelegate ):
 	def _createDiamond(self, rect):
 		''' Returns a polygon representing a diamond. The dimensions and the position are fixed by the QRect rect.
-		
 		The method is called when you use the flag Marb.Shape.Diamond
 		'''
 		poly = QPolygon()
@@ -108,8 +112,6 @@ class BarDelegate( ChartDelegate ):
 
 
 	def _paintEnabled( self, painter, option, index ):
-		'''Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
-		'''
 		chartItemStyle = self.parent().columnStyle( index.column() )
 		r = option.rect
 
@@ -145,8 +147,6 @@ class BarDelegate( ChartDelegate ):
 		painter.restore()
 
 	def _paintDisabled( self, painter, option, index ):
-		'''Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
-		'''
 		chartItemStyle = self.parent().columnStyle( index.column() )
 		r = option.rect.normalized()
 		

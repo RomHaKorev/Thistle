@@ -34,7 +34,12 @@ class PieChart3D( PieChart ):
 		
 		for i in range( 0, self.model().rowCount() ):
 			index = self.model().index( i, 0 )
-			self._Total += abs( float(self.model().data( index )) )
+			value = 0
+			try:
+				value = float(self.model().data( index ))
+			except:
+				value = 0
+			self._Total += abs( value )
 			text = str(self.model().headerData( i, Qt.Vertical ))
 			maxLabelWidth = max( metrics.width( text ), maxLabelWidth )
 
@@ -55,7 +60,12 @@ class PieChart3D( PieChart ):
 		for i in range( self.model().rowCount() ):
 			self._Angles.append(angle)
 			index = self.model().index( i, 0 )
-			v = abs( float(self.model().data( index ) ) )
+			value = 0
+			try:
+				value = float(self.model().data( index ))
+			except:
+				value = 0
+			v = abs( value )
 			delta = 360.0 * v/self._Total
 			self._Angles.append(delta)
 			angle += delta
@@ -104,12 +114,12 @@ class PieChart3D( PieChart ):
 		font.setItalic( True )
 		painter.setFont( font )
 		painter.drawText( self._titleRect, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, self._title )
-		painter.setPen( Qt.red )
-		painter.drawRect( self._titleRect )
-		painter.setPen( Qt.blue )
-		painter.drawRect( self._chartRect )
-		painter.setPen( Qt.green )
-		painter.drawRect( self._valuesRect )
+#		painter.setPen( Qt.red )
+#		painter.drawRect( self._titleRect )
+#		painter.setPen( Qt.blue )
+#		painter.drawRect( self._chartRect )
+#		painter.setPen( Qt.green )
+#		painter.drawRect( self._valuesRect )
 
 	def paintExternal( self, painter, top ) :
 		i = 0
@@ -213,7 +223,7 @@ class PieChart3D( PieChart ):
 			r.translate( centerOffset[0], centerOffset[1] )
 		
 		ell.addEllipse( r )
-		p1 = ell.pointAtPercent( angle / 360.0 )
+		p1 = ell.pointAtPercent( round(angle / 360.0, 4) )
 		center = r.center()
 		offset = QPointF( 0, self._Height )
 	

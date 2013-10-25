@@ -1,8 +1,9 @@
 import Marb
 from Marb.Charts3D.LinearChart3D import LinearChart3D
+from Marb import *
 
-from PySide.QtGui import QApplication, QStandardItemModel, QStandardItem, QTableView, QPen, QColor, QSlider, QFormLayout, QWidget
-from PySide.QtCore import QSize, Qt, QObject, SIGNAL
+from PySide.QtGui import QApplication, QStandardItemModel, QStandardItem, QTableView, QPen, QColor, QSlider, QFormLayout, QWidget, QScrollArea
+from PySide.QtCore import QSize, Qt, QObject, SIGNAL, QDate
 import sys
 
 
@@ -12,6 +13,13 @@ chart = None
 
 
 app = QApplication(sys.argv)
+s = QScrollArea()
+w = QWidget();
+w.setFixedSize( 500, 500 )
+s.setWidget( w )
+s.show()
+app.exec_()
+exit(0)
 
 model = QStandardItemModel()
 root0 = QStandardItem( "Root0" )
@@ -60,12 +68,8 @@ root3.appendRow( it1 )
 
 model.appendRow( root0 )
 model.appendRow( root1 )
-model.appendRow( root2 )
-model.appendRow( root3 )
-
-#	tree = Marb.HorizontalTree()
-#	tree.setModel( model )
-#	tree.show()
+#model.appendRow( root2 )
+#model.appendRow( root3 )
 
 color = QColor( 0x0829A1 )
 model2 = QStandardItemModel( 10, 3 )
@@ -92,13 +96,39 @@ s = chart.columnStyle(2)
 s.setType( Marb.Type.Bar )
 chart.setColumnStyle( 2, s )
 chart.setAngles( 0,0,0 )
-chart.show()
+#chart.show()
 
-#l = QTableView()
-#l.setModel( model2 )
-#l.show()
+chart2 = LinearChart()
+#style = chart.columnStyle( 1 )
+#style.setType( Marb.Type.Bar )
+#chart.setColumnStyle( 1, style )
+#chart.setSplitted( True )
+chart2.setModel( model2 )
+chart2.setTitle( "Test legende sous le graphique" )
+s = chart2.columnStyle(0)
+s.setType( Marb.Type.Line )
+chart2.setColumnStyle( 0, s )
+s = chart2.columnStyle(2)
+s.setType( Marb.Type.Bar )
+chart2.setColumnStyle( 2, s )
+#chart2.show()
 
-#l.setSelectionModel( chart.selectionModel() )
+tree4 = RadialTree()
+tree4.setModel( model )
+#tree4.show()
+
+tree5 = VerticalTree()
+tree5.setModel( model )
+#tree5.show()
+
+tree6 = HorizontalTree()
+tree6.setModel( model )
+#tree6.show()
+
+tree7 = HierarchicalTree()
+tree7.setModel( model )
+tree7.show()
+
 
 w = QWidget()
 form = QFormLayout( w )
@@ -116,7 +146,6 @@ form.addRow( "X", sliderX )
 form.addRow( "Y", sliderY )
 form.addRow( "Z", sliderZ )
 
-#QObject.connect( sliderX, SIGNAL('valueChanged()'), chart.test )
 
 def test():
 	chart.setAngles( sliderX.value(), sliderY.value(), sliderZ.value() )
@@ -125,7 +154,9 @@ sliderX.valueChanged.connect(test)
 sliderY.valueChanged.connect(test)
 sliderZ.valueChanged.connect(test)
 
-w.show()
+#w.show()
+
+
 
 #	t = Marb.Graph()
 #	t.setItemSize( QSize( 10, 10 ) )

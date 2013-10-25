@@ -63,14 +63,14 @@ class Timeline(QAbstractItemView):
 	
 		
 	def resizeEvent(self, ev ):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		QAbstractItemView.resizeEvent(self, ev )
 		self.updatePath()
 	
 	
 	def moveCursor(self, cursorAction, modifiers):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		return QModelIndex()
 	
@@ -84,7 +84,7 @@ class Timeline(QAbstractItemView):
 
 
 	def indexAt(self, point):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		return QModelIndex() # BUG IN PySide
 		p = point - QPoint( self.horizontalOffset(), self.verticalOffset() )
@@ -96,14 +96,14 @@ class Timeline(QAbstractItemView):
 
 	
 	def visualRect(self, index):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		r = self.itemRect(index)
 		return r
 	
 	
 	def visualRegionForSelection(self, selection):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		ranges = selection.count()
 		region = QRegion()
@@ -115,20 +115,20 @@ class Timeline(QAbstractItemView):
 	
 
 	def rows(self, index):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		return self.model().rowCount( self.model().parent(index))
 	
 	
 	def setModel(self, *args, **kwargs):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		QAbstractItemView.setModel(self, *args, **kwargs)
 		self.updatePath()
 	
 	
 	def dataChanged(self, top_left, bottomRight ):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		QAbstractItemView.dataChanged(self, top_left, bottomRight)
 		self.updatePath()
@@ -136,7 +136,7 @@ class Timeline(QAbstractItemView):
 	
 
 	def rowsAboutToBeRemoved(self, parent, start, end):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		QAbstractItemView.rowsAboutToBeRemoved(self, parent, start, end)
 		self.updatePath()
@@ -145,7 +145,7 @@ class Timeline(QAbstractItemView):
 	
 	
 	def rowsInserted(self, parent, start, end):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		QAbstractItemView.rowsInserted(self, parent, start, end)
 		self.process()

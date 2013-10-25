@@ -12,6 +12,9 @@ import random
 Pi = 3.14159265358979323846264338327950288419717
 
 class Edge:
+	'''The Edge class represents an edge between two nodes.
+	An edge can be Bilateral, unilateral or None. The type of edge defines the kind of forces and the render.
+	'''
 	NoArrow = 0
 	Bilateral = 1
 	Unilateral = 2
@@ -22,6 +25,9 @@ class Edge:
 		
 
 class Node:
+	''' The class Node contains the specification for a particular node.
+	It contains the edges and the position.
+	'''
 	def __init__(self):
 		self._pos = QPointF( 0, 0 )
 		self._connectedNode = []
@@ -45,6 +51,8 @@ class Node:
 
 class Graph(MarbAbstractItemView):					
 	def __init__( self, parent=None ):
+		'''
+		'''
 		super( Graph, self ).__init__( parent )
 		self._timer = QTimer()
 		self._timer.setInterval(1)
@@ -68,13 +76,22 @@ class Graph(MarbAbstractItemView):
 
 
 	def setWeight(self, weight):
+		'''Sets node weight to [weight].
+		Weight will be used to define forces applied between each node.
+		*weight: integer
+		'''
 		self._weight = weight
 
 	def setItemSize(self, size ):
+		'''Sets the item size to size.
+		'''
 		self._rect = QRect( -size.width()/2, -size.height()/2, size.width(), size.height() )
 		self.viewport().update()
 
 	def setConnectionPen(self, pen):
+		''' Sets the Qpen used to paint the node edge to [pen].
+		*pen: QPen
+		'''
 		self._connectionPen = pen
 
 	def itemRect( self, index ):
@@ -85,6 +102,11 @@ class Graph(MarbAbstractItemView):
 
 
 	def addEdgeByIndex( self, idx1, idx2, type = Edge.NoArrow ):
+		''' Add an edge between the two nodes referenced by the QModelIndex idx1 and idx2.
+		*idx1: QModelIndex
+		*idx2: QModelIndex
+		*type: Edge.type
+		'''
 		if ( idx1 == idx2 ) or not idx1.isValid() or not idx2.isValid():
 			return None
 		self._edges.append( Edge( idx1, idx2, type ) )
@@ -92,6 +114,13 @@ class Graph(MarbAbstractItemView):
 
 
 	def addEdge( self, row1, col1, row2, col2, type = Edge.NoArrow ):
+		''' Add an edge between the two nodes referenced by the coordinates ([row1], [col1]) and ([row2], [col2]).
+		*row1: integer
+		*col1: integer
+		*row2: integer
+		*col2: integer
+		*type: Edge.type
+		'''
 		if self.model() == None:
 			return
 		self.addEdgeByIndex( self.model().index( row1, col1 ), self.model().index( row2, col2 ), type )
@@ -131,6 +160,8 @@ class Graph(MarbAbstractItemView):
 
 
 	def shake(self): # Shiver and Moan...
+		''' Shakes nodes to place them at a random position.
+		'''
 		if self.model() == 0:
 			return None
 		self._timer.stop()
@@ -162,6 +193,10 @@ class Graph(MarbAbstractItemView):
 
 
 	def paintEdges( self, painter, offset = QPointF( 0, 0 ) ):
+		''' Paints the edges between nodes on the paint device [painter] with the given [offset].
+		*painter: QPainter
+		*offset: QPointF
+		'''
 		painter.save()
 		painter.setPen( self._connectionPen )
 		painter.setBrush( QColor( Color.Gray ) )
@@ -171,6 +206,12 @@ class Graph(MarbAbstractItemView):
 	
 	
 	def paintEdge( self, painter, idx1, idx2, type ):
+		''' Paints the edge between the two nodes referenced by the QModelIndex [idx1] and [idx2] on the paint device [painter] with the given [offset].
+		*painter: QPainter
+		*idx1: QModelIndex
+		*idx2: QModelIndex
+		*type: Edge.type
+		'''
 		r1 = self.itemRect( idx1 )
 		r2 = self.itemRect( idx2 )
 		p1 = r1.center()
@@ -208,6 +249,10 @@ class Graph(MarbAbstractItemView):
 
 
 	def paintArrow( self, painter, line ):
+		''' Paints an arrow the [line] end on the paint device [painter].
+		*line: QLineF
+		*painter: QPainter
+		'''
 		originalPen = painter.pen()
 		pen = painter.pen()
 		pen.setWidth( 1 )
@@ -224,6 +269,10 @@ class Graph(MarbAbstractItemView):
 
 
 	def paintItems( self, painter, offset = QPointF(0,0) ):
+		''' Paints every node on the paint device [painter] with the given [offset].
+		*painter: QPainter
+		*offset: QPointF
+		'''
 		for idx in self._itemPos.keys():
 			option = QStyleOptionViewItem()
 			option.rect = self.itemRect( idx ).translated( offset.x(), offset.y() )
@@ -231,6 +280,9 @@ class Graph(MarbAbstractItemView):
 
 
 	def calculateForces( self, idx ):
+		''' calculateForces applied to the node referenced by the QModelIndex [idx]
+		* idx: QModelIndex
+		'''
 		node = self._itemPos[ idx ]
 		
 		# Calculate forces pushing the items
@@ -258,6 +310,8 @@ class Graph(MarbAbstractItemView):
 
 
 	def processTimer( self ):
+		''' Processes a single step of the algorithm.
+		'''
 		if self._itemPos == {}:
 			self._movedItem = QModelIndex()
 			self.timer.stop()

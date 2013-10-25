@@ -4,84 +4,15 @@ QColor, QFontMetrics, QPainter, QPixmap, QAbstractItemView
 from PySide.QtCore import QRect, QPoint, Qt, QModelIndex, QSize
 from ..MarbAbstractItemView import MarbAbstractItemView
 
-
-class ChartStyle:
-	'''
-	ChartStyle class contains the options for a render.
-	
-	A ChartStyle is used to custom a serie of data. For example, you can specify the color of the a line and the shape of the points.
-	You should not create a ChartStyle but use the Chart::columnStyle( column ).
-	'''
-	def __init__(self):
-		self._brush = QBrush( Color.LightBlue )
-		self._pen = QPen( QColor(Color.Blue), 2 )
-		self._shape = Shape.Ellipse
-		self._type = Type.Line | Type.Point
-
-
-	def setBrush(self, brush):
-		'''brush: instance of QBrush
-		Sets the brush used to fill some part of the render (the point shape for a line chart or the bar in a bar chart, for example).
-		'''
-		assert isinstance(brush, QBrush)
-		self._brush = brush
-
-	
-	def setPen(self, pen):
-		'''pen: instance of QPen
-		Sets the pen used to draw some part of the render (the borders of the bar in a bar chart, for example).
-		'''
-		assert isinstance(pen, QPen)
-		self._pen = pen
-		
-
-	def setShape(self, shape):
-		'''shape: Instance of Global.Shape
-		Sets the shape used to represent the points in a line chart.
-		'''
-		self._shape = shape
-
-	
-	def setType(self, chartType):
-		'''chartType: Instance of Global.Type
-		Sets the render for the serie of data (line, points or bar).
-		'''
-		self._type = chartType
-
-		
-	def brush(self):
-		'''returns the brush used to fill some part of the render.
-		'''
-		return self._brush
-
-	
-	def pen(self):
-		'''Returns the pen used to draw some part of the render (the borders of the bar in a bar chart, for example).
-		'''
-		return self._pen
-
-	
-	def shape(self):
-		'''Returns the shape used to represent the points in a Point/line chart.
-		'''
-		return self._shape
-
-	
-	def type(self):
-		'''Sets the render type for the serie of data (line, points or bar).
-		'''
-		return self._type
-
-
-
+from .ChartStyle import ChartStyle
 
 class Chart(MarbAbstractItemView):
 	'''The Chart class provides an abstract base for the chart viewes.
 	The Chart class defines the standard interface for every chart views in Marb. It is not supposed to be instantiated directly but should be subclassed.
 	'''
-
-
 	def __init__(self, parent=None):
+		'''Constructor. constructs a Chart object with the given 'parent'.
+		'''
 		super(Chart, self).__init__( parent )
 		self.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self._min = 0
@@ -128,10 +59,10 @@ class Chart(MarbAbstractItemView):
 
 
 	def calculateLegendRect(self):
-		if self.model() == None:
-			return None
 		'''Calculates the rectangle needed to display the legend according to the title of each column (given by the QHeaderView).
 		'''
+		if self.model() == None:
+			return None
 		metrics = QFontMetrics( self.font() )
 		h = metrics.height() + 5
 		cols = self.model().columnCount()
@@ -183,6 +114,12 @@ class Chart(MarbAbstractItemView):
 
 
 	def defineRects(self):
+		''' Define the bounding rectangles used to draw the chart.
+		* chartRect: The chart bounds (data + axis)
+		* valueRect: Area where the data representation will be drawn. Should be defined inside chartRect
+		* legendRect: Area where the legend will be drawn
+		* titleRect: Area where the title will be drawn
+		'''
 		self._chartRect = QRect( QPoint(self._marginX, self._marginY), self.size() - QSize( self._marginX*2, self._marginY*2 ) )
 		self.calculateLegendRect()
 		self._chartRect.setHeight( self._chartRect.height() - self._legendRect.height() - 10 )
@@ -197,6 +134,8 @@ class Chart(MarbAbstractItemView):
 
 
 	def indexAt(self, point):
+		'''Returns the model index of the item at the viewport coordinates point.
+		'''
 		if self.model() == None:
 			return QModelIndex()
 		for row in range( self.model().rowCount() ):
@@ -209,13 +148,14 @@ class Chart(MarbAbstractItemView):
 
 
 	def paintChart( self, painter ):
-		'''Overloaded method.
+		'''Reimplemented.
+		Paints the chart itself on the given painter device. Called by paintEvent and save(). 
 		'''
 		raise( NotImplementedError, "Must be implemented." )
 
 
 	def _paintColumnLegend(self, painter, c, pos, metricsH):
-		'''Paint the legend for the given column. The kind of legend should be defined by each view (linear and radial represent legend differently).
+		'''Paints the legend for the given column. The kind of legend should be defined by each view (linear and radial represent legend differently).
 		The column legend is represented by a square colored with the pen and brush style and the column name. 
 		'''
 		r = QRect( pos.x() + 20, pos.y() - 10, 20, 20 )
@@ -230,7 +170,7 @@ class Chart(MarbAbstractItemView):
 		painter.restore()
 
 
-	def paintEvent( self, event ) :
+	def paintEvent( self, event ):
 		if self.model() == None:
 			return None
 		painter = QPainter( self.viewport() )
@@ -268,6 +208,11 @@ class Chart(MarbAbstractItemView):
 		painter.restore()
 
 
+	def _paintValues(self, painter, column):
+		'''Paints items on the paint device [painter] for the [column]
+		'''
+		raise( NotImplementedError, "Must be implemented." )
+
 	def process( self ):
 		'''Defines the metrics and components to display the chart.
 		 Called when model ha changed.
@@ -285,6 +230,9 @@ class Chart(MarbAbstractItemView):
 
 
 	def save(self, filename, size = None ):
+		''' Save the chart in the given file filename.
+		The file should be an PNG image. 
+		'''
 		if size == None:
 			size = self.size()
 		pixmap = QPixmap( size )

@@ -2,7 +2,7 @@ from ..Global import Color, Render, Type
 from ..Charts.Chart import ChartStyle
 from ..Charts.Delegates import PointDelegate, BarDelegate
 
-from PySide.QtGui import QColor, QPainter, QPainterPath, QPolygonF, QStyleOptionViewItem, QTransform, QMatrix4x4, QVector3D, QPen, QBrush, QRadialGradient, QLinearGradient
+from PySide.QtGui import QColor, QPainter, QPainterPath, QPolygonF, QStyleOptionViewItem, QTransform, QMatrix4x4, QVector3D, QPen, QBrush, QRadialGradient, QLinearGradient, QFontMetrics
 from PySide.QtCore import QRectF, QRect, QPoint, QPointF, Qt, QLineF
 
 from ..Charts.LinearChart import LinearChart
@@ -17,19 +17,26 @@ class LinearChart3D( LinearChart ):
 		self.angleY = 10
 		self.angleZ = 10 
 		self.scale = 1
+		self._marginX = 0
+		self._nbTicks = 5
 
 
 	def itemRect(self, index ):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
 		r = QRect()
 		t = self.columnType( index.column() )
 		value = index.data()
 		if value == None:
 			return QRect()
+		value = 0
+		try:
+			value = float( index.data() )
+		except:
+			value = 0
 		y = self.valueToPx(value)
 		x = self._origin.x() + index.row() * self._x
-		space = 0
+		space = self._x * 0.2
 		orderedColumns = self._calculateOrderedColumn()
 		if t == Type.Bar:
 			w = float(self._x)
@@ -45,66 +52,117 @@ class LinearChart3D( LinearChart ):
 		return r.normalized()
 
 
+	def _getRatioBoundedLine(self, line ):
+		bounds = ( QLineF( self._chartRect.topLeft(), self._chartRect.topRight() ),
+		QLineF( self._chartRect.bottomLeft(), self._chartRect.bottomRight() ),
+		QLineF( self._chartRect.topLeft(), self._chartRect.bottomLeft() ),
+		QLineF( self._chartRect.topRight(), self._chartRect.bottomRight() ) )
+		p1 = None
+		p2 = None
+		bounded = QLineF( line )
+		for b in bounds:
+			(intersectType, intersectionPoint) = bounded.intersect( b )
+			if intersectType == QLineF.BoundedIntersection:
+				if p1 == None:
+					p1 = intersectionPoint
+				else:
+					p2 = intersectionPoint
+					break
+		
+		if p1 != None and p2 != None:
+			bounded = QLineF( p1, p2 )
+		elif p1 != None or p2 != None:
+			p = None
+			if p1 != None:
+				p = p1
+			else:
+				p = p2
+			if QLineF( p, bounded.p1()).length() > QLineF( p, bounded.p2()).length():
+				bounded.setP2( p )
+			else:
+				 bounded.setP1( p )
+		return bounded.length() / line.length()
+
+
 	def getScale(self):
-		w = self._chartRect.width()
-		h = self._chartRect.height()
-		mW = self._chartRect.width() + self._depth
-		mH = self._chartRect.height() + self._depth
-		return min( h/mH, w/mW )
+		self.scale = 1
+		( tl_f, tr_f, bl_f, br_f, tl_b, tr_b, bl_b, br_b ) = self.rectToCubePoints( self._chartRect, self._depth, 0, True )
+		f1 = self._getRatioBoundedLine( QLineF( bl_f.toPointF(), tr_b.toPointF() ) )
+		f2 = self._getRatioBoundedLine( QLineF( tl_b.toPointF(), br_f.toPointF() ) )
+		f3 = self._getRatioBoundedLine( QLineF( bl_b.toPointF(), tr_f.toPointF() ) )
+		f4 = self._getRatioBoundedLine( QLineF( br_b.toPointF(), tl_f.toPointF() ) )
+		return 0.95 * min( f1, f2, f3, f4 )
 
-	def _paintXAxis(self, painter, front):
-		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCubePoints(self._chartRect, self._depth, 0)
-		r = QRectF( self._origin.x(), self._origin.y(), self._chartRect.width(), 10 )
-		face = self.rectToCubeFaces( r, self._depth, 0, True )[3]
-		if front == False:
-			painter.setPen( QPen( Qt.gray, 0 ) )
-			painter.drawPolygon( face )
-			
-			painter.drawLine( face[2], face[3] )
-		else:
-			painter.drawLine( face[0], face[1] )
-			painter.drawLine( face[1], face[2] )
 
-	def _paintYAxis(self, painter):
-		( pTL_F, pTR_F, pBL_F, pBR_F, pTL_B, pTR_B, pBL_B, pBR_B ) = self.rectToCubePoints(self._chartRect, self._depth, depthOffset=0, flatted=True )
-		
-		r = QRectF( self._chartRect )
+	def _paintAxis(self, painter):
+		painter.save()
+		r = QRectF( self._valuesRect )
 		r.setX( self._origin.x() )
-		face = self.rectToCubeFaces( r, self._depth, 0, True )[4]
-		painter.drawPolygon( face )
+		faces = self.rectToCubeFaces( r, self._depth, 0, True )
+		painter.setPen( QPen( Qt.gray, 2 ) )
+		painter.drawPolygon( faces[4] )
+		painter.drawPolygon( faces[1] )
+		painter.drawPolygon( faces[3] )
 		
-# 	def _paintYAxis(self, painter):	
-# 		p1 = QPoint( self._origin.x(), self._chartRect.y() )
-# 		p2 = QPoint( self._origin.x(), self._chartRect.bottom() )
-# 		painter.drawLine( p1, p2 )
-# 		painter.save()
-# 		c = painter.pen().color()
-# 		c.setAlpha( 150 )
-# 		painter.setPen( QPen( c , 1 ) )
-# 		y = self._minBound
-# 		while y <= self._maxBound:
-# 			p1 = QPoint( self._origin.x(), self.valueToPx(y) )
-# 			p2 = p1 + QPoint( self._valuesRect.width(), 0 )
-# 			painter.drawLine( p1, p2 )
-# 			y += self._tickSize
-# 		painter.restore()
+		metrics = QFontMetrics( self.font() )
+		angle = QLineF( faces[3][0], faces[3][3] ).angle()
+		x = self._origin.x()
+		h = metrics.height()
+		textPos = QPoint( h/2 , self._origin.y() + 5 );
+		i = 0
+		painter.setPen( Qt.lightGray )
+
+		while (i < self.model().rowCount() ):
+			r = self._valuesRect.translated( x, 0 )
+			face = self.rectToCubeFaces( r, self._depth, 0, True )[3]
+			painter.drawLine( face[0], face[3] )
+			s = str(self.model().headerData( i, Qt.Vertical ))
+			painter.save()
+			painter.setPen( QPen( QColor(Color.Gray), 1.5 ) )
+			painter.translate( face[0].x(), face[0].y() )
+			#painter.rotate( -angle )
+			painter.translate( -metrics.width( s ) - 10, metrics.height()/2.0 )
+			painter.drawText( QPoint(0,0), s )
+			painter.restore()
+			i += 1
+			x += self._x
+
+		y = self._minBound
+		while y <= self._maxBound:
+			r = QRectF( self._valuesRect )
+			r.setX( self._origin.x() )
+			r.setY( self.valueToPx(y) )
+			face = self.rectToCubeFaces( r, self._depth, 0, True )[2]
+			painter.drawLine( face[0], face[3] )
+			painter.drawLine( face[2], face[3] )
+			y += self._tickSize
+			angle = QLineF( face[0], face[3] ).angle()
+			if QLineF( face[2], face[3] ).angle() < 5 or abs(QLineF( face[2], face[3] ).angle() - 180) < 5 :
+				angle = 0
+			painter.save()
+			painter.setPen( QPen( QColor(Color.Gray), 1.5 ) )
+			painter.translate( face[0].x(), face[0].y() )
+			#painter.rotate( -angle )
+			painter.translate( -metrics.width( str(y) ) - 5, metrics.height() )
+			painter.drawText( QPoint(0,0), str( y )  )
+			painter.restore()
+		painter.restore()
 
 
 	def paintChart(self, painter):
-		'''Overloaded method.
+		'''Reimplemented
 		'''
+
 		self.scale = self.getScale()
 		painter.save()
 		
-		self._paintYAxis( painter )
-		self._paintXAxis(painter, False)
-		
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
+		painter.setPen( Qt.gray )
+		self._paintAxis( painter )
 
 		for c in range(self.model().columnCount()-1, -1, -1):
 			self._paintValues( painter, c )
 
-		self._paintXAxis(painter, True)
 		painter.restore()
 
 
@@ -128,18 +186,29 @@ class LinearChart3D( LinearChart ):
 				self._paintBar(painter, idx, depth, depthOffset)
 		
 		painter.restore()
-		painter.drawRect( self._chartRect )
+		#painter.drawRect( self._chartRect )
 
 
 	def _paintBar(self, painter, idx, depth, depthOffset):
+		painter.save()
+		pen = painter.pen()
+		pen.setWidth( 1.5 )
+		painter.setPen( pen )
 		c = painter.brush().color()
-		c.setAlpha( c.alpha() * 0.75 )
+		c.setAlpha( c.alpha() * 0.60 )
 		painter.setBrush( c )
 		rect = self.itemRect( idx )
 		faces = self.rectToCubeFaces( rect, depth, depthOffset, True )
 		for i in (5,2,4,6,3,1):
 			f = faces[i-1]
+			painter.save()
+			painter.setPen( Qt.NoPen )
 			painter.drawPolygon( f )
+			painter.restore()
+			for i in range( 1, f.count() ):
+				painter.drawLine( QLineF( QPointF(f[ i - 1 ]), QPointF(f[i]) ) )
+			painter.drawLine( QLineF( QPointF(f[ 0 ]), QPointF(f[f.count() - 1]) ) )
+		painter.restore()
 
 
 	def _paintPoint(self, painter, idx, depth):
@@ -148,14 +217,14 @@ class LinearChart3D( LinearChart ):
 		pt = self.transform2DPoint( rect.center(), depth )
 		painter.save()
 		painter.translate( pt.x(), pt.y() )
-		gradient = QRadialGradient(-3, -3, 10)
+		gradient = QRadialGradient(-3, -3, 6)
 		gradient.setCenter(3, 3)
 		gradient.setFocalPoint(3, 3)
 		gradient.setColorAt(1, c.lighter(120))
 		gradient.setColorAt(0, c)
 		painter.setBrush(gradient)
 		painter.setPen(QPen(painter.pen().color(), 0))
-		painter.drawEllipse(-10, -10, 20, 20)
+		painter.drawEllipse(-8, -8, 16, 16)
 		painter.restore()
 
 
@@ -168,10 +237,10 @@ class LinearChart3D( LinearChart ):
 		pt1 = self.itemRect( idx ).center()
 		pt2 = self.itemRect( idx2 ).center()
 
-		pA = pt1 + QPoint( 0, 10 )
-		pB = pt1 - QPoint( 0, 10 )
-		pC = pt2 + QPoint( 0, 10 )
-		pD = pt2 - QPoint( 0, 10 )
+		pA = pt1 + QPoint( 0, 5 )
+		pB = pt1 - QPoint( 0, 5 )
+		pC = pt2 + QPoint( 0, 5 )
+		pD = pt2 - QPoint( 0, 5 )
 
 		p1 = self.transform2DPoint(pA, depth - 5)
 		p2 = self.transform2DPoint(pB, depth - 5)
@@ -191,7 +260,6 @@ class LinearChart3D( LinearChart ):
 		gradient.setColorAt(1, c.lighter(140))
 		gradient.setColorAt(0, c)
 		painter.setBrush( gradient )
-		#painter.setPen(QPen(painter.pen().color(), 0))
 
 		#Faces : 5,2,4,6,3,1
 		for pts in [ [p1, p2, p6, p5], [p5, p7, p8, p6], [p1, p5, p7, p3], [p7, p8, p4, p3], [p2, p6, p8, p4 ], [p1, p3, p4, p2] ]:
@@ -201,39 +269,6 @@ class LinearChart3D( LinearChart ):
 			painter.drawPolygon( polygon )
 		painter.restore()
 
-# 	def _paintLine(self, painter, idx, depth):
-# 		c = painter.brush().color()
-# 		rect = self.itemRect( idx )
-# 		pt = self.transform2DPoint( rect.center(), depth )
-# 		painter.save()
-# 		if idx.row() < self.model().rowCount() - 1:
-# 			idx2 = self.model().index( idx.row() + 1, idx.column() )
-# 			p1 = self.itemRect(idx).center()
-# 			p1 = self.transform2DPoint(p1, depth)
-# 			p2 = self.itemRect(idx2).center()
-# 			p2 = self.transform2DPoint(p2, depth)
-# 			p3 = p1 + QPoint( 0, 5 )
-# 			p4 = p2 + QPoint( 0, 5 )
-# 			p1 -= QPoint( 0, 5)
-# 			p2 -= QPoint( 0, 5)
-# 			polygon = QPolygonF()
-# 			polygon.append( p1 )
-# 			polygon.append( p2 )
-# 			polygon.append( p4 )
-# 			polygon.append( p3 )
-# 			
-# 			l = QLineF( p1, p2 )
-# 			l.setLength( l.length() * 0.5 )
-# 			l1 = QLineF( l.p2(), l.p1() ).normalVector()
-# 			l1.setLength( 10 )
-# 			
-# 			gradient = QLinearGradient( l1.p1(), l1.p2() )
-# 			gradient.setColorAt(1, c.lighter(140))
-# 			gradient.setColorAt(0, c)
-# 			painter.setBrush( gradient )
-# 			painter.setPen(QPen(painter.pen().color(), 0))
-# 			painter.drawPolygon( polygon )
-# 		painter.restore()
 
 	def rectToCubeFaces(self, rect, depth, depthOffset, rotate ):
 		( tl_f, tr_f, bl_f, br_f, tl_b, tr_b, bl_b, br_b ) = self.rectToCubePoints( rect, depth * 0.8, depthOffset, rotate )

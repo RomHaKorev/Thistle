@@ -1,18 +1,29 @@
 from PySide.QtGui import QAbstractItemView, QTableView, QItemSelection, QPainterPath, QRubberBand, QItemSelectionModel, QRegion
 from PySide.QtCore import QModelIndex, QPoint, QRect, QSize
+from abc import abstractmethod
 
 class MarbAbstractItemView( QAbstractItemView ):
+	'''The MarbAstractItemView class provides the basic functionality for Marb item view classes.
+	MarbAstractItemView is the base for every class in Marb. MarbAstractItemView is an abstract class and cannot be instancied.
+	It provides a standard interface to display items from a [QAbstractItemModel].
+	'''
 	def __init__(self, parent=None):
+		''' Constructor. Constructs an instance with the given [parent].
+		*parent: QWidget
+		'''
 		super(MarbAbstractItemView, self).__init__( parent )
 		self.rubberBand = QRubberBand(QRubberBand.Rectangle, self.viewport())
 
 
 	def _calculateOrderedColumn( self ):
+		'''Returns the order in which the columns will be painted in the viewport. The order is defined according to [ChartStyle::type].
+		*Bars* will be painted first, then *Lines* and *Points*. *Points* will appear at foreground.
+		'''
 		return range( self.model().columnCount() )
 
 
-	def dataChanged(self, top_left, bottomRight ):
-		QAbstractItemView.dataChanged(self, top_left, bottomRight)
+	def dataChanged(self, topLeft, bottomRight ):
+		QAbstractItemView.dataChanged(self, topLeft, bottomRight)
 		self.viewport().update()
 
 
@@ -35,10 +46,17 @@ class MarbAbstractItemView( QAbstractItemView ):
 
 
 	def itemRect(self, index):
+		'''Returns the rectangle on the *viewport* occupied by the item at [index] without consider the offset.
+		*index: QModelIndex
+		'''
 		return QRect()
 
 
 	def itemPath(self, index ):
+		'''Returns the path on the *viewport* occupied by the item at [index].
+		By default, returns the [itemRect()].
+		*index: QModelIndex
+		'''
 		path = QPainterPath()
 		path.addRect( self.itemRect( index ) )
 		return path
@@ -107,7 +125,11 @@ class MarbAbstractItemView( QAbstractItemView ):
 		self.setScrollBarValues()
 
 
+	@abstractmethod
 	def save(self, filename ):
+		'''Save the render in the file named [filename].
+		*filename: QString
+		'''
 		raise( NotImplementedError )
 
 
@@ -146,7 +168,11 @@ class MarbAbstractItemView( QAbstractItemView ):
 		self.viewport().update()
 
 
+	@abstractmethod
 	def updateValues( self ):
+		''' Updates every component in the view (item positions, bounding rects, etc.).
+		Called when the model has changed (except if the data has only changed.) or when the view was resized.
+		'''
 		raise( NotImplementedError )
 
 
@@ -161,7 +187,7 @@ class MarbAbstractItemView( QAbstractItemView ):
 
 	def visualRegionForSelection(self, selection):
 		'''
-		By default, we repaint the whole viewport."
+		Reimplemented to consider that the whole viewport needs to be repainted.
 		'''
 		return QRegion( QRect(0, 0, self.width(), self.height() ) )
 
