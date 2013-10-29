@@ -34,43 +34,31 @@
 		</td><td class="mainContainer" width="950px">
 		<section><article>
 			<section>
-			<h2>Radial Chart</h2>
+			<h2>Trees</h2>
 			<article>
-				<h3>Overview</h3>
-				<p>
-				Radial charts display data as sector on a circle. The radius of a sector indicates the order the value (the highest value has the highest radius).<br/>
-				this view can display several serie of data. A serie of data corresponds to a column in the model.
+			Marb can display a tree based on a <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> using the same principle than <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qtreeview.html">QTreeView</a>.<br />
+				The root corresponds to the first item in the model (i.e. the item at 0,0).<br />
+				Here, an example of <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> well filled:<p>
+					There is three types of trees:
 				</p>
-				<p>An example of radial chart:</p>
-					<table class="image">
-						<tr>
-							<td>
-								<img src="./images/radialChart.png" alt="Radial chart" title="Radial chart" />
-							</td>
-						</tr>
-					</table>
-				<p>This view is not as clear and easy to interpret that LinearChart. It simply offers a sexier data representation than LinearChart.</p>
-				<h3>How to use</h3>
-				<p>The RadialChart class can be used as the other QAbstractItemView classes:</p>
-				<div>
-								<input class="left" value='C++' type=button  onClick="foo('C++', 'Python')" /><input class="right" value='Python' type=button onClick="foo('Python', 'C++')" /> 
-								</div>
-								<div>
-									<div class="code" style="display:block;" name="C++">
-									<pre>
-RaidalChart chart;
-chart.setModel( model );
-chart.show();
-									</pre>
-									</div>
-									<div class="code" style="display:block;" name="Python">
-									<pre>
-chart = Marb.RaidalChart()
-chart.setModel( model )
-chart.show()
-									</pre>
-			</div>		
-				</article>
+				<h3>Vertical tree</h3>
+				<p>In a vertical tree, the root is displayed at the top of the view. The children are displayed below their parent.<br />
+				</p>
+				<table class="image">
+					<tr>
+						<td>
+							<img src="./images/vertical.png" alt="Vertical tree" title="Vertical tree" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							A vertical tree
+						</td>
+					</tr>
+				</table>
+				<div class="code">
+					<br />
+				</div>
 			</section>		</article></section></td></tr></table>
 	</body>
 </html>

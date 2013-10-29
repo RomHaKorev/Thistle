@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link type="image/x-icon" href="../images/favicon.ico" rel="icon" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../style.css" />
+		<title>Chart class | Marb</title>
+	</head>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="../images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="../index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="../classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
+		</div>
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="../images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
+<h2>ChartStyle Class</h2>
+<h4>Overview</h4>
+<p>
+ChartStyle class contains the options for a render.
+
+A ChartStyle is used to custom a serie of data. For example, you can specify the color of the a line and the shape of the points.
+You should not create a ChartStyle but use the Chart::columnStyle( column ).
+</p>
+<h4 class="function">__init__( self ) <font color='707070'>[PRIVATE]</font></h4>
+<p>Constructor. Constructs an instance of ChartStyle.
+You should not construct your own instance. Use Chart::columnStyle() method, instead.
+</h4>
+
+<h4 class="function">brush( self )<font color='707070'>[PUBLIC]</font></h4>
+<p>returns the brush used to fill some part of the render.
+</p>
+
+<h4 class="function">pen( self )<font color='707070'>[PUBLIC]</font></h4>
+<p>Returns the pen used to draw some part of the render (the borders of the bar in a bar chart, for example).
+</p>
+
+<h4 class="function">setBrush( self, brush )<font color='707070'>[PUBLIC]</font></h4>
+<p>brush: instance of QBrush
+Sets the brush used to fill some part of the render (the point shape for a line chart or the bar in a bar chart, for example).
+</p>
+
+<h4 class="function">setPen( self, pen )<font color='707070'>[PUBLIC]</font></h4>
+<p>pen: instance of QPen
+Sets the pen used to draw some part of the render (the borders of the bar in a bar chart, for example).
+</p>
+
+<h4 class="function">setShape( self, shape )<font color='707070'>[PUBLIC]</font></h4>
+<p>shape: Instance of Global.Shape
+Sets the shape used to represent the points in a line chart.
+</p>
+
+<h4 class="function">setType( self, chartType )<font color='707070'>[PUBLIC]</font></h4>
+<p>chartType: Instance of Global.Type
+Sets the render for the serie of data (line, points or bar).
+</p>
+
+<h4 class="function">shape( self )<font color='707070'>[PUBLIC]</font></h4>
+<p>Returns the shape used to represent the points in a Point/line chart.
+</p>
+
+<h4 class="function">type( self )<font color='707070'>[PUBLIC]</font></h4>
+<p>Sets the render type for the serie of data (line, points or bar).
+</p>
+
+		</article></section></td></tr></table>
+	</body>
+</html>

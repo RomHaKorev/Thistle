@@ -7,53 +7,91 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="./style.css" />
-		<script src="./scripts.js" type="text/javascript"></script>
-		<title>Marb Project</title>
+		<title>Chart class | Marb</title>
 	</head>
-	<body onLoad="foo('C++', 'Python')">
-		<table class="mainContainer">
-			<tr><td class="mainContainer">
-				<div class="menu">
-					<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
-					<div class="item"><a class="menuItem" href="./index.html">Homepage</a></div>
-					<div class="subItem1"><a class="subMenuCurrentItem" href="./charts.html">Charts</a></div>
-					<div class="subItem2"><a class="subMenuCurrentItem" href="./linearcharts.html">Linear charts</a></div>
-					<div class="subItem2"><a class="subMenuItem" href="./radialcharts.html">Radial Charts</a></div>
-					<div class="subItem2"><a class="subMenuItem" href="./piecharts.html">Pie Charts</a></div>
-					<div class="subItem1"><a class="subMenuItem" href="./trees.html">Trees</a></div>
-					<div class="subItem1"><a class="subMenuItem" href="./timelines.html">Timelines</a></div>
-					<div class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></div>
-					<div height="50px;"><br/></div>
-				</div>
-			</td><td class="mainContainer">
-				<section>
-				  <h2>Linear charts</h2>
-						<article>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="./images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="./index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="./classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
+		</div>
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
+			<section>
+			<h2>Linear Charts</h2>
+			<article>
+			<p>The Charts module contains a set of viewes compatibles with <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html">QAbstractItemModel</a> subclasses.</p>
+			<p>Each column repsresents a serie of data. Nevertheless, some view, like the simple Pie Chart only use the first column.</p>
+			<p>The data is converted to float numbers. Non-numeric values ​​(alphabetic characters, for example) are considered equal to zero.<br/>
+The X-axis values ​​are determined by the corresponding section in the horizontal <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html#headerData">QAbstractItemModel::headerData</a>.
+The label of the series is determined by the corresponding section in the vertical <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html#headerData">QAbstractItemModel::headerData</a>.
 							<h3>Overview</h3>
 							<p>
 							Linear charts display data with points, curves or bars.<br/>
-							This view can display several serie of data. A serie of data corresponds to a column in the model.
+							It can display several serie of data. A serie of data corresponds to a column in the model.
 							</p>
-							<p>An example of linear charts:</p>
 							<table class="image">
 								<tr>
 									<td>
-										<img src="./images/charts/linear1.png" alt="curve chart" title="Curve chart 1" />
+										<img src="./images/charts/linear1.png" alt="Screenshot of a  Bar chart with two series" title="Bar chart with two series" />
 									</td>
 									<td>
-										<img src="./images/charts/linear2.png" alt="curve chart" title="Curve chart 1" />
+										<img src="./images/charts/linear2.png" alt="Screenshot of a Line chart with two series" title="Line chart with two series" />
 									</td>
 								</tr>
 								<tr height="15px"></tr>
 								<tr>
 									<td>
-										<img src="./images/charts/linear3.png" alt="curve chart" title="Curve chart 1" />
+										<img src="./images/charts/linear3.png" alt="Screenshot of a Chart with two different type of series (bar ans line)" title="Chart with two different type of series (bar ans line)" />
+									</td>
+								</tr>
+							<tr class="legend" height="50px"><td colspan="2">Linear Charts examples</td></tr>
+							</table>
+							<p>This view allows the user to select data. It uses the same selection system than <a href="http://qt-project.org/doc/qt-5.1/qtwidgets/qabstractitemview.html">QAbstractItemView</a> and respects the MVC architecture.</p>
+							<p>The render will be different if the user selects some value</p>
+							<table class="image">
+								<tr>
+									<td>
+										<img src="./images/charts/linearSelected.png" alt="selection in a chart" title="Selection in chart 1" />
+									</td>
+								</tr>
+								<tr class="legend" height="20px">
+									<td>Linear chart with selected values.
+									</td>
+								</tr>
+							</table>
+							<p>When the user selects a value on a serie, the others are blurred. The selected values are highlighted. For the type Marb::Point, the selected value will be bigger. For the type Marb::Bar, the unselected values will be more translucent.</p>
+							<p>The view can be used with <a href="http://qt-project.org/doc/qt-5.1/qtcore/qitemselectionmodel.html" class="docLink">QItemSelectionModel</a> class. If the user selects values in another view that shares the same <a href="http://qt-project.org/doc/qt-5.1/qtcore/qitemselectionmodel.html" class="docLink">QItemSelectionModel</a>, the Linear Chart will be updated:</p>
+							<table class="image">
+								<tr>
+									<td>
+										<img src="./images/charts/linearSelected2.png" alt="selection in a chart" title="Selection in chart 2" />
+									</td>
+								</tr>
+								<tr>
+									<td>The  <a href="http://qt-project.org/doc/qt-5.1/qtwidgets/qtableview.html" class="docLink">QTableView</a> shares its  <a href="http://qt-project.org/doc/qt-5.1/qtcore/qitemselectionmodel.html" class="docLink">QItemSelectionModel</a> with the Linear Chart.
 									</td>
 								</tr>
 							</table>
 							<h3>How to use</h3>
 							<p>
-							LinearChart class works as every class inheriting from QAbstractItemView:
+							LinearChart class works as every class inheriting from <a href="http://qt-project.org/doc/qt-5.1/qtwidgets/qabstractitemview.html">QAbstractItemView</a>:
 							<div>
 								<div>
 								<input class="left" value='C++' type=button  onClick="foo('C++', 'Python')" /><input class="right" value='Python' type=button onClick="foo('Python', 'C++')" /> 
@@ -92,8 +130,9 @@ chart.show()
 							</p>
 							<h3>Custom chart</h3>
 							<p>
-							Each column has its own style defined by ChartStyle class. This class detemrines the type (line, point or bar), the shape of points (ellipse, rectangle, etc.), the pen and the brush.<br/>
+							Each column has its own style defined by ChartStyle class. This class determines the type (line, point or bar), the shape of points (ellipse, rectangle, etc.), the pen and the brush.<br/>
 							The easiest way to modify the style of a serie is to get the style with LinearChart::columnStyle( int column ).</p>
+							<p>See <a href="./chartstyle.html" class="internalLink">ChartStyle</a> page for more information.</p>
 							<p>An example of how to change the type of the first column:</p>
 							<div>
 								<input class="left" value='C++' type=button  onClick="foo('C++', 'Python')" /><input class="right" value='Python' type=button onClick="foo('Python', 'C++')" /> 
@@ -120,9 +159,8 @@ chart.show()
 									</pre>
 								</div>
 							<p/>
-						</article>
-				</section>
-			</td></tr>
-		</table>
+			</article>
+		</section>
+		</article></section></td></tr></table>
 	</body>
 </html>

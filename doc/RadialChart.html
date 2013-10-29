@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link type="image/x-icon" href="../images/favicon.ico" rel="icon" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../style.css" />
+		<title>Chart class | Marb</title>
+	</head>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="../images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="../index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="../classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
+		</div>
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="../images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
+<h2>RadialChart Class</h2>
+<h4>Overview</h4>
+<p></p>
+<h4 class="function">_calculateOrder( self, value ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Calculates the order of scale for value (i.e. the power of ten greater than value).
+</h4>
+
+<h4 class="function">_calculateBounds( self ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Calculates the minimum bounds and the maximum bounds (i.e., the minimum and the maximum displayed on the chart).
+Calculates the order and the tick size(delta between two ticks on the Y axis) of the charts values.
+If the minimum is equal to the maximum, the minimum bound is equal to minimum - 1 and the maximum bound to maximum + 1
+</h4>
+
+<h4 class="function">__paintTicks( self, painter ) <font color='707070'>[PRIVATE]</font></h4>
+<p> Paints ticks for axis on the paint device 'painter'.
+</h4>
+
+<h4 class="function">__init__( self, parent=None ) <font color='707070'>[PRIVATE]</font></h4>
+<p> Constructor. Constructs an instance with the given 'parent'.
+</h4>
+
+<h4 class="function">calculateLegendRect( self )<font color='707070'>[PUBLIC]</font></h4>
+<p>Calculates the rectangle needed to display the legend according to the title of each column (given by the QHeaderView).
+</p>
+
+<h4 class="function">columnStyle( self, column )<font color='707070'>[PUBLIC]</font></h4>
+<p>Returns the style for the column.
+If no style has been set for the column, returns the style by default
+</p>
+
+<h4 class="function">_paintLegend( self, painter ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Paint the legend in the QRect self._legendRect
+The legend corresponds to the text in the Horizontal QHeaderView and the style defined for each column. 		
+</h4>
+
+<h4 class="function">_paintColumnLegend( self, painter, c, pos, metricsH ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Paints the legend for the given column. The kind of legend should be defined by each view (linear and radial represent legend differently).
+The column legend is represented by a square colored with the pen and brush style and the column name. 
+</h4>
+
+<h4 class="function">defineRects( self )<font color='707070'>[PUBLIC]</font></h4>
+<p> Define the bounding rectangles used to draw the chart.
+* chartRect: The chart bounds (data + axis)
+* valueRect: Area where the data representation will be drawn. Should be defined inside chartRect
+* legendRect: Area where the legend will be drawn
+* titleRect: Area where the title will be drawn
+</p>
+
+<h4 class="function">_setAlphaBeta( self ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Calculates the coefficients alpha and beta used to convert a value in the model in the corresponding value in pixel in the chart.
+Translates the origin to place the X-Axis.
+</h4>
+
+<h4 class="function">_calculateOrderedColumn( self ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Returns the order in which the columns will be painted in the viewport. The order is defined according to [ChartStyle::type].
+*Bars* will be painted first, then *Lines* and *Points*. *Points* will appear at foreground.
+</h4>
+
+<h4 class="function">indexAt( self, point )<font color='707070'>[PUBLIC]</font></h4>
+<p>Returns the model index of the item at the viewport coordinates point.
+</p>
+
+<h4 class="function">itemPath( self, index )<font color='707070'>[PUBLIC]</font></h4>
+<p>Returns the bounding path for the item pointed by the 'index'.
+</p>
+
+<h4 class="function">_scanValues( self ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
+If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
+If a value is not a number (undefined, a string, etc.), she's considered as equal to 0. 
+</h4>
+
+<h4 class="function">save( self, filename, size = None )<font color='707070'>[PUBLIC]</font></h4>
+<p> Save the chart in the given file filename.
+The file should be an PNG image. 
+</p>
+
+<h4 class="function">_updateRects( self ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Calculates the size and the position of each view part (legend, title,chart)
+Called when the view is resized or model has changed.
+</h4>
+
+<h4 class="function">paintChart( self, painter )<font color='707070'>[PUBLIC]</font></h4>
+<p> Paints the chart on the paint device 'painter'.
+</p>
+
+<h4 class="function">_paintValues( self, painter, column ) <font color='707070'>[PROTECTED]</font></h4>
+<p>Paints items on the paint device [painter] for the [column]
+</h4>
+
+<h4 class="function">itemRect( self, index )<font color='707070'>[PUBLIC]</font></h4>
+<p>Returns the rectangle on the *viewport* occupied by the item at [index] without consider the offset.
+</p>
+
+<h4 class="function">process( self )<font color='707070'>[PUBLIC]</font></h4>
+<p>Defines the metrics and components to display the chart.
+Called when model ha changed.
+</p>
+
+<h4 class="function">save( self, filename )<font color='707070'>[PUBLIC]</font></h4>
+<p>Save the render in the file named [filename].
+</p>
+
+<h4 class="function">setColumnStyle( self, column, style )<font color='707070'>[PUBLIC]</font></h4>
+<p>Sets the style for the column.
+</p>
+
+<h4 class="function">setTitle( self, title )<font color='707070'>[PUBLIC]</font></h4>
+<p>Sets the chart title to title
+Updates the chart to consider the modification
+</p>
+
+<h4 class="function">updateValues( self )<font color='707070'>[PUBLIC]</font></h4>
+<p> Updates every component in the view (item positions, bounding rects, etc.).
+Called when the model has changed (except if the data has only changed.) or when the view was resized.
+</p>
+
+<h4 class="function">valueToPx( self, value )<font color='707070'>[PUBLIC]</font></h4>
+<p>Converts the given value in pixel according to the chart scale.
+The pixel value is given by the equation: y = alpha * value + beta 
+</p>
+
+<h4 class="function">visualRegionForSelection( self, selection )<font color='707070'>[PUBLIC]</font></h4>
+<p>
+Reimplemented to consider that the whole viewport needs to be repainted.
+</p>
+
+		</article></section></td></tr></table>
+	</body>
+</html>

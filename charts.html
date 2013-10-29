@@ -6,10 +6,72 @@
 		<link type="image/x-icon" href="./images/favicon.ico" rel="icon" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="utf-8" />
-		<script src="./scripts.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="./style.css" />
-		<title>Marb Project</title>
+		<title>Chart class | Marb</title>
 	</head>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="./images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="./index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="./classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
+		</div>
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
+			<section>
+			<h2>Charts</h2>
+			<article>
+				<h3>Overview</h3>
+<p>The Charts module contains a set of viewes compatibles with QAbstractItemModel subclasses.</p>
+			<p>Each column repsresents a serie of data. Nevertheless, some view, like the simple Pie Chart only use the first column.</p>
+			<p>The data is converted to float numbers. Non-numeric values ​​(alphabetic characters, for example) are considered equal to zero.<br/>
+The X-axis values ​​are determined by the corresponding section in the horizontal <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html#headerData">QAbstractItemModel::headerData</a>.
+The label of the series is determined by the corresponding section in the vertical <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html#headerData">QAbstractItemModel::headerData</a>.
+</p>
+<p>The Charts modul contains three main classes.</p>
+<table class="module">
+						<tr>
+							<td class="module">
+								<a href="./linearcharts.html">
+									<img class="module" src="./images/linearchart.png" alt="linearcharts.png"/>
+								</a>
+							</td>
+							<td class="module">
+								<a href="./radialcharts.html">
+									<img class="module" src="./images/radialChart.png" alt="radialcharts.png"/>
+								</a>
+							</td>
+							<td class="module">
+								<a href="./piecharts.html">
+									<img  class="module" src="./images/charts/translucent.png" alt="piecharts.png"/>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="module1"><h3 class="module">Linear Charts</h3>Curves, points and bars</td>
+							<td class="module1"><h3 class="module">Radial Charts</h3>Like a bar charts but in a circle</td>
+							<td class="module1"><h3 class="module">Pie Charts</h3>Classic pie charts</td>
+						</tr>
+					</table>
+				</article>
+			</section>
+<!--		</td></tr></table>
+	</body>
 	<body onLoad="foo('C++', 'Python')">
 	<table class="mainContainer"><tr><td class="mainContainer">
 		<div class="menu">
@@ -27,20 +89,15 @@
 			<article>
 			<p>The Charts module contains a set of viewes compatibles with QAbstractItemModel subclasses.</p>
 			<p>Each column repsresents a serie of data. Nevertheless, some view, like the simple Pie Chart only use the first column.</p>
-			<p>The model data are converted in float numbers. The non
-				<p>The data are converted to floatl numbers. Non-numeric values ​​(alphabetic characters, for example) are considered equal to zero.<br/>
-The X-axis values ​​are determined by the name of each model row (the value of the corresponding QVerticalHeaderItem).
-The name of each series is determined by the name of the corresponding column (the value of the corresponding QHorizontalHeaderItem).</p>
+			<p>The data is converted to float numbers. Non-numeric values ​​(alphabetic characters, for example) are considered equal to zero.<br/>
+The X-axis values ​​are determined by the corresponding section in the horizontal <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html#headerData">QAbstractItemModel::headerData</a>.
+The label of the series is determined by the corresponding section in the vertical <a href="http://qt-project.org/doc/qt-5.1/qtcore/qabstractitemmodel.html#headerData">QAbstractItemModel::headerData</a>.
 			<h2>Linear & radial chart</h2>
 							<h3>Overview</h3>
 							<p>
 							Linear charts display data with points, curves or bars.<br/>
 							It can display several serie of data. A serie of data corresponds to a column in the model.
 							</p>
-							<p>
-							Radial charts display data as sector on a circle. The radius of a sector indicates the order the value (the highest value has the highest radius).
-							</p>
-							<p>Examples of linear charts:</p>
 							<table class="image">
 								<tr>
 									<td>
@@ -56,14 +113,7 @@ The name of each series is determined by the name of the corresponding column (t
 										<img src="./images/charts/linear3.png" alt="curve chart" title="Curve chart 1" />
 									</td>
 								</tr>
-							</table>
-							<p>An example of radial chart:</p>
-							<table class="image">
-								<tr>
-									<td>
-										<img src="./images/radialChart.png" alt="Radial chart" title="Radial chart" />
-									</td>
-								</tr>
+							<tr class="legend" height="50px"><td colspan="2">Linear Charts examples</td></tr>
 							</table>
 							<h3>How to use</h3>
 							<p>
@@ -134,6 +184,40 @@ chart.show()
 									</pre>
 								</div>
 							<p/>
+			<h2>Radial Chart</h2>
+				<h3>Overview</h3>
+				<p>
+				Radial charts display data as sector on a circle. The radius of a sector indicates the order the value (the highest value has the highest radius).
+				</p>
+				<p>An example of radial chart:</p>
+					<table class="image">
+						<tr>
+							<td>
+								<img src="./images/radialChart.png" alt="Radial chart" title="Radial chart" />
+							</td>
+						</tr>
+					</table>
+				<p>This view is not as clear and easy to interpret that LinearChart. It simply offers a sexier data representation than LinearChart.</p>
+				<h3>How to use</h3>
+				<p>The RadialChart class can be used as the other QAbstractItemView classes:</p>
+				<div>
+								<input class="left" value='C++' type=button  onClick="foo('C++', 'Python')" /><input class="right" value='Python' type=button onClick="foo('Python', 'C++')" /> 
+								</div>
+								<div>
+									<div class="code" style="display:block;" name="C++">
+									<pre>
+RaidalChart chart;
+chart.setModel( model );
+chart.show();
+									</pre>
+									</div>
+									<div class="code" style="display:block;" name="Python">
+									<pre>
+chart = Marb.RaidalChart()
+chart.setModel( model )
+chart.show()
+									</pre>
+			</div>
 			<h2>Pie chart</h2>
 						<h3>Overview</h3>
 						<p>The pie charts display the model values by sectors in a circle.<br/>
@@ -324,35 +408,35 @@ pie.show()
 					<p>
 					The behavior will be different for the item selection.<br/>
 					If the chart is configured as contiguous sector, the selected items will be splitted. Otherwise, the items that are not selected will be more translucent than the selected items.
-					</p>
+					</p>				
 				</article>
 				<h2>Documentation</h2>
 				<article>
 					<h4>Chart class</h4>
 					<p class="function">void process()</p>
-<p>Sets the charts specifications (min, max values, order of values, etc.). Called when the model has changed</p>
-<p class="function">void processSpec()</p>
-<p>Sets the charts specifications relative to view size (Y steps, X steps, etc.)</p>
-<p class="function">int scanValues()</p>
-<p>Scans values in the model to set min, max, order of values, etc.</p>
-<p class="function">void calculateBounds()</p>
-<p>Calculates the min and max bounds of the model values</p>
-<p class="function">void calculateLegendRect()</p>
-<p>Calculates the rectngle in where the legend will be painted</p>
-<p class="function">qreal calculateOrder( qreal value ) const</p>
-<p>Returns the order of the value</p>
-<p class="function">qreal valueToPx( qreal value ) const</p>
-<p>Converts a model value to its equivalent in pixel in the view.</p>
-<p class="function">void setAlphaBeta()</p>
-<p>Sets variables alpha and beta used to convert a model value to position in the view.</p>
-<p class="function">QRectF itemRect( const QModelIndex& index ) const</p>
-<p>Returns the rectangle in which the point or bar will be painted.</p>
-<p class="function">void paintLegend( QPainter& painter )</p>
-<p>Paints legend in the rectangle specified by calculateLegendRect</p>
-<p class="function">void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight )</p>
-<p>Paints the legend for the given column. Called by paintLegend()</p>
-<p class="function">void paintChart( QPainter& painter )</p>
-<p>Paints chart in the view. Called by paintEvent()</p>
+					<p>Sets the charts specifications (min, max values, order of values, etc.). Called when the model has changed</p>
+					<p class="function">void processSpec()</p>
+					<p>Sets the charts specifications relative to view size (Y steps, X steps, etc.)</p>
+					<p class="function">int scanValues()</p>
+					<p>Scans values in the model to set min, max, order of values, etc.</p>
+					<p class="function">void calculateBounds()</p>
+					<p>Calculates the min and max bounds of the model values</p>
+					<p class="function">void calculateLegendRect()</p>
+					<p>Calculates the rectngle in where the legend will be painted</p>
+					<p class="function">qreal calculateOrder( qreal value ) const</p>
+					<p>Returns the order of the value</p>
+					<p class="function">qreal valueToPx( qreal value ) const</p>
+					<p>Converts a model value to its equivalent in pixel in the view.</p>
+					<p class="function">void setAlphaBeta()</p>
+					<p>Sets variables alpha and beta used to convert a model value to position in the view.</p>
+					<p class="function">QRectF itemRect( const QModelIndex& index ) const</p>
+					<p>Returns the rectangle in which the point or bar will be painted.</p>
+					<p class="function">void paintLegend( QPainter& painter )</p>
+					<p>Paints legend in the rectangle specified by calculateLegendRect</p>
+					<p class="function">void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight )</p>
+					<p>Paints the legend for the given column. Called by paintLegend()</p>
+					<p class="function">void paintChart( QPainter& painter )</p>
+					<p>Paints chart in the view. Called by paintEvent()</p>
 					<h4>PieChart class</h4>
 					<p class="function">void PieChart::setSplitted( bool splitted )</p>
 					<p>If <span class="inline">splitted</span> is true, the pie chart displays the sectors apart from each other. Otherwise, the sectors are contiguous.
@@ -372,5 +456,8 @@ pie.show()
 			</article>
 			</section>
 		</td></tr></table>
+	</body>
+</html>-->
+		</article></section></td></tr></table>
 	</body>
 </html>

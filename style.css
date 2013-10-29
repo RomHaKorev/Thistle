@@ -1,30 +1,54 @@
 /***** Areas *****/
-.mainContainer {
-	margin: auto;
-	vertical-align:top;
-	text-align: justify;
-	padding:0px 0px 0px 0px;
-}
-
-body {
-	text-align: center;
-	font-family: verdana;
-	font-size: 14px;
-	#background-color: #F5F5F5;
+.header {
+	background-color: #FFFFFF;
+	padding:0;
+	height: 150px;
+	vertical-align: justify;
 	background-image:url(images/bg.png);
 	background-repeat:repeat;
 }
 
+#titleMarb {
+	padding-top: 30px;
+	color: #202020;
+	font-family: Verdana;
+	font-size: 32px;
+	font-weight: bold;
+	text-align: bottom;
+}
+
+#menu {
+	padding-top: 20px;
+	text-align: bottom;
+}
+
+.mainContainer {
+	margin: auto;
+	vertical-align:top;
+	text-align: center;
+	padding:0px 0px 0px 0px;
+	max-width: 950px;
+}
+
+body {
+	#text-align: center;
+	font-family: helvetica;
+	font-size: 14px;
+	background-color: #B0B0B0;
+	margin: 0 !important;
+}
+
 section {
+	text-align: justify;
 	margin-left: auto;
 	margin-right: auto;
 	vertical-align: top;
-	max-width: 950px;
+	width: 100%;
 	display:inline-block;
 }
 
 article{
-	background-color: #F9F9F9;
+	background-color: #FBFBFB;
 	border: 2px #ABABAB solid;
 	margin-bottom: 30px;
 	-webkit-border-top-left-radius: 15px;
@@ -37,18 +61,25 @@ article{
 	box-shadow: inset 3px 3px 4px #404040;
 }
 /***** Hyperlinks *****/
-a.docLink {
+a {
 	color: #4889f1;
 	text-decoration: none;
-	font-size: 15px;
+	font-size: 12px;
 	font-family: DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace;
 }
 
 a.internalLink {
-	color: #303030;
+	color: #6090e4;
 	text-decoration: none;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 12px;
+	font-family: DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace;
+}
+
+a.internalDoc {
+	color: #6090e4;
+	text-decoration: none;
+	font-size: 13px;
 	font-family: DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace;
 }
 
@@ -60,7 +91,7 @@ a.title {
 table.module {
 	width: 100%;
 	border-radius: 15px;
-	border: 2px #8CC432 solid;
+	border: 2px #6090e4 solid;
 	background-color: #EEEEEE;
 	padding: 20px 0px;
 	border-spacing: 20px 0px;
@@ -92,7 +123,7 @@ td.module1 {
 	border-top: solid 0px #FFFFFF;
 	padding-left: 10px;
 	padding-bottom: 10px;
-	background-color: #3D74CC;
+	background-color: #6090e4;
 }
 
 h3.module {
@@ -154,7 +185,7 @@ h3 {
 	font-size: 16px;
 }
 
-
+/**** Images ****/
 .image {
 	margin-left: auto;
 	margin-right: auto;
@@ -169,6 +200,21 @@ h3 {
 	border: 1px #8CC432 solid;
 }
 
+#logo {
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 12px;
+	font-style:italic;
+	text-align: left;
+	padding: 20px;
+	white-space: nowrap;
+	border: 0px #8CC432 solid;
+	box-shadow: 0px 0px 0px #aaa; 
+	margin-left: 10px;
+	margin-right: 10px;
+	#background-color: #F9F9F9;
+}
+
 img {
 	box-shadow: 4px 4px 6px #aaa; 
 	margin-left: 10px;
@@ -179,6 +225,11 @@ img {
 img.module {
 	box-shadow: 0px 0px 0px #aaa; 
 	border: 0px #EEEEEE solid;
+}
+
+legend {
+	text-decoration: italic;
+	text-align: center;
 }
 
 /***** Code *****/
@@ -245,11 +296,13 @@ input.right {
 	padding-bottom: 10px;
 	margin-bottom: 10px;
 	margin-top: 30px;
-	font-weight: bold;
+	#font-weight: bold;
 	word-spacing: 3px;
-	border: 1px #AAAAAA solid;
-	background-color: #EEEEEE;
+	border: 1px #8CC432 solid;
+	background-color: #F0F0F0;
 	border-radius: 5px;
+	font-family: courier;
+	font-size: 14px;
 }
 
 span.inline {
@@ -281,6 +334,8 @@ span.inline {
 .item {
 	margin-left: 20px;
 	margin-top: 10px;
+	font-family: Verdana;
+	font-size: 50px;
 }
 
 .subItem1 {
@@ -296,8 +351,10 @@ span.inline {
 .menuItem {
 	border-color: #bbbbbb;
 	color: #4889f1;
+	font-family: Verdana;
 	font-weight: bold;
 	text-decoration: none;
+	font-size: 16px;
 }
 
 .subMenuCurrentItem {
@@ -309,7 +366,7 @@ span.inline {
 
 .subMenuItem {
 	color: #BBBBBB;
-	font-size: 12px;
+	font-size: 24px;
 	font-weight: bold;
 	text-decoration: none;
 }

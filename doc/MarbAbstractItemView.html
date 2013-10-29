@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link type="image/x-icon" href="../images/favicon.ico" rel="icon" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../style.css" />
+		<title>Chart class | Marb</title>
+	</head>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="../images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="../index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="../classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
+		</div>
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="../images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
+<section>
+				<h2>MarbAbstractItemView class</h2>
+				<article>
+			<p><strong>Inherits:</strong> QAbstractItemView </p>
+<h4>Overview</h4>
+				<p>The MarbAstractItemView class provides the basic functionality for Marb item view classes.
+MarbAstractItemView is the base for every class in Marb. MarbAstractItemView is an abstract class and cannot be instancied.
+It provides a standard interface to display items from a QAbstractItemModel.
+
+				</p>
+	<p class="function"><strong>__init__</strong>( self, parent=None )<font color='707070'>[PUBLIC]</font></p>
+<p> Constructor. Constructs an instance with the given 'parent'.
+</p>
+
+<p class="function"><strong>_calculateOrderedColumn</strong>( self )<font color='707070'>[PUBLIC]</font></p>
+<p>Returns the order in which the columns will be painted in the viewport. The order is defined according to ChartStyle::type.
+The "Bar columns" will be painted first, then the "line column" and the "point column". The "point column" will appear at foreground.
+</p>
+
+<p class="function"><strong>dataChanged</strong>( self, topLeft, bottomRight )<font color='707070'>[PUBLIC]</font></p>
+<p> This is an overloaded method.
+</p>
+
+<p class="function"><strong>horizontalOffset</strong>( self )<font color='707070'>[PUBLIC]</font></p>
+<p> returns the horizontal offset due to the horizontal scrollbar and margins.
+</p>
+
+<p class="function"><strong>indexAt</strong>( self, point )<font color='707070'>[PUBLIC]</font></p>
+<p> returns the horizontal offset due to the horizontal scrollbar and margins.
+</p>
+
+<p class="function"><strong>visualRect</strong>( self, index )<font color='707070'>[PUBLIC]</font></p>
+<p>This is an overloaded method.
+Returns the rectangle on the viewport occupied by the item at index.
+</p>
+
+<p class="function"><strong>visualRegionForSelection</strong>( self, selection )<font color='707070'>[PUBLIC]</font></p>
+<p>
+By default, we repaint the whole viewport."
+</p>
+
+</article>
+			</section>
+		</td></tr></table>
+	</body>
+</html>		</article></section></td></tr></table>
+	</body>
+</html>

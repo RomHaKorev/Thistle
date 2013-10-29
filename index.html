@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -7,18 +7,33 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="./style.css" />
-		<title>Marb Project</title>
+		<title>Chart class | Marb</title>
 	</head>
-	<body>
-	<table class="mainContainer"><tr><td class="mainContainer">
-		<div class="menu">
-			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
-			<div class="item"><a class="menuItem" href="./index.html">Homepage</a></div>
-			<div class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></div>
-			<div height="50px;"><br/></div>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="./images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="./index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="./classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
 		</div>
-		</td><td class="mainContainer">
-			<section>
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
+﻿			<section>
 			<h2>Marb</h2>
 			<article>
 				<p>Marb is a chart library for Qt applications. The GUI components in Marb are based on the <a href="http://qt-project.org/doc/qt-5.0/qtwidgets/qabstractitemview.html" class="docLink">QAbstractIemView</a> class from Qt framework.
@@ -26,7 +41,7 @@
 				 Marb is an open source project under GPL license.
 				</p>
 				<p>
-				Marb contains three modules: Charts, Trees and Timelines. Each module contains several view to represent data stored in a model.
+				Marb contains three modules: Charts, Trees and Graphs. Each module contains several view to represent data stored in a model.
 				</p>
 				<table class="module">
 						<tr>
@@ -40,20 +55,19 @@
 									<img class="module" src="./images/trees.png" alt="trees.png"/>
 								</a>
 							</td>
-							<!--<td class="module">
-								<a href="./timelines.html">
-									<img  class="module" src="./images/timelines.png" alt="timelines.png"/>
+							<td class="module">
+								<a href="./graphs.html">
+									<img  class="module" src="./images/graphs.png" alt="graphs.png"/>
 								</a>
-							</td>-->
+							</td>
 						</tr>
 						<tr>
 							<td class="module1"><h3 class="module">Charts</h3>Create curves, bar and pie charts</td>
 							<td class="module1"><h3 class="module">Trees</h3>Viewes for tree models</td>
-							<!--<td class="module1"><h3 class="module">Timelines</h3>Another way to display lists</td>-->
+							<td class="module1"><h3 class="module">Graphs</h3>Animated viewes for graphs</td>
 						</tr>
 					</table>
 				</article>
-			</section>
-		</td></tr></table>
+			</section>		</article></section></td></tr></table>
 	</body>
 </html>

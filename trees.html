@@ -7,25 +7,37 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="./style.css" />
-		<title>Marb Project</title>
+		<title>Chart class | Marb</title>
 	</head>
-	<body>
-	<table class="mainContainer"><tr><td class="mainContainer">
-		<div class="menu">
-					<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
-					<div class="item"><a class="menuItem" href="./index.html">Homepage</a></div>
-					<div class="subItem1"><a class="subMenuItem" href="./charts.html">Charts</a></div>
-					<div class="subItem1"><a class="subMenuCurrentItem" href="./trees.html">Trees</a></div>
-					<div class="subItem1"><a class="subMenuItem" href="./timelines.html">Timelines</a></div>
-					<div class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></div>
-					<div height="50px;"><br/></div>
+	<body onLoad="foo('C++','Python')">
+		<div class="header">
+			<table>
+			<tr>
+				<td rowspan=2>
+					<img id="logo" src="./images/logo.png" alt="logo.png"/>
+				</td>
+				<td id="titleMarb">Marb Project</td>
+			<tr>
+			<td id="menu">
+			<span class="item"><a class="menuItem" href="./index.html">Homepage</a></span>
+			<span class="item"><a class="menuItem" href="./classindex.html">Documentation</a></span>
+			<span class="item"><a class="menuItem" href="https://github.com/RomHaKorev/Marb">Downloads</a></span>
+			</td>
+			</tr>
+			</table>
 		</div>
-		</td><td class="mainContainer">
+	<table class="mainContainer"><tr><td class="mainContainer">
+<!--		<div class="menu">
+			<div style="margin-bottom: 20px;"><img src="./images/logo.png" alt="logo.png"/></div>
+			<div height="50px;"><br/></div>
+		</div>-->
+		</td><td class="mainContainer" width="950px">
+		<section><article>
 			<section>
 			<h2>Trees</h2>
 			<article>
 			Marb can display a tree based on a <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> using the same principle than <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qtreeview.html">QTreeView</a>.<br />
-				The root corresponds to the first item int the modèle (i.e. the item at 0,0).<br />
+				The root corresponds to the first item in the modèle (i.e. the item at the QModelIndex(0, 0, 0) ).<br />
 				Here, an example of <a class="docLink" href="http://qt-project.org/doc/qt-5.0/qtgui/qstandarditemmodel.html">QStandardItemModel</a> well filled:<p>
 					There is three types of trees:
 				</p>
@@ -81,38 +93,7 @@
 					</tr>
 				</table>
 			</article>
-			<h2>Documentation</h2>
-			<article>
-			<p class="function">void Tree::setSpacing( int horizontal, int vertical )</p>
-<p>Set the horizontal and vertical spacings between the items.</p>
-<p class="function">void Tree::setConnectionPen( QPen pen )</p>
-<p>Sets the QPen used to paint connections between items.</p>
-<p class="function">QPen Tree::connectionPen()</p>
-<p>Returns the QPen used to paint connections between items.</p>
-<p class="function">QPointF Tree::scan( QModelIndex index, QPointF depthAndLeft )</p>
-<p>This methods is used to scan a tree which its root is index and calculates the depth and the number of items at the the left of each item in the tree.<br/>
-depthAndLeft defines the default values for the depth and the left position.<br/>
-Returns the depth and the larger (i.e., the number of leafs) of the given tree.</p>
-<p class="function">void Tree::positionsInTree()</p>
-<p>Determines the absolute position in the tree of each item.</p>
-<p class="function">void Tree::positionsInView()</p>
-<p>Calculates the position of each item in the view. Uses the tree positions to determinate the view position.</p>
-<p class="function">QRect Tree::itemRect( QModelIndex index )</p>
-<p>Returns a QRect defining the bounding rect int the view of the given item.</p>
-<p class="function">void Tree::setItemSize( QSize size )</p>
-<p>Sets the item size to size.</p>
-<p class="function">void Tree::setX( QModelIndex index, int x )</p>
-<p>the the X coordinate of an item.</p>
-<p class="function">void Tree::setY( QModelIndex index, int y )</p>
-<p>the the Y coordinate of an item.</p>
-<p class="function">void Tree::paintItems( QPainter& painter, QPointF offset )</p>
-<p>Paints the items in the view (called by paintEvent). offset is used to translate the painting.</p>
-<p class="function">void Tree::paintConnections( QPainter& painter, QPointF offset )</p>
-<p>Paints the connections between the items (called by paintEvent).</p>
-<p class="function">void Tree::paintConnectionsFor(QPainter& painter, QModelIndex index, QPointF offset )</p>
-<p>Paints the connections between the item referenced by index and its children (called by paintConnection).</p>
-			</article>
-			</section>
-		</td></tr></table>
+		</section>
+		</article></section></td></tr></table>
 	</body>
 </html>
