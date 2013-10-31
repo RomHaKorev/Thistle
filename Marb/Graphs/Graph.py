@@ -5,24 +5,12 @@ from PySide.QtCore import QSize, QRect, QPoint, QPointF, Qt, QModelIndex, QTimer
 from ..MarbItemDelegate import MarbItemDelegate
 from ..MarbAbstractItemView import MarbAbstractItemView
 from ..Global import Color, Shape
-import math
+from .GraphModel import GraphModel, Edge
 
+import math
 import random
 
 Pi = 3.14159265358979323846264338327950288419717
-
-class Edge:
-	'''The Edge class represents an edge between two nodes.
-	An edge can be Bilateral, unilateral or None. The type of edge defines the kind of forces and the render.
-	'''
-	NoArrow = 0
-	Bilateral = 1
-	Unilateral = 2
-	def __init__( self, idx1, idx2, type ):
-		self.leftIndex = idx1
-		self.rightIndex = idx2
-		self.type = type
-		
 
 class Node:
 	''' The class Node contains the specification for a particular node.
@@ -66,7 +54,6 @@ class Graph(MarbAbstractItemView):
 		self._movableItem = True
 		self._elasticItem = True
 		self._weight = 9.81
-		self._edges = []
 		self._movedItem = None
 		self._oldLength = 0
 		self._rect = QRect( -20, -20, 40, 40 )
@@ -97,34 +84,8 @@ class Graph(MarbAbstractItemView):
 	def itemRect( self, index ):
 		if not index.isValid():
 			return QRect()
-		pos = self._itemPos[ index ].pos()
+		pos = self._itemPos.get( index, QRect() ).pos()
 		return self._rect.translated( pos.x(), pos.y() )
-
-
-	def addEdgeByIndex( self, idx1, idx2, type = Edge.NoArrow ):
-		''' Add an edge between the two nodes referenced by the QModelIndex idx1 and idx2.
-		*idx1: QModelIndex
-		*idx2: QModelIndex
-		*type: Edge.type
-		'''
-		if ( idx1 == idx2 ) or not idx1.isValid() or not idx2.isValid():
-			return None
-		self._edges.append( Edge( idx1, idx2, type ) )
-		self.updateValues()
-
-
-	def addEdge( self, row1, col1, row2, col2, type = Edge.NoArrow ):
-		''' Add an edge between the two nodes referenced by the coordinates ([row1], [col1]) and ([row2], [col2]).
-		*row1: integer
-		*col1: integer
-		*row2: integer
-		*col2: integer
-		*type: Edge.type
-		'''
-		if self.model() == None:
-			return
-		self.addEdgeByIndex( self.model().index( row1, col1 ), self.model().index( row2, col2 ), type )
-
 
 
 	def updateValues( self ):
@@ -151,7 +112,7 @@ class Graph(MarbAbstractItemView):
 					y += 100
 					i = 0
 		
-		for e in self._edges:
+		for e in self.model().edges():
 			self._itemPos[ e.leftIndex ].addEdge( ( self._itemPos[ e.rightIndex ] ) )
 			self._itemPos[ e.rightIndex ].addEdge( ( self._itemPos[ e.leftIndex ] ) )
 			
@@ -200,7 +161,7 @@ class Graph(MarbAbstractItemView):
 		painter.save()
 		painter.setPen( self._connectionPen )
 		painter.setBrush( QColor( Color.Gray ) )
-		for edge in self._edges:
+		for edge in self.model().edges():
 			self.paintEdge( painter, edge.leftIndex, edge.rightIndex, edge.type )
 		painter.restore()
 	
@@ -314,7 +275,7 @@ class Graph(MarbAbstractItemView):
 		'''
 		if self._itemPos == {}:
 			self._movedItem = QModelIndex()
-			self.timer.stop()
+			self._timer.stop()
 			return
 
 		for idx in self._itemPos.keys():
@@ -356,11 +317,11 @@ class Graph(MarbAbstractItemView):
 			if idx.isValid():
 				self._movedItem = idx
 				self._oldPosMovedItem = self._itemPos[ idx ].pos()
-		super(Graph, self).mousePressEvent( event )
+		#super(Graph, self).mousePressEvent( event )
 	
 	
 	def mouseReleaseEvent(self, event ):
-		super(Graph, self).mouseReleaseEvent( event )
+		#super(Graph, self).mouseReleaseEvent( event )
 		if self._movableItem == True:
 			if self._elasticItem == True:
 				self._timer.start()
@@ -371,6 +332,9 @@ class Graph(MarbAbstractItemView):
 	def mouseMoveEvent(self, event ):
 		if self._movableItem == True and self._movedItem.isValid():
 			self._itemPos[ self._movedItem ].setPos( QPointF(event.pos()) )
-		super(Graph, self).mouseMoveEvent( event )
+		#super(Graph, self).mouseMoveEvent( event )
 		self.viewport().update()
+
+	# def setModel( self, model ):
+	# 	super( Graph, self ).setModel( model )
 

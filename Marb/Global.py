@@ -15,7 +15,7 @@ class Color:
 	Yellow      = 0xFDEF46
 	Gray		= 0x868686
 		
-	LightBlue	= 0x68B9FF
+	LightBlue	= 0x2BBEEF
 	LightGreen	= 0xc9ff71
 	LightPurple = 0x8274B0
 	LightRed	= 0xFF5656
@@ -24,7 +24,7 @@ class Color:
 	LightGray	= 0xBEBEBE
 	
 	DarkBlue   = 0x0839A1
-	DarkGreen  = 0x8CD01E
+	DarkGreen  = 0x84D000
 	DarkPurple = 0x7300AB
 	DarkRed	   = 0xBA0000
 	DarkOrange = 0xFFF219

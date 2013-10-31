@@ -53,7 +53,7 @@ class RadialChart(Chart):
 
 
 	def itemPath( self, index ):
-		'''Returns the bounding path for the item pointed by the 'index'.
+		'''Returns the bounding path for the item pointed by the [index].
 		*index: QModelIndex
 		'''
 		angle = float( self._x / self.model().columnCount() )
@@ -77,6 +77,7 @@ class RadialChart(Chart):
 
 	def paintChart(self, painter):	
 		''' Paints the chart on the paint device [painter].
+		*painter: QPainter
 		'''
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
 		self._paintText(painter)
