@@ -6,7 +6,8 @@ from PySide.QtGui import QApplication, QStandardItemModel, QStandardItem, QTable
 from PySide.QtCore import QSize, Qt, QObject, SIGNAL, QDate
 import sys
 
-from Marb.Delegates.PercentDelegate import RoundedPercentDelegate
+from Marb.Delegates.RoundedIndicatorDelegate import RoundedIndicatorDelegate
+from Marb.Delegates.HorizontalIndicatorDelegate import HorizontalIndicatorDelegate
 
 from random import randint
 
@@ -18,18 +19,18 @@ app = QApplication(sys.argv)
 
 
 model = QStandardItemModel( 3,1 )
-model.setData( model.index( 0,0 ), QSize( 200, 200 ), Qt.SizeHintRole )
-model.setData( model.index( 0,0 ), 0.5 )
+model.setData( model.index( 0,0 ), QSize( 200, 50 ), Qt.SizeHintRole )
+model.setData( model.index( 0,0 ), 5 )
 model.setData( model.index( 0,0 ), "Label 1", Qt.UserRole )
-model.setData( model.index( 1,0 ), QSize( 200, 200 ), Qt.SizeHintRole )
-model.setData( model.index( 1,0 ), 0.85 )
+model.setData( model.index( 1,0 ), QSize( 300, 10 ), Qt.SizeHintRole )
+model.setData( model.index( 1,0 ), 85 )
 model.setData( model.index( 1,0 ), "Label 2", Qt.UserRole )
-model.setData( model.index( 2,0 ), QSize( 200, 200 ), Qt.SizeHintRole )
-model.setData( model.index( 2,0 ), 0.25 )
+model.setData( model.index( 2,0 ), QSize( 100, 50 ), Qt.SizeHintRole )
+model.setData( model.index( 2,0 ), 25 )
 model.setData( model.index( 2,0 ), "Label 3", Qt.UserRole )
 view = QListView()
 view.setModel( model )
-delegate = RoundedPercentDelegate( view )
+delegate = HorizontalIndicatorDelegate( view )
 view.setItemDelegate( delegate )
 view.show()
 
