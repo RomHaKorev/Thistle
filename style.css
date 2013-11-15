@@ -6,6 +6,7 @@
 	vertical-align: justify;
 	background-image:url(images/bg.png);
 	background-repeat:repeat;
+	border-bottom: solid 5px #2D64BC;
 }
 
 #titleMarb {
@@ -27,14 +28,14 @@
 	vertical-align:top;
 	text-align: center;
 	padding:0px 0px 0px 0px;
-	max-width: 950px;
+	max-width: 1000px;
 }
 
 body {
 	#text-align: center;
 	font-family: helvetica;
 	font-size: 14px;
-	background-color: #B0B0B0;
+	background-color: #FBFBFB;
 	margin: 0 !important;
 }
 
@@ -57,7 +58,7 @@ article{
 	-moz-border-radius-bottomright: 15px;
 	border-top-left-radius: 15px;
 	border-bottom-right-radius: 15px;
-	padding: 15px;
+	padding: 50px;
 	box-shadow: inset 3px 3px 4px #404040;
 }
 /***** Hyperlinks *****/
