@@ -311,7 +311,7 @@ class Chart(MarbAbstractItemView):
 			for c in range( 0, cols ):
 				value = self.model().index( r, c ).data()
 				try:
-					float(value)
+					value = float(value)
 				except:
 					value = 0
 				self._min = float(min( self._min, value ))

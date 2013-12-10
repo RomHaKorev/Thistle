@@ -92,12 +92,6 @@ class PieChart( Chart ):
 			v = abs( float(self.model().data( index )) )
 			delta = 360.0 * v/self._Total
 			centerAngle = angle + delta/2.0
-			if centerAngle < 90: # Right side
-				self._rightLabels.append( (i, centerAngle, color) )
-			elif centerAngle > 270: # Right side
-				self._rightLabels.insert( 0, (i, centerAngle, color) )
-			else: # Left side
-				self._leftLabels.append( (i, centerAngle, color) )
 			# A part can be splitted if self._Splitted is True or if self._Splitted is False and the value is selected in the model.
 			isSelected = False
 			if selectedIndexes != []:
@@ -129,45 +123,10 @@ class PieChart( Chart ):
 		painter = QPainter( self.viewport() )
 		self.paintChart( painter )
 
-
-	def paintLabels(self, painter):
-		# Paint labels
-		metrics = QFontMetrics( self.font() )
-		ell = QPainterPath()
-		if self._Splitted == False:
-			ell.addEllipse( self._valuesRect )
-		else:
-			ell.addEllipse( self._chartRect )
-		l = []
-		j = 1
-		self._leftLabels.reverse()
-		while j < len(self._leftLabels):
-			(i, centerAngle, color) = self._leftLabels[j]
-			prevCenterAngle = self._leftLabels[j - 1][1]
-			y1 = ell.pointAtPercent( centerAngle/360.0 ).y()
-			y2 = ell.pointAtPercent( prevCenterAngle/360.0 ).y()
-			d = abs(y2 - y1)
-			y = 0
-			if d < (metrics.height() + 2):
-				y = y1 + metrics.height() - d + 20
-			else:
-				y = y1
-			l.append( (i, centerAngle, y, color) )
-			j += 1
-		for (i, centerAngle, y, color) in l:
-			textPos = QPointF(0,0)
-			p1 = QPointF(0,0)
-			text = str(self.model().headerData( i, Qt.Vertical ))
-			p = ell.pointAtPercent( centerAngle/360.0 )
-			textPos = QPointF( self._leftLabelRect.x(), y )
-			p1 = QPointF(textPos.x(), p.y() )
-			r = QRect( textPos.x(), textPos.y() - metrics.height(), self._leftLabelRect.width(), metrics.height() )
-			painter.drawText( r, text )
-			pen = painter.pen()
-			painter.setPen( color )
-			painter.drawLine( p1, p )
-			painter.setPen( pen )
-
+	def _paintValues( self, painter ):
+		rows = self.model().rowCount()
+		for i in range( 0, rows ):
+			pass
 
 	def paintPart( self, painter, angle, delta, color ):		
 		part = self.itemPart( angle, delta )

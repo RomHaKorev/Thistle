@@ -16,6 +16,8 @@ class LinearChart(Chart):
 		self._pointDelegate = PointDelegate( self )
 		self._barDelegate = BarDelegate( self )
 		self._minBottomMargin = 0
+		self._verticalLabel = False
+		self._dataStartonYAxis = False
 
 
 	def _barStyleColumns(self):
@@ -79,7 +81,10 @@ class LinearChart(Chart):
 			else:
 				r.translate( 0, -2 )
 		else:
-			r = QRect( -5, -5, 10 ,10 ).translated( x + self._x/2, y ) 
+			if self._dataStartonYAxis == False:
+				r = QRect( -5, -5, 10 ,10 ).translated( x + self._x/2, y ) 
+			else:
+				r = QRect( -5, -5, 10 ,10 ).translated( x, y ) 
 		return r.normalized()
 
 
@@ -142,14 +147,24 @@ class LinearChart(Chart):
 		textPos = QPoint( h/2 , self._origin.y() + 5 );
 		x = self._x + self._origin.x()
 		i = 0
+		
 		while (i < self.model().rowCount() ):
 			p1 = QPoint( x, self._origin.y() - 3 )
 			s = str(self.model().headerData( i, Qt.Vertical ))
 			painter.save()
 			painter.setPen( QPen( QColor(Color.DarkGray), 1.5 ) )
-			painter.rotate( -90 )
-			painter.translate( -textPos.y() - metrics.width( s ) , p1.x() - self._x + h )
-			painter.drawText( 0, 0, s )
+			if self._verticalLabel == True:
+				painter.rotate( -90 )
+				if self._dataStartonYAxis == False:
+					painter.translate( -textPos.y() - metrics.width( s ) - 3 , p1.x() - self._x/2.0 )
+				else:
+					painter.translate( -textPos.y() - metrics.width( s ) - 3 , p1.x() - self._x + h )
+				painter.drawText( 0, 0, s )
+			else:
+				if self._dataStartonYAxis == False:
+					painter.drawText( p1.x() - self._x/2.0 - metrics.width( s )/2.0, textPos.y() + h, s )
+				else:
+					painter.drawText( p1.x() - self._x, textPos.y() + h, s )
 			painter.restore()
 			i += 1
 			x += self._x
@@ -189,7 +204,10 @@ class LinearChart(Chart):
 		for r in range( rows ):
 			index = self.model().index( r, column )
 			option = QStyleOptionViewItem()
-			value = index.data()
+			try:
+				value = float( index.data() )
+			except:
+				value = 0
 			if value < 0:
 				option.decorationPosition = QStyleOptionViewItem.Bottom
 			else:
@@ -233,7 +251,7 @@ class LinearChart(Chart):
 		painter.drawLine( p1, p2 )
 		x = self._x + self._origin.x()
 		i = 0
-		while (i < self.model().rowCount() ):
+		while (i < self.model().rowCount() - 1 ):
 			p1 = QPoint( x, self._origin.y() - 3 )
 			p2 = p1 + QPoint( 0, 6 )		
 			painter.drawLine( p1, p2 )
@@ -277,6 +295,14 @@ class LinearChart(Chart):
 		self._valuesRect = QRect( self._chartRect )
 		self._valuesRect.setX( self._origin.x() )
 		self._x = float( self._valuesRect.width() ) / ( self.model().rowCount() )
+
+		metrics = QFontMetrics( self.font() )
+		length = 0
+		for i in range( self.model().rowCount() ):
+			s = str(self.model().headerData( i, Qt.Vertical ))
+			length = max( length, metrics.width( s ) )
+
+		self._verticalLabel = (length > self._x)
 		self._setAlphaBeta()
 		delta = self._valuesRect.bottom() - ( self._origin.y() + self._minBottomMargin )
 		if delta < 0:
