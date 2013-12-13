@@ -1,8 +1,61 @@
 from ..Global import Color, Type
-from .Chart import Chart, ChartStyle
+from .Chart import Chart, ChartStyle, Axis
 from .Delegates import PointDelegate, BarDelegate
 from PySide.QtGui import QPainter, QPen, QStyleOptionViewItem, QColor, QFontMetrics, QLinearGradient, QBrush, QStyle, QPainterPath
 from PySide.QtCore import QSize, QRect, QPointF, QPoint, Qt, QLineF, QModelIndex
+
+
+class StraightAxis(Axis):
+	def __init__( self ):
+		super( StraightAxis, self ).__init__()
+		self.angle = 90.0
+		self.angleAxis = -90.0
+		self.xAxisLength = 0
+		self.pen = QPen( QColor(Color.LightGray), 1.5 )
+		self.xStep = 0
+		self.valueCount = 1
+		self.xAxis = QLineF()
+
+	def paint( self, painter ):
+		painter.save()
+		painter.setPen( self.pen )
+		line = QLineF( self.origin, self.origin + QPoint(0,10) )
+		line.setAngle( self.angle )
+		line.setLength( self.length )
+
+		self.xAxis = QLineF( self.origin, self.origin + QPoint(0,10) )
+		self.xAxis.setAngle( self.angle + self.angleAxis )
+		self.xAxis.setLength( self.xAxisLength )
+
+		painter.drawLine( line )
+		self._paintXAxis( painter )
+		c = painter.pen().color()
+		c.setAlpha( 150 )
+		painter.setPen( QPen( c , 1 ) )
+		y = self.minBound
+		while y <= self.maxBound:
+			p1 = QPoint( self.origin.x(), self.valueToPx(y) )
+			p2 = p1 + QPoint( self.xAxisLength, 0 )
+			l = QLineF( p1, p2 )
+			(intersectType, intersectionPoint) = l.intersect( self.xAxis )
+			if intersectType == QLineF.BoundedIntersection:
+				l.setP2( intersectionPoint )
+			painter.drawLine( l )
+			y += self.tickSize
+		painter.restore()
+
+
+	def _paintXAxis( self, painter ):
+		painter.drawLine( self.xAxis )
+		n = self.valueCount - 1
+		i = 0
+		for i in range( 1, n ):
+			x = self.xAxis.pointAt( float(i)/float(n) )
+			l = QLineF( x - QPoint(0, 3), x + QPoint(0, 3) )
+			painter.drawLine( l )
+
+
+
 class LinearChart(Chart):
 	''' LinearChart class provides a view for QAbstractItemModel to display data in each column as line chart or bar chart.
 	To each column in the model corresponds a serie of data.
@@ -11,13 +64,14 @@ class LinearChart(Chart):
 
 	def __init__(self, parent=None):
 		super(LinearChart, self).__init__( parent )
-		self._origin = QPointF(20, 10)
-		self._x = 0
+		#self._yAxis.origin = QPointF(20, 10)
+		self._yAxis = StraightAxis()
 		self._pointDelegate = PointDelegate( self )
 		self._barDelegate = BarDelegate( self )
 		self._minBottomMargin = 0
 		self._verticalLabel = False
 		self._dataStartonYAxis = False
+
 
 
 	def _barStyleColumns(self):
@@ -65,16 +119,16 @@ class LinearChart(Chart):
 		value = index.data()
 		if value == None:
 			return QRect()
-		y = self.valueToPx(value)
-		x = self._origin.x() + index.row() * self._x
-		space = self._x * 0.2
+		y = self._yAxis.valueToPx(value)
+		x = self._yAxis.origin.x() + index.row() * self._yAxis.xStep
+		space = self._yAxis.xStep * 0.2
 		orderedColumns = self._calculateOrderedColumn()
 		if t == Type.Bar:
 			bars = self._barStyleColumns()
-			w = float(self._x) / len(bars)
+			w = float(self._yAxis.xStep) / len(bars)
 			x += w * orderedColumns.index( index.column() )
 			tl = QPoint( x + space/2, y )             # top left
-			br = QPoint( x + w, self._origin.y() )    # bottom right
+			br = QPoint( x + w, self._yAxis.origin.y() )    # bottom right
 			r = QRect( tl, br )
 			if value < 0:
 				r.translate( 0, 1 )
@@ -82,25 +136,17 @@ class LinearChart(Chart):
 				r.translate( 0, -2 )
 		else:
 			if self._dataStartonYAxis == False:
-				r = QRect( -5, -5, 10 ,10 ).translated( x + self._x/2, y ) 
+				r = QRect( -5, -5, 10 ,10 ).translated( x + self._yAxis.xStep/2, y ) 
 			else:
 				r = QRect( -5, -5, 10 ,10 ).translated( x, y ) 
 		return r.normalized()
-
-
-	def _paintAxis(self, painter):
-		painter.save()
-		painter.setPen( QPen( QColor(Color.LightGray), 1.5 ) )
-		self._paintXAxis(painter)
-		self._paintYAxis(painter)
-		painter.restore()
 
 
 	def paintChart(self, painter):
 		'''Overloaded method.
 		'''
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
-		self._paintAxis(painter)
+		self._yAxis.paint( painter )
 		ordered = self._calculateOrderedColumn()
 		for c in ordered:
 			self._paintValues( painter, c )
@@ -144,39 +190,39 @@ class LinearChart(Chart):
 		painter.save()
 		metrics = QFontMetrics( self.font() )
 		h = metrics.height()
-		textPos = QPoint( h/2 , self._origin.y() + 5 );
-		x = self._x + self._origin.x()
+		textPos = QPoint( h/2 , self._yAxis.origin.y() + 5 );
+		x = self._yAxis.xStep + self._yAxis.origin.x()
 		i = 0
 		
 		while (i < self.model().rowCount() ):
-			p1 = QPoint( x, self._origin.y() - 3 )
+			p1 = QPoint( x, self._yAxis.origin.y() - 3 )
 			s = str(self.model().headerData( i, Qt.Vertical ))
 			painter.save()
 			painter.setPen( QPen( QColor(Color.DarkGray), 1.5 ) )
 			if self._verticalLabel == True:
 				painter.rotate( -90 )
 				if self._dataStartonYAxis == False:
-					painter.translate( -textPos.y() - metrics.width( s ) - 3 , p1.x() - self._x/2.0 )
+					painter.translate( -textPos.y() - metrics.width( s ) - 3 , p1.x() - self._yAxis.xStep/2.0 )
 				else:
-					painter.translate( -textPos.y() - metrics.width( s ) - 3 , p1.x() - self._x + h )
+					painter.translate( -textPos.y() - metrics.width( s ) - 3 , p1.x() - self._yAxis.xStep + h )
 				painter.drawText( 0, 0, s )
 			else:
 				if self._dataStartonYAxis == False:
-					painter.drawText( p1.x() - self._x/2.0 - metrics.width( s )/2.0, textPos.y() + h, s )
+					painter.drawText( p1.x() - self._yAxis.xStep/2.0 - metrics.width( s )/2.0, textPos.y() + h, s )
 				else:
-					painter.drawText( p1.x() - self._x, textPos.y() + h, s )
+					painter.drawText( p1.x() - self._yAxis.xStep, textPos.y() + h, s )
 			painter.restore()
 			i += 1
-			x += self._x
-		y = self._minBound
-		while y <= self._maxBound:
-			p1 = QPoint( self._origin.x(), self.valueToPx(y) )
-			s = str(round(y, self._nbDigits))
+			x += self._yAxis.xStep
+		y = self._yAxis.minBound
+		while y <= self._yAxis.maxBound:
+			p1 = QPoint( self._yAxis.origin.x(), self._yAxis.valueToPx(y) )
+			s = str(round(y, self._yAxis.nbDigits))
 			s = s.rstrip("0")
 			s = s.rstrip(".")
-			r = QRect( QPoint( 0, p1.y() - h/2 ), QSize( self._origin.x() - 5 ,h) )
+			r = QRect( QPoint( 0, p1.y() - h/2 ), QSize( self._yAxis.origin.x() - 5 ,h) )
 			painter.drawText( r, Qt.AlignRight, s )
-			y += self._tickSize
+			y += self._yAxis.tickSize
 		painter.restore()
 
 
@@ -245,37 +291,6 @@ class LinearChart(Chart):
 		painter.restore()
 
 
-	def _paintXAxis(self, painter):		
-		p1 = QPoint( self._origin.x(), self._origin.y() )
-		p2 = p1 + QPoint( self._valuesRect.width() + 6, 0 )
-		painter.drawLine( p1, p2 )
-		x = self._x + self._origin.x()
-		i = 0
-		while (i < self.model().rowCount() - 1 ):
-			p1 = QPoint( x, self._origin.y() - 3 )
-			p2 = p1 + QPoint( 0, 6 )		
-			painter.drawLine( p1, p2 )
-			i += 1
-			x += self._x
-
-
-	def _paintYAxis(self, painter):	
-		p1 = QPoint( self._origin.x(), self._chartRect.y() )
-		p2 = QPoint( self._origin.x(), self._chartRect.bottom() )
-		painter.drawLine( p1, p2 )
-		painter.save()
-		c = painter.pen().color()
-		c.setAlpha( 150 )
-		painter.setPen( QPen( c , 1 ) )
-		y = self._minBound
-		while y <= self._maxBound:
-			p1 = QPoint( self._origin.x(), self.valueToPx(y) )
-			p2 = p1 + QPoint( self._valuesRect.width(), 0 )
-			painter.drawLine( p1, p2 )
-			y += self._tickSize
-		painter.restore()
-
-
 	def process( self ):
 		if self.model() == None:
 			return None
@@ -290,24 +305,26 @@ class LinearChart(Chart):
 			return None
 		self.defineRects()
 		metrics = QFontMetrics( self.font() )
-		self._calculateBounds()
-		self._origin.setX( metrics.width( str(-1 * self._order) ) + metrics.width("0") * self._nbDigits + self._marginX )
+		self._yAxis.calculateBounds()
+		self._yAxis.origin.setX( metrics.width( str(-1 * self._yAxis.order) ) + metrics.width("0") * self._yAxis.nbDigits + self._marginX )
 		self._valuesRect = QRect( self._chartRect )
-		self._valuesRect.setX( self._origin.x() )
-		self._x = float( self._valuesRect.width() ) / ( self.model().rowCount() )
-
+		self._valuesRect.setX( self._yAxis.origin.x() )
+		self._yAxis.xStep = float( self._valuesRect.width() ) / ( self.model().rowCount() )
 		metrics = QFontMetrics( self.font() )
 		length = 0
 		for i in range( self.model().rowCount() ):
 			s = str(self.model().headerData( i, Qt.Vertical ))
 			length = max( length, metrics.width( s ) )
 
-		self._verticalLabel = (length > self._x)
-		self._setAlphaBeta()
-		delta = self._valuesRect.bottom() - ( self._origin.y() + self._minBottomMargin )
+		self._verticalLabel = (length > self._yAxis.xStep)
+		self._yAxis.axisPos = self._valuesRect.topLeft()
+		self._yAxis.setAlphaBeta( self._valuesRect.height() )
+		delta = self._valuesRect.bottom() - ( self._yAxis.origin.y() + self._minBottomMargin )
 		if delta < 0:
 			self._valuesRect.setHeight( self._valuesRect.height() + delta )
-			self._setAlphaBeta()
+			self._yAxis.setAlphaBeta( self._valuesRect.height() )
+		self._yAxis.xAxisLength = self._valuesRect.width()
+		self._yAxis.valueCount = self.model().rowCount()
 		self._titleRect.moveTo( self._chartRect.bottomLeft() )
 		self._titleRect.translate( (self._chartRect.width() - self._titleRect.width())/2, 20 )
 

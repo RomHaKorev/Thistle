@@ -1,32 +1,44 @@
 from ..Global import Color
-from .Chart import Chart, ChartStyle
+from .Chart import Chart, ChartStyle, Axis
 from PySide.QtGui import QPainter, QPen, QColor, QFontMetrics, QPainterPath, QBrush
 from PySide.QtCore import QSize, QRect, QPointF, QPoint, Qt
+
+class RadialAxis( Axis ):
+	def __init__( self ):
+		super( RadialAxis, self ).__init__()
+		self.nbTicks = 5
+		self.centerHoleDiam = 0
+		self.origin = QPointF(0,0)
+
+	def setAlphaBeta( self, length ):
+		self.centerHoleDiam = length * 0.2
+		m = length * 0.3 
+		self.alpha = float( length - m ) / float( self.maxBound - self.minBound )
+		self.beta = length - self.alpha * self.maxBound
+
+	def paint(self, painter):
+		y = self.minBound
+		painter.save()
+		c = QColor(Qt.lightGray)
+		c.setAlpha( 100 )
+		painter.setPen( QPen( c , 2) )
+		while y <= self.maxBound:
+			v = self.valueToPx( y )
+			rectangle = QRect( -v/2, -v/2, v, v )
+			rectangle.translate( self.origin )
+			path = QPainterPath()
+			path.addEllipse( rectangle )
+			painter.drawPath( path )
+			y += self.tickSize
+		painter.restore()
+
+
+
 class RadialChart(Chart):
-
-
 	def __init__(self, parent=None):
 		super(RadialChart, self).__init__( parent )
 		self._origin = QPointF(20, 20)
-		self._centerHoleDiam = 0
-		self._nbTicks = 5
-
-
-	def __paintTicks(self, painter):
-			y = self._minBound
-			painter.save()
-			c = QColor(Qt.lightGray)
-			c.setAlpha( 100 )
-			painter.setPen( QPen( c , 2) )
-			while y <= self._maxBound:
-				v = self.valueToPx( y )
-				rectangle = QRect( -v/2, -v/2, v, v )
-				rectangle.translate( self._valuesRect.center() )
-				path = QPainterPath()
-				path.addEllipse( rectangle )
-				painter.drawPath( path )
-				y += self._tickSize
-			painter.restore()
+		self._yAxis = RadialAxis()
 
 
 	def columnStyle(self, column ):
@@ -51,10 +63,10 @@ class RadialChart(Chart):
 		startAngle = angle * index.column()
 		startAngle += index.row() * self._x
 		pathCenter = QPainterPath()
-		rectangle = QRect( -self._centerHoleDiam/2, -self._centerHoleDiam/2, self._centerHoleDiam, self._centerHoleDiam )
+		rectangle = QRect( -self._yAxis.centerHoleDiam/2, -self._yAxis.centerHoleDiam/2, self._yAxis.centerHoleDiam, self._yAxis.centerHoleDiam )
 		rectangle.translate( self._valuesRect.center() )
 		pathCenter.addEllipse( rectangle )
-		y = self.valueToPx( index.data( Qt.DisplayRole ) )
+		y = self._yAxis.valueToPx( index.data( Qt.DisplayRole ) )
 		rectangle = QRect( -y/2, -y/2, y, y )
 		rectangle.translate( self._valuesRect.center() )
 		path = QPainterPath()
@@ -68,7 +80,7 @@ class RadialChart(Chart):
 	def paintChart(self, painter):		
 		painter.setRenderHints( QPainter.Antialiasing | QPainter.TextAntialiasing )
 		self._paintText(painter)
-		self.__paintTicks( painter )
+		self._yAxis.paint( painter )
 		cols = self.model().columnCount()
 		painter.save()
 		for c in range( cols ):
@@ -101,9 +113,10 @@ class RadialChart(Chart):
 		metrics = QFontMetrics( self.font() )
 		h = metrics.height()
 		pathCenter = QPainterPath()
-		rectangle = QRect( -self._centerHoleDiam/2, -self._centerHoleDiam/2, self._centerHoleDiam, self._centerHoleDiam )
-		rectangle.translate( self._valuesRect.center() )		
+		rectangle = QRect( -self._yAxis.centerHoleDiam/2, -self._yAxis.centerHoleDiam/2, self._yAxis.centerHoleDiam, self._yAxis.centerHoleDiam )
+		rectangle.translate( self._valuesRect.center() )
 		pathCenter.addEllipse( rectangle )
+		painter.drawPath( pathCenter )
 		c = QColor(Color.LightGray)
 		c.setAlpha(100)
 		penLine = QPen( QColor(c), 2)
@@ -175,14 +188,6 @@ class RadialChart(Chart):
 		painter.restore()
 
 
-	def _setAlphaBeta(self):
-		w = self._valuesRect.width()
-		self._centerHoleDiam = w * 0.2
-		m = w * 0.3 
-		self._alpha = float( w - m ) / float( self._maxBound - self._minBound )
-		self._beta = w - self._alpha * self._maxBound
-
-
 	def _updateRects(self):
 		if self.model() == None:
 			return None
@@ -191,9 +196,10 @@ class RadialChart(Chart):
 		w = min( self._chartRect.width(), self._chartRect.height() ) - (textWidth + 10 )
 		self._valuesRect = QRect( -w/2, -w/2, w, w )
 		self._valuesRect.translate( self._chartRect.center().x(), self._chartRect.center().y() )
-		self._calculateBounds()
+		self._yAxis.calculateBounds()
 		self._x = float( 360.0 ) / ( self.model().rowCount() )
-		self._setAlphaBeta()
+		self._yAxis.setAlphaBeta( w )
+		self._yAxis.origin = self._valuesRect.center()
 		self._titleRect.moveTo( self._chartRect.bottomLeft() )
 		self._titleRect.translate( (self._chartRect.width() - self._titleRect.width())/2, 10 )
 
