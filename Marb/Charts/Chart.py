@@ -6,6 +6,92 @@ from ..MarbAbstractItemView import MarbAbstractItemView
 
 from .ChartStyle import ChartStyle
 
+class Axis:
+	def __init__( self, nbTicks = 10, minimum = 0, maximum = 0 ):
+		self.min = minimum
+		self.max = maximum
+		self.nbTicks = nbTicks
+		self.minBound = 0
+		self.maxBound = 0
+		self.order = 1
+		self.tickSize = 0
+		self.alpha = 1
+		self.beta = 1
+		self.nbDigits = 1
+		self.length = 0
+		self.axisPos = QPoint(20,10)
+		self.origin = QPoint( 0, 0 )
+
+
+	def calculateBounds(self):
+		'''Calculates the minimum bounds and the maximum bounds (i.e., the minimum and the maximum displayed on the chart).
+		Calculates the order and the tick size(delta between two ticks on the Y axis) of the charts values.
+		If the minimum is equal to the maximum, the minimum bound is equal to minimum - 1 and the maximum bound to maximum + 1
+		'''
+		self.minBound = self.min
+		self.maxBound = self.max
+		if abs(self.maxBound - self.minBound) == 0:
+			self.maxBound += 1
+			self.minBound -= 1
+		self.order = self.calculateOrder( self.max - self.min )
+		self.tickSize = (self.max - self.min ) / (self.nbTicks - 1)
+		if self.order >= 10:
+			self.nbDigits = 0
+		elif self.order == 1:
+			self.nbDigits = 2
+		else:
+			nbZero = str(self.order).count( '0' )
+			self.nbDigits = nbZero + 2
+
+		self.maxBound += self.order
+		self.minBound -= self.order
+
+	def calculateOrder( self, value ):
+		'''Calculates the order of scale for value (i.e. the power of ten greater than value).
+		'''
+		order = 1.0
+		v = abs( value )
+		if v >= 1:
+			while v > 1:
+				order *= 10.0
+				v /= 10.0
+			order /= 10.0
+		elif v != 0:
+			while v < 1:
+				order /= 10.0
+				v *= 10.0
+			order *= 10.0
+		return int(order)
+
+
+	def setAlphaBeta(self, length):
+		'''Calculates the coefficients alpha and beta used to convert a value in the model in the corresponding value in pixel in the chart.
+		Translates the origin to place the X-Axis.
+		'''
+		self.length = length
+		ln = length * 0.90
+		self.alpha = -float( ln ) / float( self.maxBound - self.minBound )
+		#self.beta = (self.maxBound * ln ) / ( self.maxBound - self.minBound ) + self.axisPos.y() + length * 0.1
+		self.beta = self.maxBound * -self.alpha + self.axisPos.y() + length * 0.1
+		self.origin.setY( self.beta )
+
+
+	def valueToPx(self, value):
+		'''Converts the given value in pixel according to the chart scale.
+		The pixel value is given by the equation: y = alpha * value + beta 
+		'''
+		try:
+			value = float(value)
+		except:
+			value = 0
+		return value * self.alpha + self.beta
+
+
+	def paint():
+		raise( NotImplementedError, "Must be implemented." )
+
+
+
 class Chart(MarbAbstractItemView):
 	'''The Chart class provides an abstract base for the chart viewes.
 	The Chart class defines the standard interface for every chart views in Marb. It is not supposed to be instantiated directly but should be subclassed.
@@ -15,15 +101,6 @@ class Chart(MarbAbstractItemView):
 		'''
 		super(Chart, self).__init__( parent )
 		self.setEditTriggers( QAbstractItemView.NoEditTriggers )
-		self._min = 0
-		self._max = 0
-		self._minBound = 0
-		self._maxBound = 0
-		self._order = 1
-		self._nbTicks = 10
-		self._tickSize = 0
-		self._alpha = 1
-		self._beta = 1
 		self._chartRect = QRect()
 		self._valuesRect = QRect()
 		self._legendRect = QRect()
@@ -31,31 +108,11 @@ class Chart(MarbAbstractItemView):
 		self._titleRect = QRect()
 		self._origin = QPoint(0,0)
 		self._style = {}
-		self._nbDigits = 1
 		self._marginX = 20
 		self._marginY = 20
 		self.resize( QSize(500, 400) )
 
-
-	def _calculateBounds(self):
-		'''Calculates the minimum bounds and the maximum bounds (i.e., the minimum and the maximum displayed on the chart).
-		Calculates the order and the tick size(delta between two ticks on the Y axis) of the charts values.
-		If the minimum is equal to the maximum, the minimum bound is equal to minimum - 1 and the maximum bound to maximum + 1
-		'''
-		self._minBound = self._min
-		self._maxBound = self._max
-		if abs(self._maxBound - self._minBound) == 0:
-			self._maxBound += 1
-			self._minBound -= 1
-		self._order = self._calculateOrder( self._max - self._min )
-		self._tickSize = (self._max - self._min ) / (self._nbTicks - 1)
-		if self._order >= 10:
-			self._nbDigits = 0
-		elif self._order == 1:
-			self._nbDigits = 2
-		else:
-			nbZero = str(self._order).count( '0' )
-			self._nbDigits = nbZero + 2
+		self._yAxis = None
 
 
 	def calculateLegendRect(self):
@@ -78,24 +135,6 @@ class Chart(MarbAbstractItemView):
 			else:
 				w += sWidth
 		self._legendRect = QRect( self._marginX, self._marginY, maxWidth, nbLines * h )
-
-
-	def _calculateOrder( self, value ):
-		'''Calculates the order of scale for value (i.e. the power of ten greater than value).
-		'''
-		order = 1.0
-		v = abs( value )
-		if v >= 1:
-			while v > 1:
-				order *= 10.0
-				v /= 10.0
-			order /= 10.0
-		elif v != 0:
-			while v < 1:
-				order /= 10.0
-				v *= 10.0
-			order *= 10.0
-		return int(order)
 
 
 	def columnStyle(self, column ):
@@ -219,8 +258,8 @@ class Chart(MarbAbstractItemView):
 		'''
 		if self.model() == None:
 			return None
-		self._min = 0
-		self._max = 0
+		self._yAxis.min = 0
+		self._yAxis.max = 0
 		self._updateRects()
 
 
@@ -253,27 +292,27 @@ class Chart(MarbAbstractItemView):
 		cols = self.model().columnCount()
 		metrics = QFontMetrics( self.font() )
 		textWidth = 0
+		# value = self.model().index( 0, 0 ).data()
+		# try:
+		# 	value = float(value)
+		# except:
+		# 	value = 0
+		_min = 0
+		_max = 0
 		for r in range( 0, rows ):
 			s = str(self.model().headerData( r, Qt.Vertical ))
 			textWidth = max( textWidth, metrics.width( s ) + 5 )
 			for c in range( 0, cols ):
 				value = self.model().index( r, c ).data()
 				try:
-					float(value)
+					value = float(value)
 				except:
 					value = 0
-				self._min = float(min( self._min, value ))
-				self._max = float(max( self._max, value ))
+				_min = float(min( _min, value ))
+				_max = float(max( _max, value ))
+		self._yAxis.min = _min
+		self._yAxis.max = _max
 		return textWidth
-
-
-	def _setAlphaBeta(self):
-		'''Calculates the coefficients alpha and beta used to convert a value in the model in the corresponding value in pixel in the chart.
-		Translates the origin to place the X-Axis.
-		'''
-		self._alpha = -float(self._valuesRect.height()) / float( self._maxBound - self._minBound )
-		self._beta = (self._maxBound * self._valuesRect.height() ) / ( self._maxBound - self._minBound ) + self._valuesRect.y()
-		self._origin.setY( self._beta )		
 
 
 	def setColumnStyle(self, column, style):
@@ -303,16 +342,5 @@ class Chart(MarbAbstractItemView):
 
 	def updateValues(self):
 		self.process()	
-
-
-	def valueToPx(self, value):
-		'''Converts the given value in pixel according to the chart scale.
-		The pixel value is given by the equation: y = alpha * value + beta 
-		'''
-		try:
-			value = float(value)
-		except:
-			value = 0
-		return value * self._alpha + self._beta
 
 
