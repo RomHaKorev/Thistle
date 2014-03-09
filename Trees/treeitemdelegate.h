@@ -94,7 +94,7 @@ public:
 };
 
 
-class MarbItemDelegate : public QStyledItemDelegate {
+class TreeItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
 protected:
   QPolygon createDiamond( QRect r ) const;
@@ -102,7 +102,7 @@ protected:
 public:
 
   void setTreeStyle( MarbStyle myStyle );
-  explicit MarbItemDelegate(Tree *parent = 0);
+  explicit TreeItemDelegate(Tree *parent = 0);
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void setEditorData(QWidget *editor, const QModelIndex &index) const;
   void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;

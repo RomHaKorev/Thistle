@@ -1,19 +1,19 @@
 /*
  This file is part of Marb.
 
-  Marb is free software: you can redistribute it and/or modify
-  it under the terms of the Lesser GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License.
+    Marb is free software: you can redistribute it and/or modify
+    it under the terms of the Lesser GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
 
-  Marb is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  Lesser GNU General Public License for more details.
+    Marb is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    Lesser GNU General Public License for more details.
 
-  You should have received a copy of the Lesser GNU General Public License
-  along with Marb.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the Lesser GNU General Public License
+    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb  Copyright (C) 2013  Dimitry Ernot
+ Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef VERTICALTREE_H
@@ -24,38 +24,38 @@
 class QStandardItemModel;
 
 class VerticalTree : public Tree {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  enum ConnectorType {
-    Straight = 0,
-    Elbow    = 1
-  };
-  Q_ENUMS( ConnectorType )
+    enum ConnectorType {
+        Straight = 0,
+        Elbow        = 1
+    };
+    Q_ENUMS( ConnectorType )
 
 protected:
-  ConnectorType myConnectorType;
-  qreal         myMax;
-  qreal         myMin;
+    ConnectorType myConnectorType;
+    qreal                 myMax;
+    qreal                 myMin;
 
-  virtual void setScrollBarValues();
+    virtual void setScrollBarValues();
 
 public:
-  explicit VerticalTree( QWidget* parent = 0 );
-           ~VerticalTree();
+    explicit VerticalTree( QWidget* parent = 0 );
+                     ~VerticalTree();
 
-  virtual void positionsInView();
-  virtual void positionsInTree();
-  QPointF scan( QModelIndex index, QPointF leftDepth = QPointF( 0, 0 ) );
+    virtual void positionsInView();
+    virtual void positionsInTree();
+    QPointF scan( QModelIndex index, QPointF leftDepth = QPointF( 0, 0 ) );
 
-  void paintConnectionsElbow( QPainter& painter, QModelIndex id );
-  void paintConnectionsStraight( QPainter& painter, QModelIndex id );
-  virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
+    void paintConnectionsElbow( QPainter& painter, QModelIndex id );
+    void paintConnectionsStraight( QPainter& painter, QModelIndex id );
+    virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
 
-  void setConnectorType( ConnectorType type );
-  ConnectorType connectorType() const;
+    void setConnectorType( ConnectorType type );
+    ConnectorType connectorType() const;
 
 public slots:
-  virtual bool save( QString filename );
+    virtual bool save( QString filename );
 };
 
 #endif // VERTICALTREE_H
