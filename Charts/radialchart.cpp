@@ -89,7 +89,7 @@ void RadialChart::paintChart(QPainter& painter) {
 }
 
 
-void RadialChart::paintTextAxis( QPainter& painter) const {
+/*void RadialChart::paintTextAxis( QPainter& painter) const {
     QFontMetrics metrics( font() );
     int h = metrics.height();
     qreal x = myMinBound;
@@ -108,7 +108,7 @@ void RadialChart::paintTextAxis( QPainter& painter) const {
 
 
 void RadialChart::paintTicks( QPainter& painter ) const {
-}
+}*/
 
 
 void RadialChart::paintValues( QPainter& painter, int column ) const {
@@ -284,7 +284,7 @@ class RadialChart(Chart):
     def paintChart(self, painter):
 
 
-    def _paintColumnLegend(self, painter, c, pos, metricsH):
+    def _paintSerieLegend(self, painter, c, pos, metricsH):
         r = QRect( pos.x() + 25, pos.y() - 15, 30, 30 )
         posText = pos + QPoint( 45, metricsH/2 )
         style = self.columnStyle(c)

@@ -21,7 +21,7 @@
 
 #include "graphmodel.h"
 
-#include "../marbitemdelegate.h"
+#include "../kernel/marbitemdelegate.h"
 static const qreal Pi = 3.14159265358979323846264338327950288419717;
 
 

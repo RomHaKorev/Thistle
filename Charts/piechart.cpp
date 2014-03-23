@@ -11,9 +11,11 @@
     along with Marb.    If not, see <http://www.gnu.org/licenses/>.
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
+
+
 #include "piechart.h"
-#include "../Marb.h"
-#include "Axis/orthogonalaxis.h"
+#include "../kernel/Marb.h"
+#include "abstractchart.h"
 
 #include <QDebug>
 
@@ -21,14 +23,11 @@
 #include <QPaintEvent>
 
 PieChart::PieChart( QWidget* parent ) :
-    AxisChart( parent ) {
+    AbstractChart( parent ) {
     this->setEditTriggers( QAbstractItemView::NoEditTriggers );
     myRing = false;
     mySplitted = false;
     myStartAngle = 0.0;
-    myLegend = QString();
-    myPieAxis = new OrthogonalAxis();
-    setAxis( myPieAxis );
 }
 
 
@@ -94,8 +93,8 @@ QPainterPath PieChart::itemPath( const QModelIndex& index ) const {
 }
 
 
-void PieChart::paintChart( QPainter &painter ) {
-    this->updateChart();
+void PieChart::paintChart( QPainter &painter ) const {
+    //this->updateChart();
     painter.save();
     int rows = this->model()->rowCount();
     qreal angle = myStartAngle;
@@ -116,24 +115,67 @@ void PieChart::paintChart( QPainter &painter ) {
         }
         angle += delta;
     }
-    painter.drawText( 10, myRect.bottomLeft().y() + 10,
-                                        width() - 20, height() - myRect.height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
+    painter.drawText( myTitleRect, Qt::AlignHCenter | Qt::TextWordWrap, myTitle );
+
     painter.restore();
 }
 
 
-void PieChart::paintEvent(QPaintEvent *event) {
-    Q_UNUSED( event )
-    if ( this->model() == 0 ) {
-        return;
-    }
-    QPainter painter( viewport() );
-    painter.setRenderHint( QPainter::Antialiasing );
-    paintChart( painter );
+/*Paint the legend in the QRect self._legendRect
+The legend corresponds to the text in the Horizontal QHeaderView and the style defined for each column.
+*/
+void PieChart::paintLegend( QPainter& painter) const {
+        painter.save();
+        QFontMetrics metrics( this->font() );
+        int metricsH = metrics.height();
+        int h = metricsH + 10;
+        int rows = this->model()->rowCount();
+        int w = 0;
+        int maxWidth = myLegendRect.width();
+        QPoint legendPos( myLegendRect.topLeft() );
+        QPoint pos = legendPos + QPoint( 50, 0);
+        for (int r = 0; r < rows; ++r ) {
+            QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
+            int sWidth = metrics.width( s ) + 50;
+            QPoint p;
+            if ( ( w + sWidth ) > maxWidth ) {
+                int y = pos.y();
+                p = QPoint( myLegendRect.x(), y + h );
+                pos = QPoint( myLegendRect.x(), y + h );
+                w = sWidth;
+                pos += QPoint( sWidth, 0 );
+            } else {
+                p = pos + QPoint( -40,    0 );
+                w += sWidth;
+                pos += QPoint( sWidth, 0 );
+            }
+            this->paintSerieLegend(painter, r, p, metricsH);
+        }
+        painter.restore();
 }
 
 
-void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) {
+void PieChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const {
+
+    QColor color( this->model()->data( this->model()->index( serie, 0 ), Qt::DecorationRole ).toString() );
+    if ( !color.isValid() ) {
+        color = Marb::predefinedColor( serie );
+    }
+
+    QRect r( pos.x(), pos.y() - 20, 14, 14 );
+    QPoint posText = pos + QPoint( 20, -metricsH/2 );
+
+    QString s = this->model()->headerData( serie, Qt::Vertical ).toString();
+    painter.drawText( posText, s );
+    painter.save();
+    painter.setBrush( color );
+    painter.setPen( QPen( color.darker( 100 ), 1 ) );
+    painter.drawRect( r );
+
+    painter.restore();
+}
+
+void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) const {
     if ( isSelected == true ) {
         this->paintPartSplitted( painter, angle, delta, color );
         return;
@@ -149,7 +191,7 @@ void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor co
 
 
 void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
-                                                                    QColor color, bool isSelected ) {
+                                                                    QColor color, bool isSelected ) const {
     QPainterPath part = this->itemPart( angle, delta, true );
     painter.save();
     if ( mySplitted == true
@@ -164,22 +206,7 @@ void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
 }
 
 
-bool PieChart::save( QString filename ) {
-    QPixmap pix( size() );
-    pix.fill( Qt::white );
-    QPainter painter( &pix );
-    painter.setRenderHint( QPainter::Antialiasing );
-    this->paintChart( painter );
-    return pix.save( filename );
-}
-
-
 void PieChart::scrollTo(const QModelIndex &/*index*/, ScrollHint /*hint*/) {
-}
-
-
-void PieChart::setLegend( QString legend ) {
-    myLegend = legend;
 }
 
 
@@ -212,37 +239,13 @@ QPointF PieChart::splittedOffset( qreal angle, qreal delta ) const {
 }
 
 
-void PieChart::updateChart() {
-    qreal w = ( width() - 40 );
-    qreal h = ( height() - 40 );
-    if ( !myLegend.isNull() ) {
-        QFontMetrics metrics( font() );
-        QRect r = metrics.boundingRect( 10, 0, width() - 20, height(), Qt::AlignHCenter | Qt::TextWordWrap, myLegend );
-        h -=    10 + r.height();
-    }
-    if ( w < h ) {
-        myRect = QRect( 20, 20 + (h-w)/2, w , w );
-    } else {
-        myRect = QRect( 20 + (w-h)/2, 20, h , h );
-    }
-    myRect.translate( myRect.width() * 0.05, myRect.height() * 0.05 );
-    myRect.setWidth( 0.9 * myRect.width() );
-    myRect.setHeight( 0.9 * myRect.height() );
-    myTotal = 0;
-    for ( int i = 0; i < this->model()->rowCount(); ++i ) {
-        QModelIndex index = this->model()->index( i, 0 );
-        myTotal += qAbs( this->model()->data( index ).toReal() );
-    }
-}
-
-
 void PieChart::updateRects() {
     if ( this->model() == 0 )    {
         return;
     }
     this->defineRects();
-    myTitleRect.moveTo( axis()->valuesRect.bottomLeft() );
-    myTitleRect.translate( (axis()->valuesRect.width() - myTitleRect.width())/2, 20 );
+    //myTitleRect.moveTo( axis()->valuesRect.bottomLeft() );
+    //myTitleRect.translate( (axis()->valuesRect.width() - myTitleRect.width())/2, 20 );
 }
 
 
@@ -253,3 +256,66 @@ QRect PieChart::visualRect( const QModelIndex& index ) const {
 }
 
 
+int PieChart::scan() {
+    /*Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
+    If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
+    If a value is not a number (undefined, a string, etc.), she's considered as equal to 0. */
+    int rows = this->model()->rowCount();
+
+    myTotal = 0;
+    for ( int r = 0; r < rows; ++r ) {
+        QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
+
+        qreal value = this->model()->index( r, 0 ).data().toDouble();
+        myTotal += value;
+    }
+    return 0;
+}
+
+
+void PieChart::defineRects() {
+    myRect = this->contentsRect();
+    this->calculateLegendRect( myRect );
+    myRect.setWidth( myRect.width() - myLegendRect.width() - 10 );
+    
+    if ( myTitle != "" ) {
+        QFont font = this->font();
+        font.setItalic( true );
+        QFontMetrics metrics( font );
+        QRect r( 0, 0,myRect.width() - 40, 0 );
+        myTitleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
+        //myAxis->chartRect.setHeight( myAxis->chartRect.height() - myTitleRect.height() - 20 );
+        myRect.setHeight( myRect.height() - myTitleRect.height() - 20 );
+    }
+
+
+    int w = qMin( myRect.width() * 0.80, myRect.height() * 0.80 );
+
+    myRect.setWidth( w );
+    myRect.setHeight( w );
+
+    myTitleRect.moveTo( myTitleRect.x(), myRect.top() );
+    
+    myRect.moveTo( myRect.x(), myTitleRect.bottom() + 10 );
+
+    myLegendRect.moveTo( myRect.right() + 10, myRect.top() );
+    
+}
+
+
+void PieChart::calculateLegendRect( const QRect& source ) {
+        QFontMetrics metrics( font() );
+        int h = metrics.height() + 10;
+        int rows = this->model()->rowCount();
+
+        int w = 0;
+
+        for( int r = 0; r < rows; ++r ) {
+            QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
+            w = qMax( metrics.width( s ) + 40, w );
+        }
+
+        w = qMin( source.width(), w );
+        
+        myLegendRect = QRect( source.right() - w, this->contentsMargins().top(), w, rows * h );
+}

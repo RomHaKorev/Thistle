@@ -4,6 +4,8 @@
 
 #include "edge.h"
 
+
+
 class GraphModel: public QStandardItemModel {
     Q_OBJECT
 protected:

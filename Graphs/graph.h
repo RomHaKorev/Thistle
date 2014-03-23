@@ -21,7 +21,7 @@
 
 #include <QTimer>
 #include <QTime>
-#include "../marbabstractitemview.h"
+#include "../kernel/marbabstractitemview.h"
 #include "node.h"
 
 class GraphModel;

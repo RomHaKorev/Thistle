@@ -20,10 +20,12 @@
 #define AXISCHART_H
 
 #include <QAbstractItemView>
-#include "../Marb.h"
+#include "../kernel/Marb.h"
 #include "chartstyle.h"
 
 #include "abstractchart.h"
+
+
 
 class PointChart;
 class RadialChart;
@@ -42,45 +44,32 @@ protected:
     qreal myOrder;
     int myNbTicks;
     qreal myTickSize;
-    QRect myLegendRect;
-    QString myTitle;
-    QRect myTitleRect;
     QMap<int, ChartStyle> myStyle;
 
     int myX;
     int myNbDigits;
-    int myMinBottomMargin;
 
-    virtual void process();
     virtual void defineRects();
     int scan();
     void calculateBounds();
-    void calculateLegendRect();
     qreal calculateOrder( qreal value ) const;
-    qreal valueToPx( qreal value) const;
-    void setAlphaBeta();
-    virtual void resizeEvent( QResizeEvent* ev );
-    virtual void paintLegend( QPainter& painter );
-    virtual void paintColumnLegend( QPainter& painter, int column, QPoint pos, int maxHeight );
-    virtual void paintChart( QPainter& ) = 0;
+
+    virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const;
+    virtual void paintChart( QPainter& ) const = 0;
     virtual void paintEvent(QPaintEvent *event);
 
-    virtual void setScrollBarValues();
-    virtual QModelIndex indexAt(const QPoint &point) const;
-    virtual QPainterPath itemPath(const QModelIndex &index) const;
-    virtual void updateRects() = 0;
-    virtual void updateValues();
+    //virtual void updateValues();
 
 public:
     explicit AxisChart( QWidget* parent = 0 );
              ~AxisChart();
     Axis* axis() const;
     ChartStyle columnStyle( int column ) const;
-    bool save( QString filename );
+
     void setAxis( Axis* axis );
     void setModel( QAbstractItemModel* model );
     void setColumnStyle( int column, ChartStyle style);
-    void setTitle( QString title );
 };
+
 
 #endif // AXISCHART_H

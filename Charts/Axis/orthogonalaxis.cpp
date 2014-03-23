@@ -2,7 +2,8 @@
 #include <QFontMetrics>
 #include <QAbstractItemModel>
 #include <QPainter>
-#include "../../Marb.h"
+#include <QDebug>
+#include "../../kernel/Marb.h"
 
 
 OrthogonalAxis::OrthogonalAxis() : Axis() {
@@ -12,7 +13,9 @@ OrthogonalAxis::OrthogonalAxis() : Axis() {
     tickSize = 0;
     axisPen = QPen( QColor(Marb::LightGray), 1.5 );
     myStartOnAxis = false;
-    bool myVerticalLabels = true;
+    myVerticalLabels = true;
+
+    yLabelsLength = 10;
 }
 
 
@@ -67,15 +70,6 @@ QPointF OrthogonalAxis::origin() const {
 }
 
 
-/*void OrthogonalAxis::paint( QPainter& painter ) {
-    painter.save();
-    painter.setPen( QPen( Qt::red, 1 ) );
-    painter.drawLine( QLineF( myYaxis.p1() + QPoint( 0, 10 ), myYaxis.p2() - QPoint( 0, 10 ) ) );
-    painter.drawLine( myXaxis );
-    painter.restore();
-}*/
-
-
 void OrthogonalAxis::paintBack( QPainter& painter ) const {
     painter.save();
     painter.setPen( axisPen );
@@ -91,7 +85,7 @@ void OrthogonalAxis::paintFront( QPainter& painter ) const {
     int h = metrics.height();
     QPoint textPos( h/2 , this->origin().y() + 5 );
     int n = myModel->rowCount();
-    for ( int i = 0; i < n; ++i ) {            
+    for ( int i = 0; i < n; ++i ) {
         QString s( myModel->headerData( i, Qt::Vertical ).toString() );
         s = metrics.elidedText( s, Qt::ElideRight, xLabelsLength  - 3, Qt::TextWrapAnywhere );
         QPointF x = myXaxis.pointAt( float(i)/float(n) );
@@ -124,7 +118,7 @@ void OrthogonalAxis::paintXAxis( QPainter& painter ) const {
     int n = myModel->rowCount();
     for ( int i = 0; i < n; ++ i ) {
         QPointF x = myXaxis.pointAt( float(i)/float(n) );
-        QLineF l( x - QPoint(0, 3), x + QPoint(0, 3) );           
+        QLineF l( x - QPoint(0, 3), x + QPoint(0, 3) );
         painter.drawLine( l );
     }
     painter.drawLine( myXaxis );
@@ -183,36 +177,6 @@ void OrthogonalAxis::paintYAxis( QPainter& painter ) const {
     }
     painter.restore();
     painter.drawLine( myYaxis );
-}
-
-void OrthogonalAxis::scanModel() {
-    /// Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
-    /// If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
-    /// If a value is not a number (undefined, a string, etc.), she's considered as equal to 0.
-    ///
-    int rows = myModel->rowCount();
-    int cols = myModel->columnCount();
-    QFontMetrics metrics( myFont );
-    int textWidth = 0;
-    qreal min = 0;
-    qreal max = 0;
-    for( int r = 0; r < rows; ++r ) {
-        QString s( myModel->headerData( r, Qt::Vertical ).toString() );
-        textWidth = qMax( textWidth, metrics.width( s ) + 5 );
-        for( int c = 0; c < cols; ++c ) {
-            qreal value = myModel->index( r, c ).data().toReal();
-            min = qMin( min, value );
-            max = qMax( max, value );
-        }
-    }
-    min = min;
-    max = max;
-    yLabelsLength = textWidth;
-}
-
-
-void OrthogonalAxis::setModel( QAbstractItemModel* model ) {
-    myModel = model;
 }
 
 

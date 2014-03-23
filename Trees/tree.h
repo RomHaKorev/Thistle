@@ -19,10 +19,12 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include "../marbabstractitemview.h"
+#include "../kernel/marbabstractitemview.h"
 
 #include <QPen>
 #include <QPointer>
+
+
 
 class MarbItemDelegate;
 

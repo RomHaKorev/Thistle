@@ -10,6 +10,8 @@
 #include <QFont>
 #include <QPen>
 
+
+
 class QAbstractItemModel;
 
 class OrthogonalAxis : public Axis {
@@ -27,17 +29,16 @@ protected:
     void paintYAxis( QPainter& painter ) const;
 public:
     OrthogonalAxis();
-    
+
     void calculateBounds();
     qreal calculateOrder( qreal value ) const;
     QFont font() const;
     QAbstractItemModel* model() const;
     virtual QPointF origin() const;
-    //void paint( QPainter& painter ) const;
+
     void paintBack( QPainter& painter ) const;
     void paintFront( QPainter& painter ) const;
-    void scanModel();
-    void setModel( QAbstractItemModel* model );
+
     void setstartOnAxis( bool startOn );
     bool startOnAxis() const;
     qreal stepSize() const;

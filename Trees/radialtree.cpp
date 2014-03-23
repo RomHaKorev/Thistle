@@ -18,7 +18,7 @@
 #include <QFontMetrics>
 #include <QScrollBar>
 #include <qmath.h>
-#include "../marbitemdelegate.h"
+#include "../kernel/marbitemdelegate.h"
 
 
 RadialTree::RadialTree( QWidget* parent ) : Tree( parent ) {

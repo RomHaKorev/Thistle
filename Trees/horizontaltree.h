@@ -21,6 +21,8 @@
 
 #include "verticaltree.h"
 
+
+
 class HorizontalTree : public VerticalTree {
 protected:
     virtual void positionsInView();

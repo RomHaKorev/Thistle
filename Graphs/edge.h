@@ -3,6 +3,8 @@
 
 #include <QModelIndex>
 
+
+
 class Edge {
 public:
     enum Type {
@@ -16,5 +18,6 @@ public:
     QModelIndex rightIndex;
     Edge::Type type;
 };
+
 
 #endif // EDGE_H

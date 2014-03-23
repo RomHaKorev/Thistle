@@ -26,7 +26,7 @@
 #include <QScrollBar>
 #include <QMargins>
 
-#include <qdebug.h>
+#include <QDebug>
 
 #include "Axis/axis.h"
 
@@ -43,7 +43,6 @@ AxisChart::AxisChart( QWidget* parent ) : AbstractChart( parent ) {
     myTitleRect = QRect();
     myOrigin = QPoint(0,0);
     myNbDigits = 1;
-    myMargins = QMargins( 20, 20, 20, 20 );
 }
 
 
@@ -72,27 +71,6 @@ void AxisChart::calculateBounds() {
         int nbZero = QString::number(myOrder).count( "0" );
         myNbDigits = nbZero + 2;
     }
-}
-
-
-void AxisChart::calculateLegendRect() {
-        QFontMetrics metrics( font() );
-        int h = metrics.height() + 5;
-        int cols = this->model()->columnCount();
-        int nbLines = 1;
-        int w = 40;
-        int maxWidth = myAxis->chartRect.width();
-        for( int c = 0; c < cols; ++c ) {
-            QString s( this->model()->headerData( c, Qt::Horizontal ).toString() );
-            int sWidth = metrics.width( s ) + 40;
-            if ( ( w + sWidth ) > maxWidth ) {
-                ++nbLines;
-                w = sWidth;
-            } else {
-                w += sWidth;
-            }
-        }
-        myLegendRect = QRect( myMargins.left(), myMargins.top(), maxWidth, nbLines * h );
 }
 
 
@@ -129,9 +107,8 @@ ChartStyle AxisChart::columnStyle( int column ) const {
 }
 
 void AxisChart::defineRects() {
-    myAxis->chartRect = QRect( QPoint( myMargins.left(), myMargins.top() ),
-                                             this->size() - QSize( myMargins.left() + myMargins.right(), myMargins.top() + myMargins.bottom() ) );
-    this->calculateLegendRect();
+    myAxis->chartRect = this->contentsRect();
+    this->calculateLegendRect( myAxis->chartRect );
     myAxis->chartRect.setHeight( myAxis->chartRect.height() - myLegendRect.height() - 10 );
     myAxis->chartRect.translate( 0, myLegendRect.height() + 10 );
 
@@ -141,45 +118,22 @@ void AxisChart::defineRects() {
         QFontMetrics metrics( font );
         QRect r( 0, 0, myAxis->chartRect.width() - 40, 0 );
         myTitleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
+        //myAxis->chartRect.setHeight( myAxis->chartRect.height() - myTitleRect.height() - 20 );
         myAxis->chartRect.setHeight( myAxis->chartRect.height() - myTitleRect.height() - 20 );
     }
-}
-
-
-QModelIndex AxisChart::indexAt(const QPoint &point) const {
-    if ( this->model() == 0 ) {
-        return QModelIndex();
-    }
-    for( int row = 0; row < this->model()->rowCount(); ++row ) {
-        for( int col = 0; col < this->model()->columnCount(); ++col ) {
-            QModelIndex index = this->model()->index( row, col );
-            QPainterPath r = this->itemPath( index );
-            if ( r.contains( point ) ) {
-                return index;
-            }
-        }
-    }
-    return QModelIndex();
-}
-
-
-QPainterPath AxisChart::itemPath(const QModelIndex &index) const {
-    QPainterPath path;
-    path.addRect( this->itemRect( index ) );
-    return path;
 }
 
 
 /*Paint the legend for the given column. The kind of legend should be defined by each view (linear and radial represent legend differently).
 The column legend is represented by a square colored with the pen and brush style and the column name.
 */
-void AxisChart::paintColumnLegend( QPainter& painter, int column, QPoint pos, int metricsH ) {
+void AxisChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const {
     QRect r( pos.x() + 20, pos.y() - 10, 20, 20 );
     QPoint posText = pos + QPoint( 45, metricsH/2 );
 
-    ChartStyle style = this->columnStyle( column );
+    ChartStyle style = this->columnStyle( serie );
 
-    QString s = this->model()->headerData( column, Qt::Horizontal ).toString();
+    QString s = this->model()->headerData( serie, Qt::Horizontal ).toString();
     painter.drawText( posText, s );
     painter.save();
     painter.setPen( style.pen() );
@@ -196,66 +150,6 @@ void AxisChart::paintEvent( QPaintEvent* event ) {
         QPainter painter( viewport() );
         painter.setClipRect( event->rect() );
         paintChart( painter );
-}
-
-
-/*Paint the legend in the QRect self._legendRect
-The legend corresponds to the text in the Horizontal QHeaderView and the style defined for each column.
-*/
-void AxisChart::paintLegend( QPainter& painter) {
-        painter.save();
-        QFontMetrics metrics( font() );
-        int metricsH = metrics.height();
-        int h = metricsH + 5;
-        int cols = this->model()->columnCount();
-        int w = 0;
-        int maxWidth = myLegendRect.width();
-        QPoint legendPos( myLegendRect.topLeft() );
-        QPoint pos = legendPos + QPoint( 50, 0);
-        for (int c = 0; c < cols; ++c ) {
-            QString s( this->model()->headerData( c, Qt::Horizontal ).toString() );
-            int sWidth = metrics.width( s ) + 50;
-            QPoint p;
-            if ( ( w + sWidth ) > maxWidth ) {
-                int y = pos.y();
-                p = QPoint( myLegendRect.x() + 10, y + h );
-                pos = QPoint( myLegendRect.x() + 50, y + h );
-                w = sWidth;
-                pos += QPoint( sWidth, 0 );
-            } else {
-                p = pos + QPoint( -40,    0 );
-                w += sWidth;
-                pos += QPoint( sWidth, 0 );
-            }
-            this->paintColumnLegend(painter, c, p + QPoint(0, metricsH), metricsH);
-        }
-        painter.restore();
-}
-
-
-void AxisChart::process() {
-    if ( this->model() == 0 ) {
-        return;
-    }
-    myMin = 0;
-    myMax = 0;
-    myMinBottomMargin = this->scan() + 10.0;
-    this->updateRects();
-}
-
-
-void AxisChart::resizeEvent(QResizeEvent * ev) {
-    QAbstractItemView::resizeEvent( ev );
-    this->updateValues();
-}
-
-
-bool AxisChart::save( QString filename ) {
-    QPixmap pix( size() );
-    pix.fill( Qt::white );
-    QPainter painter( &pix );
-    this->paintChart( painter );
-    return pix.save( filename );
 }
 
 
@@ -290,11 +184,6 @@ int AxisChart::scan() {
     return 0;
 }
 
-void AxisChart::setAlphaBeta() {
-    /*myAlpha = -qreal(myAxis->valuesRect.height()) / ( myMaxBound - myMinBound );
-    myBeta = (myMaxBound * myAxis->valuesRect.height() ) / ( myMaxBound - myMinBound ) + myAxis->valuesRect.y();
-    myOrigin.setY( myBeta );*/
-}
 
 void AxisChart::setAxis( Axis* axis ) {
     myAxis = axis;
@@ -310,22 +199,4 @@ void AxisChart::setModel( QAbstractItemModel* model ) {
     QAbstractItemView::setModel( model );
     myAxis->setModel( model );
     this->process();
-}
-void AxisChart::setScrollBarValues() {
-}
-
-
-void AxisChart::setTitle( QString title ) {
-    myTitle = title;
-    this->updateRects();
-}
-
-
-void AxisChart::updateValues() {
-    this->process();
-}
-
-
-qreal AxisChart::valueToPx( qreal value) const {
-    return 0;//return value * myAlpha + myBeta;
 }

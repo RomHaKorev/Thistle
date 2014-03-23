@@ -21,9 +21,11 @@
 
 #include "axischart.h"
 
-class OrthogonalAxis;
 
-class PieChart : public AxisChart {
+
+class AbstractChart;
+
+class PieChart : public AbstractChart {
     Q_OBJECT
     Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle)
 public:
@@ -31,11 +33,10 @@ public:
 
     QRect visualRect( const QModelIndex& index ) const;
 
-    virtual bool save( QString filename );
     void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
-    void setLegend( QString legend );
     void setSplitted( bool splitted = true );
     void setRing( bool ring = true );
+    virtual void defineRects();
 
 protected:
     QRect     myRect;
@@ -43,26 +44,28 @@ protected:
     bool        mySplitted;
     bool        myRing;
     qreal     myStartAngle;
-    QString myLegend;
-
-    OrthogonalAxis* myPieAxis;
 
     qreal startAngle() const;
+
+    int scan();
 
     virtual void configureColor( QPainter& painter, QColor base, int flag ) const;
 
     virtual QPainterPath itemPath( const QModelIndex& index ) const;
     virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
 
-    virtual void paintChart( QPainter& painter );
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
-    virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false );
+    virtual void calculateLegendRect( const QRect& source );
+    virtual void paintChart( QPainter& painter ) const;
+    virtual void paintLegend( QPainter& painter) const;
+    virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int maxHeight ) const;
+    virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
+    virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
 
     //void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
     virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
-    virtual void updateChart();
+    //virtual void updateChart();
     virtual void updateRects();
+
 
 public slots:
     void setStartAngle( qreal angle );

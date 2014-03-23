@@ -21,6 +21,8 @@
 
 #include "tree.h"
 
+
+
 class QStandardItemModel;
 
 class VerticalTree : public Tree {
@@ -57,5 +59,6 @@ public:
 public slots:
     virtual bool save( QString filename );
 };
+
 
 #endif // VERTICALTREE_H

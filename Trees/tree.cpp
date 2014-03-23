@@ -12,12 +12,12 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "tree.h"
-#include "../marbitemdelegate.h"
+#include "../kernel/marbitemdelegate.h"
 #include <QScrollBar>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QStandardItem>
-#include "../Marb.h"
+#include "../kernel/Marb.h"
 
 
 Tree::Tree(QWidget *parent) : MarbAbstractItemView( parent ) {

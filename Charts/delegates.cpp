@@ -18,7 +18,7 @@
 
 #include "delegates.h"
 #include "axischart.h"
-#include "../Marb.h"
+#include "../kernel/Marb.h"
 #include "chartstyle.h"
 #include <QPainter>
 

@@ -21,6 +21,8 @@
 
 #include "piechart.h"
 
+
+
 class PieChart3D : public PieChart {
     Q_OBJECT
 
@@ -51,5 +53,6 @@ protected:
     virtual void paintExternal( QPainter& painter, bool top );
     virtual void paintLeft( QPainter& painter, QColor color );
 };
+
 
 #endif // PIECHART3D_H

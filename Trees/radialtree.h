@@ -21,6 +21,8 @@
 
 #include "tree.h"
 
+
+
 class RadialTree : public Tree {
     Q_OBJECT
 
@@ -52,5 +54,4 @@ signals:
 public slots:
     virtual bool save( QString filename );
 };
-
 #endif // RADIALTREE_H

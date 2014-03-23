@@ -24,6 +24,9 @@
 
 #include <QItemDelegate>
 
+
+
+
 class PointDelegate;
 class BarDelegate;
 
@@ -44,8 +47,9 @@ protected:
     Marb::Types columnType( int column ) const;
     QList<int> barStyleColumns() const;
     virtual QRectF itemRect( const QModelIndex& index ) const;
-    void paintValues( QPainter& painter, int column);
-    virtual void paintColumnLegend(QPainter &painter, int column, QPoint pos, int maxHeight);
-    virtual void paintChart( QPainter& painter );
+    void paintValues( QPainter& painter, int column) const;
+    virtual void paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const;
+    virtual void paintChart( QPainter& painter ) const;
 };
+
 #endif // LINEARCHART_H

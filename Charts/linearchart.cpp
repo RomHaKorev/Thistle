@@ -17,6 +17,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QItemDelegate>
+#include <QDebug>
 #include <QStyleOptionViewItem>
 
 #include "Axis/orthogonalaxis.h"
@@ -106,7 +107,7 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
 
 
 
-void LinearChart::paintChart( QPainter& painter ) {
+void LinearChart::paintChart( QPainter& painter ) const {
     painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
     myOrthoAxis->paintBack( painter );
     QList<int> ordered = this->calculateColumnsOrder();
@@ -119,7 +120,7 @@ void LinearChart::paintChart( QPainter& painter ) {
 }
 
 
-void LinearChart::paintColumnLegend(QPainter &painter, int column, QPoint pos, int maxHeight) {
+void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const {
         QPoint p1 = pos + QPoint( 10, - maxHeight/2 );
         QPoint p2 = pos + QPoint( 40, - maxHeight/2 );
         QPoint posText = pos + QPoint( 45, 0 );
@@ -150,7 +151,7 @@ void LinearChart::paintColumnLegend(QPainter &painter, int column, QPoint pos, i
 }
 
 
-void LinearChart::paintValues( QPainter& painter, int column ) {
+void LinearChart::paintValues( QPainter& painter, int column ) const {
     Marb::Types t = this->columnType( column );
     QStyledItemDelegate* delegate = 0;
     if ( t.testFlag( Marb::Point ) ) {

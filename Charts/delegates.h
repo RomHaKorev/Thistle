@@ -20,6 +20,8 @@
 #define DELEGATES_H
 #include <QStyledItemDelegate>
 
+
+
 class AxisChart;
 
 class PointDelegate : public QStyledItemDelegate {
@@ -84,5 +86,4 @@ class BarDelegate( QStyledItemDelegate ):
         painter.drawPolyline( polygon )
 
         painter.restore()*/
-
 #endif // DELEGATES_H

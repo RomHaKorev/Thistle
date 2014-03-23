@@ -12,7 +12,7 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "piechart3d.h"
-#include "../Marb.h"
+#include "../kernel/Marb.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QDebug>
@@ -279,7 +279,7 @@ QPainterPath PieChart3D::side( qreal angle, QPointF centerOffset, bool splitted 
 
 
 void PieChart3D::updateChart() {
-    PieChart::updateChart();
+    //PieChart::updateChart();
     if ( mySplitted == true ) {
         myRect.translate( 10, 10 );
         myRect.setWidth( myRect.width() - 20 );

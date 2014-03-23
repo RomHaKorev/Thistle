@@ -25,6 +25,8 @@
 
 #include "edge.h"
 
+
+
 class Node {
 protected:
     QPointF myPos;

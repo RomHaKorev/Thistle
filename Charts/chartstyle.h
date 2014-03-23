@@ -21,7 +21,9 @@
 
 #include <QBrush>
 #include <QPen>
-#include "../Marb.h"
+#include "../kernel/Marb.h"
+
+
 
 class ChartStyle {
 protected:
@@ -41,5 +43,6 @@ public:
     Marb::Shape shape() const;
     Marb::Types type() const;
 };
+
 
 #endif // CHARTSTYLE_H

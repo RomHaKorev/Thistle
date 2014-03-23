@@ -20,6 +20,8 @@
 #define RADIALCHART_H
 #include "axischart.h"
 
+
+
 class RadialAxis;
 
 class RadialChart: public AxisChart {
@@ -33,7 +35,7 @@ protected:
     void setAlphaBeta();
     //void updateValues();
     void updateRects();
-    void paintTextAxis( QPainter& painter) const;
+    //void paintTextAxis( QPainter& painter) const;
     void paintValues( QPainter& painter, int column ) const;
     void paintAxis( QPainter& painter ) const;
     void paintTicks( QPainter& painter ) const;
