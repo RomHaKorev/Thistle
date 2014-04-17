@@ -3,43 +3,49 @@
 #include <QAbstractItemModel>
 #include <QPainter>
 #include <QDebug>
-#include "../../kernel/Marb.h"
+#include "../../kernel/global.h"
 
+#include "orthogonalaxis_p.h"
 
-OrthogonalAxis::OrthogonalAxis() : Axis() {
-    myModel = 0;
-    nbDigits = 3;
-    nbTicks = 5;
-    tickSize = 0;
-    axisPen = QPen( QColor(Marb::LightGray), 1.5 );
-    myStartOnAxis = false;
-    myVerticalLabels = true;
+namespace Marb {
 
-    yLabelsLength = 10;
+OrthogonalAxis::OrthogonalAxis() : Axis( new OrthogonalAxisPrivate() ) {
+    Q_D( OrthogonalAxis );
+    d->model = 0;
+    d->nbDigits = 3;
+    d->nbTicks = 5;
+    d->tickSize = 0;
+    d->axisPen = QPen( QColor( Color::LightGray ), 1.5 );
+    d->startOnAxis = false;
+    d->verticalLabels = true;
+
+    d->yLabelsLength = 10;
+    d->xLabelsLength = 0;
 }
 
 
 void OrthogonalAxis::calculateBounds() {
-    minBound = min;
-    maxBound = max;
-    if ( maxBound == minBound ) {
-        ++maxBound;
-        --minBound;
+    Q_D( OrthogonalAxis );
+    d->minBound = d->min;
+    d->maxBound = d->max;
+    if ( d->maxBound == d->minBound ) {
+        ++d->maxBound;
+        --d->minBound;
     }
-    order = calculateOrder( max - min );
-    tickSize = (max - min ) / (nbTicks - 1);
-    if ( order >= 10 ) {
-        nbDigits = 0;
-    } else if ( order == 1 ) {
-        nbDigits = 2;
+    d->order = calculateOrder( d->max - d->min );
+    d->tickSize = (d->max - d->min ) / (d->nbTicks - 1);
+    if ( d->order >= 10 ) {
+        d->nbDigits = 0;
+    } else if ( d->order == 1 ) {
+        d->nbDigits = 2;
     } else {
-        int nbZero = QString::number(order).count( "0" );
-        nbDigits = nbZero + 2;
+        int nbZero = QString::number( d->order ).count( "0" );
+        d->nbDigits = nbZero + 2;
     }
 }
 
 
-qreal OrthogonalAxis::calculateOrder( qreal value ) const {
+qreal OrthogonalAxis::calculateOrder( qreal value ) {
     qreal order = 1.0;
     qreal v = qAbs( value );
     if ( v >= 1 ) {
@@ -66,13 +72,16 @@ QFont OrthogonalAxis::font() const {
 
 
 QPointF OrthogonalAxis::origin() const {
-    return myXaxis.p1();
+    const Q_D( OrthogonalAxis );
+    return d->xaxis.p1();
 }
 
 
 void OrthogonalAxis::paintBack( QPainter& painter ) const {
+    const Q_D( OrthogonalAxis );
     painter.save();
-    painter.setPen( axisPen );
+    painter.setPen( d->axisPen );
+    painter.setRenderHint( QPainter::Antialiasing, false );
     this->paintXAxis( painter );
     this->paintYAxis( painter );
     painter.restore();
@@ -80,30 +89,31 @@ void OrthogonalAxis::paintBack( QPainter& painter ) const {
 
 
 void OrthogonalAxis::paintFront( QPainter& painter ) const {
+    const Q_D( OrthogonalAxis );
     painter.save();
-    QFontMetrics metrics( myFont );
+    QFontMetrics metrics( d->font );
     int h = metrics.height();
     QPoint textPos( h/2 , this->origin().y() + 5 );
-    int n = myModel->rowCount();
+    int n = d->model->rowCount();
     for ( int i = 0; i < n; ++i ) {
-        QString s( myModel->headerData( i, Qt::Vertical ).toString() );
-        s = metrics.elidedText( s, Qt::ElideRight, xLabelsLength  - 3, Qt::TextWrapAnywhere );
-        QPointF x = myXaxis.pointAt( float(i)/float(n) );
+        QString s( d->model->headerData( i, Qt::Vertical ).toString() );
+        s = metrics.elidedText( s, Qt::ElideRight, d->xLabelsLength  - 3, Qt::TextWrapAnywhere );
+        QPointF x = d->xaxis.pointAt( float(i)/float(n) );
         QPoint p1( x.x(), this->origin().y() - 3 );
         painter.save();
-        painter.setPen( textPen );
-        if ( myVerticalLabels == true ) {
+        painter.setPen( d->textPen );
+        if ( d->verticalLabels == true ) {
             painter.rotate( -90 );
-            if ( myStartOnAxis == false ) {
-                painter.translate( -textPos.y() - xLabelsLength - 3 , p1.x() + this->stepSize()/2.0 );
+            if ( d->startOnAxis == false ) {
+                painter.translate( -textPos.y() - d->xLabelsLength - 3 , p1.x() + this->stepSize()/2.0 );
             } else {
-                painter.translate( -textPos.y() - xLabelsLength - 3 , p1.x() + h );
+                painter.translate( -textPos.y() - d->xLabelsLength - 3 , p1.x() + h );
             }
-            QRect r( 0, 0, xLabelsLength, metrics.height() );
+            QRect r( 0, 0, d->xLabelsLength, metrics.height() );
             painter.drawText( r, Qt::AlignRight, s );
         } else {
-            if ( myStartOnAxis == false ) {
-                painter.drawText( p1.x() + this->stepSize()/2.0 - xLabelsLength/2.0, textPos.y() + h, s );
+            if ( d->startOnAxis == false ) {
+                painter.drawText( p1.x() + this->stepSize()/2.0 - d->xLabelsLength/2.0, textPos.y() + h, s );
             } else {
                 painter.drawText( p1.x(), textPos.y() + h, s );
             }
@@ -115,101 +125,109 @@ void OrthogonalAxis::paintFront( QPainter& painter ) const {
 
 
 void OrthogonalAxis::paintXAxis( QPainter& painter ) const {
-    int n = myModel->rowCount();
+    const Q_D( OrthogonalAxis );
+    int n = d->model->rowCount();
     for ( int i = 0; i < n; ++ i ) {
-        QPointF x = myXaxis.pointAt( float(i)/float(n) );
+        QPointF x = d->xaxis.pointAt( float(i)/float(n) );
         QLineF l( x - QPoint(0, 3), x + QPoint(0, 3) );
         painter.drawLine( l );
     }
-    painter.drawLine( myXaxis );
+    painter.drawLine( d->xaxis );
 }
 
 
 void OrthogonalAxis::paintYAxis( QPainter& painter ) const {
     /*Paints text on the X & Y axis.*/
+    const Q_D( OrthogonalAxis );
     painter.save();
-    painter.setPen(tickPen );
-    QFontMetrics metrics( myFont );
+    painter.setPen( d->tickPen );
+    QFontMetrics metrics( d->font );
     int h = metrics.height();
     QPoint textPos( h/2 , this->origin().y() + 5 );
     qreal x = this->stepSize() + this->origin().x();
     int i = 0;
-    qreal order = tickSize;
-    int y = order;
-    while ( y <= maxBound ) {
+    qreal order = d->tickSize;
+    int y = order * 2;
+    while ( y <= d->maxBound ) {
         QPoint p1( this->origin().x(), this->valueToPoint(y, 0).y() );
-        QPoint p2 = p1 + QPoint( myXaxis.length(), 0 );
+        QPoint p2 = p1 + QPoint( d->xaxis.length(), 0 );
         QLineF l( p1, p2 );
         QLineF::IntersectType intersectType;
         QPointF intersectionPoint;
-        intersectType = l.intersect( myXaxis, &intersectionPoint );
+        intersectType = l.intersect( d->xaxis, &intersectionPoint );
         if ( intersectType == QLineF::BoundedIntersection ) {
             l.setP2( intersectionPoint );
         }
-        painter.setPen( tickPen );
+        painter.setPen( d->tickPen );
         painter.drawLine( l );
         p1 = QPoint( this->origin().x(), this->valueToPoint( y, 0).y() );
-        QString s = QString::number( y, 'f', nbDigits );
+        QString s = QString::number( y, 'f', d->nbDigits );
         QRect r( QPoint( 0, p1.y() - h/2 ), QSize( this->origin().x() - 5 ,h) );
-        painter.setPen( textPen );
+        painter.setPen( d->textPen );
         painter.drawText( r, Qt::AlignRight, s );
         y += order;
     }
     y = order;
-    while ( y >= minBound ) {
+
+    while ( y >= d->minBound ) {
         QPoint p1( this->origin().x(), this->valueToPoint(y, 0).y() );
-        QPoint p2 = p1 + QPoint( myXaxis.length(), 0 );
-        QLineF l( p1, p2 );
-        QLineF::IntersectType intersectType;
-        QPointF intersectionPoint;
-        intersectType = l.intersect( myXaxis, &intersectionPoint );
-        if ( intersectType == QLineF::BoundedIntersection ) {
-            l.setP2( intersectionPoint );
+        if ( qAbs(p1.y() - this->origin().y() ) > 10 ) {
+            QPoint p2 = p1 + QPoint( d->xaxis.length(), 0 );
+            QLineF l( p1, p2 );
+            QLineF::IntersectType intersectType;
+            QPointF intersectionPoint;
+            intersectType = l.intersect( d->xaxis, &intersectionPoint );
+            if ( intersectType == QLineF::BoundedIntersection ) {
+                l.setP2( intersectionPoint );
+            }
+            painter.setPen( d->tickPen );
+            painter.drawLine( l );
+            p1 = QPoint( this->origin().x(), this->valueToPoint( y, 0).y() );
+            QString s = QString::number( y, 'f', d->nbDigits );
+            QRect r( QPoint( 0, p1.y() - h/2 ), QSize( this->origin().x() - 5 ,h) );
+            painter.setPen( d->textPen );
+            painter.drawText( r, Qt::AlignRight, s );
         }
-        painter.setPen( tickPen );
-        painter.drawLine( l );
-        p1 = QPoint( this->origin().x(), this->valueToPoint( y, 0).y() );
-        QString s = QString::number( y, 'f', nbDigits );
-        QRect r( QPoint( 0, p1.y() - h/2 ), QSize( this->origin().x() - 5 ,h) );
-        painter.setPen( textPen );
-        painter.drawText( r, Qt::AlignRight, s );
         y -= order;
     }
     painter.restore();
-    painter.drawLine( myYaxis );
+    painter.drawLine( d->yaxis );
 }
 
 
 void OrthogonalAxis::setstartOnAxis( bool startOn ) {
-    myStartOnAxis = startOn;
+    Q_D( OrthogonalAxis );
+    d->startOnAxis = startOn;
 }
 
 
 bool OrthogonalAxis::startOnAxis() const {
-    return myStartOnAxis;
+    const Q_D( OrthogonalAxis );
+    return d->startOnAxis;
 }
 
 
 qreal OrthogonalAxis::stepSize() const {
-    return myXaxis.length() / qreal( myModel->rowCount() );
+    const Q_D( OrthogonalAxis );
+    return d->xaxis.length() / qreal( d->model->rowCount() );
 }
 
 
 void OrthogonalAxis::update() {
-    if ( myModel == 0 ) {
+    Q_D( OrthogonalAxis );
+    if ( d->model == 0 ) {
         return;
     }
     this->calculateBounds();
-    myYaxis = QLineF( valuesRect.bottomLeft() - QPoint( 0, 10 ), valuesRect.topLeft() + QPoint( 0, 10 ) );
+    d->yaxis = QLineF( d->valuesRect.bottomLeft() - QPoint( 0, 10 ), d->valuesRect.topLeft() + QPoint( 0, 10 ) );
     QPointF origin = this->valueToPoint( 0, 0 );
-    myXaxis.setP1( QPoint( myYaxis.p1().x(), origin.y() ) );
-    myXaxis.setP2( myXaxis.p1() + QPoint( valuesRect.width(), 0 ) );
-    xLabelsLength = qMin( xLabelsLength, chartRect.height() * 0.2 );
-    myVerticalLabels = ( this->stepSize() <= xLabelsLength );
-    if (myVerticalLabels == true) {
-        qreal delta = qAbs(chartRect.bottom() - origin.y());
-        if ( delta < xLabelsLength ) {
-            valuesRect.setHeight( valuesRect.height() - ( xLabelsLength - delta ) );
+    d->xaxis.setP1( QPoint( d->yaxis.p1().x(), origin.y() ) );
+    d->xaxis.setP2( d->xaxis.p1() + QPoint( d->valuesRect.width(), 0 ) );
+    d->verticalLabels = ( this->stepSize() <= d->xLabelsLength );
+    if ( d->verticalLabels == true ) {
+        qreal delta = qAbs( d->chartRect.bottom() - origin.y() );
+        if ( delta < d->xLabelsLength ) {
+            d->valuesRect.setHeight( d->valuesRect.height() - ( d->xLabelsLength - delta ) );
             this->update();
         }
     }
@@ -217,10 +235,13 @@ void OrthogonalAxis::update() {
 
 
 QPointF OrthogonalAxis::valueToPoint( qreal value, int axisNumber ) const {
-    qreal e = qreal( maxBound - minBound );
-    qreal ratio = ( value - minBound) / e;
-    qreal y = myYaxis.pointAt( ratio ).y();
-    ratio = qreal(axisNumber+0.5) / qreal(myModel->rowCount());
-    qreal x = myXaxis.pointAt( ratio ).x();
+    const Q_D( OrthogonalAxis );
+    qreal e = qreal( d->maxBound - d->minBound );
+    qreal ratio = ( value - d->minBound) / e;
+    qreal y = d->yaxis.pointAt( ratio ).y();
+    ratio = qreal(axisNumber+0.5) / qreal(d->model->rowCount());
+    qreal x = d->xaxis.pointAt( ratio ).x();
     return QPointF( x, y );
+}
+
 }

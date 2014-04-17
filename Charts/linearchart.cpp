@@ -8,7 +8,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Marb.
+    If not, see <http://www.gnu.org/licenses/>.
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "linearchart.h"
@@ -22,26 +23,25 @@
 
 #include "Axis/orthogonalaxis.h"
 
-LinearChart::LinearChart( QWidget* parent ) : AxisChart( parent ) {
-        myOrigin = QPointF(20, 10);
-        myX = 0;
-        myMinBottomMargin = 0;
-        myPointDelegate = new PointDelegate( this );
-        myBarDelegate = new BarDelegate( this );
-        myVerticalXAxis = false;
-        myOrthoAxis = new OrthogonalAxis;
-        this->setAxis( myOrthoAxis );
+namespace Marb {
+
+LinearChart::LinearChart( QWidget* parent ) : AxisChart( new LinearChartPrivate(), parent ) {
+    Q_D( LinearChart );
+    d->pointDelegate = new PointDelegate( this );
+    d->barDelegate = new BarDelegate( this );
+    d->orthoAxis = new OrthogonalAxis();
+    this->setAxis( d->orthoAxis );
 }
 
 
 QList<int> LinearChart::barStyleColumns() const {
-        QList<int> bars;
-        for ( int c = 0;    c < this->model()->columnCount(); ++c ) {
-            if ( columnType( c ) == Marb::Bar ) {
-                bars.append( c );
-            }
+    QList<int> bars;
+    for ( int c = 0; c < this->model()->columnCount(); ++c ) {
+        if ( columnType( c ) == Marb::Bar ) {
+            bars.append( c );
         }
-        return bars;
+    }
+    return bars;
 }
 
 
@@ -65,15 +65,18 @@ QList<int> LinearChart::calculateColumnsOrder() const {
 
 
 Marb::Types LinearChart::columnType( int column ) const {
-        if ( myStyle.contains( column ) ) {
-            return myStyle[ column ].type();
-        }
-        return ChartStyle().type();
+    const Q_D( LinearChart );
+    if ( d->style.contains( column ) ) {
+        return d->style[ column ].type();
+    }
+    return ChartStyle().type();
 }
 
 
 QRectF LinearChart::itemRect( const QModelIndex& index ) const {
     /* Reimplemented from Chart.itemRect() */
+    const Q_D( LinearChart );
+
     QRectF r;
     Marb::Types t = this->columnType( index.column() );
     bool ok = false;
@@ -81,14 +84,14 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
     if ( ok == false ) {
         return QRectF();
     }
-    QPointF pos = myOrthoAxis->valueToPoint( value, index.row() );
+    QPointF pos = d->orthoAxis->valueToPoint( value, index.row() );
     QList<int> orderedColumns = this->calculateColumnsOrder();
     if ( t == Marb::Bar ) {
         QList<int> bars = this->barStyleColumns();
-        qreal margin = myOrthoAxis->stepSize() * 0.1;
-        qreal w = float( myOrthoAxis->stepSize() - margin ) / bars.count();
+        qreal margin = d->orthoAxis->stepSize() * 0.1;
+        qreal w = float( d->orthoAxis->stepSize() - margin ) / bars.count();
         pos += QPointF( margin/2.0 + w * orderedColumns.indexOf( index.column() ), 0 );
-        QPointF br( pos.x() + w, myOrthoAxis->origin().y() );
+        QPointF br( pos.x() + w, d->orthoAxis->origin().y() );
         r = QRectF( pos, br );
         if ( value < 0 ) {
             r.translate( 0, 1 );
@@ -96,8 +99,8 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
             r.translate( 0, -1 );
         }
 
-        if ( myOrthoAxis->startOnAxis() == false ) {
-            r.translate( -myOrthoAxis->stepSize()/2.0, 0 );
+        if ( d->orthoAxis->startOnAxis() == false ) {
+            r.translate( -d->orthoAxis->stepSize()/2.0, 0 );
         }
     } else {
         r = QRectF( -7, -7, 14 ,14 ).translated( pos.x(), pos.y() );
@@ -108,19 +111,22 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
 
 
 void LinearChart::paintChart( QPainter& painter ) const {
+    const Q_D( LinearChart );
+
     painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
-    myOrthoAxis->paintBack( painter );
+    d->orthoAxis->paintBack( painter );
     QList<int> ordered = this->calculateColumnsOrder();
     Q_FOREACH( int c, ordered ) {
         this->paintValues( painter, c );
     }
-    myOrthoAxis->paintFront( painter );
+    d->orthoAxis->paintFront( painter );
     this->paintLegend(painter);
-    painter.drawText( myTitleRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
+    painter.drawText( d->titleRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, d->title );
 }
 
 
 void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const {
+    const Q_D( LinearChart );
         QPoint p1 = pos + QPoint( 10, - maxHeight/2 );
         QPoint p2 = pos + QPoint( 40, - maxHeight/2 );
         QPoint posText = pos + QPoint( 45, 0 );
@@ -145,19 +151,20 @@ void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, in
         } else if ( t.testFlag( Marb::Point ) ) {
             QStyleOptionViewItem option;
             option.rect = QRect( p1.x() + abs(p1.x() - p2.x())/2 - 5, p1.y() - 5, 10, 10 );
-            myPointDelegate->paint( &painter, option, this->model()->index( 0, column ) );
+            d->pointDelegate->paint( &painter, option, this->model()->index( 0, column ) );
         }
         painter.restore();
 }
 
 
 void LinearChart::paintValues( QPainter& painter, int column ) const {
+    const Q_D( LinearChart );
     Marb::Types t = this->columnType( column );
     QStyledItemDelegate* delegate = 0;
     if ( t.testFlag( Marb::Point ) ) {
-        delegate = myPointDelegate;
+        delegate = d->pointDelegate;
     } else if ( t.testFlag( Marb::Bar ) ) {
-        delegate = myBarDelegate;
+        delegate = d->barDelegate;
     }
     int rows = this->model()->rowCount();
     painter.save();
@@ -193,10 +200,11 @@ void LinearChart::paintValues( QPainter& painter, int column ) const {
         } else {
             option.state = QStyle::State_Selected;
         }
-        option.rect = this->itemRect( index ).toRect();
+        QRectF rect = this->itemRect( index );
+        option.rect = rect.toRect();
         if ( ( (t | Marb::Line) == t) && ( r < (rows - 1) ) ) {
             if ( isActive == false ) {
-                QPointF p1 = option.rect.center();
+                QPointF p1 = rect.center();
                 QPointF p2 = this->itemRect( this->model()->index( r + 1, column ) ).center();
                 QLineF line( p1, p2 );
                 QLineF l = QLineF( line.pointAt( 0.5 ), line.p2() ).normalVector();
@@ -213,7 +221,7 @@ void LinearChart::paintValues( QPainter& painter, int column ) const {
                 painter.drawLine( p1, p2 );
                 painter.restore();
             } else {
-                QPointF p1 = option.rect.center();
+                QPointF p1 = rect.center();//option.rect.center();
                 QPointF p2 = this->itemRect( this->model()->index( r + 1, column ) ).center();
                 painter.drawLine( p1, p2 );
             }
@@ -227,15 +235,20 @@ void LinearChart::paintValues( QPainter& painter, int column ) const {
 
 
 void LinearChart::updateRects() {
+    Q_D( LinearChart );
+
     if ( this->model() == 0 ) {
                 return;
     }
 
     this->scan();
     this->defineRects();
-    myOrthoAxis->valuesRect = QRect( myOrthoAxis->chartRect );
-    myOrthoAxis->valuesRect.setX( myOrthoAxis->valuesRect.x() + myOrthoAxis->yLabelsLength );
-    myTitleRect.moveTo( myOrthoAxis->chartRect.bottomLeft() );
-    myTitleRect.translate( (myOrthoAxis->chartRect.width() - myTitleRect.width())/2, 20 );
-    myOrthoAxis->update();
+    d->orthoAxis->setValuesRect( QRect( d->orthoAxis->chartRect() ) );
+    QFontMetrics m( this->font() );
+    d->orthoAxis->valuesRect().setX( d->orthoAxis->valuesRect().x() + d->orthoAxis->yLabelsLength() );
+    d->titleRect.moveTo( d->orthoAxis->chartRect().bottomLeft() );
+    d->titleRect.translate( (d->orthoAxis->chartRect().width() - d->titleRect.width())/2, 20 );
+    d->orthoAxis->update();
+}
+
 }

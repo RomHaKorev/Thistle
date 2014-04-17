@@ -24,23 +24,25 @@ HorizontalTree::HorizontalTree() : VerticalTree() {
 }
 
 void HorizontalTree::positionsInView() {
-    myRealSize.setWidth( ( myDepth ) * ( myXDistance + myItemRect.width() ) + myItemRect.width() );
-    myRealSize.setHeight( myLeft * ( myYDistance + myItemRect.height() ) + myItemRect.height() );
+    Q_D( VerticalTree );
+    d->realSize.setWidth( ( d->depth ) * ( d->xDistance + d->itemRect.width() ) + d->itemRect.width() );
+    d->realSize.setHeight( d->left * ( d->yDistance + d->itemRect.height() ) + d->itemRect.height() );
 
     setScrollBarValues();
 
-    QPointF offset( myItemRect.width()/2, myItemRect.height()/2 );
-    offset += myItemOffset;
-    Q_FOREACH( QModelIndex index, myItemTreePos.keys() ) {
-            QPointF p = myItemTreePos[ index ];
-            myItemPos[index] = QPointF( p.y() * ( myXDistance + myItemRect.width() ), p.x() * ( myYDistance + myItemRect.height() ) ) + offset;
+    QPointF offset( d->itemRect.width()/2, d->itemRect.height()/2 );
+    offset += d->itemOffset;
+    Q_FOREACH( QModelIndex index, d->itemTreePos.keys() ) {
+            QPointF p = d->itemTreePos[ index ];
+            d->itemPos[index] = QPointF( p.y() * ( d->xDistance + d->itemRect.width() ), p.x() * ( d->yDistance + d->itemRect.height() ) ) + offset;
     }
 }
 
 void HorizontalTree::setScrollBarValues() {
+    Q_D( VerticalTree );
     VerticalTree::setScrollBarValues();
-    qreal delta = height() - myRealSize.height();
+    qreal delta = height() - d->realSize.height();
     if ( delta > 20 ) {
-        myItemOffset = QPointF( 10, delta/2.0 );
+        d->itemOffset = QPointF( 10, delta/2.0 );
     }
 }

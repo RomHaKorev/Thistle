@@ -3,14 +3,12 @@
 #include "axis.h"
 #include <QPointF>
 
+#include "radialaxis_p.h"
 
+namespace Marb {
 
 class RadialAxis : public Axis {
-protected:
-    qreal myCenterHoleDiam;
-    QPointF myOrigin;
-    QLineF yAxis;
-
+    Q_DECLARE_PRIVATE( RadialAxis )
 public:
     RadialAxis();
     ~RadialAxis();
@@ -27,5 +25,7 @@ public:
 private:
     void paintText( QPainter& painter ) const;
 };
+
+}
 
 #endif // RADIALAXIS_H

@@ -18,46 +18,50 @@
 
 #include "chartstyle.h"
 
-ChartStyle::ChartStyle() {
-    myBrush = QBrush( Marb::LightBlue );
-    myPen = QPen( QColor( Marb::Blue ), 2 );
-    myShape = Marb::Ellipse;
-    myType = Marb::Line | Marb::Point;
+namespace Marb {
+
+ChartStyle::ChartStyle() : d( new ChartStylePrivate() ) {
+    d->brush = QBrush( Color::LightBlue );
+    d->pen = QPen( QColor( Color::Blue ), 2 );
+    d->shape = Marb::Ellipse;
+    d->type = Marb::Line | Marb::Point;
 }
 
 
 QBrush ChartStyle::brush() const {
-    return myBrush;
+    return d->brush;
 }
 
 
 QPen ChartStyle::pen() const {
-    return myPen;
+    return d->pen;
 }
 
 
 void ChartStyle::setBrush( const QBrush brush) {
-    myBrush = brush;
+    d->brush = brush;
 }
 
 void ChartStyle::setPen( const QPen pen) {
-    myPen = pen;
+    d->pen = pen;
 }
 
 void ChartStyle::setShape( const Marb::Shape shape) {
-    myShape = shape;
+    d->shape = shape;
 }
 
 void ChartStyle::setType( const Marb::Types type) {
-    myType = type;
+    d->type = type;
 }
 
 
 Marb::Shape ChartStyle::shape() const {
-    return myShape;
+    return d->shape;
 }
 
 
 Marb::Types ChartStyle::type() const {
-    return myType;
+    return d->type;
+}
+
 }

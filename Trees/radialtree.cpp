@@ -18,93 +18,97 @@
 #include <QFontMetrics>
 #include <QScrollBar>
 #include <qmath.h>
-#include "../kernel/marbitemdelegate.h"
-
+#include "../kernel/itemdelegate.h"
 
 RadialTree::RadialTree( QWidget* parent ) : Tree( parent ) {
-    //myRotateText = false;
-    //myDisplayCircle = true;
-    myItemRect = QRect( -20, -20, 40, 40 );
-    MarbStyle style = MarbStyle();
+    Q_D( RadialTree );
+    d->itemRect = QRect( -20, -20, 40, 40 );
+    ItemStyle style = ItemStyle();
     style.setShape( Marb::Ellipse );
-    myDelegate = new MarbItemDelegate( this );
-    myDelegate->setItemStyle( style );
-    setItemDelegate( myDelegate );
-    myYDistance = 40;
-    myXDistance = 40;
-    myItemOffset = QPoint( 0, 0 );
-    myRadius = 1;
-    myDiagonal = 1;
+    d->delegate = new ItemDelegate( this );
+    d->delegate->setItemStyle( style );
+    setItemDelegate( d->delegate );
+    d->yDistance = 40;
+    d->xDistance = 40;
+    d->itemOffset = QPoint( 0, 0 );
+    d->radius = 1;
+    d->diagonal = 1;
+}
+
+RadialTree::RadialTree( RadialTreePrivate* d, QWidget* parent ) : Tree( d, parent ) {
 }
 
 
-void RadialTree::paintCircles( QPainter& painter, QPointF offset ) {
+void RadialTree::paintCircles( QPainter& painter, const QPointF& offset ) const {
+    const Q_D( RadialTree );
     painter.save();
-    QColor c = myConnectionPen.color();
+    QColor c = d->connectionPen.color();
     c.setAlpha( c.alpha() * 0.15 );
-    QPen pen( myConnectionPen );
+    QPen pen( d->connectionPen );
     pen.setColor( c );
     pen.setWidth( pen.width() * 2 );
     painter.setPen( pen );
     painter.setRenderHint( QPainter::Antialiasing );
     QModelIndex index = this->model()->index(0,0);
     QPointF center = itemRect(index).translated( offset.x(), offset.y() ).center();
-    for( int rd = 1; rd < myDepth; ++rd ) {
-            qreal r = myRadius * rd / myDepth;
+    for( int rd = 1; rd < d->depth; ++rd ) {
+            qreal r = d->radius * rd / d->depth;
             painter.drawEllipse( center, r, r );
     }
     painter.restore();
 }
 
 
-void RadialTree::paintConnections( QPainter& painter, QPointF offset ) {
-                paintCircles( painter, offset );
-                Tree::paintConnections( painter, offset );
+void RadialTree::paintConnections( QPainter& painter, QPointF offset ) const  {
+    paintCircles( painter, offset );
+    Tree::paintConnections( painter, offset );
 }
 
 
 void RadialTree::positionsInTree() {
-    myItemTreePos.clear();
-    myOrderedIndexes.clear();
-    QPointF p = scan( this->model()->index(0,0) , QPointF(0,0));
-    myLeft = p.x() + 1;
-    myDepth = p.y();
-    positionsInView();
+    Q_D( RadialTree );
+    d->itemTreePos.clear();
+    d->orderedIndexes.clear();
+    QPointF p = scan( this->model()->index(0,0) , QPointF(0,0) );
+    d->left = p.x() + 1;
+    d->depth = p.y();
+    this->positionsInView();
 }
 
 
 void RadialTree::positionsInView() {
-	if ( myItemTreePos.isEmpty() || (myRadius == HUGE_VAL) || (myRadius == 0) ) {
+    Q_D( RadialTree );
+	if ( d->itemTreePos.isEmpty() || (d->radius == HUGE_VAL) || (d->radius == 0) ) {
             return;
     }
     updatePerimeter();
-    if ( (myRadius == HUGE_VAL) || (myRadius == 0) ) {
+    if ( (d->radius == HUGE_VAL) || (d->radius == 0) ) {
         return;
     }
-    myRealSize.setWidth( myRadius * 2 + myItemRect.width());
-    myRealSize.setHeight( myRadius * 2 + myItemRect.height() );
+    d->realSize.setWidth( d->radius * 2 + d->itemRect.width());
+    d->realSize.setHeight( d->radius * 2 + d->itemRect.height() );
     setScrollBarValues();
-    myItemPos = myItemTreePos;
+    d->itemPos = d->itemTreePos;
     QPainterPath path;
-    path.addEllipse( myItemOffset + myItemRect.center(), myRadius, myRadius );
+    path.addEllipse( d->itemOffset + d->itemRect.center(), d->radius, d->radius );
     qreal l = 0;
     qreal factor = 0;
-    Q_FOREACH( QModelIndex index, myOrderedIndexes ) {
+    Q_FOREACH( QModelIndex index, d->orderedIndexes ) {
         if ( this->model()->rowCount( index ) != 0 ) {
                     continue;
         }
-        factor = qreal(myDepth) / qreal(myItemPos[index].y());
+        factor = qreal(d->depth) / qreal(d->itemPos[index].y());
         if ( this->model()->rowCount( index ) == 0 ) {
-                l +=	(qreal(myDiagonal)/2.0) * qreal(factor);
+                l +=	(qreal(d->diagonal)/2.0) * qreal(factor);
         }
         qreal percent = path.percentAtLength( l );
-        myItemPos[index] = QPointF( percent, myItemPos[index].y() );
+        d->itemPos[index] = QPointF( percent, d->itemPos[index].y() );
         if ( this->model()->rowCount( index ) == 0 ) {
-                l +=	(qreal(myDiagonal)/2.0) * qreal(factor);
+                l +=	(qreal(d->diagonal)/2.0) * qreal(factor);
         }
     }
     QList<QModelIndex> reversedOrderedIndexes;
-    Q_FOREACH ( QModelIndex idx, myOrderedIndexes ) {
+    Q_FOREACH ( QModelIndex idx, d->orderedIndexes ) {
         reversedOrderedIndexes.prepend( idx );
     }
     Q_FOREACH ( QModelIndex index, reversedOrderedIndexes ) {
@@ -113,45 +117,47 @@ void RadialTree::positionsInView() {
             }
             QModelIndex left = this->model()->index( 0,0, index );
             QModelIndex right = this->model()->index( this->model()->rowCount(index) - 1,0, index );
-            myItemPos[index] = QPointF( float(myItemPos[left].x() + myItemPos[right].x()) / 2.0, myItemPos[index].y() );
+            d->itemPos[index] = QPointF( float(d->itemPos[left].x() + d->itemPos[right].x()) / 2.0, d->itemPos[index].y() );
     }
-    myItemPos[model()->index(0,0)] = QPointF(0, 0);
-    Q_FOREACH ( QModelIndex index, myOrderedIndexes ) {
-        if ( myDepth == myItemPos[index].y() ) {
+    d->itemPos[model()->index(0,0)] = QPointF(0, 0);
+    Q_FOREACH ( QModelIndex index, d->orderedIndexes ) {
+        if ( d->depth == d->itemPos[index].y() ) {
                 factor = 1.0;
         } else {
-                if ( myItemPos[index].y() != 0 ) {
-                        factor = qreal(myDepth) / qreal(myItemPos[index].y());
+                if ( d->itemPos[index].y() != 0 ) {
+                        factor = qreal(d->depth) / qreal(d->itemPos[index].y());
                 } else {
                         factor = 1.0;
                 }
         }
-        qreal radius = qreal( myRadius ) / qreal(factor);
+        qreal radius = qreal( d->radius ) / qreal(factor);
         QPainterPath circle;
-        circle.addEllipse( myItemRect.center(), radius, radius );
-        myItemPos[index] = circle.pointAtPercent( myItemPos[index].x() ) + myItemOffset;
+        circle.addEllipse( d->itemRect.center(), radius, radius );
+        d->itemPos[index] = circle.pointAtPercent( d->itemPos[index].x() ) + d->itemOffset;
     }
-    myItemPos[ this->model()->index(0,0) ] = myItemOffset;
+    d->itemPos[ this->model()->index(0,0) ] = d->itemOffset;
 }
 
 
-bool RadialTree::save( QString filename ) {
-        QSize s = myRealSize + QSize( 20, 20 );
-        QPixmap pix( s );
-        pix.fill( Qt::transparent );
-        QPainter painter( &pix );
-        painter.setRenderHint( QPainter::Antialiasing );
-        qreal x = myRealSize.width()/2 + 10 - myItemOffset.x();
-        qreal y = myRealSize.height()/2 + 10 - myItemOffset.y();
-        paintConnections( painter, QPointF( x, y ) );
-        paintItems( painter , QPointF( x, y ) );
-        painter.end();
-        return pix.save( filename );
+bool RadialTree::save( const QString& filename ) const {
+    const Q_D( RadialTree );
+    QSize s = d->realSize + QSize( 20, 20 );
+    QPixmap pix( s );
+    pix.fill( Qt::transparent );
+    QPainter painter( &pix );
+    painter.setRenderHint( QPainter::Antialiasing );
+    qreal x = d->realSize.width()/2 + 10 - d->itemOffset.x();
+    qreal y = d->realSize.height()/2 + 10 - d->itemOffset.y();
+    this->paintConnections( painter, QPointF( x, y ) );
+    paintItems( painter , QPointF( x, y ) );
+    painter.end();
+    return pix.save( filename );
 }
 
 
 QPointF RadialTree::scan(QModelIndex index, QPointF leftDepth) {
-    myOrderedIndexes.append( index );
+    Q_D( RadialTree );
+    d->orderedIndexes.append( index );
     int rows = this->model()->rowCount( index );
     if ( !index.isValid() ) {
         return QPointF();
@@ -167,12 +173,12 @@ QPointF RadialTree::scan(QModelIndex index, QPointF leftDepth) {
             leftDepth.setX( p.x() );
             childDepth = qMax( childDepth, p.y() );
     }
-    qreal left = myItemTreePos[ this->model()->index(0, 0, index) ].x();
-    qreal right =    myItemTreePos[ this->model()->index( rows - 1, 0, index ) ].x();
+    qreal left = d->itemTreePos[ this->model()->index(0, 0, index) ].x();
+    qreal right =    d->itemTreePos[ this->model()->index( rows - 1, 0, index ) ].x();
     if ( rows >= 2 ) {
             if ( rows % 2 == 1 ) {
                     qreal r = qFloor( rows/2 ) + 1;
-                    qreal v = myItemTreePos[ this->model()->index( r - 1, 0, index ) ].x();
+                    qreal v = d->itemTreePos[ this->model()->index( r - 1, 0, index ) ].x();
                     setX( index, v );
             } else {
                     setX( index, ( right + left + 1 ) / 2.0 );
@@ -186,7 +192,8 @@ QPointF RadialTree::scan(QModelIndex index, QPointF leftDepth) {
 
 
 void RadialTree::setRotateText( bool rotate ) {
-    my_rotateText = rotate;
+    Q_D( RadialTree );
+    d->rotateText = rotate;
 }
 /***************************************
 **
@@ -196,32 +203,34 @@ void RadialTree::setRotateText( bool rotate ) {
 
 
 void RadialTree::setScrollBarValues() {
-    QSize s = myRealSize + QSize(50, 50);
+    Q_D( RadialTree );
+    QSize s = d->realSize + QSize(50, 50);
     qreal dw = qMax( 0, ( s.width() - width() )/2	);
     qreal dh = qMax ( 0, ( s.height() - height() )/2 );
-//    qreal dw = qMax( 0, ( myRealSize.width() - width() )/2 + verticalScrollBar()->width() + 50 );
-//    qreal dh = qMax ( 0, ( myRealSize.height() - height() )/2 + horizontalScrollBar()->height() + 50 );
+//    qreal dw = qMax( 0, ( d->realSize.width() - width() )/2 + verticalScrollBar()->width() + 50 );
+//    qreal dh = qMax ( 0, ( d->realSize.height() - height() )/2 + horizontalScrollBar()->height() + 50 );
     horizontalScrollBar()->setRange( -dw, dw );
     verticalScrollBar()->setRange( -dh, dh );
-    myItemOffset = QPoint( width() / 2, height() / 2 );
+    d->itemOffset = QPoint( width() / 2, height() / 2 );
 }
 
 
 void RadialTree::updatePerimeter() {
-    qreal w = myItemRect.width() + myXDistance;
-    qreal h = myItemRect.height() + myYDistance;
-    myDiagonal = qSqrt( w * w + h * h );
-    myPerimeter = 0;
+    Q_D( RadialTree );
+    qreal w = d->itemRect.width() + d->xDistance;
+    qreal h = d->itemRect.height() + d->yDistance;
+    d->diagonal = qSqrt( w * w + h * h );
+    d->perimeter = 0;
     qreal factor = 1;
-    Q_FOREACH ( QModelIndex index, myItemTreePos.keys() ) {
+    Q_FOREACH ( QModelIndex index, d->itemTreePos.keys() ) {
         if ( this->model()->rowCount( index ) == 0 ) {
-            factor = ( myDepth ) / ( myItemTreePos.value( index ).y() );
-            myPerimeter += myDiagonal * factor;
+            factor = ( d->depth ) / ( d->itemTreePos.value( index ).y() );
+            d->perimeter += d->diagonal * factor;
         }
     }
-    myRadius = myPerimeter / ( 2 * M_PI );
-    if ( myRadius*2 < myDiagonal * myDepth ) {
-        myRadius = ( myDiagonal * myDepth )/2 * 1.5;
+    d->radius = d->perimeter / ( 2 * M_PI );
+    if ( d->radius*2 < d->diagonal * d->depth ) {
+        d->radius = ( d->diagonal * d->depth )/2 * 1.5;
     }
 }
 

@@ -16,17 +16,18 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#include "marbitemdelegate.h"
+#include "itemdelegate.h"
+#include "itemdelegate_p.h"
 
 #include <QPainter>
 #include <QLineEdit>
 
-MarbItemDelegate::MarbItemDelegate( QWidget* parent ) :
+ItemDelegate::ItemDelegate( QWidget* parent ) :
     QStyledItemDelegate(parent) {
-    myStyle = MarbStyle();
+    d = new ItemDelegatePrivate();
 }
 
-QWidget* MarbItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QWidget* ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     Q_UNUSED( parent )
     Q_UNUSED( option )
     Q_UNUSED( index )
@@ -35,26 +36,26 @@ QWidget* MarbItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     return editor;
 }
 
-void MarbItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index ) const {
+void ItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index ) const {
     QLineEdit* lineEdit = qobject_cast<QLineEdit*>( editor );
     if ( lineEdit != 0 ) {
         lineEdit->setText( index.model()->data( index ).toString() );
     }
 
 }
-void MarbItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const {
+void ItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const {
     QLineEdit* lineEdit = qobject_cast<QLineEdit*>( editor );
     if ( lineEdit != 0 ) {
         model->setData( index, lineEdit->text(), Qt::DisplayRole );
     }
 }
 
-void MarbItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     painter->save();
-    painter->setBrush( myStyle.background() );
-    painter->setPen( myStyle.border() );
+    painter->setBrush( d->style.background() );
+    painter->setPen( d->style.border() );
     const QRect& r = option.rect;
-    switch( myStyle.shape() ) {
+    switch( d->style.shape() ) {
         case Marb::Ellipse:
             painter->drawEllipse( r );
         break;
@@ -84,14 +85,14 @@ void MarbItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     default:
             painter->drawRect( r );
     }
-    if ( myStyle.displayText() == true ) {
-        painter->setPen( myStyle.textColor() );
+    if ( d->style.displayText() == true ) {
+        painter->setPen( d->style.textColor() );
         painter->drawText( r, Qt::AlignCenter, index.model()->data( index ).toString() );
     }
     painter->restore();
 }
 
-QPolygon MarbItemDelegate::createDiamond( QRect r ) const {
+QPolygon ItemDelegate::createDiamond( const QRect& r ) const {
     QPolygon poly;
     poly << r.topLeft() + QPoint( r.width()/2, 0 );
     poly << r.topRight() + QPoint( 0, r.height()/2 );
@@ -100,17 +101,17 @@ QPolygon MarbItemDelegate::createDiamond( QRect r ) const {
     return poly;
 }
 
-void MarbItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     Q_UNUSED( editor )
     Q_UNUSED( option )
     Q_UNUSED( index )
 }
 
 
-void MarbItemDelegate::setItemStyle( MarbStyle s ) {
-    myStyle = s;
+void ItemDelegate::setItemStyle( const ItemStyle& s ) {
+    d->style = s;
 }
 
-MarbStyle MarbItemDelegate::itemStyle() const {
-    return myStyle;
+ItemStyle ItemDelegate::itemStyle() const {
+    return d->style;
 }

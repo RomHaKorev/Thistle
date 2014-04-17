@@ -16,8 +16,8 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef MARBABSTRACTITEMVIEW_H
-#define MARBABSTRACTITEMVIEW_H
+#ifndef AbstractItemView_H
+#define AbstractItemView_H
 
 #include <QAbstractItemView>
 #include <QPen>
@@ -26,35 +26,36 @@
 
 
 
-class MarbItemDelegate;
-class MarbAbstractItemViewPrivate;
+class ItemDelegate;
+class AbstractItemViewPrivate;
 
-class MarbAbstractItemView : public QAbstractItemView {
+class AbstractItemView : public QAbstractItemView {
     Q_OBJECT
+    Q_DECLARE_PRIVATE( AbstractItemView )
 protected:
-
-    MarbAbstractItemViewPrivate* d;
+    AbstractItemViewPrivate* d_ptr;
 
     QList<int> calculateColumnsOrder() const;
-
     virtual void updateValues() = 0;
-
     virtual void setScrollBarValues() = 0;
     QModelIndex moveCursor( QAbstractItemView::CursorAction cursorAction,
-                                                    Qt::KeyboardModifiers modifiers );
-
+                            Qt::KeyboardModifiers modifiers );
     void resizeEvent( QResizeEvent* event );
+
+    AbstractItemView( AbstractItemViewPrivate* d, QWidget* parent = 0 );
+
 public:
-    explicit MarbAbstractItemView( QWidget* parent = 0 );
+    explicit AbstractItemView( QWidget* parent = 0 );
+    ~AbstractItemView();
 
-    int                 horizontalOffset() const;
-    int                 verticalOffset() const;
+    int horizontalOffset() const;
+    int verticalOffset() const;
 
-    bool                isIndexHidden( const QModelIndex& index ) const;
-    void                setSelection( const QRect&, QItemSelectionModel::SelectionFlags command );
-    void                scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
-    QRect             visualRect( const QModelIndex& index ) const;
-    QRegion         visualRegionForSelection( const QItemSelection& selection ) const;
+    bool isIndexHidden( const QModelIndex& index ) const;
+    void setSelection( const QRect&, QItemSelectionModel::SelectionFlags command );
+    void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
+    QRect visualRect( const QModelIndex& index ) const;
+    QRegion visualRegionForSelection( const QItemSelection& selection ) const;
 
     virtual QModelIndex indexAt(const QPoint &point) const;
     virtual QRectF itemRect( const QModelIndex& index ) const;
@@ -66,6 +67,7 @@ public:
 
     QMargins contentsMargins() const;
     QRect contentsRect() const;
+
 protected slots:
     void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
     void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
@@ -73,7 +75,7 @@ protected slots:
 
 
 public slots:
-    virtual bool save( QString filename ) = 0;
+    virtual bool save( const QString& filename ) const { return false; };
 };
 
-#endif // MARBABSTRACTITEMVIEW_H
+#endif // AbstractItemView_H

@@ -21,12 +21,14 @@
 
 #include "tree.h"
 
+#include "verticaltree_p.h"
 
 
 class QStandardItemModel;
 
 class VerticalTree : public Tree {
     Q_OBJECT
+    Q_DECLARE_PRIVATE( VerticalTree );
 public:
     enum ConnectorType {
         Straight = 0,
@@ -35,10 +37,6 @@ public:
     Q_ENUMS( ConnectorType )
 
 protected:
-    ConnectorType myConnectorType;
-    qreal                 myMax;
-    qreal                 myMin;
-
     virtual void setScrollBarValues();
 
 public:
@@ -47,17 +45,17 @@ public:
 
     virtual void positionsInView();
     virtual void positionsInTree();
-    QPointF scan( QModelIndex index, QPointF leftDepth = QPointF( 0, 0 ) );
+    QPointF scan( const QModelIndex& index, const QPointF& leftDepth = QPointF( 0, 0 ) );
 
-    void paintConnectionsElbow( QPainter& painter, QModelIndex id );
-    void paintConnectionsStraight( QPainter& painter, QModelIndex id );
-    virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
+    void paintConnectionsElbow( QPainter& painter, const QModelIndex& id ) const;
+    void paintConnectionsStraight( QPainter& painter, const QModelIndex& id ) const;
+    virtual void paintConnectionsFor( QPainter& painter, const QModelIndex& index, const QPointF& offset ) const;
 
     void setConnectorType( ConnectorType type );
     ConnectorType connectorType() const;
 
 public slots:
-    virtual bool save( QString filename );
+    virtual bool save( const QString& filename );
 };
 
 

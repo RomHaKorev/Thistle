@@ -16,62 +16,47 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef MARB_H
-#define MARB_H
+#ifndef GLOBAL_H
+#define GLOBAL_H
 #include <QObject>
 #include <QMetaEnum>
 #include <QDateTime>
 #include <QColor>
 #include <QtCore/qnamespace.h>
 
-class Marb {
+namespace Marb {
+
+class Color {
     Q_GADGET
-    Q_FLAGS( Type Types )
 public:
-
-    enum Shape {
-        Rectangle = 0,
-        Ellipse     = 1,
-        RoundedRect = 2,
-        Diamond = 3,
-        Triangle = 4,
-        ReversedTriangle = 5
-    };
-
-
-    enum Type {
-        Point = 1,
-        Line    = 2,
-        Bar     = 4
-    };
-
     enum PredefinedColor {
 
-        Blue		= 0x6090e4,
-        Green		= 0x9AEC7A,
-        Purple		= 0x8600C8,
-        Red			= 0xDB0000,
-        Orange		= 0xFF8000,
-        Yellow            = 0xFDEF46,
-        Gray		= 0x868686,
+            Blue		= 0x6090e4,
+            Green		= 0x9AEC7A,
+            Purple		= 0x8600C8,
+            Red			= 0xDB0000,
+            Orange		= 0xFF8000,
+            Yellow            = 0xFDEF46,
+            Gray		= 0x868686,
 
-        LightBlue	= 0x68B9FF,
-        LightGreen	= 0xc9ff71,
-        LightPurple = 0x8274B0,
-        LightRed	= 0xFF5656,
-        LightOrange = 0xFFB366,
-        LightGray	= 0xBEBEBE,
+            LightBlue	= 0x68B9FF,
+            LightGreen	= 0xc9ff71,
+            LightPurple = 0x8274B0,
+            LightRed	= 0xFF5656,
+            LightOrange = 0xFFB366,
+            LightGray	= 0xBEBEBE,
 
-        DarkBlue     = 0x0839A1,
-        DarkGreen    = 0x8CD01E,
-        DarkPurple = 0x7300AB,
-        DarkRed	     = 0xBA0000,
-        DarkOrange = 0xFFF219,
-        DarkGray     = 0x505050
+            DarkBlue     = 0x0839A1,
+            DarkGreen    = 0x8CD01E,
+            DarkPurple = 0x7300AB,
+            DarkRed	     = 0xBA0000,
+            DarkOrange = 0xFFF219,
+            DarkGray     = 0x505050
     };
+    Q_ENUMS( PredefinedColor )
 
     static QColor predefinedColor( int key ) {
-        QMetaObject metaObject = Marb::staticMetaObject;
+        QMetaObject metaObject = Color::staticMetaObject;
         QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
         if ( key < 0 || key >= metaEnum.keyCount() ) {
             return QColor( 20, 20, 20 );
@@ -81,7 +66,7 @@ public:
     }
 
     static QColor predefinedLightColor( int key ) {
-        QMetaObject metaObject = Marb::staticMetaObject;
+        QMetaObject metaObject = Color::staticMetaObject;
         QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
         QList<int> colors;
         for( int i = 0; i < metaEnum.keyCount(); ++i ) {
@@ -97,7 +82,7 @@ public:
     }
 
     static QColor predefinedRegularColor( int key ) {
-        QMetaObject metaObject = Marb::staticMetaObject;
+        QMetaObject metaObject = Color::staticMetaObject;
         QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
         QList<int> colors;
         for( int i = 0; i < metaEnum.keyCount(); ++i ) {
@@ -113,7 +98,7 @@ public:
     }
 
     static QColor predefinedDarkColor( int key ) {
-        QMetaObject metaObject = Marb::staticMetaObject;
+        QMetaObject metaObject = Color::staticMetaObject;
         QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
         QList<int> colors;
         for( int i = 0; i < metaEnum.keyCount(); ++i ) {
@@ -128,15 +113,45 @@ public:
         return QColor( colors.at( key ) );
     }
 
-
-
-
-    Q_ENUMS( PredefinedColor )
-    Q_ENUMS( Shape )
-    Q_ENUMS( Type )
-    Q_DECLARE_FLAGS(Types, Type)
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS( Marb::Types )
+
+enum Shape {
+    Rectangle = 0,
+    Ellipse     = 1,
+    RoundedRect = 2,
+    Diamond = 3,
+    Triangle = 4,
+    ReversedTriangle = 5
+};
+
+
+enum Type {
+    Point = 1,
+    Line    = 2,
+    Bar     = 4
+};
+
+
+class Types {
+private:
+    int flag;
+public:
+    Types( int a ) : flag(a) {}
+    Types() : flag(Type::Point) {}
+    bool testFlag( const Type& f ) const {
+        return ( flag & f ) != 0;
+    }
+
+    Types operator|( const Type& f ) const {
+        return Types( this->flag | f );
+    }
+
+    bool operator==( const Types& other ) const {
+        return other.flag == this->flag;
+    }
+};
+
+}
 
 #endif // MARB_H

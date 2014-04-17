@@ -21,9 +21,10 @@
 
 #include "verticaltree.h"
 
-
+#include "verticaltree_p.h"
 
 class HorizontalTree : public VerticalTree {
+    Q_DECLARE_PRIVATE( VerticalTree );
 protected:
     virtual void positionsInView();
     virtual void setScrollBarValues();

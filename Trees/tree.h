@@ -19,32 +19,19 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include "../kernel/marbabstractitemview.h"
+#include "../kernel/abstractitemview.h"
 
 #include <QPen>
 #include <QPointer>
 
+#include "tree_p.h"
 
+class ItemDelegate;
 
-class MarbItemDelegate;
-
-class Tree : public MarbAbstractItemView {
+class Tree : public AbstractItemView {
     Q_OBJECT
+    Q_DECLARE_PRIVATE( Tree );
 protected:
-    QPen myConnectionPen;
-
-    QSize                myRealSize;
-    QRect                myItemRect;
-    int                    myYDistance;
-    int                    myXDistance;
-    qreal                myDepth;
-    qreal                myLeft;
-    QPoint             myCentralItemPos;
-    QPointF            myItemOffset;
-    QPointer<MarbItemDelegate> myDelegate;
-    QMap<QModelIndex, QPointF> myItemPos;
-    QMap<QModelIndex, QPointF> myItemTreePos;
-
     virtual void updateValues();
     virtual void positionsInTree() = 0;
     virtual void positionsInView() = 0;
@@ -56,13 +43,15 @@ protected:
     QModelIndex indexAt(const QPoint &point) const;
     virtual void resizeEvent( QResizeEvent* event );
 
-    virtual void paintItems( QPainter& painter, QPointF offset );
-    virtual void paintConnections( QPainter& painter, QPointF offset );
-    virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
+    virtual void paintItems( QPainter& painter, const QPointF& offset ) const;
+    virtual void paintConnections( QPainter& painter, const QPointF& offset ) const;
+    virtual void paintConnectionsFor( QPainter& painter, const QModelIndex& index, const QPointF& offset ) const;
+
+    Tree( TreePrivate* d, QWidget* parent = 0 );
 
 public:
 
-    explicit Tree(QWidget* parent = 0);
+    explicit Tree( QWidget* parent = 0 );
 
     virtual QRectF itemRect( const QModelIndex& index ) const;
     virtual QPainterPath itemPath( const QModelIndex& index ) const;

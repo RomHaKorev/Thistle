@@ -24,8 +24,9 @@
 
 #include <QItemDelegate>
 
+#include "linearchart_p.h"
 
-
+namespace Marb {
 
 class PointDelegate;
 class BarDelegate;
@@ -34,14 +35,10 @@ class OrthogonalAxis;
 
 class LinearChart : public AxisChart {
     Q_OBJECT
+    Q_DECLARE_PRIVATE( LinearChart );
 public:
     explicit LinearChart(QWidget *parent = 0);
 protected:
-    PointDelegate* myPointDelegate;
-    BarDelegate* myBarDelegate;
-    bool myVerticalXAxis;
-    OrthogonalAxis* myOrthoAxis;
-
     QList<int> calculateColumnsOrder() const;
     virtual void updateRects();
     Marb::Types columnType( int column ) const;
@@ -51,5 +48,7 @@ protected:
     virtual void paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const;
     virtual void paintChart( QPainter& painter ) const;
 };
+
+}
 
 #endif // LINEARCHART_H

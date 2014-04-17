@@ -10,28 +10,21 @@
 #include <QFont>
 #include <QPen>
 
-
-
 class QAbstractItemModel;
+class OrthogonalAxisPrivate;
 
+namespace Marb {
 class OrthogonalAxis : public Axis {
-public:
-    QLineF myYaxis;
-    QLineF myXaxis;
-    qreal xLabelsLength;
-    qreal yLabelsLength;
-    bool myStartOnAxis;
-    bool myVerticalLabels;
-
-
+    Q_DECLARE_PRIVATE( OrthogonalAxis )
 protected:
     void paintXAxis( QPainter& painter ) const;
     void paintYAxis( QPainter& painter ) const;
+
 public:
     OrthogonalAxis();
 
     void calculateBounds();
-    qreal calculateOrder( qreal value ) const;
+    static qreal calculateOrder( qreal value );
     QFont font() const;
     QAbstractItemModel* model() const;
     virtual QPointF origin() const;
@@ -48,5 +41,7 @@ public slots:
     void update();
 
 };
+
+}
 
 #endif // ORTHOGONALAXIS_H

@@ -3,7 +3,7 @@
 
 #include <QModelIndex>
 
-
+namespace Marb {
 
 class Edge {
 public:
@@ -19,5 +19,5 @@ public:
     Edge::Type type;
 };
 
-
+}
 #endif // EDGE_H

@@ -12,35 +12,34 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "tree.h"
-#include "../kernel/marbitemdelegate.h"
+#include "../kernel/itemdelegate.h"
 #include <QScrollBar>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QStandardItem>
-#include "../kernel/Marb.h"
+#include "../kernel/global.h"
 
 
-Tree::Tree(QWidget *parent) : MarbAbstractItemView( parent ) {
-    myRealSize = QSize( 200, 200);
-    myItemRect = QRect( -40, -20, 80, 40 );
-    myYDistance = 50;
-    myXDistance = 20;
-    myDepth = 0;
-    myLeft = 0;
-    myConnectionPen = QPen( QColor(Marb::LightGray), 2 );
-    myDelegate = new MarbItemDelegate( this );
-    setItemDelegate( myDelegate );
+Tree::Tree(QWidget *parent) : AbstractItemView( new TreePrivate(), parent ) {
+    Q_D( Tree );
+    setItemDelegate( d->delegate );
+}
+
+Tree::Tree( TreePrivate* d, QWidget* parent ) : AbstractItemView( d, parent ) {
+    setItemDelegate( d->delegate );
 }
 
 
 QPen Tree::connectionPen() const {
-    return myConnectionPen;
+    const Q_D( Tree );
+    return d->connectionPen;
 }
 
 
 QModelIndex Tree::indexAt(const QPoint &point) const {
+    const Q_D( Tree );
     QPoint p = point - QPoint( horizontalScrollBar()->value(), verticalScrollBar()->value() );
-    Q_FOREACH( QModelIndex id, myItemPos.keys() ) {
+    Q_FOREACH( QModelIndex id, d->itemPos.keys() ) {
         QRectF r = itemRect( id );
         if ( r.contains( p ) ) {
             return id;
@@ -57,23 +56,25 @@ QPainterPath Tree::itemPath( const QModelIndex& index ) const {
 }
 
 
-QRectF Tree::itemRect(const QModelIndex &index) const {
-    QPointF p = myItemPos.value( index ) - QPointF( horizontalOffset(), verticalOffset() );
-    return myItemRect.translated( p.toPoint() );
+QRectF Tree::itemRect( const QModelIndex& index ) const {
+    const Q_D( Tree );
+    QPointF p = d->itemPos.value( index ) - QPointF( horizontalOffset(), verticalOffset() );
+    return d->itemRect.translated( p.toPoint() );
 }
 
 
-void Tree::paintConnections( QPainter& painter, QPointF offset ) {
-        painter.save();
-        painter.setPen( myConnectionPen );
-        Q_FOREACH ( QModelIndex index, myItemPos.keys() ) {
-                paintConnectionsFor( painter, index, offset );
-        }
-        painter.restore();
+void Tree::paintConnections( QPainter& painter, const QPointF& offset ) const {
+    const Q_D( Tree );
+    painter.save();
+    painter.setPen( d->connectionPen );
+    Q_FOREACH ( QModelIndex index, d->itemPos.keys() ) {
+            paintConnectionsFor( painter, index, offset );
+    }
+    painter.restore();
 }
 
 
-void Tree::paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset ) {
+void Tree::paintConnectionsFor( QPainter& painter, const QModelIndex& index, const QPointF& offset ) const {
         painter.save();
         QModelIndex parent = this->model()->parent( index );
         if ( parent.isValid() ) {
@@ -100,12 +101,13 @@ void Tree::paintEvent( QPaintEvent* event) {
 }
 
 
-void Tree::paintItems( QPainter& painter, QPointF offset ) {
-        Q_FOREACH ( QModelIndex index, myItemPos.keys() ) {
-                QStyleOptionViewItem option;
-                option.rect = itemRect( index ).translated( offset.x(), offset.y() ).toRect();
-                itemDelegate()->paint( &painter, option, index );
-        }
+void Tree::paintItems( QPainter& painter, const QPointF& offset ) const {
+    const Q_D( Tree );
+    Q_FOREACH ( QModelIndex index, d->itemPos.keys() ) {
+            QStyleOptionViewItem option;
+            option.rect = itemRect( index ).translated( offset.x(), offset.y() ).toRect();
+            itemDelegate()->paint( &painter, option, index );
+    }
 }
 
 
@@ -116,48 +118,53 @@ void Tree::resizeEvent( QResizeEvent* event ) {
 
 
 void Tree::setConnectionPen( const QPen& pen ) {
-    myConnectionPen = pen;
+    Q_D( Tree );
+    d->connectionPen = pen;
 }
 
 
 void Tree::setItemSize( const QSize& s ) {
-    myItemRect.setRect( -s.width() / 2, -s.height() / 2, s.width(), s.height() );
-    positionsInView();
+    Q_D( Tree );
+    d->itemRect.setRect( -s.width() / 2, -s.height() / 2, s.width(), s.height() );
+    this->positionsInView();
 }
 
 
 void Tree::setItemSpacing(int w, int h) {
-    myXDistance = w;
-    myYDistance = h;
-    positionsInView();
-    update();
+    Q_D( Tree );
+    d->xDistance = w;
+    d->yDistance = h;
+    this->positionsInView();
+    this->update();
 }
 
 
 void Tree::setX( QModelIndex index, qreal x ) {
-    if ( !myItemTreePos.contains( index ) ) {
-        myItemTreePos.insert( index, QPointF() );
+    Q_D( Tree );
+    if ( !d->itemTreePos.contains( index ) ) {
+        d->itemTreePos.insert( index, QPointF() );
     }
-    myItemTreePos[ index ].setX( x );
+    d->itemTreePos[ index ].setX( x );
 }
 
 
 void Tree::setY( QModelIndex index, qreal y ) {
-    if ( !myItemTreePos.contains( index ) ) {
-        myItemTreePos.insert( index, QPointF() );
+    Q_D( Tree );
+    if ( !d->itemTreePos.contains( index ) ) {
+        d->itemTreePos.insert( index, QPointF() );
     }
-    myItemTreePos[ index ].setY( y );
+    d->itemTreePos[ index ].setY( y );
 }
 
 
 void Tree::show() {
-    positionsInView();
+    this->positionsInView();
     QAbstractItemView::show();
 }
 
 
 void Tree::updateValues() {
-    positionsInTree();
+    this->positionsInTree();
 }
 
 

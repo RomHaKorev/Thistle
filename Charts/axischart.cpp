@@ -30,96 +30,54 @@
 
 #include "Axis/axis.h"
 
-AxisChart::AxisChart( QWidget* parent ) : AbstractChart( parent ) {
-    myMin = 0;
-    myMax = 0;
-    myMinBound = 0;
-    myMaxBound = 0;
-    myOrder = 1;
-    myNbTicks = 10;
-    myTickSize = 0;
-    myTitleRect = QRect();
-    myTitle = "";
-    myTitleRect = QRect();
-    myOrigin = QPoint(0,0);
-    myNbDigits = 1;
+#include "../kernel/abstractitemview_p.h"
+#include "axischart_p.h"
+
+namespace Marb {
+
+AxisChart::AxisChart( QWidget* parent ) : AbstractChart( new AxisChartPrivate(), parent ) {
 }
 
+AxisChart::AxisChart( AxisChartPrivate* d, QWidget* parent ) : AbstractChart( d, parent ) {
+}
 
 AxisChart::~AxisChart() {
 }
 
 
 Axis* AxisChart::axis() const {
-    return myAxis;
-}
-
-void AxisChart::calculateBounds() {
-    myMinBound = myMin;
-    myMaxBound = myMax;
-    if ( myMaxBound == myMinBound ) {
-        ++myMaxBound;
-        --myMinBound;
-    }
-    myOrder = calculateOrder( myMax - myMin );
-    myTickSize = (myMax - myMin ) / (myNbTicks - 1);
-    if ( myOrder >= 10 ) {
-        myNbDigits = 0;
-    } else if ( myOrder == 1 ) {
-        myNbDigits = 2;
-    } else {
-        int nbZero = QString::number(myOrder).count( "0" );
-        myNbDigits = nbZero + 2;
-    }
-}
-
-
-qreal AxisChart::calculateOrder( qreal value ) const {
-    qreal order = 1.0;
-    qreal v = qAbs( value );
-    if ( v >= 1 ) {
-        while ( v > 1 ) {
-            order *= 10.0;
-            v /= 10.0;
-        }
-        order /= 10.0;
-    } else if ( v != 0 ) {
-        while ( v < 1 ) {
-            order /= 10.0;
-            v *= 10.0;
-        }
-        order *= 10.0;
-    }
-    return order;
+    const Q_D( AxisChart );
+    return d->axis;
 }
 
 
 ChartStyle AxisChart::columnStyle( int column ) const {
-    if ( myStyle.contains( column ) ) {
-            return myStyle[ column ];
+    const Q_D( AxisChart );
+    if ( d->style.contains( column ) ) {
+            return d->style[ column ];
     }
     ChartStyle style;
-    QColor c1 =Marb::predefinedLightColor( column );
-    QColor c2 = Marb::predefinedDarkColor( column );
+    QColor c1 =Color::predefinedLightColor( column );
+    QColor c2 = Color::predefinedDarkColor( column );
     style.setPen( QPen( QColor(c2), 2 ) );
     style.setBrush( QBrush(c1) );
     return style;
 }
 
 void AxisChart::defineRects() {
-    myAxis->chartRect = this->contentsRect();
-    this->calculateLegendRect( myAxis->chartRect );
-    myAxis->chartRect.setHeight( myAxis->chartRect.height() - myLegendRect.height() - 10 );
-    myAxis->chartRect.translate( 0, myLegendRect.height() + 10 );
+    Q_D( AxisChart );
+    d->axis->setChartRect( this->contentsRect() );
+    this->calculateLegendRect( d->axis->chartRect() );
+    d->axis->chartRect().setHeight( d->axis->chartRect().height() - d->legendRect.height() - 10 );
+    d->axis->chartRect().translate( 0, d->legendRect.height() + 10 );
 
-    if ( myTitle != "" ) {
+    if ( d->title != "" ) {
         QFont font = this->font();
         font.setItalic( true );
         QFontMetrics metrics( font );
-        QRect r( 0, 0, myAxis->chartRect.width() - 40, 0 );
-        myTitleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, myTitle );
-        //myAxis->chartRect.setHeight( myAxis->chartRect.height() - myTitleRect.height() - 20 );
-        myAxis->chartRect.setHeight( myAxis->chartRect.height() - myTitleRect.height() - 20 );
+        QRect r( 0, 0, d->axis->chartRect().width() - 40, 0 );
+        d->titleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, d->title );
+        d->axis->chartRect().setHeight( d->axis->chartRect().height() - d->titleRect.height() - 20 );
     }
 }
 
@@ -157,46 +115,54 @@ int AxisChart::scan() {
     /*Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
     If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
     If a value is not a number (undefined, a string, etc.), she's considered as equal to 0. */
+
+    Q_D( AxisChart );
     int rows = this->model()->rowCount();
     int cols = this->model()->columnCount();
-    //QFontMetrics metrics( myAxis->font() );
+    //QFontMetrics metrics( d->axis->font() );
     QFontMetrics metrics( this->font() );
     int textWidth = 0;
     int valueWidth = 0;
     qreal value = this->model()->index( 0, 0 ).data().toDouble();
-    qreal _min = 0;
-    qreal _max = 0;
+    qreal min = 0;
+    qreal max = 0;
     for ( int r = 0; r < rows; ++r ) {
         QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
         textWidth = qMax( textWidth, metrics.width( s ) + 5 );
         for ( int c = 0; c < cols; ++c ) {
             value = this->model()->index( r, c ).data().toDouble();
-            _min = float( qMin( _min, value ));
-            _max = float( qMax( _max, value ));
-            valueWidth = qMax( valueWidth, metrics.width( QString::number( value ) ) );
+            min = float( qMin( min, value ));
+            max = float( qMax( max, value ));
+            QString s = QString::number( value, 'f', d->axis->nbDigits() );
+            valueWidth = qMax( valueWidth, metrics.width( s ) );
         }
     }
-    myAxis->min = _min;
-    myAxis->max = _max;
-    myAxis->tickSize = qMax( myAxis->calculateOrder( _min ), myAxis->calculateOrder( _max) );
-    myAxis->yLabelsLength = valueWidth;
-    myAxis->xLabelsLength = textWidth;
+    d->axis->setMin( min );
+    d->axis->setMax( max );
+    d->axis->setTickSize( qMax( d->axis->calculateOrder( min ), d->axis->calculateOrder( max) ) );
+    d->axis->setYLabelsLength( valueWidth + 5 );
+    d->axis->setXLabelsLength( textWidth );
     return 0;
 }
 
 
 void AxisChart::setAxis( Axis* axis ) {
-    myAxis = axis;
+    Q_D( AxisChart );
+    d->axis = axis;
 }
 
 
 void AxisChart::setColumnStyle( int column, ChartStyle style ) {
-        myStyle[ column ] = style;
+    Q_D( AxisChart );
+    d->style[ column ] = style;
 }
 
 
 void AxisChart::setModel( QAbstractItemModel* model ) {
+    Q_D( AxisChart );
     QAbstractItemView::setModel( model );
-    myAxis->setModel( model );
+    d->axis->setModel( model );
     this->process();
+}
+
 }

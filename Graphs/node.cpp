@@ -18,13 +18,14 @@
 
 #include "node.h"
 
+namespace Marb {
 
-Node::Node() : myPos(0, 0) {
-
+Node::Node() {
+    d_ptr = new NodePrivate();
 }
 
 QPointF Node::pos() const {
-    return myPos;
+    return d_ptr->pos;
 }
 
 void Node::setPos( qreal x, qreal y ) {
@@ -32,7 +33,7 @@ void Node::setPos( qreal x, qreal y ) {
 }
 
 void Node::setPos( QPointF p ) {
-    myPos = p;
+    d_ptr->pos = p;
 }
 
 void Node::process() {
@@ -41,10 +42,12 @@ void Node::process() {
 
 void Node::addEdge( Node* node ) {
     if ( node != this ) {
-        myConnectedNode << node;
+        d_ptr->connectedNode << node;
     }
 }
 
 QList<Node*> Node::edges() const {
-    return myConnectedNode;
+    return d_ptr->connectedNode;
+}
+
 }

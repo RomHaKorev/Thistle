@@ -21,14 +21,58 @@
 
 #include <QTimer>
 #include <QTime>
-#include "../kernel/marbabstractitemview.h"
+#include "../kernel/abstractitemview.h"
 #include "node.h"
+#include "edge.h"
+
+#include "graph_p.h"
+#include "graphalgorithm.h"
+
+namespace Marb {
 
 class GraphModel;
 
-class Graph : public MarbAbstractItemView {
+class Graph : public AbstractItemView {
+    friend class GraphAlgorithm;
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( Graph );
+
+protected:
+    virtual QModelIndex indexAt( const QPoint& point ) const;
+    virtual void setScrollBarValues();
+
+public:
+    explicit Graph( QWidget* parent = 0 );
+    ~Graph();
+
+    virtual QPainterPath itemPath(const QModelIndex &index) const;
+
+    void mousePressEvent( QMouseEvent* event );
+    void mouseReleaseEvent( QMouseEvent* event );
+    void mouseMoveEvent( QMouseEvent* event );
+
+    void paintEvent( QPaintEvent* event );
+    void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+    void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+    void paintEdge( QPainter& painter, const QModelIndex& idx1, const QModelIndex& idx2, Edge::Type type ) const;
+    void paintArrow( QPainter& painter,const QLineF& line ) const;
+    void setNodeWeight( qreal weight );
+    void setElasticNode( bool enabled );
+
+    void setModel( GraphModel* model );
+    GraphModel* model() const;
+
+    public slots:
+
+ public slots:
+    void updateValues();
+
+};
+
+class Graph1 : public AbstractItemView {
     Q_OBJECT
 protected:
+    GraphModel* m;
     QMap<QModelIndex, Node> myItemPos;
     QTimer myTimer;
     qreal oldLength;
@@ -42,16 +86,12 @@ protected:
 
     qreal myWeight;
 
-    GraphModel* myModel;
-
-    virtual QModelIndex indexAt(const QPoint &point) const;
     virtual void setScrollBarValues();
+    void resizeEvent( QResizeEvent* event );
 
 public:
-    explicit Graph(QWidget *parent = 0);
-
-        void updateValues();
-
+    explicit Graph1(QWidget *parent = 0);
+  
     virtual QPainterPath itemPath(const QModelIndex &index) const;
 
     void calculateForces( QModelIndex& index );
@@ -69,13 +109,16 @@ public:
     void setNodeWeight( qreal weight );
     void setElasticNode( bool enabled );
 
-    void setModel(QAbstractItemModel *model);
+    void setModel( GraphModel* model ) { m = model; connect( m, SIGNAL(updateEdges()), this, SLOT(updateValues()));AbstractItemView::setModel(model); }
+    GraphModel* model() const { return m; }
 
 public slots:
-    virtual bool save( QString filename );
+    void updateValues();
 
 protected slots:
     void processTimer();
 };
+
+}
 
 #endif // GRAPH_H

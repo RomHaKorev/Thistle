@@ -20,12 +20,15 @@
 #define PIECHART3D_H
 
 #include "piechart.h"
+#include "piechart3D_p.h"
 
+namespace Marb {
 
+    class PieChart3DPrivate;
 
 class PieChart3D : public PieChart {
     Q_OBJECT
-
+    Q_DECLARE_PRIVATE( PieChart3D );
 public:
     enum Render {
         Plain = 0,
@@ -38,10 +41,6 @@ public:
     explicit PieChart3D(QWidget *parent = 0);
     void setRender( PieChart3D::Render );
 protected:
-    QList<qreal> myAngles;
-    PieChart3D::Render myRender;
-    QPainterPath myFront;
-    qreal myHeight;
     virtual void updateChart();
     virtual QPainterPath itemSidesPath( const QModelIndex& index ) const;
     virtual QPainterPath itemExternalPart( qreal angle, qreal delta, bool splitted = false ) const;
@@ -54,5 +53,6 @@ protected:
     virtual void paintLeft( QPainter& painter, QColor color );
 };
 
+}
 
 #endif // PIECHART3D_H

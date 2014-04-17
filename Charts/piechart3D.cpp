@@ -12,21 +12,24 @@
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "piechart3d.h"
-#include "../kernel/Marb.h"
+#include "../kernel/global.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QDebug>
+
+namespace Marb {
 
 
 PieChart3D::PieChart3D( QWidget* parent ) :
     PieChart( parent ) {
     //mySplitted = true;
-    myRender = Translucent;
+    //myRender = Translucent;
     //myRender = Plain;
 }
 
 
 void PieChart3D::configureColor(QPainter &painter, QColor base, int flag) const {
+    const Q_D( PieChart3D );
     painter.setPen( QPen( base, 2 ) );
     switch( flag ) {
         case 2:
@@ -37,7 +40,7 @@ void PieChart3D::configureColor(QPainter &painter, QColor base, int flag) const 
         default:
         break;
     }
-    switch( myRender ) {
+    switch( d->render ) {
         case PieChart3D::Plain:
             painter.setPen( QPen( base.darker( 110 ), 2 ) );
         break;
@@ -53,20 +56,21 @@ void PieChart3D::configureColor(QPainter &painter, QColor base, int flag) const 
 
 
 QPainterPath PieChart3D::itemExternalPart( qreal angle, qreal delta, bool splitted ) const {
+    const Q_D( PieChart3D );
     QPainterPath ell;
-    ell.addEllipse( myRect );
+    ell.addEllipse( d->rect );
     qreal a = angle / 360.0;
     if ( a > 1 ) {
         a -= int(a);
     }
     QPointF p1 = ell.pointAtPercent( a );
-    QPointF offset = QPointF( 0, myHeight );
+    QPointF offset = QPointF( 0, d->height );
     QPainterPath outside;
     outside.setFillRule( Qt::WindingFill );
     outside.moveTo( p1 );
-    outside.arcTo( myRect, -angle, -delta );
+    outside.arcTo( d->rect, -angle, -delta );
     outside.lineTo( outside.currentPosition() + offset );
-    outside.arcTo( myRect.translated( 0, myHeight ), -angle - delta, delta );
+    outside.arcTo( d->rect.translated( 0, d->height ), -angle - delta, delta );
     outside.lineTo( p1 );
     if ( splitted == true ) {
         QPointF p = splittedOffset( angle, delta );
@@ -77,16 +81,17 @@ QPainterPath PieChart3D::itemExternalPart( qreal angle, qreal delta, bool splitt
 
 
 QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const {
+    const Q_D( PieChart3D );
     QPainterPath outside;
-    qreal angle = myStartAngle;
+    qreal angle = d->startAngle;
     for ( int r = 0; r < index.row(); ++r ) {
         QModelIndex id = this->model()->index( r, 0 );
         qreal v = qAbs( this->model()->data( id ).toReal() );
-        qreal delta = 360.0 * v/myTotal;
+        qreal delta = 360.0 * v/d->total;
         angle += delta;
     }
     qreal v = qAbs( this->model()->data( index ).toReal() );
-    qreal delta = 360.0 * v/myTotal;
+    qreal delta = 360.0 * v/d->total;
     if ( selectionModel()->selectedIndexes().contains( index )) {
         outside = itemExternalPart( angle, delta, true );
     } else {
@@ -97,30 +102,31 @@ QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const {
 
 
 void PieChart3D::paintEvent(QPaintEvent *event) {
+    const Q_D( PieChart3D );
     Q_UNUSED(event)
     QPainter painter( viewport() );
     painter.save();
     painter.setRenderHint( QPainter::Antialiasing );
     updateChart();
-    if ( myRender != Plain ) {
+    if ( d->render != Plain ) {
         paintExternal( painter, true );
         paintSides( painter );
         paintExternal( painter, false );
     } else {
         paintExternal( painter, false );
     }
-    for ( int i = 0; i < myAngles.count() - 2; i+=2 ) {
+    for ( int i = 0; i < d->angles.count() - 2; i+=2 ) {
         QModelIndex index = this->model()->index( i/2, 0 );
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Marb::predefinedColor( i/2 );
+            color = Color::predefinedColor( i/2 );
         }
         bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
                                             || this->currentIndex() == index;
-        if ( mySplitted == false ) {
-            paintPart( painter, myAngles[i], myAngles[i + 1], color, isSelected );
+        if ( d->splitted == false ) {
+            paintPart( painter, d->angles[i], d->angles[i + 1], color, isSelected );
         } else {
-            paintPartSplitted( painter, myAngles[i], myAngles[i + 1], color, isSelected );
+            paintPartSplitted( painter, d->angles[i], d->angles[i + 1], color, isSelected );
         }
     }
 
@@ -129,28 +135,29 @@ void PieChart3D::paintEvent(QPaintEvent *event) {
 
 
 void PieChart3D::paintExternal( QPainter& painter, bool top ) {
-    for ( int i = 0; i < myAngles.count() - 2; i+=2 ) {
+    Q_D( PieChart3D );
+    for ( int i = 0; i < d->angles.count() - 2; i+=2 ) {
         QModelIndex index = this->model()->index( i/2, 0 );
         bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
                                             || this->currentIndex() == index;
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Marb::predefinedColor( i/2 );
+            color = Color::predefinedColor( i/2 );
         }
         painter.save();
-        qreal a1 = myAngles[i];
-        qreal delta = myAngles[i + 1];
+        qreal a1 = d->angles[i];
+        qreal delta = d->angles[i + 1];
         qreal a2 = a1 + delta;
         if ( a1 < 180 && a2 > 180 ) {
             paintLeft( painter, color );
         }
         if ( top == false ) {
             if ( a1 <= 180 && a2 > 180 ) {
-                if ( myRender == Plain ) {
+                if ( d->render == Plain ) {
                     configureColor( painter, color, 1 );
                     qreal delta = 180.0 - a1;
-                    QPointF offset = splittedOffset( myAngles[i], delta );
-                    QPainterPath path = itemExternalPart( myAngles[i], delta, mySplitted );
+                    QPointF offset = splittedOffset( d->angles[i], delta );
+                    QPainterPath path = itemExternalPart( d->angles[i], delta, d->splitted );
                     painter.drawPath( path );
                     painter.setPen( Qt::NoPen );
                     path = side( 180, offset, isSelected );
@@ -178,7 +185,8 @@ void PieChart3D::paintExternal( QPainter& painter, bool top ) {
 
 
 void PieChart3D::paintLeft( QPainter& painter, QColor color ) {
-    if ( myRender == WireFrame ) {
+    Q_D( PieChart3D );
+    if ( d->render == WireFrame ) {
         return;
     }
     painter.save();
@@ -188,13 +196,13 @@ void PieChart3D::paintLeft( QPainter& painter, QColor color ) {
     painter.setPen( Qt::NoPen );
     QPainterPath path;
     QPainterPath ellipse1, ellipse2;
-    ellipse1.addEllipse( myRect );
-    ellipse2.addEllipse( myRect.translated( 0, myHeight ) );
+    ellipse1.addEllipse( d->rect );
+    ellipse2.addEllipse( d->rect.translated( 0, d->height ) );
     path.moveTo( ellipse1.pointAtPercent( 0.5 ) + QPointF( -width, 0 ) );
     path.lineTo( ellipse2.pointAtPercent( 0.5 ) + QPointF( -width, 0 ) );
-    path.arcTo( myRect.translated( 0, myHeight ), 180, -90 );
+    path.arcTo( d->rect.translated( 0, d->height ), 180, -90 );
     path.moveTo( ellipse1.pointAtPercent( 0.5 ) );
-    path.arcTo( myRect, 180, 90 );
+    path.arcTo( d->rect, 180, 90 );
     path = path.subtracted( ellipse1 );
     painter.fillPath( path, color );
     painter.restore();
@@ -202,35 +210,36 @@ void PieChart3D::paintLeft( QPainter& painter, QColor color ) {
 
 
 void PieChart3D::paintSides( QPainter& painter ) {
+    Q_D( PieChart3D );
     QList<QPair<QPainterPath, QColor> > rightBottom;
     QList<QPair<QPainterPath, QColor> > rightTop;
     QList<QPair<QPainterPath, QColor> > leftBottom;
     QList<QPair<QPainterPath, QColor> > leftTop;
-    for ( int i = 0; i < myAngles.count() - 2; i+=2 ) {
+    for ( int i = 0; i < d->angles.count() - 2; i+=2 ) {
         QModelIndex index = this->model()->index( i/2, 0 );
         bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
                                             || this->currentIndex() == index;
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Marb::predefinedColor( i/2 );
+            color = Color::predefinedColor( i/2 );
         }
-        QPointF offset = splittedOffset( myAngles[i], myAngles[i + 1] );
-        QPainterPath path = this->side( myAngles[i], offset, isSelected );
-        if ( myAngles[i] <= 90 ) {
+        QPointF offset = splittedOffset( d->angles[i], d->angles[i + 1] );
+        QPainterPath path = this->side( d->angles[i], offset, isSelected );
+        if ( d->angles[i] <= 90 ) {
             rightBottom << QPair<QPainterPath, QColor>(path, color);
-        } else if ( myAngles[i] <= 180 ) {
+        } else if ( d->angles[i] <= 180 ) {
             leftBottom.prepend( QPair<QPainterPath, QColor>(path, color) );
-        } else if ( myAngles[i] <= 270 ) {
+        } else if ( d->angles[i] <= 270 ) {
             leftTop.prepend( QPair<QPainterPath, QColor>(path, color) );
         } else {
             rightTop << QPair<QPainterPath, QColor>(path, color);
         }
-        path = side( myAngles[i] + myAngles[i+1], offset, isSelected );
-        if ( myAngles[i] <= 90 ) {
+        path = side( d->angles[i] + d->angles[i+1], offset, isSelected );
+        if ( d->angles[i] <= 90 ) {
             rightBottom << QPair<QPainterPath, QColor>(path, color);
-        } else if ( myAngles[i] <= 180 ) {
+        } else if ( d->angles[i] <= 180 ) {
             leftBottom.prepend( QPair<QPainterPath, QColor>(path, color) );
-        } else if ( myAngles[i] <= 270 ) {
+        } else if ( d->angles[i] <= 270 ) {
             leftTop.prepend( QPair<QPainterPath, QColor>(path, color) );
         } else {
             rightTop << QPair<QPainterPath, QColor>(path, color);
@@ -246,17 +255,19 @@ void PieChart3D::paintSides( QPainter& painter ) {
 
 
 void PieChart3D::setRender( PieChart3D::Render r ) {
+    Q_D( PieChart3D );
     if ( r == PieChart3D::Plain ) {
         qWarning( "Not implemented yet." );
         return;
     }
-    myRender = r;
+    d->render = r;
 }
 
 
 QPainterPath PieChart3D::side( qreal angle, QPointF centerOffset, bool splitted ) const {
+    const Q_D( PieChart3D );
     QPainterPath ell;
-    QRectF r = myRect;
+    QRectF r = d->rect;
     if ( splitted == true ) {
         r.translate( centerOffset.x(), centerOffset.y() );
     }
@@ -267,7 +278,7 @@ QPainterPath PieChart3D::side( qreal angle, QPointF centerOffset, bool splitted 
     }
     QPointF p1 = ell.pointAtPercent( a );
     QPointF center = r.center();
-    QPointF offset = QPointF( 0, myHeight );
+    QPointF offset = QPointF( 0, d->height );
     QPainterPath outside;
     outside.setFillRule( Qt::WindingFill );
     QPolygonF sides;
@@ -279,25 +290,27 @@ QPainterPath PieChart3D::side( qreal angle, QPointF centerOffset, bool splitted 
 
 
 void PieChart3D::updateChart() {
+    Q_D( PieChart3D );
     //PieChart::updateChart();
-    if ( mySplitted == true ) {
-        myRect.translate( 10, 10 );
-        myRect.setWidth( myRect.width() - 20 );
-        myRect.setHeight( myRect.height() - 20 );
+    if ( d->splitted == true ) {
+        d->rect.translate( 10, 10 );
+        d->rect.setWidth( d->rect.width() - 20 );
+        d->rect.setHeight( d->rect.height() - 20 );
     }
-    myHeight = myRect.height() * 0.20;
-    myRect.setHeight( myRect.height() * 0.75 );
-    myAngles.clear();
-    qreal angle = myStartAngle;
+    d->height = d->rect.height() * 0.20;
+    d->rect.setHeight( d->rect.height() * 0.75 );
+    d->angles.clear();
+    qreal angle = d->startAngle;
     for ( int i = 0; i < this->model()->rowCount(); ++i ) {
-        myAngles << angle;
+        d->angles << angle;
         QModelIndex index = this->model()->index( i, 0 );
         qreal v = qAbs( this->model()->data( index ).toReal() );
-        qreal delta = 360.0 * v/myTotal;
-        myAngles << delta;
+        qreal delta = 360.0 * v/d->total;
+        d->angles << delta;
         angle += delta;
     }
-    myAngles << 360.0;
+    d->angles << 360.0;
 }
 
 
+}

@@ -20,28 +20,20 @@
 #define RADIALTREE_H
 
 #include "tree.h"
-
-
+#include "radialtree_p.h"
 
 class RadialTree : public Tree {
     Q_OBJECT
-
+    Q_DECLARE_PRIVATE( RadialTree );
 protected:
-    qreal myDiagonal;
-    qreal myPerimeter;
-    qreal myRadius;
-    QList<QModelIndex> myOrderedIndexes;
-    qreal my_rotateText;
-    qreal my_maxRad;
-    QPointF my_currentCenter;
-
     void updatePerimeter();
 
     virtual void setScrollBarValues();
-    virtual void paintCircles( QPainter& painter, QPointF offset );
+    virtual void paintCircles( QPainter& painter, const QPointF& offset ) const;
     //virtual void paintItems( QPainter& painter, QPointF offset );
-    virtual void paintConnections( QPainter& painter, QPointF offset );
+    virtual void paintConnections( QPainter& painter, QPointF offset ) const;
     //virtual void paintConnectionsFor( QPainter& painter, QModelIndex index, QPointF offset );
+    RadialTree( RadialTreePrivate* d, QWidget* parent = 0 );
 public:
     explicit RadialTree( QWidget* parent = 0 );
     virtual void positionsInTree();
@@ -52,6 +44,6 @@ public:
 signals:
 
 public slots:
-    virtual bool save( QString filename );
+    virtual bool save( const QString& filename ) const;
 };
 #endif // RADIALTREE_H

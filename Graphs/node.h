@@ -25,14 +25,19 @@
 
 #include "edge.h"
 
+namespace Marb {
 
+class Node;
+
+struct NodePrivate {
+    QPointF pos;
+    QPointF newPos;
+    QList<Node*> connectedNode;
+};
 
 class Node {
-protected:
-    QPointF myPos;
-    QPointF myNewPos;
-    QList<Node*> myConnectedNode;
-
+private:
+    NodePrivate* d_ptr;
 public:
     Node();
     void process();
@@ -42,7 +47,11 @@ public:
     void setPos( qreal x, qreal y );
     void setPos( QPointF p );
     void addEdge( Node* node );
+    inline bool isNull() const { return d_ptr->pos.isNull(); }
+    inline void init() { d_ptr->pos = QPointF(); }
 
 };
+
+}
 
 #endif // NODE_H

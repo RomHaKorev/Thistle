@@ -20,16 +20,16 @@
 #define RADIALCHART_H
 #include "axischart.h"
 
+#include "radialchart_p.h"
 
+namespace Marb {
 
 class RadialAxis;
 
 class RadialChart: public AxisChart {
     Q_OBJECT
+    Q_DECLARE_PRIVATE( RadialChart )
 protected:
-    qreal myCenterHoleDiam;
-    RadialAxis* myRadialAxis;
-
     QRectF itemRect(const QModelIndex &index) const;
     QPainterPath itemPath( const QModelIndex& index ) const;
     void setAlphaBeta();
@@ -39,11 +39,15 @@ protected:
     void paintValues( QPainter& painter, int column ) const;
     void paintAxis( QPainter& painter ) const;
     void paintTicks( QPainter& painter ) const;
-    virtual void paintChart(QPainter &);
+    virtual void paintChart(QPainter &) const;
+
+    RadialChart( RadialChartPrivate* d, QWidget* parent = 0 );
 
 public:
     RadialChart( QWidget* parent = 0 );
     //void process();
 };
+
+}
 
 #endif //RADIALCHART_H

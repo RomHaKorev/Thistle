@@ -20,14 +20,20 @@
 #define DELEGATES_H
 #include <QStyledItemDelegate>
 
-
+namespace Marb {
 
 class AxisChart;
 
-class PointDelegate : public QStyledItemDelegate {
-protected:
-    AxisChart* myParent;
-    QPolygon createDiamond( QRect rect) const;
+class AbstractChartDelegate : public QStyledItemDelegate {
+public:
+    AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ){}
+    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+};
+
+class PointDelegate : public AbstractChartDelegate {
+    QPolygon createDiamond( const QRect& rect) const;
 
 public:
     explicit PointDelegate( AxisChart* parent = 0 );
@@ -36,9 +42,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
-class BarDelegate : public QStyledItemDelegate {
-protected:
-    AxisChart* myParent;
+class BarDelegate : public AbstractChartDelegate {
 public:
     explicit BarDelegate( AxisChart* parent = 0 );
     virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -46,44 +50,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
+}
 
-
-/* def paint( self, painter, option, index ):
-
-
-
-class BarDelegate( QStyledItemDelegate ):
-    def __init__( self, parent ):
-        super(BarDelegate, self).__init__( parent )
-
-    def paint( self, painter, option, index ):
-        chartItemStyle = self.parent().columnStyle( index.column() )
-        r = option.rect
-
-        painter.save()
-
-        painter.setBrush( chartItemStyle.brush() )
-        painter.setPen( Qt.NoPen )
-        painter.drawRect( r )
-
-        polygon = QPolygon()
-        if option.Position == QStyleOptionViewItem.Top: # Negative value
-            polygon.append( r.bottomLeft() )
-            polygon.append( r.topLeft() )
-            polygon.append( r.topRight() )
-            polygon.append( r.bottomRight() )
-        else:
-            polygon.append( r.topLeft() )
-            polygon.append( r.bottomLeft() )
-            polygon.append( r.bottomRight() )
-            polygon.append( r.topRight() )
-
-        painter.setBrush( Qt.NoBrush )
-        pen = QPen(chartItemStyle.pen())
-        pen.setCapStyle( Qt.FlatCap )
-        painter.setPen( pen )
-
-        painter.drawPolyline( polygon )
-
-        painter.restore()*/
 #endif // DELEGATES_H

@@ -4,37 +4,62 @@
 #include <QPainter>
 #include <QObject>
 
-namespace Marb {
+#include "axis_p.h"
 
 class QAbstractItemModel;
 
-class Axis : public QObject {
-public:
-    QRect valuesRect;
-    QRect chartRect;
-    QFont myFont;
-    qreal tickSize;
-    QPen axisPen;
-    QPen tickPen;
-    QPen textPen;
-    QAbstractItemModel* myModel;
+namespace Marb {
+class Axis {
+protected:
+    Q_DECLARE_PRIVATE( Axis )
+    AxisPrivate* d_ptr;
+    Axis( AxisPrivate* d );
+public:    
+    Axis();
 
-    int yLabelsLength;
-    int xLabelsLength;
+    QRect& valuesRect() { return d_ptr->valuesRect; };
+    QRect& chartRect() { return d_ptr->chartRect; };
+    QFont font() const { return d_ptr->font; };
+    qreal tickSize() const { return d_ptr->tickSize; };
+    QPen axisPen() const { return d_ptr->axisPen; };
+    QPen tickPen() const { return d_ptr->tickPen; };
+    QPen textPen() const { return d_ptr->textPen; };
+    QAbstractItemModel* model() const { return d_ptr->model; };
 
-    qreal minBound;
-    qreal maxBound;
-    qreal min;
-    qreal max;
-    long order;
-    int nbDigits;
-    int nbTicks;
+    qreal xLabelsLength() const { return d_ptr->xLabelsLength; };
+    qreal yLabelsLength() const { return d_ptr->yLabelsLength; };
 
-    Axis( QObject* parent = 0 );
-    QFont font() const;
+    qreal minBound() const { return d_ptr->minBound; };
+    qreal maxBound() const { return d_ptr->maxBound; };
+    qreal min() const { return d_ptr->min; };
+    qreal max() const { return d_ptr->max; };
+    long order() const { return d_ptr->order; };
+    int nbDigits() const { return d_ptr->nbDigits; };
+    int nbTicks() const { return d_ptr->nbTicks; };
+
+
+    void setValuesRect( const QRect& r ) { d_ptr->valuesRect = r; };
+    void setChartRect( const QRect& r ) { d_ptr->chartRect = r; };
+    void setFont( const QFont& f ) { d_ptr->font = f; };
+    void setTickSize( qreal t ) { if( t >= 0 ) d_ptr->tickSize = t; };
+    void setAxisPen( const QPen& p ) { d_ptr->axisPen = p; };
+    void setTickPen( const QPen& p ) { d_ptr->tickPen = p; };
+    void setTextPen( const QPen& p ) { d_ptr->textPen = p; };
+    void setModel( QAbstractItemModel* m ) { d_ptr->model = m; };
+
+    void setXLabelsLength( int l ) { d_ptr->xLabelsLength = l; };
+    void setYLabelsLength( int l ) { d_ptr->yLabelsLength = l; };
+
+    void setMinBound( qreal b ) { d_ptr->minBound = b; };
+    void setMaxBound( qreal b ) { d_ptr->maxBound = b; };
+    void setMin( qreal b ) { d_ptr->min = b; };
+    void setMax( qreal b ) { d_ptr->max = b; };
+    void setOrder( long o ) { d_ptr->order = o; };
+    void setNbDigits( int n ) { d_ptr->nbDigits = n; };
+    void setNbTicks( int n ) { d_ptr->nbTicks = n; };
+
+
     virtual QPointF origin() const = 0;
-    void setModel( QAbstractItemModel* model );
-    QAbstractItemModel* model() const;
     virtual void update() = 0;
     virtual QPointF valueToPoint( qreal value, int axisNumber ) const = 0;
     virtual void paintBack( QPainter& painter ) const = 0;
@@ -44,5 +69,6 @@ public:
     virtual qreal stepSize() const = 0;
 };
 
+}
 
 #endif // AXIS_H

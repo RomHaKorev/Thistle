@@ -20,12 +20,13 @@
 #define AXISCHART_H
 
 #include <QAbstractItemView>
-#include "../kernel/Marb.h"
+#include "../kernel/global.h"
 #include "chartstyle.h"
 
 #include "abstractchart.h"
+#include "axischart_p.h"
 
-
+namespace Marb {
 
 class PointChart;
 class RadialChart;
@@ -33,36 +34,20 @@ class Axis;
 
 class AxisChart : public AbstractChart {
     Q_OBJECT
-private:
-    Axis* myAxis;
+    Q_DECLARE_PRIVATE( AxisChart );
 protected:
-    QPointF myOrigin;
-    qreal myMin;
-    qreal myMax;
-    qreal myMinBound;
-    qreal myMaxBound;
-    qreal myOrder;
-    int myNbTicks;
-    qreal myTickSize;
-    QMap<int, ChartStyle> myStyle;
-
-    int myX;
-    int myNbDigits;
-
     virtual void defineRects();
     int scan();
-    void calculateBounds();
-    qreal calculateOrder( qreal value ) const;
 
     virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const;
     virtual void paintChart( QPainter& ) const = 0;
     virtual void paintEvent(QPaintEvent *event);
 
     //virtual void updateValues();
-
+    AxisChart( AxisChartPrivate* d, QWidget* parent = 0 );
 public:
     explicit AxisChart( QWidget* parent = 0 );
-             ~AxisChart();
+    ~AxisChart();
     Axis* axis() const;
     ChartStyle columnStyle( int column ) const;
 
@@ -71,5 +56,6 @@ public:
     void setColumnStyle( int column, ChartStyle style);
 };
 
+}
 
 #endif // AXISCHART_H

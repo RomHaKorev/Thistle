@@ -1,19 +1,17 @@
 #ifndef ABSTRACTCHART_H
 #define ABSTRACTCHART_H
 
-#include "../kernel/marbabstractitemview.h"
+#include "../kernel/abstractitemview.h"
 
 #include <QWidget>
 
-class AbstractChart :  public MarbAbstractItemView {
-protected:
-  QRect myLegendRect;
-  QString myTitle;
-  QRect myTitleRect;
-  qreal myMin;
-  qreal myMax;
-  int myMinBottomMargin;
+class AbstractChartPrivate;
 
+namespace Marb {
+
+class AbstractChart :  public AbstractItemView {
+    Q_DECLARE_PRIVATE( AbstractChart )
+protected:
   virtual void process();
   virtual void defineRects() = 0;
   virtual int scan() = 0;
@@ -28,6 +26,8 @@ protected:
   virtual void paintLegend( QPainter& painter ) const;
   virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int maxHeight ) const = 0;
   virtual void paintChart( QPainter& painter ) const = 0;
+
+  AbstractChart( AbstractChartPrivate* d, QWidget* parent = 0 );
 public:
     AbstractChart( QWidget* parent = 0 );
     ~AbstractChart();
@@ -36,7 +36,9 @@ public:
 
     void updateValues();
     void setTitle( const QString& title );
-    bool save( QString filename );
+    bool save( const QString& filename ) const;
 };
+
+}
 
 #endif //ABSTRACTCHART_H

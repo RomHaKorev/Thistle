@@ -18,15 +18,16 @@
 
 #include "delegates.h"
 #include "axischart.h"
-#include "../kernel/Marb.h"
+#include "../kernel/global.h"
 #include "chartstyle.h"
 #include <QPainter>
 
-PointDelegate::PointDelegate( AxisChart* parent ) : QStyledItemDelegate( parent ) {
-    myParent = parent;
+namespace Marb {
+
+PointDelegate::PointDelegate( AxisChart* parent ) : AbstractChartDelegate( parent ) {
 }
 
-QPolygon PointDelegate::createDiamond( QRect rect ) const {
+QPolygon PointDelegate::createDiamond( const QRect& rect ) const {
     QPolygon poly;
     poly.append( rect.topLeft() + QPoint(rect.width()/2, 0) );
     poly.append( rect.topRight() + QPoint(0, rect.height()/2) );
@@ -64,7 +65,9 @@ void PointDelegate::paintDisabled(QPainter *painter, const QStyleOptionViewItem 
 
 
 void PointDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    ChartStyle style = myParent->columnStyle( index.column() );
+    AxisChart* p = qobject_cast<AxisChart*>( this->parent() );
+    ChartStyle style;
+    if ( p != 0 ) style = p->columnStyle( index.column() );
     painter->save();
     painter->setBrush( style.brush() );
     painter->setPen( style.pen() );
@@ -97,8 +100,7 @@ void PointDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &
 
 
 
-BarDelegate::BarDelegate(AxisChart* parent) : QStyledItemDelegate( parent ) {
-    myParent = parent;
+BarDelegate::BarDelegate(AxisChart* parent) : AbstractChartDelegate( parent ) {
 }
 
 /* Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
@@ -133,34 +135,38 @@ void BarDelegate::paintDisabled(QPainter* painter, const QStyleOptionViewItem& o
     painter->restore();
 }
 void BarDelegate::paintEnabled(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-            ChartStyle style = myParent->columnStyle( index.column() );
-            QRect r = option.rect;
+    AxisChart* p = qobject_cast<AxisChart*>( this->parent() );
+    ChartStyle style;
+    if ( p != 0 ) style = p->columnStyle( index.column() );
+    QRect r = option.rect;
 
-            painter->save();
+    painter->save();
 
-            painter->setBrush( style.brush() );
-            painter->setPen( Qt::NoPen );
-            painter->drawRect( r );
+    painter->setBrush( style.brush() );
+    painter->setPen( Qt::NoPen );
+    painter->drawRect( r );
 
-            QPolygon polygon;
-            if ( option.decorationPosition == QStyleOptionViewItem::Top ) { // Negative value
-                polygon.append( r.bottomLeft() );
-                polygon.append( r.topLeft() );
-                polygon.append( r.topRight() );
-                polygon.append( r.bottomRight() );
-            } else {
-                polygon.append( r.topLeft() );
-                polygon.append( r.bottomLeft() );
-                polygon.append( r.bottomRight() );
-                polygon.append( r.topRight() );
-            }
+    QPolygon polygon;
+    if ( option.decorationPosition == QStyleOptionViewItem::Top ) { // Negative value
+        polygon.append( r.bottomLeft() );
+        polygon.append( r.topLeft() );
+        polygon.append( r.topRight() );
+        polygon.append( r.bottomRight() );
+    } else {
+        polygon.append( r.topLeft() );
+        polygon.append( r.bottomLeft() );
+        polygon.append( r.bottomRight() );
+        polygon.append( r.topRight() );
+    }
 
-            painter->setBrush( Qt::NoBrush );
-            QPen pen( style.pen() );
-            pen.setCapStyle( Qt::FlatCap );
-            painter->setPen( pen );
+    painter->setBrush( Qt::NoBrush );
+    QPen pen( style.pen() );
+    pen.setCapStyle( Qt::FlatCap );
+    painter->setPen( pen );
 
-            painter->drawPolyline( polygon );
+    painter->drawPolyline( polygon );
 
-            painter->restore();
+    painter->restore();
+}
+
 }

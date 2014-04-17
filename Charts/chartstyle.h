@@ -21,17 +21,15 @@
 
 #include <QBrush>
 #include <QPen>
-#include "../kernel/Marb.h"
+#include "../kernel/global.h"
 
+namespace Marb {
 
+struct ChartStylePrivate;
 
 class ChartStyle {
 protected:
-    QBrush myBrush;
-    QPen myPen;
-    Marb::Shape myShape;
-    Marb::Types myType;
-
+    ChartStylePrivate* d;
 public:
     ChartStyle();
     void setBrush( const QBrush brush);
@@ -44,5 +42,13 @@ public:
     Marb::Types type() const;
 };
 
+struct ChartStylePrivate {
+    QBrush brush;
+    QPen pen;
+    Marb::Shape shape;
+    Marb::Types type;
+};
+
+}
 
 #endif // CHARTSTYLE_H

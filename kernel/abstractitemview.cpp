@@ -11,9 +11,9 @@
     along with Marb.    If not, see <http://www.gnu.org/licenses/>.
  Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
-#include "marbabstractitemview.h"
-#include "marbitemdelegate.h"
-#include "Marb.h"
+#include "abstractitemview.h"
+#include "itemdelegate.h"
+#include "global.h"
 #include <QScrollBar>
 #include <QPainter>
 #include <QPaintEvent>
@@ -22,14 +22,23 @@
 #include <QDebug>
 
 
-#include "marbabstractitemview_p.h"
+#include "abstractitemview_p.h"
 
-MarbAbstractItemView::MarbAbstractItemView(QWidget *parent) : QAbstractItemView( parent ) {
-    setItemDelegate( d->delegate );
+AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent ) {
+    d_ptr = new AbstractItemViewPrivate( this );
+    setItemDelegate( d_ptr->delegate );
+}
+
+AbstractItemView::AbstractItemView( AbstractItemViewPrivate* d, QWidget* parent ) : QAbstractItemView( parent ), d_ptr( d ) {
+    setItemDelegate( d_ptr->delegate );
+}
+
+AbstractItemView::~AbstractItemView() {
+    delete d_ptr;
 }
 
 
-QList<int> MarbAbstractItemView::calculateColumnsOrder() const {
+QList<int> AbstractItemView::calculateColumnsOrder() const {
     QList<int> l;
     for ( int i = 0; i < this->model()->columnCount(); ++i ) {
         l << i;
@@ -38,35 +47,34 @@ QList<int> MarbAbstractItemView::calculateColumnsOrder() const {
 }
 
 
-QMargins MarbAbstractItemView::contentsMargins() const { 
-    return d->margins;
+QMargins AbstractItemView::contentsMargins() const { 
+    return d_ptr->margins;
 }
 
-QRect MarbAbstractItemView::contentsRect() const {
-    return QRect( d->margins.left(), d->margins.top(), width() - d->margins.left() - d->margins.right(),
-                                               height() - d->margins.top() - d->margins.bottom() );
+QRect AbstractItemView::contentsRect() const {
+    return QRect( d_ptr->margins.left(), d_ptr->margins.top(), width() - d_ptr->margins.left() - d_ptr->margins.right(),
+                                               height() - d_ptr->margins.top() - d_ptr->margins.bottom() );
 }
 
 
-void MarbAbstractItemView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight) {
+void AbstractItemView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight) {
     QAbstractItemView::dataChanged(topLeft, bottomRight);
     update( this->model()->index(0, 0) );
 }
 
 
-int MarbAbstractItemView::horizontalOffset() const {
+int AbstractItemView::horizontalOffset() const {
     return horizontalScrollBar()->value();
 }
 
 
-QModelIndex MarbAbstractItemView::indexAt(const QPoint &point) const {
+QModelIndex AbstractItemView::indexAt(const QPoint &point) const {
     QPoint p = point    + QPoint( horizontalOffset(), verticalOffset() );
     if ( this->model() == 0 ) {
         return QModelIndex();
     }
 
-    Q_FOREACH( QModelIndex index, d->itemPos.keys() ) {
-            qDebug() << index.data().toString();
+    Q_FOREACH( QModelIndex index, d_ptr->itemPos.keys() ) {
             QPainterPath path = this->itemPath( index );
             if ( path.contains( p ) ) {
                 return index;
@@ -76,17 +84,17 @@ QModelIndex MarbAbstractItemView::indexAt(const QPoint &point) const {
 }
 
 
-bool MarbAbstractItemView::isIndexHidden(const QModelIndex& /*index*/ ) const {
+bool AbstractItemView::isIndexHidden(const QModelIndex& /*index*/ ) const {
     return false;
 }
 
 
-QRectF MarbAbstractItemView::itemRect( const QModelIndex& index ) const {
+QRectF AbstractItemView::itemRect( const QModelIndex& index ) const {
     return this->itemPath( index ).boundingRect();
 }
 
 
-QModelIndex MarbAbstractItemView::moveCursor( QAbstractItemView::CursorAction cursorAction,
+QModelIndex AbstractItemView::moveCursor( QAbstractItemView::CursorAction cursorAction,
                                              Qt::KeyboardModifiers /*modifiers*/ ) {
     switch( cursorAction ) {
     case QAbstractItemView::MoveDown:
@@ -98,18 +106,18 @@ QModelIndex MarbAbstractItemView::moveCursor( QAbstractItemView::CursorAction cu
 }
 
 
-void MarbAbstractItemView::resizeEvent( QResizeEvent* event ) {
+void AbstractItemView::resizeEvent( QResizeEvent* event ) {
     setScrollBarValues();
     QAbstractItemView::resizeEvent( event );
 }
 
 
-int MarbAbstractItemView::rows(const QModelIndex &index) const {
+int AbstractItemView::rows(const QModelIndex &index) const {
     return this->model()->rowCount(model()->parent(index));
 }
 
 
-void MarbAbstractItemView::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) {
+void AbstractItemView::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) {
     QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
     updateValues();
     viewport()->update();
@@ -117,14 +125,14 @@ void MarbAbstractItemView::rowsAboutToBeRemoved(const QModelIndex& parent, int s
 }
 
 
-void MarbAbstractItemView::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*/) {
+void AbstractItemView::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*/) {
     updateValues();
     viewport()->update();
     setScrollBarValues();
 }
 
 
-void MarbAbstractItemView::scrollTo(const QModelIndex& index, ScrollHint hint ) {
+void AbstractItemView::scrollTo(const QModelIndex& index, ScrollHint hint ) {
     Q_UNUSED( hint )
     QRect area = viewport()->rect();
     QRect rect = visualRect(index);
@@ -148,13 +156,13 @@ void MarbAbstractItemView::scrollTo(const QModelIndex& index, ScrollHint hint ) 
 }
 
 
-void MarbAbstractItemView::setModel(QAbstractItemModel *model) {
+void AbstractItemView::setModel(QAbstractItemModel *model) {
     QAbstractItemView::setModel( model );
     updateValues();
 }
 
 
-void MarbAbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command ) {
+void AbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command ) {
     QRect contentsRect = rect.translated(
                     this->horizontalScrollBar()->value(),
                     this->verticalScrollBar()->value()).normalized();
@@ -180,17 +188,17 @@ void MarbAbstractItemView::setSelection( const QRect& rect, QItemSelectionModel:
 }
 
 
-int MarbAbstractItemView::verticalOffset() const {
+int AbstractItemView::verticalOffset() const {
     return verticalScrollBar()->value();
 }
 
 
-QRect MarbAbstractItemView::visualRect(const QModelIndex &index) const {
+QRect AbstractItemView::visualRect(const QModelIndex &index) const {
     QRect rect = itemRect(index).toRect();
     return rect;
 }
 
 
-QRegion MarbAbstractItemView::visualRegionForSelection(const QItemSelection &selection) const {
+QRegion AbstractItemView::visualRegionForSelection(const QItemSelection &selection) const {
     return QRegion( QRect( 0, 0, this->width(), this->height() ) );
 }

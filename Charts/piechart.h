@@ -21,12 +21,15 @@
 
 #include "axischart.h"
 
+#include "piechart_p.h"
 
+namespace Marb {
 
 class AbstractChart;
 
 class PieChart : public AbstractChart {
     Q_OBJECT
+        Q_DECLARE_PRIVATE( PieChart );
     Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle)
 public:
     explicit PieChart( QWidget* parent = 0 );
@@ -39,12 +42,6 @@ public:
     virtual void defineRects();
 
 protected:
-    QRect     myRect;
-    qreal     myTotal;
-    bool        mySplitted;
-    bool        myRing;
-    qreal     myStartAngle;
-
     qreal startAngle() const;
 
     int scan();
@@ -70,5 +67,7 @@ protected:
 public slots:
     void setStartAngle( qreal angle );
 };
+
+}
 
 #endif // PIECHART_H
