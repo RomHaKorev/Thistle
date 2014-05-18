@@ -11,9 +11,10 @@
 #include <QPen>
 
 class QAbstractItemModel;
+
+namespace Thistle {
 class OrthogonalAxisPrivate;
 
-namespace Marb {
 class OrthogonalAxis : public Axis {
     Q_DECLARE_PRIVATE( OrthogonalAxis )
 protected:

@@ -1,19 +1,19 @@
 /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef AbstractItemView_H
@@ -24,19 +24,27 @@
 #include <QPointer>
 #include <QRubberBand>
 
-
+namespace Thistle {
 
 class ItemDelegate;
 class AbstractItemViewPrivate;
 
+/*!
+\class AbstractItemView
+\brief The AbstractItemView class provides an abstract base for every item view.
+
+The AbstractItemView class provides the basic functionality for every item view. It is a abstract class and cannot be instancied itself.
+\a AbstractItemView provides a standard interface based on \c QAbstractItemView. It reimplements basic logic for interoperating with models through the signals and slots mechanism.
+
+See Qt reference documentation for more detail on \c QAbstractItemView.
+*/
 class AbstractItemView : public QAbstractItemView {
     Q_OBJECT
     Q_DECLARE_PRIVATE( AbstractItemView )
+
 protected:
     AbstractItemViewPrivate* d_ptr;
 
-    QList<int> calculateColumnsOrder() const;
-    virtual void updateValues() = 0;
     virtual void setScrollBarValues() = 0;
     QModelIndex moveCursor( QAbstractItemView::CursorAction cursorAction,
                             Qt::KeyboardModifiers modifiers );
@@ -59,6 +67,7 @@ public:
 
     virtual QModelIndex indexAt(const QPoint &point) const;
     virtual QRectF itemRect( const QModelIndex& index ) const;
+    virtual QRectF itemRect( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
     virtual QPainterPath itemPath( const QModelIndex& index ) const = 0;
 
     int rows( const QModelIndex& index ) const;
@@ -73,9 +82,12 @@ protected slots:
     void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
     void rowsInserted(const QModelIndex &parent, int start, int end);
 
-
 public slots:
-    virtual bool save( const QString& filename ) const { return false; };
+    /*!
+    Updates the items in the view. This function must be called whenever the model has changed.
+    */
+    virtual void updateValues() = 0;
 };
 
+}
 #endif // AbstractItemView_H

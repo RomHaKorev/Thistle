@@ -1,7 +1,7 @@
 #include "graphmodel.h"
 #include <QDebug>
 
-namespace Marb {
+namespace Thistle {
 
 GraphModel::GraphModel( QObject* parent ) : QStandardItemModel( parent ) {
     d_ptr = new GraphModelPrivate();

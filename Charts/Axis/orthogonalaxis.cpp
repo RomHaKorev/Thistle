@@ -7,20 +7,10 @@
 
 #include "orthogonalaxis_p.h"
 
-namespace Marb {
+namespace Thistle {
 
 OrthogonalAxis::OrthogonalAxis() : Axis( new OrthogonalAxisPrivate() ) {
     Q_D( OrthogonalAxis );
-    d->model = 0;
-    d->nbDigits = 3;
-    d->nbTicks = 5;
-    d->tickSize = 0;
-    d->axisPen = QPen( QColor( Color::LightGray ), 1.5 );
-    d->startOnAxis = false;
-    d->verticalLabels = true;
-
-    d->yLabelsLength = 10;
-    d->xLabelsLength = 0;
 }
 
 

@@ -5,7 +5,7 @@
 
 #include "radialaxis_p.h"
 
-namespace Marb {
+namespace Thistle {
 
 class RadialAxis : public Axis {
     Q_DECLARE_PRIVATE( RadialAxis )

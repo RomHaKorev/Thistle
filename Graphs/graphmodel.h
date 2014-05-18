@@ -6,8 +6,16 @@
 
 #include "graphmodel_p.h"
 
-namespace Marb {
 
+
+namespace Thistle {
+
+/*!
+\class GraphModel
+\brief The GraphModel class provides a specific model for Graph viewes.
+
+The GraphModel inherits QStandardItemModel and can store the edges between items. 
+*/
 class GraphModel: public QStandardItemModel {
     Q_OBJECT
     Q_DECLARE_PRIVATE( GraphModel );

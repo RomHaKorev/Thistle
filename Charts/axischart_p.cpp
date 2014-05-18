@@ -1,8 +1,10 @@
 #include "axischart_p.h"
 
-namespace Marb {
+#include "axischart.h"
 
-AxisChartPrivate::AxisChartPrivate() : AbstractChartPrivate() {
+namespace Thistle {
+
+AxisChartPrivate::AxisChartPrivate( AxisChart* q ) : AbstractChartPrivate( q ) {
 
 }
 

@@ -6,6 +6,8 @@
 #include <QAbstractItemModel>
 #include <QPen>
 
+namespace Thistle {
+
 struct AxisPrivate {
     QRect valuesRect;
     QRect chartRect;
@@ -29,5 +31,7 @@ struct AxisPrivate {
     
     AxisPrivate();
 };
+
+}
 
 #endif // AXIS_P_H

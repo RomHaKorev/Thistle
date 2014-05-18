@@ -1,54 +1,72 @@
 /*
- This file is part of Marb.
+This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
-    it under the terms of the Lesser GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
+Thistle is free software: you can redistribute it and/or modify
+it under the terms of the Lesser GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    Lesser GNU General Public License for more details.
+Thistle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Lesser GNU General Public License for more details.
 
-    You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the Lesser GNU General Public License
+along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef DELEGATES_H
 #define DELEGATES_H
 #include <QStyledItemDelegate>
 
-namespace Marb {
+namespace Thistle {
 
-class AxisChart;
+    class AxisChart;
 
-class AbstractChartDelegate : public QStyledItemDelegate {
-public:
-    AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ){}
-    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
-    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
-};
+    class AbstractChartDelegate : public QStyledItemDelegate {
+    public:
+        AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ){}
 
-class PointDelegate : public AbstractChartDelegate {
-    QPolygon createDiamond( const QRect& rect) const;
+        /*!
+        Paints the delegate's disabled render.
 
-public:
-    explicit PointDelegate( AxisChart* parent = 0 );
-    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-};
+        An item is considered as disabled when the selectionModel doesn't contain any index in the column of \a index.
 
-class BarDelegate : public AbstractChartDelegate {
-public:
-    explicit BarDelegate( AxisChart* parent = 0 );
-    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-};
+        For example, by default, the \a DotDelegate draw a disabled item as a blurred gray point.
+        */
+        virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+
+        /*!
+        Paints the delegate's enabled render.
+
+        An item is considered as enabled when the selectionModel is empty or contains an index in the column of \a index.
+        */
+        virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+
+        /*!
+        Paints the data of the \a index relative to the shape set in the \a SerieFormat corresponding to the \a index column.
+        */
+        virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+    };
+
+    class DotDelegate : public AbstractChartDelegate {
+        QPolygon createDiamond( const QRect& rect) const;
+
+    public:
+        explicit DotDelegate( AxisChart* parent = 0 );
+        virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    };
+
+    class BarDelegate : public AbstractChartDelegate {
+    public:
+        explicit BarDelegate( AxisChart* parent = 0 );
+        virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    };
 
 }
 

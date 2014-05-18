@@ -1,15 +1,15 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "abstractitemview.h"
 #include "itemdelegate.h"
@@ -24,10 +24,16 @@
 
 #include "abstractitemview_p.h"
 
+namespace Thistle {
+
+/**!
+Constructs an abstract item view with the given parent.
+**/
 AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent ) {
     d_ptr = new AbstractItemViewPrivate( this );
     setItemDelegate( d_ptr->delegate );
 }
+
 
 AbstractItemView::AbstractItemView( AbstractItemViewPrivate* d, QWidget* parent ) : QAbstractItemView( parent ), d_ptr( d ) {
     setItemDelegate( d_ptr->delegate );
@@ -38,18 +44,10 @@ AbstractItemView::~AbstractItemView() {
 }
 
 
-QList<int> AbstractItemView::calculateColumnsOrder() const {
-    QList<int> l;
-    for ( int i = 0; i < this->model()->columnCount(); ++i ) {
-        l << i;
-    }
-    return ( l );
-}
-
-
 QMargins AbstractItemView::contentsMargins() const { 
     return d_ptr->margins;
 }
+
 
 QRect AbstractItemView::contentsRect() const {
     return QRect( d_ptr->margins.left(), d_ptr->margins.top(), width() - d_ptr->margins.left() - d_ptr->margins.right(),
@@ -89,10 +87,17 @@ bool AbstractItemView::isIndexHidden(const QModelIndex& /*index*/ ) const {
 }
 
 
+/**!
+Defines the outer bounds of the item as a rectangle; all painting must be restricted to inside an item's bounding rect.
+Although the item's shape can be arbitrary, the bounding rect is always rectangular.
+*/
 QRectF AbstractItemView::itemRect( const QModelIndex& index ) const {
     return this->itemPath( index ).boundingRect();
 }
 
+QRectF AbstractItemView::itemRect( int row, int column, const QModelIndex& parent ) const {
+    return this->itemRect( this->model()->index( row, column, parent ) );
+}
 
 QModelIndex AbstractItemView::moveCursor( QAbstractItemView::CursorAction cursorAction,
                                              Qt::KeyboardModifiers /*modifiers*/ ) {
@@ -167,12 +172,12 @@ void AbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::Sel
                     this->horizontalScrollBar()->value(),
                     this->verticalScrollBar()->value()).normalized();
     int rows = this->model()->rowCount( this->rootIndex() );
-    QList<int> columns = this->calculateColumnsOrder();
+    int columns = this->model()->columnCount( this->rootIndex() );
     int count = 0;
     QPainterPath contentsPath;
     contentsPath.addRect( contentsRect );
     for ( int row = 0; row < rows; ++row ) {
-        Q_FOREACH( int col, columns ) {
+        for( int col = 0; col < columns; ++col ) {
             QModelIndex index = this->model()->index( row, col, this->rootIndex() );
             QPainterPath path = this->itemPath( index );
             if ( !path.intersected(contentsPath).isEmpty() ) {
@@ -201,4 +206,6 @@ QRect AbstractItemView::visualRect(const QModelIndex &index) const {
 
 QRegion AbstractItemView::visualRegionForSelection(const QItemSelection &selection) const {
     return QRegion( QRect( 0, 0, this->width(), this->height() ) );
+}
+
 }

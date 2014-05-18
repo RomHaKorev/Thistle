@@ -1,15 +1,15 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "radialtree.h"
 #include <QPaintEvent>
@@ -20,11 +20,13 @@
 #include <qmath.h>
 #include "../kernel/itemdelegate.h"
 
-RadialTree::RadialTree( QWidget* parent ) : Tree( parent ) {
+namespace Thistle {
+
+RadialTree::RadialTree( QWidget* parent ) : AbstractTree( parent ) {
     Q_D( RadialTree );
     d->itemRect = QRect( -20, -20, 40, 40 );
     ItemStyle style = ItemStyle();
-    style.setShape( Marb::Ellipse );
+    style.setShape( Global::Ellipse );
     d->delegate = new ItemDelegate( this );
     d->delegate->setItemStyle( style );
     setItemDelegate( d->delegate );
@@ -35,7 +37,7 @@ RadialTree::RadialTree( QWidget* parent ) : Tree( parent ) {
     d->diagonal = 1;
 }
 
-RadialTree::RadialTree( RadialTreePrivate* d, QWidget* parent ) : Tree( d, parent ) {
+RadialTree::RadialTree( RadialTreePrivate* d, QWidget* parent ) : AbstractTree( d, parent ) {
 }
 
 
@@ -61,7 +63,7 @@ void RadialTree::paintCircles( QPainter& painter, const QPointF& offset ) const 
 
 void RadialTree::paintConnections( QPainter& painter, QPointF offset ) const  {
     paintCircles( painter, offset );
-    Tree::paintConnections( painter, offset );
+    AbstractTree::paintConnections( painter, offset );
 }
 
 
@@ -78,7 +80,7 @@ void RadialTree::positionsInTree() {
 
 void RadialTree::positionsInView() {
     Q_D( RadialTree );
-	if ( d->itemTreePos.isEmpty() || (d->radius == HUGE_VAL) || (d->radius == 0) ) {
+    if ( d->itemTreePos.isEmpty() || (d->radius == HUGE_VAL) || (d->radius == 0) ) {
             return;
     }
     updatePerimeter();
@@ -136,22 +138,6 @@ void RadialTree::positionsInView() {
         d->itemPos[index] = circle.pointAtPercent( d->itemPos[index].x() ) + d->itemOffset;
     }
     d->itemPos[ this->model()->index(0,0) ] = d->itemOffset;
-}
-
-
-bool RadialTree::save( const QString& filename ) const {
-    const Q_D( RadialTree );
-    QSize s = d->realSize + QSize( 20, 20 );
-    QPixmap pix( s );
-    pix.fill( Qt::transparent );
-    QPainter painter( &pix );
-    painter.setRenderHint( QPainter::Antialiasing );
-    qreal x = d->realSize.width()/2 + 10 - d->itemOffset.x();
-    qreal y = d->realSize.height()/2 + 10 - d->itemOffset.y();
-    this->paintConnections( painter, QPointF( x, y ) );
-    paintItems( painter , QPointF( x, y ) );
-    painter.end();
-    return pix.save( filename );
 }
 
 
@@ -235,3 +221,4 @@ void RadialTree::updatePerimeter() {
 }
 
 
+}

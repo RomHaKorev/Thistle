@@ -5,12 +5,15 @@
 #include <qmap.h>
 #include <qrubberband.h>
 #include <qmargins.h>
+#include <qobject.h>
 
 #include "itemdelegate.h"
 
+namespace Thistle {
+
 class AbstractItemView;
 
-struct AbstractItemViewPrivate {
+struct AbstractItemViewPrivate : public QObject {
     QMap<QModelIndex, QPointF> itemPos;
     ItemDelegate* delegate;
     QRubberBand* rubberBand;
@@ -20,4 +23,5 @@ struct AbstractItemViewPrivate {
     ~AbstractItemViewPrivate();
 };
 
+}
 #endif // ABSTRACTITEMVIEW_P_H

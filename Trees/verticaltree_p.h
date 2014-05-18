@@ -2,13 +2,17 @@
 #define VERTICALTREE_P_H
 
 
-#include "tree_p.h"
+#include "abstracttree_p.h"
 
-struct VerticalTreePrivate : public TreePrivate {
+namespace Thistle {
+
+struct VerticalTreePrivate : public AbstractTreePrivate {
     VerticalTreePrivate();
     int connectorType;
     qreal max;
     qreal min;
 };
+
+}
 
 #endif // VERTICALTREE_P_H

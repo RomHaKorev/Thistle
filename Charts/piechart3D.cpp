@@ -1,35 +1,38 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
+
 #include "piechart3d.h"
 #include "../kernel/global.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QDebug>
 
-namespace Marb {
+namespace Thistle {
 
 
 PieChart3D::PieChart3D( QWidget* parent ) :
     PieChart( parent ) {
-    //mySplitted = true;
-    //myRender = Translucent;
+        Q_D( PieChart );
+    //d->splitted = true;
+    d->is3D = true;
+    d->render = Translucent;
     //myRender = Plain;
 }
 
 
 void PieChart3D::configureColor(QPainter &painter, QColor base, int flag) const {
-    const Q_D( PieChart3D );
+    const Q_D( PieChart );
     painter.setPen( QPen( base, 2 ) );
     switch( flag ) {
         case 2:
@@ -56,7 +59,7 @@ void PieChart3D::configureColor(QPainter &painter, QColor base, int flag) const 
 
 
 QPainterPath PieChart3D::itemExternalPart( qreal angle, qreal delta, bool splitted ) const {
-    const Q_D( PieChart3D );
+    const Q_D( PieChart );
     QPainterPath ell;
     ell.addEllipse( d->rect );
     qreal a = angle / 360.0;
@@ -81,7 +84,7 @@ QPainterPath PieChart3D::itemExternalPart( qreal angle, qreal delta, bool splitt
 
 
 QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const {
-    const Q_D( PieChart3D );
+    const Q_D( PieChart );
     QPainterPath outside;
     qreal angle = d->startAngle;
     for ( int r = 0; r < index.row(); ++r ) {
@@ -92,7 +95,7 @@ QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const {
     }
     qreal v = qAbs( this->model()->data( index ).toReal() );
     qreal delta = 360.0 * v/d->total;
-    if ( selectionModel()->selectedIndexes().contains( index )) {
+    if ( selectionModel()->selectedIndexes().contains( index ) ) {
         outside = itemExternalPart( angle, delta, true );
     } else {
         outside = itemExternalPart( angle, delta );
@@ -101,26 +104,28 @@ QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const {
 }
 
 
-void PieChart3D::paintEvent(QPaintEvent *event) {
-    const Q_D( PieChart3D );
+void PieChart3D::paintEvent( QPaintEvent* event ) {
     Q_UNUSED(event)
-    QPainter painter( viewport() );
+    const Q_D( PieChart );
+
+    QPainter painter( this->viewport() );
     painter.save();
     painter.setRenderHint( QPainter::Antialiasing );
-    updateChart();
     if ( d->render != Plain ) {
-        paintExternal( painter, true );
+         paintExternal( painter, true );
         paintSides( painter );
         paintExternal( painter, false );
     } else {
-        paintExternal( painter, false );
+        this->paintExternal( painter, false );
     }
-    for ( int i = 0; i < d->angles.count() - 2; i+=2 ) {
+    qDebug() << d->angles << d->front << d->rect;
+    for ( int i = 0; i < d->angles.count() - 2; i += 2 ) {
         QModelIndex index = this->model()->index( i/2, 0 );
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Color::predefinedColor( i/2 );
+            color = Global::predefinedColor( i/2 );
         }
+
         bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
                                             || this->currentIndex() == index;
         if ( d->splitted == false ) {
@@ -135,21 +140,23 @@ void PieChart3D::paintEvent(QPaintEvent *event) {
 
 
 void PieChart3D::paintExternal( QPainter& painter, bool top ) {
-    Q_D( PieChart3D );
+    Q_D( PieChart );
     for ( int i = 0; i < d->angles.count() - 2; i+=2 ) {
         QModelIndex index = this->model()->index( i/2, 0 );
         bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
                                             || this->currentIndex() == index;
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Color::predefinedColor( i/2 );
+            color = Global::predefinedColor( i/2 );
         }
         painter.save();
         qreal a1 = d->angles[i];
         qreal delta = d->angles[i + 1];
         qreal a2 = a1 + delta;
         if ( a1 < 180 && a2 > 180 ) {
-            paintLeft( painter, color );
+            QPointF  offset( 0, 0 );
+            if ( isSelected ) offset = splittedOffset( d->angles[i], delta );
+            this->paintLeft( painter, color, offset );
         }
         if ( top == false ) {
             if ( a1 <= 180 && a2 > 180 ) {
@@ -184,8 +191,8 @@ void PieChart3D::paintExternal( QPainter& painter, bool top ) {
 }
 
 
-void PieChart3D::paintLeft( QPainter& painter, QColor color ) {
-    Q_D( PieChart3D );
+void PieChart3D::paintLeft( QPainter& painter, QColor color, QPointF offset ) {
+    Q_D( PieChart );
     if ( d->render == WireFrame ) {
         return;
     }
@@ -204,13 +211,14 @@ void PieChart3D::paintLeft( QPainter& painter, QColor color ) {
     path.moveTo( ellipse1.pointAtPercent( 0.5 ) );
     path.arcTo( d->rect, 180, 90 );
     path = path.subtracted( ellipse1 );
+    path.translate( offset );
     painter.fillPath( path, color );
     painter.restore();
 }
 
 
 void PieChart3D::paintSides( QPainter& painter ) {
-    Q_D( PieChart3D );
+    Q_D( PieChart );
     QList<QPair<QPainterPath, QColor> > rightBottom;
     QList<QPair<QPainterPath, QColor> > rightTop;
     QList<QPair<QPainterPath, QColor> > leftBottom;
@@ -221,7 +229,7 @@ void PieChart3D::paintSides( QPainter& painter ) {
                                             || this->currentIndex() == index;
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Color::predefinedColor( i/2 );
+            color = Global::predefinedColor( i/2 );
         }
         QPointF offset = splittedOffset( d->angles[i], d->angles[i + 1] );
         QPainterPath path = this->side( d->angles[i], offset, isSelected );
@@ -255,7 +263,7 @@ void PieChart3D::paintSides( QPainter& painter ) {
 
 
 void PieChart3D::setRender( PieChart3D::Render r ) {
-    Q_D( PieChart3D );
+    Q_D( PieChart );
     if ( r == PieChart3D::Plain ) {
         qWarning( "Not implemented yet." );
         return;
@@ -265,7 +273,7 @@ void PieChart3D::setRender( PieChart3D::Render r ) {
 
 
 QPainterPath PieChart3D::side( qreal angle, QPointF centerOffset, bool splitted ) const {
-    const Q_D( PieChart3D );
+    const Q_D( PieChart );
     QPainterPath ell;
     QRectF r = d->rect;
     if ( splitted == true ) {
@@ -287,30 +295,5 @@ QPainterPath PieChart3D::side( qreal angle, QPointF centerOffset, bool splitted 
     outside.addPolygon( sides );
     return outside;
 }
-
-
-void PieChart3D::updateChart() {
-    Q_D( PieChart3D );
-    //PieChart::updateChart();
-    if ( d->splitted == true ) {
-        d->rect.translate( 10, 10 );
-        d->rect.setWidth( d->rect.width() - 20 );
-        d->rect.setHeight( d->rect.height() - 20 );
-    }
-    d->height = d->rect.height() * 0.20;
-    d->rect.setHeight( d->rect.height() * 0.75 );
-    d->angles.clear();
-    qreal angle = d->startAngle;
-    for ( int i = 0; i < this->model()->rowCount(); ++i ) {
-        d->angles << angle;
-        QModelIndex index = this->model()->index( i, 0 );
-        qreal v = qAbs( this->model()->data( index ).toReal() );
-        qreal delta = 360.0 * v/d->total;
-        d->angles << delta;
-        angle += delta;
-    }
-    d->angles << 360.0;
-}
-
 
 }

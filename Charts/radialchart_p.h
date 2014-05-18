@@ -6,15 +6,17 @@
 
 #include "axischart_p.h"
 
-namespace Marb {
+namespace Thistle {
 
-class RadialAxis;
+    class RadialAxis;
+    class RadialChart;
+    class AxisChart;
 
-struct RadialChartPrivate : AxisChartPrivate {
-    qreal centerHoleDiam;
-    RadialAxis* radialAxis;
-    RadialChartPrivate();
-};
+    struct RadialChartPrivate : public AxisChartPrivate {
+        qreal centerHoleDiam;
+        RadialAxis* radialAxis;
+        RadialChartPrivate( RadialChart* q );
+    };
 
 }
 

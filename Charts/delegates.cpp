@@ -1,33 +1,34 @@
 /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "delegates.h"
 #include "axischart.h"
 #include "../kernel/global.h"
-#include "chartstyle.h"
+#include "serieformat.h"
 #include <QPainter>
+#include <QDebug>
 
-namespace Marb {
+namespace Thistle {
 
-PointDelegate::PointDelegate( AxisChart* parent ) : AbstractChartDelegate( parent ) {
+DotDelegate::DotDelegate( AxisChart* parent ) : AbstractChartDelegate( parent ) {
 }
 
-QPolygon PointDelegate::createDiamond( const QRect& rect ) const {
+QPolygon DotDelegate::createDiamond( const QRect& rect ) const {
     QPolygon poly;
     poly.append( rect.topLeft() + QPoint(rect.width()/2, 0) );
     poly.append( rect.topRight() + QPoint(0, rect.height()/2) );
@@ -36,9 +37,8 @@ QPolygon PointDelegate::createDiamond( const QRect& rect ) const {
     return poly;
 }
 
-/* Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
-*/
-void PointDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+
+void DotDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if ( option.state == QStyle::State_Off ) {
         this->paintDisabled(painter, option, index);
     } else {
@@ -47,14 +47,14 @@ void PointDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 }
 
 
-void PointDelegate::paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void DotDelegate::paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     painter->save();
     QRect r = option.rect;
     QRect r2 = QRect( r.topLeft() - QPoint( 5, 5 ), r.bottomRight() + QPoint( 5, 5 ) );
+    QColor c( painter->pen().color() );
     painter->setPen( Qt::NoPen );
     QRadialGradient gradient( r2.center(), r2.width() / 2.0, r2.center() );
-    QColor c( Qt::gray );
-    c.setAlpha( 150 );
+    c.setAlpha( 75 );
     gradient.setColorAt( 0, c );
     gradient.setColorAt( 1, Qt::transparent );
     gradient.setSpread( QRadialGradient::ReflectSpread );
@@ -64,28 +64,28 @@ void PointDelegate::paintDisabled(QPainter *painter, const QStyleOptionViewItem 
 }
 
 
-void PointDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void DotDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     AxisChart* p = qobject_cast<AxisChart*>( this->parent() );
-    ChartStyle style;
-    if ( p != 0 ) style = p->columnStyle( index.column() );
+    SerieFormat style;
+    if ( p != 0 ) style = p->serieFormat( index.column() );
     painter->save();
     painter->setBrush( style.brush() );
     painter->setPen( style.pen() );
     QRect r = option.rect;
 
-    if ( style.shape() == Marb::Ellipse ) {
+    if ( style.shape() == Global::Ellipse ) {
         painter->drawEllipse( r );
-    } else if ( style.shape() == Marb::RoundedRect ) {
+    } else if ( style.shape() == Global::RoundedRect ) {
         painter->drawRoundedRect( r, 5, 5 );
-    } else if ( style.shape() == Marb::Diamond ) {
+    } else if ( style.shape() == Global::Diamond ) {
         painter->drawPolygon( createDiamond( r ) );
-    } else if ( style.shape() == Marb::Triangle ) {
+    } else if ( style.shape() == Global::Triangle ) {
         QPolygon poly;
         poly.append( r.topLeft() + QPoint( r.width()/2, 0 ) );
         poly.append( r.bottomLeft() );
         poly.append( r.bottomRight() );
         painter->drawPolygon( poly );
-    } else if ( style.shape() == Marb::ReversedTriangle ) {
+    } else if ( style.shape() == Global::ReversedTriangle ) {
         QPolygon poly;
         poly.append( r.bottomLeft() + QPoint( r.width()/2, 0 ) );
         poly.append( r.topLeft() );
@@ -103,7 +103,7 @@ void PointDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &
 BarDelegate::BarDelegate(AxisChart* parent) : AbstractChartDelegate( parent ) {
 }
 
-/* Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
+/* Paints the data of the index relative to the shape set in the SerieFormat corresponding to the column of index.
 */
 void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if ( option.state == QStyle::State_Off ) {
@@ -113,7 +113,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, c
     }
 }
 
-/*Paints the data of the index relative to the shape set in the ChartStyle corresponding to the column of index.
+/*Paints the data of the index relative to the shape set in the SerieFormat corresponding to the column of index.
 */
 void BarDelegate::paintDisabled(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
     QRect r = option.rect.normalized();
@@ -136,8 +136,8 @@ void BarDelegate::paintDisabled(QPainter* painter, const QStyleOptionViewItem& o
 }
 void BarDelegate::paintEnabled(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
     AxisChart* p = qobject_cast<AxisChart*>( this->parent() );
-    ChartStyle style;
-    if ( p != 0 ) style = p->columnStyle( index.column() );
+    SerieFormat style;
+    if ( p != 0 ) style = p->serieFormat( index.column() );
     QRect r = option.rect;
 
     painter->save();

@@ -3,6 +3,8 @@
 
 #include "axis_p.h"
 
+namespace Thistle {
+
 struct OrthogonalAxisPrivate : public AxisPrivate {
     OrthogonalAxisPrivate();
 
@@ -11,5 +13,7 @@ struct OrthogonalAxisPrivate : public AxisPrivate {
     bool startOnAxis;
     bool verticalLabels;
 };
+
+}
 
 #endif // ORTHOGONALAXIS_P_H

@@ -5,7 +5,7 @@
 #include <qmath.h>
 #include <QDebug>
 
-namespace Marb {
+namespace Thistle {
 
 GraphAlgorithm::GraphAlgorithm( Graph* parent ) : QObject( parent ) {
     d_ptr = new GraphAlgorithmPrivate();

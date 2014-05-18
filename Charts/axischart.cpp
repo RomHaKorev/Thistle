@@ -1,19 +1,19 @@
   /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "axischart.h"
@@ -33,9 +33,11 @@
 #include "../kernel/abstractitemview_p.h"
 #include "axischart_p.h"
 
-namespace Marb {
+namespace Thistle {
 
-AxisChart::AxisChart( QWidget* parent ) : AbstractChart( new AxisChartPrivate(), parent ) {
+/*! Constructs an abstract Axis chart with the given \a parent.
+*/
+AxisChart::AxisChart( QWidget* parent ) : AbstractChart( new AxisChartPrivate( this ), parent ) {
 }
 
 AxisChart::AxisChart( AxisChartPrivate* d, QWidget* parent ) : AbstractChart( d, parent ) {
@@ -44,32 +46,50 @@ AxisChart::AxisChart( AxisChartPrivate* d, QWidget* parent ) : AbstractChart( d,
 AxisChart::~AxisChart() {
 }
 
-
+/*!
+Returns the current \a Axis instance used by this view.
+*/
 Axis* AxisChart::axis() const {
     const Q_D( AxisChart );
     return d->axis;
 }
 
+/*!
+Calculates the order in which the series (columns) should be drawn.
 
-ChartStyle AxisChart::columnStyle( int column ) const {
+For example, in \a LinearChart, the columns with the \s type \a Thistle::Bar will be drawn at first to avoid to mask the others.
+*/
+QList<int> AxisChart::calculateColumnsOrder() const {
+    QList<int> l;
+    for ( int i = 0; i < this->model()->columnCount(); ++i ) {
+        l << i;
+    }
+    return ( l );
+}
+
+/*!
+Return the \a SerieFormat used for the \c column.
+*/
+SerieFormat AxisChart::serieFormat( int column ) const {
     const Q_D( AxisChart );
     if ( d->style.contains( column ) ) {
             return d->style[ column ];
     }
-    ChartStyle style;
-    QColor c1 =Color::predefinedLightColor( column );
-    QColor c2 = Color::predefinedDarkColor( column );
+    SerieFormat style;
+    QColor c1 =  Global::predefinedLightColor( column );
+    QColor c2 = Global::predefinedDarkColor( column );
     style.setPen( QPen( QColor(c2), 2 ) );
     style.setBrush( QBrush(c1) );
     return style;
 }
 
+
 void AxisChart::defineRects() {
     Q_D( AxisChart );
     d->axis->setChartRect( this->contentsRect() );
     this->calculateLegendRect( d->axis->chartRect() );
-    d->axis->chartRect().setHeight( d->axis->chartRect().height() - d->legendRect.height() - 10 );
-    d->axis->chartRect().translate( 0, d->legendRect.height() + 10 );
+    d->axis->chartRect().setHeight( d->axis->chartRect().height() - d->legend->area.height() - 10 );
+    d->axis->chartRect().translate( 0, d->legend->area.height() + 10 );
 
     if ( d->title != "" ) {
         QFont font = this->font();
@@ -89,7 +109,7 @@ void AxisChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int 
     QRect r( pos.x() + 20, pos.y() - 10, 20, 20 );
     QPoint posText = pos + QPoint( 45, metricsH/2 );
 
-    ChartStyle style = this->columnStyle( serie );
+    SerieFormat style = this->serieFormat( serie );
 
     QString s = this->model()->headerData( serie, Qt::Horizontal ).toString();
     painter.drawText( posText, s );
@@ -101,21 +121,21 @@ void AxisChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int 
 }
 
 
-void AxisChart::paintEvent( QPaintEvent* event ) {
+/*void AxisChart::paintEvent( QPaintEvent* event ) {
     if ( this->model() == 0 ) {
         return;
     }
         QPainter painter( viewport() );
         painter.setClipRect( event->rect() );
         paintChart( painter );
-}
+}*/
 
-
-int AxisChart::scan() {
-    /*Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
-    If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
-    If a value is not a number (undefined, a string, etc.), she's considered as equal to 0. */
-
+/*!
+Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
+If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
+If a value is not a number (undefined, a string, etc.), she's considered as equal to 0.
+*/
+void AxisChart::scan() {
     Q_D( AxisChart );
     int rows = this->model()->rowCount();
     int cols = this->model()->columnCount();
@@ -142,17 +162,22 @@ int AxisChart::scan() {
     d->axis->setTickSize( qMax( d->axis->calculateOrder( min ), d->axis->calculateOrder( max) ) );
     d->axis->setYLabelsLength( valueWidth + 5 );
     d->axis->setXLabelsLength( textWidth );
-    return 0;
 }
 
-
+/*!
+Sets the \a Axis use by the view to determine the item's positions.
+*/
 void AxisChart::setAxis( Axis* axis ) {
     Q_D( AxisChart );
     d->axis = axis;
 }
 
 
-void AxisChart::setColumnStyle( int column, ChartStyle style ) {
+/*!
+Sets the given \c style to the given \c column.
+The \c style defines the look and feel of a serie.
+*/
+void AxisChart::setSerieFormat( int column, SerieFormat style ) {
     Q_D( AxisChart );
     d->style[ column ] = style;
 }
@@ -163,6 +188,32 @@ void AxisChart::setModel( QAbstractItemModel* model ) {
     QAbstractItemView::setModel( model );
     d->axis->setModel( model );
     this->process();
+}
+
+
+void AxisChart::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command ) {
+    QRect contentsRect = rect.translated(
+                    this->horizontalScrollBar()->value(),
+                    this->verticalScrollBar()->value()).normalized();
+    int rows = this->model()->rowCount( this->rootIndex() );
+    QList<int> columns = this->calculateColumnsOrder();
+    int count = 0;
+    QPainterPath contentsPath;
+    contentsPath.addRect( contentsRect );
+    for ( int row = 0; row < rows; ++row ) {
+        Q_FOREACH( int col, columns ) {
+            QModelIndex index = this->model()->index( row, col, this->rootIndex() );
+            QPainterPath path = this->itemPath( index );
+            if ( !path.intersected(contentsPath).isEmpty() ) {
+                count += 1;
+                this->selectionModel()->select( index, command );
+            }
+        }
+    }
+    if ( count == 0 ) {
+        this->selectionModel()->clear();
+    }
+    this->viewport()->update();
 }
 
 }

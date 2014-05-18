@@ -1,9 +1,9 @@
 #include "graphmodel_p.h"
 
-namespace Marb {
+//namespace Thistle {
 
 GraphModelPrivate::GraphModelPrivate() {
 
 }
 
-}
+//}

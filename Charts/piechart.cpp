@@ -1,15 +1,15 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 
@@ -22,10 +22,14 @@
 #include <QPainter>
 #include <QPaintEvent>
 
-namespace Marb {
+namespace Thistle {
 
 PieChart::PieChart( QWidget* parent ) :
-    AbstractChart( new PieChartPrivate(), parent ) {
+    AbstractChart( new PieChartPrivate( false, this ), parent ) {
+    this->setEditTriggers( QAbstractItemView::NoEditTriggers );
+}
+
+PieChart::PieChart( PieChartPrivate* d, QWidget* parent ) : AbstractChart( d, parent ) {
     this->setEditTriggers( QAbstractItemView::NoEditTriggers );
 }
 
@@ -97,7 +101,6 @@ QPainterPath PieChart::itemPath( const QModelIndex& index ) const {
 
 void PieChart::paintChart( QPainter &painter ) const {
     const Q_D( PieChart );
-    //this->updateChart();
     painter.save();
     int rows = this->model()->rowCount();
     qreal angle = d->startAngle;
@@ -105,7 +108,7 @@ void PieChart::paintChart( QPainter &painter ) const {
         QModelIndex index = this->model()->index( i, 0 );
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Color::predefinedColor( i );
+            color = Global::predefinedColor( i );
         }
         qreal v = qAbs( this->model()->data( index ).toReal() );
         qreal delta = 360.0 * v/d->total;
@@ -118,8 +121,6 @@ void PieChart::paintChart( QPainter &painter ) const {
         }
         angle += delta;
     }
-    painter.drawText( d->titleRect, Qt::AlignHCenter | Qt::TextWordWrap, d->title );
-
     painter.restore();
 }
 
@@ -128,6 +129,7 @@ void PieChart::paintChart( QPainter &painter ) const {
 The legend corresponds to the text in the Horizontal QHeaderView and the style defined for each column.
 */
 void PieChart::paintLegend( QPainter& painter) const {
+    return;
     const Q_D( PieChart );
     painter.save();
     QFontMetrics metrics( this->font() );
@@ -135,8 +137,8 @@ void PieChart::paintLegend( QPainter& painter) const {
     int h = metricsH + 10;
     int rows = this->model()->rowCount();
     int w = 0;
-    int maxWidth = d->legendRect.width();
-    QPoint legendPos( d->legendRect.topLeft() );
+    int maxWidth = d->legend->area.width();
+    QPoint legendPos( d->legend->area.topLeft() );
     QPoint pos = legendPos + QPoint( 50, 0);
     for (int r = 0; r < rows; ++r ) {
         QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
@@ -144,8 +146,8 @@ void PieChart::paintLegend( QPainter& painter) const {
         QPoint p;
         if ( ( w + sWidth ) > maxWidth ) {
             int y = pos.y();
-            p = QPoint( d->legendRect.x(), y + h );
-            pos = QPoint( d->legendRect.x(), y + h );
+            p = QPoint( d->legend->area.x(), y + h );
+            pos = QPoint( d->legend->area.x(), y + h );
             w = sWidth;
             pos += QPoint( sWidth, 0 );
         } else {
@@ -163,7 +165,7 @@ void PieChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int m
 
     QColor color( this->model()->data( this->model()->index( serie, 0 ), Qt::DecorationRole ).toString() );
     if ( !color.isValid() ) {
-        color = Color::predefinedColor( serie );
+        color = Global::predefinedColor( serie );
     }
 
     QRect r( pos.x(), pos.y() - 20, 14, 14 );
@@ -242,19 +244,17 @@ QPointF PieChart::splittedOffset( qreal angle, qreal delta ) const {
     part.closeSubpath();
     QPointF p = part.pointAtPercent( 0.5 );
     QLineF line( p, d->rect.center() );
-    line.setLength( line.length() * 1.1 );
+    line.setLength( line.length() * d->offsetFactor );
     p = line.p2();
     return d->rect.center() - p;
 }
 
 
 void PieChart::updateRects() {
-    if ( this->model() == 0 )    {
+    if ( this->model() == 0 ) {
         return;
     }
     this->defineRects();
-    //myTitleRect.moveTo( axis()->myValuesRect.bottomLeft() );
-    //myTitleRect.translate( (axis()->myValuesRect.width() - myTitleRect.width())/2, 20 );
 }
 
 
@@ -264,12 +264,12 @@ QRect PieChart::visualRect( const QModelIndex& index ) const {
     return QRect( 0, 0, width(), height() );
 }
 
-
-int PieChart::scan() {
-    /*Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
-    If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
-    If a value is not a number (undefined, a string, etc.), she's considered as equal to 0. */
-
+/*!
+Scans values in the model to find the minimum and the maximum. Returns the width needed to display the Y scale.
+If the values are greater than zero, the minimum is equal to 0. If the values are less than 0, the maximum is equal to 0.
+If a value is not a number (undefined, a string, etc.), she's considered as equal to 0.
+*/
+void PieChart::scan() {
     Q_D( PieChart );
 
     int rows = this->model()->rowCount();
@@ -281,55 +281,12 @@ int PieChart::scan() {
         qreal value = this->model()->index( r, 0 ).data().toDouble();
         d->total += value;
     }
-    return 0;
 }
 
 
 void PieChart::defineRects() {
     Q_D( PieChart );
-    d->rect = this->contentsRect();
-    this->calculateLegendRect( d->rect );
-    d->rect.setWidth( d->rect.width() - d->legendRect.width() - 10 );
-    
-    if ( d->title != "" ) {
-        QFont font = this->font();
-        font.setItalic( true );
-        QFontMetrics metrics( font );
-        QRect r( 0, 0, d->rect.width() - 40, 0 );
-        d->titleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, d->title );
-        //myAxis->chartRect.setHeight( myAxis->chartRect.height() - myTitleRect.height() - 20 );
-        d->rect.setHeight( d->rect.height() - d->titleRect.height() - 20 );
-    }
-
-
-    int w = qMin( d->rect.width() * 0.80, d->rect.height() * 0.80 );
-
-    d->rect.setWidth( w );
-    d->rect.setHeight( w );
-
-    d->titleRect.moveTo( d->titleRect.x(), d->rect.top() );
-    d->rect.moveTo( d->rect.x(), d->titleRect.bottom() + 10 );
-    d->legendRect.moveTo( d->rect.right() + 10, d->rect.top() );
-    
-}
-
-
-void PieChart::calculateLegendRect( const QRect& source ) {
-    Q_D( PieChart );
-    QFontMetrics metrics( font() );
-    int h = metrics.height() + 10;
-    int rows = this->model()->rowCount();
-
-    int w = 0;
-
-    for( int r = 0; r < rows; ++r ) {
-        QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
-        w = qMax( metrics.width( s ) + 40, w );
-    }
-
-    w = qMin( source.width(), w );
-        
-    d->legendRect = QRect( source.right() - w, this->contentsMargins().top(), w, rows * h );
+    d->createRects( this->contentsRect() );
 }
 
 }

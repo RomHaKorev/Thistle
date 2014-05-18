@@ -1,19 +1,19 @@
 /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "itemdelegate.h"
@@ -22,6 +22,11 @@
 #include <QPainter>
 #include <QLineEdit>
 
+namespace Thistle {
+
+/*!
+Constructs an item delegate with the given \a parent.
+*/
 ItemDelegate::ItemDelegate( QWidget* parent ) :
     QStyledItemDelegate(parent) {
     d = new ItemDelegatePrivate();
@@ -52,34 +57,34 @@ void ItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, cons
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     painter->save();
-    painter->setBrush( d->style.background() );
-    painter->setPen( d->style.border() );
+    painter->setBrush( d->style.brush() );
+    painter->setPen( d->style.pen() );
     const QRect& r = option.rect;
     switch( d->style.shape() ) {
-        case Marb::Ellipse:
+        case Global::Ellipse:
             painter->drawEllipse( r );
         break;
-        case Marb::RoundedRect:
+        case Global::RoundedRect:
             painter->drawRoundedRect( r, 5, 5 );
         break;
-        case Marb::Diamond:
+        case Global::Diamond:
         painter->drawPolygon( QPolygon()
-                                                    << r.topLeft() + QPoint( r.width()/2, 0 )
-                                                    << r.topRight() + QPoint( 0, r.height()/2 )
-                                                    << r.bottomLeft() + QPoint( r.width()/2, 0 )
-                                                    << r.topLeft() + QPoint( 0, r.height()/2 )
+                            << r.topLeft() + QPoint( r.width()/2, 0 )
+                            << r.topRight() + QPoint( 0, r.height()/2 )
+                            << r.bottomLeft() + QPoint( r.width()/2, 0 )
+                            << r.topLeft() + QPoint( 0, r.height()/2 )
                 );
         break;
-    case Marb::Triangle:
+    case Global::Triangle:
         painter->drawPolygon( QPolygon()
-                                                    << r.topLeft() + QPoint( r.width()/2, 0 )
-                                                    << r.bottomLeft() << r.bottomRight()
+                            << r.topLeft() + QPoint( r.width()/2, 0 )
+                            << r.bottomLeft() << r.bottomRight()
                          );
     break;
-    case Marb::ReversedTriangle:
+    case Global::ReversedTriangle:
         painter->drawPolygon( QPolygon()
-                                                    << r.bottomLeft() + QPoint( r.width()/2, 0 )
-                                                    << r.topLeft() << r.topRight()
+                            << r.bottomLeft() + QPoint( r.width()/2, 0 )
+                            << r.topLeft() << r.topRight()
                          );
     break;
     default:
@@ -107,11 +112,18 @@ void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewI
     Q_UNUSED( index )
 }
 
-
+/*!
+Sets the \a ItemStyle used to draw the item.
+*/
 void ItemDelegate::setItemStyle( const ItemStyle& s ) {
     d->style = s;
 }
 
+/*!
+Returns the \a ItemStyle used to draw the item.
+*/
 ItemStyle ItemDelegate::itemStyle() const {
     return d->style;
+}
+
 }

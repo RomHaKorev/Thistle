@@ -3,18 +3,23 @@
 
 #include <QRect>
 #include <QString>
-
+#include <QList>
+#include <QDebug>
+#include <QPainterPath>
 #include "piechart_p.h"
 //#include "piechart3D.h"
 
-namespace Marb {
+namespace Thistle {
 
-struct PieChart3DPrivate : public PieChartPrivate {
-    QList<qreal> angles;
-    /*PieChart3D::Render*/ int render;
-    QPainterPath front;
-    qreal height;
-    PieChart3DPrivate();
+class PieChart;
+
+class PieChart3DPrivate : public PieChartPrivate {
+public:
+    PieChart3DPrivate( PieChart* q );
+
+    virtual void createRects( const QRect& area );
+
+    void test() { qDebug() << Q_FUNC_INFO; }
 };
 
 }

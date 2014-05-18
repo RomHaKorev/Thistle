@@ -1,17 +1,17 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
-#include "tree.h"
+#include "abstracttree.h"
 #include "../kernel/itemdelegate.h"
 #include <QScrollBar>
 #include <QPainter>
@@ -19,25 +19,29 @@
 #include <QStandardItem>
 #include "../kernel/global.h"
 
+namespace Thistle {
 
-Tree::Tree(QWidget *parent) : AbstractItemView( new TreePrivate(), parent ) {
-    Q_D( Tree );
+AbstractTree::AbstractTree(QWidget *parent) : AbstractItemView( new AbstractTreePrivate(), parent ) {
+    Q_D( AbstractTree );
     setItemDelegate( d->delegate );
 }
 
-Tree::Tree( TreePrivate* d, QWidget* parent ) : AbstractItemView( d, parent ) {
+AbstractTree::AbstractTree( AbstractTreePrivate* d, QWidget* parent ) : AbstractItemView( d, parent ) {
     setItemDelegate( d->delegate );
 }
 
+AbstractTree::~AbstractTree() {
+}
 
-QPen Tree::connectionPen() const {
-    const Q_D( Tree );
+
+QPen AbstractTree::connectionPen() const {
+    const Q_D( AbstractTree );
     return d->connectionPen;
 }
 
 
-QModelIndex Tree::indexAt(const QPoint &point) const {
-    const Q_D( Tree );
+QModelIndex AbstractTree::indexAt(const QPoint &point) const {
+    const Q_D( AbstractTree );
     QPoint p = point - QPoint( horizontalScrollBar()->value(), verticalScrollBar()->value() );
     Q_FOREACH( QModelIndex id, d->itemPos.keys() ) {
         QRectF r = itemRect( id );
@@ -49,22 +53,22 @@ QModelIndex Tree::indexAt(const QPoint &point) const {
 }
 
 
-QPainterPath Tree::itemPath( const QModelIndex& index ) const {
+QPainterPath AbstractTree::itemPath( const QModelIndex& index ) const {
     QPainterPath path;
     path.addRect( this->itemRect( index ) );
     return path;
 }
 
 
-QRectF Tree::itemRect( const QModelIndex& index ) const {
-    const Q_D( Tree );
+QRectF AbstractTree::itemRect( const QModelIndex& index ) const {
+    const Q_D( AbstractTree );
     QPointF p = d->itemPos.value( index ) - QPointF( horizontalOffset(), verticalOffset() );
     return d->itemRect.translated( p.toPoint() );
 }
 
 
-void Tree::paintConnections( QPainter& painter, const QPointF& offset ) const {
-    const Q_D( Tree );
+void AbstractTree::paintConnections( QPainter& painter, const QPointF& offset ) const {
+    const Q_D( AbstractTree );
     painter.save();
     painter.setPen( d->connectionPen );
     Q_FOREACH ( QModelIndex index, d->itemPos.keys() ) {
@@ -74,7 +78,7 @@ void Tree::paintConnections( QPainter& painter, const QPointF& offset ) const {
 }
 
 
-void Tree::paintConnectionsFor( QPainter& painter, const QModelIndex& index, const QPointF& offset ) const {
+void AbstractTree::paintConnectionsFor( QPainter& painter, const QModelIndex& index, const QPointF& offset ) const {
         painter.save();
         QModelIndex parent = this->model()->parent( index );
         if ( parent.isValid() ) {
@@ -91,7 +95,7 @@ void Tree::paintConnectionsFor( QPainter& painter, const QModelIndex& index, con
 ***************************************/
 
 
-void Tree::paintEvent( QPaintEvent* event) {
+void AbstractTree::paintEvent( QPaintEvent* event) {
     QPainter painter( viewport() );
     painter.setClipRect( event->rect() );
     painter.setRenderHint( QPainter::Antialiasing );
@@ -101,8 +105,8 @@ void Tree::paintEvent( QPaintEvent* event) {
 }
 
 
-void Tree::paintItems( QPainter& painter, const QPointF& offset ) const {
-    const Q_D( Tree );
+void AbstractTree::paintItems( QPainter& painter, const QPointF& offset ) const {
+    const Q_D( AbstractTree );
     Q_FOREACH ( QModelIndex index, d->itemPos.keys() ) {
             QStyleOptionViewItem option;
             option.rect = itemRect( index ).translated( offset.x(), offset.y() ).toRect();
@@ -111,27 +115,27 @@ void Tree::paintItems( QPainter& painter, const QPointF& offset ) const {
 }
 
 
-void Tree::resizeEvent( QResizeEvent* event ) {
+void AbstractTree::resizeEvent( QResizeEvent* event ) {
     QAbstractItemView::resizeEvent( event );
     positionsInView();
 }
 
 
-void Tree::setConnectionPen( const QPen& pen ) {
-    Q_D( Tree );
+void AbstractTree::setConnectionPen( const QPen& pen ) {
+    Q_D( AbstractTree );
     d->connectionPen = pen;
 }
 
 
-void Tree::setItemSize( const QSize& s ) {
-    Q_D( Tree );
+void AbstractTree::setItemSize( const QSize& s ) {
+    Q_D( AbstractTree );
     d->itemRect.setRect( -s.width() / 2, -s.height() / 2, s.width(), s.height() );
     this->positionsInView();
 }
 
 
-void Tree::setItemSpacing(int w, int h) {
-    Q_D( Tree );
+void AbstractTree::setItemSpacing(int w, int h) {
+    Q_D( AbstractTree );
     d->xDistance = w;
     d->yDistance = h;
     this->positionsInView();
@@ -139,8 +143,8 @@ void Tree::setItemSpacing(int w, int h) {
 }
 
 
-void Tree::setX( QModelIndex index, qreal x ) {
-    Q_D( Tree );
+void AbstractTree::setX( const QModelIndex& index, qreal x ) {
+    Q_D( AbstractTree );
     if ( !d->itemTreePos.contains( index ) ) {
         d->itemTreePos.insert( index, QPointF() );
     }
@@ -148,8 +152,8 @@ void Tree::setX( QModelIndex index, qreal x ) {
 }
 
 
-void Tree::setY( QModelIndex index, qreal y ) {
-    Q_D( Tree );
+void AbstractTree::setY( const QModelIndex& index, qreal y ) {
+    Q_D( AbstractTree );
     if ( !d->itemTreePos.contains( index ) ) {
         d->itemTreePos.insert( index, QPointF() );
     }
@@ -157,14 +161,14 @@ void Tree::setY( QModelIndex index, qreal y ) {
 }
 
 
-void Tree::show() {
+void AbstractTree::show() {
     this->positionsInView();
     QAbstractItemView::show();
 }
 
 
-void Tree::updateValues() {
+void AbstractTree::updateValues() {
     this->positionsInTree();
 }
 
-
+}

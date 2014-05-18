@@ -1,6 +1,6 @@
 #include "graphalgorithm_p.h"
 
-namespace Marb {
+namespace Thistle {
 
 GraphAlgorithmPrivate::GraphAlgorithmPrivate() {
     timer = new QTimer();

@@ -8,7 +8,7 @@
 
 #include "node.h"
 
-namespace Marb {
+namespace Thistle {
 
 
 struct GraphAlgorithmPrivate {

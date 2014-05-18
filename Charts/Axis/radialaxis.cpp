@@ -6,13 +6,9 @@
 
 #include "radialaxis_p.h"
 
-namespace Marb {
+namespace Thistle {
 
 RadialAxis::RadialAxis() : Axis( new RadialAxisPrivate() ) {
-    Q_D( RadialAxis );
-    d->centerHoleDiam = 0;
-    d->origin = QPointF(0,0);
-    d->nbTicks = 5;
 }
 
 
@@ -97,7 +93,7 @@ void RadialAxis::paintBack( QPainter& painter ) const {
 void RadialAxis::paintFront( QPainter& painter ) const {
     const Q_D( RadialAxis );
     painter.save();
-    painter.setPen( QPen( QColor( Color::DarkGray ), 1.5 ) );
+    painter.setPen( QPen( QColor( Global::DarkGray ), 1.5 ) );
     QFontMetrics metrics( this->font() );
     qreal v = d->minBound;
     while ( v <= d->maxBound ) {
@@ -139,11 +135,11 @@ void RadialAxis::paintText( QPainter& painter )  const {
         QPointF p = path.pointAtPercent( ratio );
         QPointF p1 = boundingPath.pointAtPercent( ratio );
 
-        painter.save();
-        painter.setPen( Qt::NoPen );
-        painter.setBrush( QColor( 150, 150, 150, 30 ) );
+        /*painter.save();
+        //painter.setPen( Qt::NoPen );
+        painter.setPen( QPen( QColor( 150, 150, 150, 30 ), 3 ) );
         painter.drawPie( d->valuesRect, (start+delta/2) * 16, (angle-delta) * 16 );
-        painter.restore();
+        painter.restore();*/
 
         if ( p.y() <= p1.y() ) { // To the top
             textRect.setY( p.y() - h );

@@ -8,10 +8,11 @@
 #include "node.h"
 #include "graphmodel.h"
 
-namespace Marb {
+class GraphModel;
+
+namespace Thistle {
 
 class GraphAlgorithm;
-class GraphModel;
 
 struct GraphPrivate : AbstractItemViewPrivate {
     GraphPrivate();

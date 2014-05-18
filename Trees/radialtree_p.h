@@ -1,9 +1,11 @@
 #ifndef RADIALTREE_P_H
 #define RADIALTREE_P_H
 
-#include "tree_p.h"
+#include "abstracttree_p.h"
 
-struct RadialTreePrivate : public TreePrivate {
+namespace Thistle {
+
+struct RadialTreePrivate : public AbstractTreePrivate {
     RadialTreePrivate();
 
     qreal diagonal;
@@ -14,5 +16,7 @@ struct RadialTreePrivate : public TreePrivate {
     qreal maxRad;
     QPointF currentCenter;
 };
+
+}
 
 #endif // RADIALTREE_P_H

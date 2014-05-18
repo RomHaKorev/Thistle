@@ -8,10 +8,10 @@
 
 class QAbstractItemModel;
 
-namespace Marb {
+namespace Thistle {
 class Axis {
 protected:
-    Q_DECLARE_PRIVATE( Axis )
+    //Q_DECLARE_PRIVATE( Axis )
     AxisPrivate* d_ptr;
     Axis( AxisPrivate* d );
 public:    

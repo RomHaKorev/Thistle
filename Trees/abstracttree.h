@@ -1,19 +1,19 @@
 /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef TREE_H
@@ -24,20 +24,37 @@
 #include <QPen>
 #include <QPointer>
 
-#include "tree_p.h"
+#include "abstracttree_p.h"
+
+namespace Thistle {
 
 class ItemDelegate;
 
-class Tree : public AbstractItemView {
+/*!
+\class AbstractTree
+\brief The AbstractTree class is the base class for every tree view.
+
+AbstractTree is an abstract class and cannot be instancied itself.
+
+It provides standard support for managing tree structure stored in a \a QStandardItemModel.
+
+A class that inherits Tree only needs to implement their own item positioning system.
+
+The position of an tiem is defined with its position in the tree.
+Note that positions are not updated until the structure of the given model has changed.
+
+\sa Thistle::VerticalTree, Thistle::HorizontalTree, Thistle::RadialTree, Thistle::AbstractItemView
+*/
+class AbstractTree : public AbstractItemView {
     Q_OBJECT
-    Q_DECLARE_PRIVATE( Tree );
+    Q_DECLARE_PRIVATE( AbstractTree );
 protected:
     virtual void updateValues();
     virtual void positionsInTree() = 0;
     virtual void positionsInView() = 0;
-    virtual QPointF scan( QModelIndex index, QPointF leftDepth = QPointF( 0, 0 ) ) = 0;
-    virtual void setX( QModelIndex index, qreal x );
-    virtual void setY( QModelIndex index, qreal y );
+    virtual QPointF scan( const QModelIndex& index, const QPointF& leftDepth = QPointF( 0, 0 ) ) = 0;
+    virtual void setX( const QModelIndex& index, qreal x );
+    virtual void setY( const QModelIndex& index, qreal y );
 
     void paintEvent( QPaintEvent* event);
     QModelIndex indexAt(const QPoint &point) const;
@@ -47,11 +64,11 @@ protected:
     virtual void paintConnections( QPainter& painter, const QPointF& offset ) const;
     virtual void paintConnectionsFor( QPainter& painter, const QModelIndex& index, const QPointF& offset ) const;
 
-    Tree( TreePrivate* d, QWidget* parent = 0 );
-
+    AbstractTree( AbstractTreePrivate* d, QWidget* parent = 0 );
+    ~AbstractTree();
 public:
 
-    explicit Tree( QWidget* parent = 0 );
+    explicit AbstractTree( QWidget* parent = 0 );
 
     virtual QRectF itemRect( const QModelIndex& index ) const;
     virtual QPainterPath itemPath( const QModelIndex& index ) const;
@@ -66,4 +83,5 @@ public slots:
     void show();
 };
 
+}
 #endif // TREE_H

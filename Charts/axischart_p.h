@@ -3,17 +3,19 @@
 
 #include "abstractchart_p.h"
 #include "Axis/axis.h"
-#include "chartstyle.h"
+#include "serieformat.h"
 
-namespace Marb {
+#include <QMap>
 
-struct AxisChartPrivate : AbstractChartPrivate {
-    Axis* axis;
-    QMap<int, ChartStyle> style;
-    int x;
+namespace Thistle {
+    class AxisChart;
+    struct AxisChartPrivate : public AbstractChartPrivate {
+        Axis* axis;
+        QMap<int, SerieFormat> style;
+        int x;
 
-    AxisChartPrivate();
-};
+        AxisChartPrivate( AxisChart* q );
+    };
 
 }
 

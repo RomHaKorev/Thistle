@@ -1,19 +1,19 @@
 /*
- This file is part of Marb.
+This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
-    it under the terms of the Lesser GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
+Thistle is free software: you can redistribute it and/or modify
+it under the terms of the Lesser GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    Lesser GNU General Public License for more details.
+Thistle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Lesser GNU General Public License for more details.
 
-    You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the Lesser GNU General Public License
+along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef AXISCHART_H
@@ -21,40 +21,51 @@
 
 #include <QAbstractItemView>
 #include "../kernel/global.h"
-#include "chartstyle.h"
+#include "serieformat.h"
 
 #include "abstractchart.h"
 #include "axischart_p.h"
 
-namespace Marb {
+namespace Thistle {
+    class PointChart;
+    class RadialChart;
+    class Axis;
 
-class PointChart;
-class RadialChart;
-class Axis;
+    /*!
+    \class AxisChart
+    \brief The AxisChart class provides an abstract base for every chart view using axis.
 
-class AxisChart : public AbstractChart {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( AxisChart );
-protected:
-    virtual void defineRects();
-    int scan();
+    The \a AxisChart class provides the basic functionality for every axis chart view. It is a abstract class and cannot be instancied itself.
+    An Axis chart is a chart using a coordinates system such as \a LinearChart and \a RadialChart.
+    \sa
+    Thistle::LinearChart & Thistle::RadialChart
+    */
+    class AxisChart : public AbstractChart {
+        Q_OBJECT
+            Q_DECLARE_PRIVATE( AxisChart );
+    protected:
+        virtual void defineRects();
+        void scan();
 
-    virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const;
-    virtual void paintChart( QPainter& ) const = 0;
-    virtual void paintEvent(QPaintEvent *event);
+        virtual QList<int> calculateColumnsOrder() const;
 
-    //virtual void updateValues();
-    AxisChart( AxisChartPrivate* d, QWidget* parent = 0 );
-public:
-    explicit AxisChart( QWidget* parent = 0 );
-    ~AxisChart();
-    Axis* axis() const;
-    ChartStyle columnStyle( int column ) const;
+        virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const;
+        virtual void paintChart( QPainter& ) = 0;
 
-    void setAxis( Axis* axis );
-    void setModel( QAbstractItemModel* model );
-    void setColumnStyle( int column, ChartStyle style);
-};
+        virtual void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
+
+        AxisChart( AxisChartPrivate* d, QWidget* parent = 0 );
+    public:
+
+        explicit AxisChart( QWidget* parent = 0 );
+        ~AxisChart();
+        Axis* axis() const;
+        SerieFormat serieFormat( int column ) const;
+
+        void setAxis( Axis* axis );
+        void setModel( QAbstractItemModel* model );
+        void setSerieFormat( int column, SerieFormat style);
+    };
 
 }
 

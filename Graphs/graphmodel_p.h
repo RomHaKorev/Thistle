@@ -4,12 +4,12 @@
 #include "edge.h"
 #include <QList>
 
-namespace Marb {
+//namespace Thistle {
 
 struct GraphModelPrivate {
     GraphModelPrivate();
-    QList<Edge> edges;
+    QList<Thistle::Edge> edges;
 };
-}
+//}
 
 #endif // GRAPHMODEL_P_H

@@ -1,9 +1,13 @@
 #include "radialchart_p.h"
+#include "radialchart.h"
 
-namespace Marb {
+#include "legends/radialchartlegend.h"
 
-RadialChartPrivate::RadialChartPrivate() {
+namespace Thistle {
 
-}
+    RadialChartPrivate::RadialChartPrivate( RadialChart* q ) : AxisChartPrivate( q ) {
+        delete this->legend;
+        this->legend = new RadialChartLegend( q );
+    }
 
 }

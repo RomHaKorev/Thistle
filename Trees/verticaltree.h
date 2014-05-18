@@ -1,32 +1,42 @@
 /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef VERTICALTREE_H
 #define VERTICALTREE_H
 
-#include "tree.h"
+#include "abstracttree.h"
 
 #include "verticaltree_p.h"
 
 
 class QStandardItemModel;
 
-class VerticalTree : public Tree {
+namespace Thistle {
+
+/*!
+\class VerticalTree
+\brief The VerticalTree implements a tree representation of item from the given model.
+
+Contrary to QTreeView, a vertical tree is not a hierarchical list: the root is placed at the top and all children are placed on horizontal lines.
+
+\sa Thistle::HorizontalTree, Thistle::RadialTree, Thistle::AbstractTree
+*/
+class VerticalTree : public AbstractTree {
     Q_OBJECT
     Q_DECLARE_PRIVATE( VerticalTree );
 public:
@@ -45,7 +55,7 @@ public:
 
     virtual void positionsInView();
     virtual void positionsInTree();
-    QPointF scan( const QModelIndex& index, const QPointF& leftDepth = QPointF( 0, 0 ) );
+    virtual QPointF scan( const QModelIndex& index, const QPointF& leftDepth = QPointF( 0, 0 ) );
 
     void paintConnectionsElbow( QPainter& painter, const QModelIndex& id ) const;
     void paintConnectionsStraight( QPainter& painter, const QModelIndex& id ) const;
@@ -53,10 +63,8 @@ public:
 
     void setConnectorType( ConnectorType type );
     ConnectorType connectorType() const;
-
-public slots:
-    virtual bool save( const QString& filename );
 };
 
+}
 
 #endif // VERTICALTREE_H

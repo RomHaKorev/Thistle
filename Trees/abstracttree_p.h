@@ -1,5 +1,5 @@
-#ifndef TREE_P_H
-#define TREE_P_H
+#ifndef ABSTRACTTREE_P_H
+#define ABSTRACTTREE_P_H
 
 #include <QPoint>
 #include <QSize>
@@ -9,8 +9,10 @@
 #include "../kernel/itemdelegate.h"
 #include "../kernel/abstractitemview_p.h"
 
-struct TreePrivate : public AbstractItemViewPrivate {
-    TreePrivate();
+namespace Thistle {
+
+struct AbstractTreePrivate : public AbstractItemViewPrivate {
+    AbstractTreePrivate();
 
     QPen connectionPen;
 
@@ -27,4 +29,6 @@ struct TreePrivate : public AbstractItemViewPrivate {
     QMap<QModelIndex, QPointF> itemTreePos;
 };
 
-#endif // TREE_P_H
+}
+
+#endif // ABSTRACTTREE_P_H

@@ -3,6 +3,7 @@
 
 #include "itemdelegate.h"
 #include "global.h"
+namespace Thistle {
 
 struct ItemDelegatePrivate {
     ItemStyle style;
@@ -11,4 +12,5 @@ struct ItemDelegatePrivate {
     ~ItemDelegatePrivate();    
 };
 
+}
 #endif // ITEMDELEGATE_P_H

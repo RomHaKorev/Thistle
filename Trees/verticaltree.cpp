@@ -1,15 +1,15 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "verticaltree.h"
 #include <QPen>
@@ -19,6 +19,7 @@
 #include <QModelIndex>
 #include <qmath.h>
 
+namespace Thistle {
 
 VerticalTree::ConnectorType VerticalTree::connectorType() const {
     const Q_D( VerticalTree );
@@ -26,7 +27,7 @@ VerticalTree::ConnectorType VerticalTree::connectorType() const {
 }
 
 
-VerticalTree::VerticalTree( QWidget* parent ) : Tree( parent ) {
+VerticalTree::VerticalTree( QWidget* parent ) : AbstractTree( parent ) {
     Q_D( VerticalTree );
     d->max = 0;
     d->min = 0;
@@ -74,7 +75,7 @@ void VerticalTree::paintConnectionsFor( QPainter& painter, const QModelIndex& in
     painter.save();
     painter.setPen( d->connectionPen );
     if ( d->connectorType == Straight ) {
-        Tree::paintConnectionsFor( painter, index, offset );
+        AbstractTree::paintConnectionsFor( painter, index, offset );
     } else {
         int rows = this->model()->rowCount( index );
         QRectF r = itemRect(index).translated( offset.x(), offset.y() );
@@ -151,22 +152,6 @@ void VerticalTree::positionsInView() {
 }
 
 
-bool VerticalTree::save( const QString& filename ) {
-    Q_D( VerticalTree );
-    QSize s = d->realSize + QSize( 20, 20 );
-    QPixmap pix( s );
-    pix.fill( Qt::transparent );
-    QPainter painter( &pix );
-    painter.setRenderHint( QPainter::Antialiasing );
-    qreal x = -d->itemOffset.x() + 10;
-    qreal y = -d->itemOffset.y() + 10;
-    paintConnections( painter, QPointF( x, y ) );
-    paintItems(painter , QPointF( x, y ) );
-    painter.end();
-    return pix.save( filename );
-}
-
-
 QPointF VerticalTree::scan( const QModelIndex& index, const QPointF& ld ) {
     Q_D( VerticalTree );
     QPointF leftDepth( ld );
@@ -227,3 +212,4 @@ VerticalTree::~VerticalTree() {
 }
 
 
+}

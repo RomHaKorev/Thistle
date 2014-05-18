@@ -1,6 +1,6 @@
 #include "graph_p.h"
 #include "graphalgorithm.h"
-namespace Marb {
+namespace Thistle {
 
 GraphPrivate::GraphPrivate() {
     movableItem = true;

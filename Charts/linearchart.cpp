@@ -1,16 +1,16 @@
 /*
- This file is part of Marb.
-    Marb is free software: you can redistribute it and/or modify
+ This file is part of Thistle.
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.
+    along with Thistle.
     If not, see <http://www.gnu.org/licenses/>.
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "linearchart.h"
 #include "delegates.h"
@@ -23,21 +23,24 @@
 
 #include "Axis/orthogonalaxis.h"
 
-namespace Marb {
+namespace Thistle {
 
-LinearChart::LinearChart( QWidget* parent ) : AxisChart( new LinearChartPrivate(), parent ) {
+/*!
+Constructs a linear chart with the given \c parent.
+*/
+LinearChart::LinearChart( QWidget* parent ) : AxisChart( new LinearChartPrivate( this ), parent ) {
     Q_D( LinearChart );
-    d->pointDelegate = new PointDelegate( this );
-    d->barDelegate = new BarDelegate( this );
-    d->orthoAxis = new OrthogonalAxis();
     this->setAxis( d->orthoAxis );
+    d->pointDelegate->setParent( this );
+    d->barDelegate->setParent( this );
+    
 }
 
 
 QList<int> LinearChart::barStyleColumns() const {
     QList<int> bars;
     for ( int c = 0; c < this->model()->columnCount(); ++c ) {
-        if ( columnType( c ) == Marb::Bar ) {
+        if ( columnType( c ) == Global::Bar ) {
             bars.append( c );
         }
     }
@@ -46,39 +49,45 @@ QList<int> LinearChart::barStyleColumns() const {
 
 
 QList<int> LinearChart::calculateColumnsOrder() const {
+    QList<int> areas;
     QList<int> bars;
     QList<int> lines;
     QList<int> points;
     for ( int i = 0; i < this->model()->columnCount(); ++i ) {
-        Marb::Types t = columnType( i );
-        if ( t.testFlag( Marb::Bar ) ) {
+        Global::Types t = columnType( i );
+        if ( t.testFlag( Global::Area ) ) {
+            areas << i;
+        } else if ( t.testFlag( Global::Bar ) ) {
             bars << i;
-        } else if ( t.testFlag( Marb::Point ) ) {
+        } else if ( t.testFlag( Global::Dot ) ) {
             points << i;
         } else    {
             lines << i;
         }
     }
-    bars << lines << points;
-    return bars;
+    areas << bars << lines << points;
+    return areas;
 }
 
 
-Marb::Types LinearChart::columnType( int column ) const {
+Global::Types LinearChart::columnType( int column ) const {
     const Q_D( LinearChart );
     if ( d->style.contains( column ) ) {
         return d->style[ column ].type();
     }
-    return ChartStyle().type();
+    return SerieFormat().type();
 }
 
+QRectF LinearChart::itemRect( int row, int column, const QModelIndex& parent ) const {
+    return this->itemRect( this->model()->index( row, column, parent ) );
+}
 
 QRectF LinearChart::itemRect( const QModelIndex& index ) const {
     /* Reimplemented from Chart.itemRect() */
     const Q_D( LinearChart );
 
     QRectF r;
-    Marb::Types t = this->columnType( index.column() );
+    Global::Types t = this->columnType( index.column() );
     bool ok = false;
     qreal value = index.data().toReal( &ok );
     if ( ok == false ) {
@@ -86,7 +95,7 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
     }
     QPointF pos = d->orthoAxis->valueToPoint( value, index.row() );
     QList<int> orderedColumns = this->calculateColumnsOrder();
-    if ( t == Marb::Bar ) {
+    if ( t == Global::Bar ) {
         QList<int> bars = this->barStyleColumns();
         qreal margin = d->orthoAxis->stepSize() * 0.1;
         qreal w = float( d->orthoAxis->stepSize() - margin ) / bars.count();
@@ -110,7 +119,7 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
 
 
 
-void LinearChart::paintChart( QPainter& painter ) const {
+void LinearChart::paintChart( QPainter& painter ) {
     const Q_D( LinearChart );
 
     painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
@@ -120,55 +129,65 @@ void LinearChart::paintChart( QPainter& painter ) const {
         this->paintValues( painter, c );
     }
     d->orthoAxis->paintFront( painter );
-    this->paintLegend(painter);
-    painter.drawText( d->titleRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, d->title );
+
+    d->legend->paint( painter );
 }
 
 
 void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const {
     const Q_D( LinearChart );
-        QPoint p1 = pos + QPoint( 10, - maxHeight/2 );
-        QPoint p2 = pos + QPoint( 40, - maxHeight/2 );
-        QPoint posText = pos + QPoint( 45, 0 );
-        QString s(model()->headerData( column, Qt::Horizontal ).toString() );
-        ChartStyle style = columnStyle( column );
-        Marb::Types t = style.type();
-        painter.drawText( posText, s );
-        painter.save();
-        painter.setPen( style.pen() );
-        if ( t.testFlag( Marb::Line ) ) {
-            painter.drawLine( p1, p2 );
+    QPoint p1 = pos + QPoint( 10, - maxHeight/2 );
+    QPoint p2 = pos + QPoint( 40, - maxHeight/2 );
+    QPoint posText = pos + QPoint( 45, 0 );
+    QString s(model()->headerData( column, Qt::Horizontal ).toString() );
+    SerieFormat style = serieFormat( column );
+    Global::Types t = style.type();
+    painter.drawText( posText, s );
+    painter.save();
+    painter.setPen( style.pen() );
+    if ( t.testFlag( Global::Area ) ) {
+        painter.setBrush( style.brush() );
+        QPolygon poly;
+        poly << p1 + QPoint( 0, 8 ) << p1 << p1 + QPoint( 10, -8 ) << p1 + QPoint( 15, -3 ) << p1 + QPoint( 20, -6 ) << p2 << p2 + QPoint( 0, 8 );
+        painter.drawPolygon( poly );
+    } else if ( t.testFlag( Global::Line ) ) {
+        painter.drawLine( p1, p2 );
+    } else if ( t.testFlag( Global::Spline ) ) {
+        QPainterPath path;
+        p1 += QPoint( 0, 7 );
+        p2 -= QPoint( 0, 7 );
+        path.moveTo( p1 );
+        path.cubicTo( p1  + QPoint( 25, 0 ), p2 - QPoint( 25, 0 ), p2 );
+        painter.drawPath( path );
+    } else if ( t.testFlag( Global::Bar ) ) {
+        int j = 0;
+        Q_FOREACH( int i, QList<int>() << 15 << 8 << 17 << 5 ) {
+            painter.setPen( Qt::NoPen );
+            painter.setBrush( style.brush() );
+            QRect r( 10 + pos.x() + j * 8, pos.y() - i, 5, i );
+            painter.drawRect( r );
+            j += 1;
         }
-        if ( t.testFlag( Marb::Bar ) ) {
-            int j = 0;
-            Q_FOREACH( int i, QList<int>() << 15 << 8 << 17 << 5 ) {
-                painter.setPen( Qt::NoPen );
-                painter.setBrush( style.brush() );
-                QRect r( 10 + pos.x() + j * 8, pos.y() - i, 5, i );
-                painter.drawRect( r );
-                j += 1;
-            }
-        } else if ( t.testFlag( Marb::Point ) ) {
-            QStyleOptionViewItem option;
-            option.rect = QRect( p1.x() + abs(p1.x() - p2.x())/2 - 5, p1.y() - 5, 10, 10 );
-            d->pointDelegate->paint( &painter, option, this->model()->index( 0, column ) );
-        }
-        painter.restore();
+    }
+        
+    if ( t.testFlag( Global::Dot ) ) {
+        QStyleOptionViewItem option;
+        option.rect = QRect( p1.x() + abs(p1.x() - p2.x())/2 - 5, p1.y() - 5, 10, 10 );
+        d->pointDelegate->paint( &painter, option, this->model()->index( 0, column ) );
+    }
+    painter.restore();
 }
 
 
-void LinearChart::paintValues( QPainter& painter, int column ) const {
-    const Q_D( LinearChart );
-    Marb::Types t = this->columnType( column );
-    QStyledItemDelegate* delegate = 0;
-    if ( t.testFlag( Marb::Point ) ) {
-        delegate = d->pointDelegate;
-    } else if ( t.testFlag( Marb::Bar ) ) {
-        delegate = d->barDelegate;
-    }
+void LinearChart::paintValues( QPainter& painter, int column ) {
+    Q_D( LinearChart );
+    Global::Types t = this->columnType( column );
+ 
+    d->selectDelegate( t );
+
     int rows = this->model()->rowCount();
     painter.save();
-    ChartStyle style = this->columnStyle( column );
+    SerieFormat style = this->serieFormat( column );
     painter.setBrush( style.brush() );
     painter.setPen( style.pen() );
 
@@ -186,50 +205,8 @@ void LinearChart::paintValues( QPainter& painter, int column ) const {
         }
     }
 
-    for ( int r = 0; r < rows; ++r ) {
-        QModelIndex index = this->model()->index( r, column );
-        QStyleOptionViewItem option;
-        qreal value = index.data().toReal();
-        if ( value < 0 ) {
-            option.decorationPosition = QStyleOptionViewItem::Bottom;
-        } else {
-            option.decorationPosition = QStyleOptionViewItem::Top;
-        }
-        if ( isActive == false ) {
-            option.state = QStyle::State_Off;
-        } else {
-            option.state = QStyle::State_Selected;
-        }
-        QRectF rect = this->itemRect( index );
-        option.rect = rect.toRect();
-        if ( ( (t | Marb::Line) == t) && ( r < (rows - 1) ) ) {
-            if ( isActive == false ) {
-                QPointF p1 = rect.center();
-                QPointF p2 = this->itemRect( this->model()->index( r + 1, column ) ).center();
-                QLineF line( p1, p2 );
-                QLineF l = QLineF( line.pointAt( 0.5 ), line.p2() ).normalVector();
-                l.setLength( 4 );
-                QLinearGradient gradient( l.p1(), l.p2() );
-                QColor c( Qt::darkGray );
-                c.setAlpha( 50 );
-                gradient.setColorAt( 0, c );
-                gradient.setColorAt( 1, Qt::transparent );
-                gradient.setSpread( QLinearGradient::ReflectSpread );
-                painter.save();
-                QPen pen( QBrush( gradient ), 8 );
-                painter.setPen( pen );
-                painter.drawLine( p1, p2 );
-                painter.restore();
-            } else {
-                QPointF p1 = rect.center();//option.rect.center();
-                QPointF p2 = this->itemRect( this->model()->index( r + 1, column ) ).center();
-                painter.drawLine( p1, p2 );
-            }
-        }
-        if ( delegate != 0 ) {
-            delegate->paint( &painter, option, index );
-        }
-    }
+    d->paint( painter, column, t, isActive );
+
     painter.restore();
 }
 

@@ -1,19 +1,19 @@
 /*
- This file is part of Marb.
+ This file is part of Thistle.
 
-    Marb is free software: you can redistribute it and/or modify
+    Thistle is free software: you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    Marb is distributed in the hope that it will be useful,
+    Thistle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     Lesser GNU General Public License for more details.
 
     You should have received a copy of the Lesser GNU General Public License
-    along with Marb.    If not, see <http://www.gnu.org/licenses/>.
+    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Marb    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef ITEMDELEGATE_H
@@ -26,15 +26,27 @@
 
 #include "itemstyle.h"
 
-//#include "itemdelegate_p.h"
+namespace Thistle {
 
 class ItemDelegatePrivate;
 
+/*!
+\class ItemDelegate
+
+\brief The ItemDelegate class provides display and editing facilities for data items.
+
+ItemDelegate inherits QStyledItemDelegate.
+ItemDelegate uses the ItemStyle class to determine the look and feel.
+
+See Qt reference documentation for more detail on delegates.
+*/
 class ItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
+
+private:
+        QPolygon createDiamond( const QRect& r ) const;
 protected:
     ItemDelegatePrivate* d;
-    QPolygon createDiamond( const QRect& r ) const;
 public:
 
     void setItemStyle( const ItemStyle& myStyle );
@@ -48,5 +60,5 @@ public:
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
-
+}
 #endif // ITEMDELEGATE_H

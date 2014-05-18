@@ -3,7 +3,7 @@
 
 #include <QModelIndex>
 
-namespace Marb {
+namespace Thistle {
 
 class Edge {
 public:

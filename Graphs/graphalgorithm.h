@@ -9,10 +9,12 @@
 
 #include "graphalgorithm_p.h"
 
-namespace Marb {
+namespace Thistle {
 
 class Graph;
 
+/*!
+*/
 class GraphAlgorithm : public QObject {
     Q_OBJECT
 private:

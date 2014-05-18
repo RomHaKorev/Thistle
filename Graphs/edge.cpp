@@ -1,6 +1,6 @@
 #include "edge.h"
 
-namespace Marb {
+namespace Thistle {
 
 bool operator==( Edge& e1, Edge& e2 ) {
     if ( e1.leftIndex == e2.leftIndex && e1.rightIndex == e2.rightIndex ) {
