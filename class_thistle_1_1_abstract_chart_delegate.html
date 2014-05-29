@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>AbstractChartDelegate Class Reference</title>
+<title>Reference documentation: AbstractChartDelegate Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,9 +18,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
-    <td style="padding-left: 0.5em;">
-    <div id="projectbrief">/!\ This website is under construction and documentation could be missing. /!&quot;</div>
-    </td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Reference documentation
+   </div>
+  </td>
  </tr>
  </tbody>
 </table>
@@ -54,14 +55,17 @@
 <div class="title">AbstractChartDelegate Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The <em><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html" title="The AbstractChartDelegate class provides an abstract base for every chart delegate. ">AbstractChartDelegate</a></em> class provides an abstract base for every chart delegate.  
+ <a href="class_thistle_1_1_abstract_chart_delegate.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for AbstractChartDelegate:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="class_thistle_1_1_abstract_chart_delegate.png" usemap="#AbstractChartDelegate_map" alt=""/>
   <map id="AbstractChartDelegate_map" name="AbstractChartDelegate_map">
-<area href="class_thistle_1_1_bar_delegate.html" alt="BarDelegate" shape="rect" coords="0,112,140,136"/>
-<area href="class_thistle_1_1_dot_delegate.html" alt="DotDelegate" shape="rect" coords="150,112,290,136"/>
+<area href="class_thistle_1_1_bar_delegate.html" title="The BarDelegate class provides display and editing facilities for data items in a LinearChart view..." alt="BarDelegate" shape="rect" coords="0,112,140,136"/>
+<area href="class_thistle_1_1_dot_delegate.html" title="The DotDelegate class provides display and editing facilities for data items in a LinearChart view..." alt="DotDelegate" shape="rect" coords="150,112,290,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -77,7 +81,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8b8d79b7b8313636db7a99527f00484d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#a8b8d79b7b8313636db7a99527f00484d">paintEnabled</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
 <tr class="separator:a8b8d79b7b8313636db7a99527f00484d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <em><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html" title="The AbstractChartDelegate class provides an abstract base for every chart delegate. ">AbstractChartDelegate</a></em> class provides an abstract base for every chart delegate. </p>
+<p>The <em><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html" title="The AbstractChartDelegate class provides an abstract base for every chart delegate. ">AbstractChartDelegate</a></em> class provides display and editing facilities for data items in a chart view.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_thistle_1_1_dot_delegate.html" title="The DotDelegate class provides display and editing facilities for data items in a LinearChart view...">DotDelegate</a>, <a class="el" href="class_thistle_1_1_bar_delegate.html" title="The BarDelegate class provides display and editing facilities for data items in a LinearChart view...">BarDelegate</a> </dd></dl>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a138eea6e0da8f6fe0c97efe2ed991613"></a>
 <div class="memitem">
 <div class="memproto">
@@ -115,7 +123,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Paints the data of the <em>index</em> relative to the shape set in the <em><a class="el" href="class_thistle_1_1_chart_style.html">ChartStyle</a></em> corresponding to the <em>index</em> column. </p>
+<p>Paints the data of the <em>index</em> relative to the shape set in the <em><a class="el" href="class_thistle_1_1_serie_format.html">SerieFormat</a></em> corresponding to the <em>index</em> column. </p>
 
 <p>Implemented in <a class="el" href="class_thistle_1_1_bar_delegate.html#a2d3066f3afc296586ac9eb2bd626a94c">BarDelegate</a>, and <a class="el" href="class_thistle_1_1_dot_delegate.html#a2d3066f3afc296586ac9eb2bd626a94c">DotDelegate</a>.</p>
 
@@ -159,8 +167,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Paints the delegate's disabled render.</p>
-<p>An item is considered as disabled when the selectionModel doesn't contain any index in the column of <em>index</em>.</p>
-<p>For example, by default, the <em><a class="el" href="class_thistle_1_1_dot_delegate.html">DotDelegate</a></em> draw a disabled item as a blurred gray point. </p>
+<p>An item is considered as disabled when the selectionModel is not empty and doesn't contain the <em>index</em>. </p>
 
 <p>Implemented in <a class="el" href="class_thistle_1_1_bar_delegate.html#a339aaf359fc2566f71057ef7cc5ec589">BarDelegate</a>, and <a class="el" href="class_thistle_1_1_dot_delegate.html#a339aaf359fc2566f71057ef7cc5ec589">DotDelegate</a>.</p>
 

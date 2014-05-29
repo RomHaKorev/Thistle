@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>AbstractTree Class Reference</title>
+<title>Reference documentation: AbstractTree Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,9 +18,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
-    <td style="padding-left: 0.5em;">
-    <div id="projectbrief">/!\ This website is under construction and documentation could be missing. /!&quot;</div>
-    </td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Reference documentation
+   </div>
+  </td>
  </tr>
  </tbody>
 </table>
@@ -116,6 +117,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>horizontalOffset</b> (
 <tr class="memitem:a046162ff0d9b0802fb3a51325a1228b7 inherit pub_methods_class_thistle_1_1_abstract_item_view"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a046162ff0d9b0802fb3a51325a1228b7"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isIndexHidden</b> (const QModelIndex &amp;index) const </td></tr>
 <tr class="separator:a046162ff0d9b0802fb3a51325a1228b7 inherit pub_methods_class_thistle_1_1_abstract_item_view"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af25cea2ef88fb2eab3d702575575851c inherit pub_methods_class_thistle_1_1_abstract_item_view"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af25cea2ef88fb2eab3d702575575851c"></a>
+virtual QRectF&#160;</td><td class="memItemRight" valign="bottom"><b>itemRect</b> (int row, int column, const QModelIndex &amp;parent=QModelIndex()) const </td></tr>
+<tr class="separator:af25cea2ef88fb2eab3d702575575851c inherit pub_methods_class_thistle_1_1_abstract_item_view"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb0908a126d48d26bf1a070fbde1e9fe inherit pub_methods_class_thistle_1_1_abstract_item_view"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb0908a126d48d26bf1a070fbde1e9fe"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>rows</b> (const QModelIndex &amp;index) const </td></tr>
 <tr class="separator:aeb0908a126d48d26bf1a070fbde1e9fe inherit pub_methods_class_thistle_1_1_abstract_item_view"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,15 +171,15 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>positionsInVi
 <tr class="memitem:a6fbc07cec19868c41d513b9ef8343e9a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fbc07cec19868c41d513b9ef8343e9a"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>resizeEvent</b> (QResizeEvent *event)</td></tr>
 <tr class="separator:a6fbc07cec19868c41d513b9ef8343e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf0a65b2138226abb6e690c44fd9ce7a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf0a65b2138226abb6e690c44fd9ce7a"></a>
-virtual QPointF&#160;</td><td class="memItemRight" valign="bottom"><b>scan</b> (QModelIndex index, QPointF leftDepth=QPointF(0, 0))=0</td></tr>
-<tr class="separator:aaf0a65b2138226abb6e690c44fd9ce7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a8830194072992b180f37c646e71dcb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a8830194072992b180f37c646e71dcb"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setX</b> (QModelIndex index, qreal x)</td></tr>
-<tr class="separator:a3a8830194072992b180f37c646e71dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18f623ccb95d23a2b5f756ac6637691a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18f623ccb95d23a2b5f756ac6637691a"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setY</b> (QModelIndex index, qreal y)</td></tr>
-<tr class="separator:a18f623ccb95d23a2b5f756ac6637691a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31bf87773a50e41c0ed7d45b56a00f0b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a31bf87773a50e41c0ed7d45b56a00f0b"></a>
+virtual QPointF&#160;</td><td class="memItemRight" valign="bottom"><b>scan</b> (const QModelIndex &amp;index, const QPointF &amp;leftDepth=QPointF(0, 0))=0</td></tr>
+<tr class="separator:a31bf87773a50e41c0ed7d45b56a00f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cc8abc21844c65238c41f58c9bf2728"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9cc8abc21844c65238c41f58c9bf2728"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setX</b> (const QModelIndex &amp;index, qreal x)</td></tr>
+<tr class="separator:a9cc8abc21844c65238c41f58c9bf2728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f2a4092869fee7a14dc338795a4e633"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f2a4092869fee7a14dc338795a4e633"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setY</b> (const QModelIndex &amp;index, qreal y)</td></tr>
+<tr class="separator:a7f2a4092869fee7a14dc338795a4e633"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a743b0c87b7642ac8354a97b617833462"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_tree.html#a743b0c87b7642ac8354a97b617833462">updateValues</a> ()</td></tr>
 <tr class="separator:a743b0c87b7642ac8354a97b617833462"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">

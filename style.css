@@ -143,7 +143,7 @@ a.qindexHL {
 }
 
 a.el {
-	font-weight: bold;
+	#font-weight: bold;
 }
 
 a.elRef {
@@ -258,7 +258,7 @@ div.contents {
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
-	border: 2px solid #CFCFCF;
+	border: 2px solid #0D44BC;
 }
 
 td.indexkey {
@@ -707,7 +707,9 @@ div.directory {
 
 .directory tr.even {
 	padding-left: 6px;
-	background-color: #F5F5F5;
+	#background-color: #F5F5F5;
+    border-top: 1px #EEEEEE solid;
+    border-bottom: 1px #EEEEEE solid;
 }
 
 .directory img {
@@ -859,7 +861,7 @@ table.fieldtable {
 	background-image:url('bc_s.png');
 	background-repeat:no-repeat;
 	background-position:right;
-	color:#364D7C;
+	color:#4889f1;
 }
 
 .navpath li.navelem a
@@ -868,15 +870,14 @@ table.fieldtable {
 	display:block;
 	text-decoration: none;
 	outline: none;
-	color: #283A5D;
+	color: #4889f1;
 	font-family: verdana,Geneva,Helvetica,Arial,sans-serif;
-	text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
 	text-decoration: none;        
 }
 
 .navpath li.navelem a:hover
 {
-	color:#6884BD;
+	color:#4889f1;
 }
 
 .navpath li.footer
@@ -921,11 +922,8 @@ div.ingroups a
 
 div.header
 {
-        background-image:url('nav_h.png');
-        background-repeat:repeat-x;
-	background-color: #F9FAFC;
-	margin:  0px;
-	border-bottom: 1px solid #C4CFE5;
+	margin-top:  0px;
+	#border-bottom: 1px solid #C4CFE5;
 }
 
 div.headertitle
@@ -1020,9 +1018,13 @@ dl.section dd {
  
 #projectname
 {
-	font: 300% verdana, Arial,sans-serif;
+	font: 200% verdana, Arial,sans-serif;
+    font-weight: bold;
 	margin: 0px;
 	padding: 2px 0px;
+    padding-left: 100px;
+    color: #FAFAFA;
+    text-align: right;
 }
     
 #projectbrief
@@ -1041,15 +1043,18 @@ dl.section dd {
 
 #titlearea
 {
-	padding: 0px;
-	margin: 0px;
 	width: 100%;
-	border-bottom: 1px solid #5373B4;
-	margin-bottom: 30px;
+    padding-top: 20px;
+    padding-left: 20px;
+	margin-bottom: 0px;
 }
 
 #top{
-	background-color: #FEFEFE;
+	background-color: #505050;
+    background-image:url('img/global/headerBg.png');
+    background-repeat:repeat-x;
+    border-bottom: 4px solid #202020;
+    #height: 150px;
 }
 
 .image

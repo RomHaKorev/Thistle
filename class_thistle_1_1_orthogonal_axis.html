@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>OrthogonalAxis Class Reference</title>
+<title>Reference documentation: OrthogonalAxis Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,9 +18,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
-    <td style="padding-left: 0.5em;">
-    <div id="projectbrief">/!\ This website is under construction and documentation could be missing. /!&quot;</div>
-    </td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Reference documentation
+   </div>
+  </td>
  </tr>
  </tbody>
 </table>
@@ -62,7 +63,7 @@ Inheritance diagram for OrthogonalAxis:</div>
  <div class="center">
   <img src="class_thistle_1_1_orthogonal_axis.png" usemap="#OrthogonalAxis_map" alt=""/>
   <map id="OrthogonalAxis_map" name="OrthogonalAxis_map">
-<area href="class_thistle_1_1_axis.html" alt="Axis" shape="rect" coords="0,0,99,24"/>
+<area href="class_thistle_1_1_abstract_axis.html" title="The AbstractAxis class provides an abstract base for every charts axis. " alt="AbstractAxis" shape="rect" coords="0,0,99,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -83,14 +84,11 @@ QFont&#160;</td><td class="memItemRight" valign="bottom"><b>font</b> () const </
 <tr class="memitem:a86bac9125b7a1d99a3c287bc086457b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86bac9125b7a1d99a3c287bc086457b8"></a>
 QAbstractItemModel *&#160;</td><td class="memItemRight" valign="bottom"><b>model</b> () const </td></tr>
 <tr class="separator:a86bac9125b7a1d99a3c287bc086457b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42b063874e16f9bb2f35d424326b848a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a42b063874e16f9bb2f35d424326b848a"></a>
-virtual QPointF&#160;</td><td class="memItemRight" valign="bottom"><b>origin</b> () const </td></tr>
+<tr class="memitem:a42b063874e16f9bb2f35d424326b848a"><td class="memItemLeft" align="right" valign="top">virtual QPointF&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_orthogonal_axis.html#a42b063874e16f9bb2f35d424326b848a">origin</a> () const </td></tr>
 <tr class="separator:a42b063874e16f9bb2f35d424326b848a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11c3d8148fbae7454a41d70b74e1de25"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11c3d8148fbae7454a41d70b74e1de25"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>paintBack</b> (QPainter &amp;painter) const </td></tr>
+<tr class="memitem:a11c3d8148fbae7454a41d70b74e1de25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_orthogonal_axis.html#a11c3d8148fbae7454a41d70b74e1de25">paintBack</a> (QPainter &amp;painter) const </td></tr>
 <tr class="separator:a11c3d8148fbae7454a41d70b74e1de25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8501ee791b9a28242e1d009e1e08c0de"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8501ee791b9a28242e1d009e1e08c0de"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>paintFront</b> (QPainter &amp;painter) const </td></tr>
+<tr class="memitem:a8501ee791b9a28242e1d009e1e08c0de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_orthogonal_axis.html#a8501ee791b9a28242e1d009e1e08c0de">paintFront</a> (QPainter &amp;painter) const </td></tr>
 <tr class="separator:a8501ee791b9a28242e1d009e1e08c0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5202936e9adeb12f9ece8fa062cd0537"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5202936e9adeb12f9ece8fa062cd0537"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setstartOnAxis</b> (bool startOn)</td></tr>
@@ -98,123 +96,85 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setstartOnAxis</b> (b
 <tr class="memitem:adf5f39546a4af4d46e6999c6ceebb5f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf5f39546a4af4d46e6999c6ceebb5f9"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>startOnAxis</b> () const </td></tr>
 <tr class="separator:adf5f39546a4af4d46e6999c6ceebb5f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4529e2f192f867e4df9389866902ddc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4529e2f192f867e4df9389866902ddc"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>stepSize</b> () const </td></tr>
+<tr class="memitem:ae4529e2f192f867e4df9389866902ddc"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_orthogonal_axis.html#ae4529e2f192f867e4df9389866902ddc">stepSize</a> () const </td></tr>
 <tr class="separator:ae4529e2f192f867e4df9389866902ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a393e15b7e2fde92af3443119e8e92440"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a393e15b7e2fde92af3443119e8e92440"></a>
-QPointF&#160;</td><td class="memItemRight" valign="bottom"><b>valueToPoint</b> (qreal value, int axisNumber) const </td></tr>
+<tr class="memitem:a393e15b7e2fde92af3443119e8e92440"><td class="memItemLeft" align="right" valign="top">QPointF&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_orthogonal_axis.html#a393e15b7e2fde92af3443119e8e92440">valueToPoint</a> (qreal value, int axisNumber) const </td></tr>
 <tr class="separator:a393e15b7e2fde92af3443119e8e92440"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_thistle_1_1_axis"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_thistle_1_1_axis')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_thistle_1_1_axis.html">Axis</a></td></tr>
-<tr class="memitem:aa2145423aef51ea1998c988efa14df7a inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2145423aef51ea1998c988efa14df7a"></a>
-QPen&#160;</td><td class="memItemRight" valign="bottom"><b>axisPen</b> () const </td></tr>
-<tr class="separator:aa2145423aef51ea1998c988efa14df7a inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7a54865efae11487875d24b8b3bfa1f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_axis.html#ab7a54865efae11487875d24b8b3bfa1f">calculateBounds</a> ()</td></tr>
-<tr class="separator:ab7a54865efae11487875d24b8b3bfa1f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abec81bce52128a15f2f2d067abfb0b47 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abec81bce52128a15f2f2d067abfb0b47"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><b>calculateOrder</b> (qreal value) const </td></tr>
-<tr class="separator:abec81bce52128a15f2f2d067abfb0b47 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0507530fb854c9c78dcc92bcb7605627 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0507530fb854c9c78dcc92bcb7605627"></a>
-QRect &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>chartRect</b> ()</td></tr>
-<tr class="separator:a0507530fb854c9c78dcc92bcb7605627 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a030e20e6726adf22011eb14640f8a485 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a030e20e6726adf22011eb14640f8a485"></a>
-QFont&#160;</td><td class="memItemRight" valign="bottom"><b>font</b> () const </td></tr>
-<tr class="separator:a030e20e6726adf22011eb14640f8a485 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a857f7797c4da9ec37e02c05cf0c42638 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a857f7797c4da9ec37e02c05cf0c42638"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>max</b> () const </td></tr>
-<tr class="separator:a857f7797c4da9ec37e02c05cf0c42638 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c2e3a94c0bfe0f8ef56909fa88a8d0c inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c2e3a94c0bfe0f8ef56909fa88a8d0c"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>maxBound</b> () const </td></tr>
-<tr class="separator:a6c2e3a94c0bfe0f8ef56909fa88a8d0c inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad169d9dc81c368c6376ab49f181a6fd0 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad169d9dc81c368c6376ab49f181a6fd0"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>min</b> () const </td></tr>
-<tr class="separator:ad169d9dc81c368c6376ab49f181a6fd0 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f53b542c5c26e341057a1711d62c87f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f53b542c5c26e341057a1711d62c87f"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>minBound</b> () const </td></tr>
-<tr class="separator:a3f53b542c5c26e341057a1711d62c87f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86bac9125b7a1d99a3c287bc086457b8 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86bac9125b7a1d99a3c287bc086457b8"></a>
-QAbstractItemModel *&#160;</td><td class="memItemRight" valign="bottom"><b>model</b> () const </td></tr>
-<tr class="separator:a86bac9125b7a1d99a3c287bc086457b8 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9388130751622f40374319f06a332da1 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9388130751622f40374319f06a332da1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nbDigits</b> () const </td></tr>
-<tr class="separator:a9388130751622f40374319f06a332da1 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a750a6f885756b8ce1c0c704bfa332161 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a750a6f885756b8ce1c0c704bfa332161"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nbTicks</b> () const </td></tr>
-<tr class="separator:a750a6f885756b8ce1c0c704bfa332161 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6555c5563e2cbdce37cd22179631b0b2 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6555c5563e2cbdce37cd22179631b0b2"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><b>order</b> () const </td></tr>
-<tr class="separator:a6555c5563e2cbdce37cd22179631b0b2 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afff5069662f7e24a06e96c2b4ed6d4a1 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afff5069662f7e24a06e96c2b4ed6d4a1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setAxisPen</b> (const QPen &amp;p)</td></tr>
-<tr class="separator:afff5069662f7e24a06e96c2b4ed6d4a1 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4f8e59b7bbdaa9a1f51e99b7de9082f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4f8e59b7bbdaa9a1f51e99b7de9082f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setChartRect</b> (const QRect &amp;r)</td></tr>
-<tr class="separator:ac4f8e59b7bbdaa9a1f51e99b7de9082f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a244026cc91d9903d032ee619632fb1b7 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a244026cc91d9903d032ee619632fb1b7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setFont</b> (const QFont &amp;f)</td></tr>
-<tr class="separator:a244026cc91d9903d032ee619632fb1b7 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a408c9752a05ad756e5f3a4844464699f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a408c9752a05ad756e5f3a4844464699f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setMax</b> (qreal b)</td></tr>
-<tr class="separator:a408c9752a05ad756e5f3a4844464699f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d89ee17a04a977e02c19703e617c985 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d89ee17a04a977e02c19703e617c985"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setMaxBound</b> (qreal b)</td></tr>
-<tr class="separator:a4d89ee17a04a977e02c19703e617c985 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cfe7df3053707f69ae7ad2d139aee77 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1cfe7df3053707f69ae7ad2d139aee77"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setMin</b> (qreal b)</td></tr>
-<tr class="separator:a1cfe7df3053707f69ae7ad2d139aee77 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab82f0585437f2dbf20fed812134e8cc2 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab82f0585437f2dbf20fed812134e8cc2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setMinBound</b> (qreal b)</td></tr>
-<tr class="separator:ab82f0585437f2dbf20fed812134e8cc2 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a6c3280b266f873b7f12fcfea672b1c inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5a6c3280b266f873b7f12fcfea672b1c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setModel</b> (QAbstractItemModel *m)</td></tr>
-<tr class="separator:a5a6c3280b266f873b7f12fcfea672b1c inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4931afa1b92cfd6ead81e172d0085905 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4931afa1b92cfd6ead81e172d0085905"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setNbDigits</b> (int n)</td></tr>
-<tr class="separator:a4931afa1b92cfd6ead81e172d0085905 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8ead861d99d783a5616689c0902775e inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8ead861d99d783a5616689c0902775e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setNbTicks</b> (int n)</td></tr>
-<tr class="separator:aa8ead861d99d783a5616689c0902775e inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dc46f2450aef5fd661068c1f190beb0 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dc46f2450aef5fd661068c1f190beb0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setOrder</b> (long o)</td></tr>
-<tr class="separator:a9dc46f2450aef5fd661068c1f190beb0 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ac93b8341e5a0931c097f33736fc80d inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ac93b8341e5a0931c097f33736fc80d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setTextPen</b> (const QPen &amp;p)</td></tr>
-<tr class="separator:a4ac93b8341e5a0931c097f33736fc80d inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae83b30d2dee85936ed5f89f07fd88461 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae83b30d2dee85936ed5f89f07fd88461"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setTickPen</b> (const QPen &amp;p)</td></tr>
-<tr class="separator:ae83b30d2dee85936ed5f89f07fd88461 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6c13f8caf4fcd7041b46bb3e2ba34e9 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6c13f8caf4fcd7041b46bb3e2ba34e9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setTickSize</b> (qreal t)</td></tr>
-<tr class="separator:aa6c13f8caf4fcd7041b46bb3e2ba34e9 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac5dc86ceae3fbefbe0e69e2ec41fa9f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac5dc86ceae3fbefbe0e69e2ec41fa9f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setValuesRect</b> (const QRect &amp;r)</td></tr>
-<tr class="separator:aac5dc86ceae3fbefbe0e69e2ec41fa9f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9052e65f7a8c2bdcc94f8abd9a42bab9 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9052e65f7a8c2bdcc94f8abd9a42bab9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setXLabelsLength</b> (int l)</td></tr>
-<tr class="separator:a9052e65f7a8c2bdcc94f8abd9a42bab9 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90381e687e3256fa292c2dfbeb62f18f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90381e687e3256fa292c2dfbeb62f18f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setYLabelsLength</b> (int l)</td></tr>
-<tr class="separator:a90381e687e3256fa292c2dfbeb62f18f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a827aff8f5524ab5a9f8dbf56a8b5bfa6 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a827aff8f5524ab5a9f8dbf56a8b5bfa6"></a>
-QPen&#160;</td><td class="memItemRight" valign="bottom"><b>textPen</b> () const </td></tr>
-<tr class="separator:a827aff8f5524ab5a9f8dbf56a8b5bfa6 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88f0ea226ac8f8bf348b4eb82ec5387f inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88f0ea226ac8f8bf348b4eb82ec5387f"></a>
-QPen&#160;</td><td class="memItemRight" valign="bottom"><b>tickPen</b> () const </td></tr>
-<tr class="separator:a88f0ea226ac8f8bf348b4eb82ec5387f inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31fedacbc28dedfcd0500d5deb13ef8d inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a31fedacbc28dedfcd0500d5deb13ef8d"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>tickSize</b> () const </td></tr>
-<tr class="separator:a31fedacbc28dedfcd0500d5deb13ef8d inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99b02345a8a15d3c5ea2844a2253f510 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99b02345a8a15d3c5ea2844a2253f510"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>update</b> ()=0</td></tr>
-<tr class="separator:a99b02345a8a15d3c5ea2844a2253f510 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d767c36ed0db558d403f374b6687552 inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d767c36ed0db558d403f374b6687552"></a>
-QRect &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>valuesRect</b> ()</td></tr>
-<tr class="separator:a5d767c36ed0db558d403f374b6687552 inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2981c443416d2bec453f64ca034d2a6a inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2981c443416d2bec453f64ca034d2a6a"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>xLabelsLength</b> () const </td></tr>
-<tr class="separator:a2981c443416d2bec453f64ca034d2a6a inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaff7198481c353b96a516690faa0b3cd inherit pub_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaff7198481c353b96a516690faa0b3cd"></a>
-qreal&#160;</td><td class="memItemRight" valign="bottom"><b>yLabelsLength</b> () const </td></tr>
-<tr class="separator:aaff7198481c353b96a516690faa0b3cd inherit pub_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_thistle_1_1_abstract_axis"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_thistle_1_1_abstract_axis')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_thistle_1_1_abstract_axis.html">AbstractAxis</a></td></tr>
+<tr class="memitem:aa2145423aef51ea1998c988efa14df7a inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QPen&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#aa2145423aef51ea1998c988efa14df7a">axisPen</a> () const </td></tr>
+<tr class="separator:aa2145423aef51ea1998c988efa14df7a inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7a54865efae11487875d24b8b3bfa1f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#ab7a54865efae11487875d24b8b3bfa1f">calculateBounds</a> ()</td></tr>
+<tr class="separator:ab7a54865efae11487875d24b8b3bfa1f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abec81bce52128a15f2f2d067abfb0b47 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#abec81bce52128a15f2f2d067abfb0b47">calculateOrder</a> (qreal value) const </td></tr>
+<tr class="separator:abec81bce52128a15f2f2d067abfb0b47 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0507530fb854c9c78dcc92bcb7605627 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QRect &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a0507530fb854c9c78dcc92bcb7605627">chartRect</a> ()</td></tr>
+<tr class="separator:a0507530fb854c9c78dcc92bcb7605627 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030e20e6726adf22011eb14640f8a485 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QFont&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a030e20e6726adf22011eb14640f8a485">font</a> () const </td></tr>
+<tr class="separator:a030e20e6726adf22011eb14640f8a485 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a857f7797c4da9ec37e02c05cf0c42638 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a857f7797c4da9ec37e02c05cf0c42638">max</a> () const </td></tr>
+<tr class="separator:a857f7797c4da9ec37e02c05cf0c42638 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c2e3a94c0bfe0f8ef56909fa88a8d0c inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a6c2e3a94c0bfe0f8ef56909fa88a8d0c">maxBound</a> () const </td></tr>
+<tr class="separator:a6c2e3a94c0bfe0f8ef56909fa88a8d0c inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad169d9dc81c368c6376ab49f181a6fd0 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#ad169d9dc81c368c6376ab49f181a6fd0">min</a> () const </td></tr>
+<tr class="separator:ad169d9dc81c368c6376ab49f181a6fd0 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f53b542c5c26e341057a1711d62c87f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a3f53b542c5c26e341057a1711d62c87f">minBound</a> () const </td></tr>
+<tr class="separator:a3f53b542c5c26e341057a1711d62c87f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86bac9125b7a1d99a3c287bc086457b8 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QAbstractItemModel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a86bac9125b7a1d99a3c287bc086457b8">model</a> () const </td></tr>
+<tr class="separator:a86bac9125b7a1d99a3c287bc086457b8 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9388130751622f40374319f06a332da1 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a9388130751622f40374319f06a332da1">nbDigits</a> () const </td></tr>
+<tr class="separator:a9388130751622f40374319f06a332da1 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a750a6f885756b8ce1c0c704bfa332161 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a750a6f885756b8ce1c0c704bfa332161">nbTicks</a> () const </td></tr>
+<tr class="separator:a750a6f885756b8ce1c0c704bfa332161 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6555c5563e2cbdce37cd22179631b0b2 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a6555c5563e2cbdce37cd22179631b0b2">order</a> () const </td></tr>
+<tr class="separator:a6555c5563e2cbdce37cd22179631b0b2 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afff5069662f7e24a06e96c2b4ed6d4a1 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#afff5069662f7e24a06e96c2b4ed6d4a1">setAxisPen</a> (const QPen &amp;p)</td></tr>
+<tr class="separator:afff5069662f7e24a06e96c2b4ed6d4a1 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4f8e59b7bbdaa9a1f51e99b7de9082f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#ac4f8e59b7bbdaa9a1f51e99b7de9082f">setChartRect</a> (const QRect &amp;r)</td></tr>
+<tr class="separator:ac4f8e59b7bbdaa9a1f51e99b7de9082f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a244026cc91d9903d032ee619632fb1b7 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a244026cc91d9903d032ee619632fb1b7">setFont</a> (const QFont &amp;f)</td></tr>
+<tr class="separator:a244026cc91d9903d032ee619632fb1b7 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a408c9752a05ad756e5f3a4844464699f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a408c9752a05ad756e5f3a4844464699f">setMax</a> (qreal b)</td></tr>
+<tr class="separator:a408c9752a05ad756e5f3a4844464699f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d89ee17a04a977e02c19703e617c985 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a4d89ee17a04a977e02c19703e617c985">setMaxBound</a> (qreal b)</td></tr>
+<tr class="separator:a4d89ee17a04a977e02c19703e617c985 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cfe7df3053707f69ae7ad2d139aee77 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a1cfe7df3053707f69ae7ad2d139aee77">setMin</a> (qreal b)</td></tr>
+<tr class="separator:a1cfe7df3053707f69ae7ad2d139aee77 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab82f0585437f2dbf20fed812134e8cc2 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#ab82f0585437f2dbf20fed812134e8cc2">setMinBound</a> (qreal b)</td></tr>
+<tr class="separator:ab82f0585437f2dbf20fed812134e8cc2 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a6c3280b266f873b7f12fcfea672b1c inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a5a6c3280b266f873b7f12fcfea672b1c">setModel</a> (QAbstractItemModel *m)</td></tr>
+<tr class="separator:a5a6c3280b266f873b7f12fcfea672b1c inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4931afa1b92cfd6ead81e172d0085905 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a4931afa1b92cfd6ead81e172d0085905">setNbDigits</a> (int n)</td></tr>
+<tr class="separator:a4931afa1b92cfd6ead81e172d0085905 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8ead861d99d783a5616689c0902775e inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#aa8ead861d99d783a5616689c0902775e">setNbTicks</a> (int n)</td></tr>
+<tr class="separator:aa8ead861d99d783a5616689c0902775e inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dc46f2450aef5fd661068c1f190beb0 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a9dc46f2450aef5fd661068c1f190beb0">setOrder</a> (long o)</td></tr>
+<tr class="separator:a9dc46f2450aef5fd661068c1f190beb0 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac93b8341e5a0931c097f33736fc80d inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a4ac93b8341e5a0931c097f33736fc80d">setTextPen</a> (const QPen &amp;p)</td></tr>
+<tr class="separator:a4ac93b8341e5a0931c097f33736fc80d inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae83b30d2dee85936ed5f89f07fd88461 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#ae83b30d2dee85936ed5f89f07fd88461">setTickPen</a> (const QPen &amp;p)</td></tr>
+<tr class="separator:ae83b30d2dee85936ed5f89f07fd88461 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c13f8caf4fcd7041b46bb3e2ba34e9 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#aa6c13f8caf4fcd7041b46bb3e2ba34e9">setTickSize</a> (qreal t)</td></tr>
+<tr class="separator:aa6c13f8caf4fcd7041b46bb3e2ba34e9 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac5dc86ceae3fbefbe0e69e2ec41fa9f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#aac5dc86ceae3fbefbe0e69e2ec41fa9f">setValuesRect</a> (const QRect &amp;r)</td></tr>
+<tr class="separator:aac5dc86ceae3fbefbe0e69e2ec41fa9f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9052e65f7a8c2bdcc94f8abd9a42bab9 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a9052e65f7a8c2bdcc94f8abd9a42bab9">setXLabelsLength</a> (int l)</td></tr>
+<tr class="separator:a9052e65f7a8c2bdcc94f8abd9a42bab9 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90381e687e3256fa292c2dfbeb62f18f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a90381e687e3256fa292c2dfbeb62f18f">setYLabelsLength</a> (int l)</td></tr>
+<tr class="separator:a90381e687e3256fa292c2dfbeb62f18f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a827aff8f5524ab5a9f8dbf56a8b5bfa6 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QPen&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a827aff8f5524ab5a9f8dbf56a8b5bfa6">textPen</a> () const </td></tr>
+<tr class="separator:a827aff8f5524ab5a9f8dbf56a8b5bfa6 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f0ea226ac8f8bf348b4eb82ec5387f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QPen&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a88f0ea226ac8f8bf348b4eb82ec5387f">tickPen</a> () const </td></tr>
+<tr class="separator:a88f0ea226ac8f8bf348b4eb82ec5387f inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31fedacbc28dedfcd0500d5deb13ef8d inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a31fedacbc28dedfcd0500d5deb13ef8d">tickSize</a> () const </td></tr>
+<tr class="separator:a31fedacbc28dedfcd0500d5deb13ef8d inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99b02345a8a15d3c5ea2844a2253f510 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a99b02345a8a15d3c5ea2844a2253f510">update</a> ()=0</td></tr>
+<tr class="separator:a99b02345a8a15d3c5ea2844a2253f510 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d767c36ed0db558d403f374b6687552 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">QRect &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a5d767c36ed0db558d403f374b6687552">valuesRect</a> ()</td></tr>
+<tr class="separator:a5d767c36ed0db558d403f374b6687552 inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2981c443416d2bec453f64ca034d2a6a inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#a2981c443416d2bec453f64ca034d2a6a">xLabelsLength</a> () const </td></tr>
+<tr class="separator:a2981c443416d2bec453f64ca034d2a6a inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaff7198481c353b96a516690faa0b3cd inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_axis.html#aaff7198481c353b96a516690faa0b3cd">yLabelsLength</a> () const </td></tr>
+<tr class="separator:aaff7198481c353b96a516690faa0b3cd inherit pub_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -224,15 +184,159 @@ static qreal&#160;</td><td class="memItemRight" valign="bottom"><b>calculateOrde
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_class_thistle_1_1_axis"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_thistle_1_1_axis')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_thistle_1_1_axis.html">Axis</a></td></tr>
-<tr class="memitem:a36c263deeb01ba3cb7dcc0ca2c2b285c inherit pro_methods_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36c263deeb01ba3cb7dcc0ca2c2b285c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Axis</b> (AxisPrivate *d)</td></tr>
-<tr class="separator:a36c263deeb01ba3cb7dcc0ca2c2b285c inherit pro_methods_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_class_thistle_1_1_axis"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_thistle_1_1_axis')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_thistle_1_1_axis.html">Axis</a></td></tr>
-<tr class="memitem:a375fa0166e760dc998044694e880389c inherit pro_attribs_class_thistle_1_1_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a375fa0166e760dc998044694e880389c"></a>
-AxisPrivate *&#160;</td><td class="memItemRight" valign="bottom"><b>d_ptr</b></td></tr>
-<tr class="separator:a375fa0166e760dc998044694e880389c inherit pro_attribs_class_thistle_1_1_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_class_thistle_1_1_abstract_axis"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_thistle_1_1_abstract_axis')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_thistle_1_1_abstract_axis.html">AbstractAxis</a></td></tr>
+<tr class="memitem:a67c268df0d1d7a2190b0b9eb2be1803a inherit pro_methods_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67c268df0d1d7a2190b0b9eb2be1803a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractAxis</b> (AbstractAxisPrivate *d)</td></tr>
+<tr class="separator:a67c268df0d1d7a2190b0b9eb2be1803a inherit pro_methods_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_thistle_1_1_abstract_axis"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_thistle_1_1_abstract_axis')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_thistle_1_1_abstract_axis.html">AbstractAxis</a></td></tr>
+<tr class="memitem:a82050c46392f1d21d84ea6e4c42b7339 inherit pro_attribs_class_thistle_1_1_abstract_axis"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a82050c46392f1d21d84ea6e4c42b7339"></a>
+AbstractAxisPrivate *&#160;</td><td class="memItemRight" valign="bottom"><b>d_ptr</b></td></tr>
+<tr class="separator:a82050c46392f1d21d84ea6e4c42b7339 inherit pro_attribs_class_thistle_1_1_abstract_axis"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a42b063874e16f9bb2f35d424326b848a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPointF origin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the axis origin. </p>
+
+<p>Implements <a class="el" href="class_thistle_1_1_abstract_axis.html#a5df9968d14a11006a2022207bd6f3e32">AbstractAxis</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11c3d8148fbae7454a41d70b74e1de25"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void paintBack </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;&#160;</td>
+          <td class="paramname"><em>painter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Paints the part of the axis in the background of the chart such as ticks. </p>
+
+<p>Implements <a class="el" href="class_thistle_1_1_abstract_axis.html#a46469ff17a20d453f98f237af37e40e6">AbstractAxis</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8501ee791b9a28242e1d009e1e08c0de"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void paintFront </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;&#160;</td>
+          <td class="paramname"><em>painter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Paints the part of the axis in the foreground of the chart such as labels. </p>
+
+<p>Implements <a class="el" href="class_thistle_1_1_abstract_axis.html#a98f5536fc63be206b111923d2c2a3ee1">AbstractAxis</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae4529e2f192f867e4df9389866902ddc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal stepSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the step size on the X axis. </p>
+
+<p>Implements <a class="el" href="class_thistle_1_1_abstract_axis.html#aabf22c1b86da59235d2dc171775fb9ee">AbstractAxis</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a393e15b7e2fde92af3443119e8e92440"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPointF valueToPoint </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>axisNumber</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the position in the view of <em>value</em> relative to the <em>axisNumber</em> (used by the chart using multiple axis such as <em>RadarChart</em>). </p>
+
+<p>Implements <a class="el" href="class_thistle_1_1_abstract_axis.html#ad4e09b32e836869b207d21a12484e24f">AbstractAxis</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

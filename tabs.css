@@ -1,3 +1,8 @@
+#navrow1 {
+    border-top: 4px solid #202020;
+    height: 50px;
+}
+
 .tabs, .tabs2, .tabs3 {
     margin-left: 0px;
 	margin-right: 0px;
@@ -5,12 +10,13 @@
 	padding-left: 0px;
     font-family: Helvetica,Arial,sans-serif;
 	background: #505050;
-	margin-top: -20px;
+	margin-top: 0px;
 }
 
 .tabs2 {
     font-size: 14px;
 }
+
 .tabs3 {
     font-size: 9px;
 }
@@ -19,6 +25,9 @@
 	margin-left: 20px;
     padding: 0;
     display: table;
+    margin-top: 0px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 .tablist li {
