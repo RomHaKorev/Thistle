@@ -24,6 +24,14 @@ namespace Thistle {
 
     class AxisChart;
 
+    /*!
+    \class AbstractChartDelegate
+    \brief The \a AbstractChartDelegate class provides an abstract base for every chart delegate.
+
+    The \a AbstractChartDelegate class provides display and editing facilities for data items in a chart view.
+
+    \sa DotDelegate, BarDelegate
+    */
     class AbstractChartDelegate : public QStyledItemDelegate {
     public:
         AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ){}
@@ -31,9 +39,7 @@ namespace Thistle {
         /*!
         Paints the delegate's disabled render.
 
-        An item is considered as disabled when the selectionModel doesn't contain any index in the column of \a index.
-
-        For example, by default, the \a DotDelegate draw a disabled item as a blurred gray point.
+        An item is considered as disabled when the selectionModel is not empty and doesn't contain the \a index.
         */
         virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
 
@@ -50,6 +56,14 @@ namespace Thistle {
         virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
     };
 
+    /*!
+    \class DotDelegate
+    \brief The \a DotDelegate class provides display and editing facilities for data items in a \a LinearChart view.
+
+    The \a DotDelegate class displays an item as a dot with the shape defined in the \a ItemStyle.
+
+    \sa ItemStyle, Shape
+    */
     class DotDelegate : public AbstractChartDelegate {
         QPolygon createDiamond( const QRect& rect) const;
 
@@ -60,6 +74,14 @@ namespace Thistle {
         virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     };
 
+    /*!
+    \class BarDelegate
+    \brief The \a BarDelegate class provides display and editing facilities for data items in a \a LinearChart view.
+
+    The \a BarDelegate class displays an item as a bar in the \a LinearChart.
+
+    \sa ItemStyle, Shape
+    */
     class BarDelegate : public AbstractChartDelegate {
     public:
         explicit BarDelegate( AxisChart* parent = 0 );

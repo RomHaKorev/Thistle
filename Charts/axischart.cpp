@@ -28,10 +28,11 @@
 
 #include <QDebug>
 
-#include "Axis/axis.h"
+#include "Axis/abstractaxis.h"
 
 #include "../kernel/abstractitemview_p.h"
 #include "axischart_p.h"
+#include "../../kernel/global.h"
 
 namespace Thistle {
 
@@ -49,7 +50,7 @@ AxisChart::~AxisChart() {
 /*!
 Returns the current \a Axis instance used by this view.
 */
-Axis* AxisChart::axis() const {
+AbstractAxis* AxisChart::axis() const {
     const Q_D( AxisChart );
     return d->axis;
 }
@@ -76,8 +77,8 @@ SerieFormat AxisChart::serieFormat( int column ) const {
             return d->style[ column ];
     }
     SerieFormat style;
-    QColor c1 =  Global::predefinedLightColor( column );
-    QColor c2 = Global::predefinedDarkColor( column );
+    QColor c1 =  Colors::predefinedLightColor( column );
+    QColor c2 = Colors::predefinedDarkColor( column );
     style.setPen( QPen( QColor(c2), 2 ) );
     style.setBrush( QBrush(c1) );
     return style;
@@ -167,7 +168,7 @@ void AxisChart::scan() {
 /*!
 Sets the \a Axis use by the view to determine the item's positions.
 */
-void AxisChart::setAxis( Axis* axis ) {
+void AxisChart::setAxis( AbstractAxis* axis ) {
     Q_D( AxisChart );
     d->axis = axis;
 }

@@ -2,26 +2,29 @@
 
 #include "abstractchart.h"
 #include "piechart.h"
-
+#include "legends/piechartlegend.h"
 #include <QFontMetrics>
 #include <QDebug>
 
 namespace Thistle {
 
 PieChartPrivate::PieChartPrivate( bool is3D, PieChart* q ) : AbstractChartPrivate( q )  {
-    offsetFactor = 1.5;
+    offsetFactor = 1.2;
     ring = false;
     splitted = false;
     startAngle = 0.0;
+    delete this->legend;
+    this->legend = new PieChartLegend( q );
+    this->is3D = false;
 }
 
 void PieChartPrivate::createRects( const QRect& area ) {
-    this->rect = area;
-    this->legend->area = QRect(0,0,0,0);
-    //this->calculateLegendRect( this->rect );
 
-    //this->rect.setWidth( this->rect.width() - this->legendRect.width() - 10 );
-    
+    this->calculateLegendRect( area );
+
+    this->rect = area;
+    this->rect.setWidth( this->rect.width() - ( this->legend->area.width() + 15 ) );
+
     if ( this->title != "" ) {
         QFont font = q_ptr->font();
         font.setItalic( true );
@@ -32,17 +35,23 @@ void PieChartPrivate::createRects( const QRect& area ) {
     }
 
 
-    int w = qMin( this->rect.width() * 0.80, this->rect.height() * 0.80 );
+    int w = qMin( this->rect.width(), this->rect.height() );
 
     this->rect.setWidth( w );
     this->rect.setHeight( w );
 
-    QPoint offset = area.center() - this->rect.center();
-    this->rect.translate( offset );
+    /*QPoint offset = area.center() - this->rect.center();
+    this->rect.translate( offset );*/
 
     this->titleRect.moveTo( this->rect.x(), this->rect.top() );
     this->titleRect.setWidth( this->rect.width() );
     this->rect.moveTo( this->rect.x(), this->titleRect.bottom() + 10 );
+
+    this->legend->area.moveLeft( this->rect.right() + 15 );
+
+    this->rect.translate( this->rect.width() * 0.10,  this->rect.height() * 0.10 );
+    this->rect.setWidth( this->rect.width() * 0.80 );
+    this->rect.setHeight( this->rect.height() * 0.80 );
     
     if ( this->is3D ) {
         createRects3D( area );
@@ -91,7 +100,7 @@ void PieChartPrivate::calculateLegendRect( const QRect& source ) {
 
     w = qMin( source.width(), w );
         
-    this->legend->area = QRect( source.right() - w + 20, q->contentsMargins().top(), w, rows * h );
+    this->legend->area = QRect( source.right() - w, q->contentsMargins().top(), w, rows * h );
 }
 
 

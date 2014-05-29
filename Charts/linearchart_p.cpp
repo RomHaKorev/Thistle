@@ -40,10 +40,10 @@ QPair<QPointF, QPointF> LinearChartPrivate::controlPoints( const QPointF& p0, co
     return pair;
 }
 
-void LinearChartPrivate::selectDelegate( Global::Types type ) {
-    if ( type.testFlag( Global::Dot ) ) {
+void LinearChartPrivate::selectDelegate( Thistle::Types type ) {
+    if ( type.testFlag( Thistle::Dot ) ) {
         this->currentDelegate = this->pointDelegate;
-    } else if ( type.testFlag( Global::Bar ) ) {
+    } else if ( type.testFlag( Thistle::Bar ) ) {
         this->currentDelegate = this->barDelegate;
     } else {
         this->currentDelegate = 0;
@@ -55,14 +55,14 @@ void LinearChartPrivate::paintDelegate( QPainter& painter, const QStyleOptionVie
     this->currentDelegate->paint( &painter, option, index );
 }
 
-void LinearChartPrivate::paint( QPainter& painter, int column, Global::Types types, bool active ) const {
+void LinearChartPrivate::paint( QPainter& painter, int column, Thistle::Types types, bool active ) const {
     const Q_Q( LinearChart );
     painter.save();
     
-    if ( types.testFlag( Global::Line ) ) this->paintStraightLine( painter, column, active, types.testFlag( Global::Area ) );
-    else if ( types.testFlag( Global::Spline ) ) this->paintSpline( painter, column, active, types.testFlag( Global::Area ) );
+    if ( types.testFlag( Thistle::Line ) ) this->paintStraightLine( painter, column, active, types.testFlag( Thistle::Area ) );
+    else if ( types.testFlag( Thistle::Spline ) ) this->paintSpline( painter, column, active, types.testFlag( Thistle::Area ) );
 
-    if ( types.testFlag( Global::Dot ) || types.testFlag( Global::Bar ) ) this->paintRaw( painter, column, active );
+    if ( types.testFlag( Thistle::Dot ) || types.testFlag( Thistle::Bar ) ) this->paintRaw( painter, column, active );
     painter.restore();
 }
 

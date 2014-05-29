@@ -1,17 +1,17 @@
 #ifndef RADIALAXIS_P_H
 #define RADIALAXIS_P_H
 
-#include "axis_p.h"
+#include "abstractaxis_p.h"
 
 namespace Thistle {
 
-struct RadialAxisPrivate : public AxisPrivate {
-    qreal centerHoleDiam;
-    QPointF origin;
-    QLineF yaxis;
+    struct RadialAxisPrivate : public AbstractAxisPrivate {
+        qreal centerHoleDiam;
+        QPointF origin;
+        QLineF yaxis;
 
-    RadialAxisPrivate();
-};
+        RadialAxisPrivate();
+    };
 
 }
 

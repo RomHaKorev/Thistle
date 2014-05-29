@@ -123,11 +123,11 @@ namespace Thistle {
                 if ( !selectedIndexes.contains( index ) ) {
                     QPen pen = painter.pen();
                     if ( isActive == false ) {
-                        QColor c( Global::Gray );
+                        QColor c( Thistle::Colors::Gray );
                         c.setAlpha( 125 );
                         pen.setColor( c );
                         painter.setPen( pen );
-                        c = QColor( Global::LightGray );
+                        c = QColor( Thistle::Colors::LightGray );
                         c.setAlpha( 150 );
                         painter.setBrush( QBrush( c ) );
                     } else {

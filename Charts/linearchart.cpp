@@ -40,7 +40,7 @@ LinearChart::LinearChart( QWidget* parent ) : AxisChart( new LinearChartPrivate(
 QList<int> LinearChart::barStyleColumns() const {
     QList<int> bars;
     for ( int c = 0; c < this->model()->columnCount(); ++c ) {
-        if ( columnType( c ) == Global::Bar ) {
+        if ( columnType( c ) == Thistle::Bar ) {
             bars.append( c );
         }
     }
@@ -54,12 +54,12 @@ QList<int> LinearChart::calculateColumnsOrder() const {
     QList<int> lines;
     QList<int> points;
     for ( int i = 0; i < this->model()->columnCount(); ++i ) {
-        Global::Types t = columnType( i );
-        if ( t.testFlag( Global::Area ) ) {
+        Thistle::Types t = columnType( i );
+        if ( t.testFlag( Thistle::Area ) ) {
             areas << i;
-        } else if ( t.testFlag( Global::Bar ) ) {
+        } else if ( t.testFlag( Thistle::Bar ) ) {
             bars << i;
-        } else if ( t.testFlag( Global::Dot ) ) {
+        } else if ( t.testFlag( Thistle::Dot ) ) {
             points << i;
         } else    {
             lines << i;
@@ -70,7 +70,7 @@ QList<int> LinearChart::calculateColumnsOrder() const {
 }
 
 
-Global::Types LinearChart::columnType( int column ) const {
+Thistle::Types LinearChart::columnType( int column ) const {
     const Q_D( LinearChart );
     if ( d->style.contains( column ) ) {
         return d->style[ column ].type();
@@ -87,7 +87,7 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
     const Q_D( LinearChart );
 
     QRectF r;
-    Global::Types t = this->columnType( index.column() );
+    Thistle::Types t = this->columnType( index.column() );
     bool ok = false;
     qreal value = index.data().toReal( &ok );
     if ( ok == false ) {
@@ -95,7 +95,7 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const {
     }
     QPointF pos = d->orthoAxis->valueToPoint( value, index.row() );
     QList<int> orderedColumns = this->calculateColumnsOrder();
-    if ( t == Global::Bar ) {
+    if ( t == Thistle::Bar ) {
         QList<int> bars = this->barStyleColumns();
         qreal margin = d->orthoAxis->stepSize() * 0.1;
         qreal w = float( d->orthoAxis->stepSize() - margin ) / bars.count();
@@ -141,25 +141,25 @@ void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, in
     QPoint posText = pos + QPoint( 45, 0 );
     QString s(model()->headerData( column, Qt::Horizontal ).toString() );
     SerieFormat style = serieFormat( column );
-    Global::Types t = style.type();
+    Thistle::Types t = style.type();
     painter.drawText( posText, s );
     painter.save();
     painter.setPen( style.pen() );
-    if ( t.testFlag( Global::Area ) ) {
+    if ( t.testFlag( Thistle::Area ) ) {
         painter.setBrush( style.brush() );
         QPolygon poly;
         poly << p1 + QPoint( 0, 8 ) << p1 << p1 + QPoint( 10, -8 ) << p1 + QPoint( 15, -3 ) << p1 + QPoint( 20, -6 ) << p2 << p2 + QPoint( 0, 8 );
         painter.drawPolygon( poly );
-    } else if ( t.testFlag( Global::Line ) ) {
+    } else if ( t.testFlag( Thistle::Line ) ) {
         painter.drawLine( p1, p2 );
-    } else if ( t.testFlag( Global::Spline ) ) {
+    } else if ( t.testFlag( Thistle::Spline ) ) {
         QPainterPath path;
         p1 += QPoint( 0, 7 );
         p2 -= QPoint( 0, 7 );
         path.moveTo( p1 );
         path.cubicTo( p1  + QPoint( 25, 0 ), p2 - QPoint( 25, 0 ), p2 );
         painter.drawPath( path );
-    } else if ( t.testFlag( Global::Bar ) ) {
+    } else if ( t.testFlag( Thistle::Bar ) ) {
         int j = 0;
         Q_FOREACH( int i, QList<int>() << 15 << 8 << 17 << 5 ) {
             painter.setPen( Qt::NoPen );
@@ -170,7 +170,7 @@ void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, in
         }
     }
         
-    if ( t.testFlag( Global::Dot ) ) {
+    if ( t.testFlag( Thistle::Dot ) ) {
         QStyleOptionViewItem option;
         option.rect = QRect( p1.x() + abs(p1.x() - p2.x())/2 - 5, p1.y() - 5, 10, 10 );
         d->pointDelegate->paint( &painter, option, this->model()->index( 0, column ) );
@@ -181,7 +181,7 @@ void LinearChart::paintSerieLegend(QPainter &painter, int column, QPoint pos, in
 
 void LinearChart::paintValues( QPainter& painter, int column ) {
     Q_D( LinearChart );
-    Global::Types t = this->columnType( column );
+    Thistle::Types t = this->columnType( column );
  
     d->selectDelegate( t );
 

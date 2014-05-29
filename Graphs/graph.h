@@ -1,19 +1,19 @@
 /*
- This file is part of Thistle.
+This file is part of Thistle.
 
-    Thistle is free software: you can redistribute it and/or modify
-    it under the terms of the Lesser GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
+Thistle is free software: you can redistribute it and/or modify
+it under the terms of the Lesser GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-    Thistle is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    Lesser GNU General Public License for more details.
+Thistle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Lesser GNU General Public License for more details.
 
-    You should have received a copy of the Lesser GNU General Public License
-    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the Lesser GNU General Public License
+along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef GRAPH_H
@@ -31,43 +31,47 @@
 class GraphModel;
 
 namespace Thistle {
+    /*!
+    \class Graph
+    \brief The Graph class provides the default implementation for graphs.
 
-class Graph : public AbstractItemView {
-    friend class GraphAlgorithm;
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( Graph );
+    It provides standard support for managing graph structure stored in a \a GraphModel.
 
-protected:
-    virtual QModelIndex indexAt( const QPoint& point ) const;
-    virtual void setScrollBarValues();
+    The item positions are resolved with a \a GraphAlgorithm.
+    */
 
-public:
-    explicit Graph( QWidget* parent = 0 );
-    ~Graph();
+    class Graph : public AbstractItemView {
+        friend class GraphAlgorithm;
+        Q_OBJECT
+            Q_DECLARE_PRIVATE( Graph );
 
-    virtual QPainterPath itemPath(const QModelIndex &index) const;
+    protected:
+        virtual QModelIndex indexAt( const QPoint& point ) const;
+        virtual void setScrollBarValues();
 
-    void mousePressEvent( QMouseEvent* event );
-    void mouseReleaseEvent( QMouseEvent* event );
-    void mouseMoveEvent( QMouseEvent* event );
+    public:
+        explicit Graph( QWidget* parent = 0 );
+        ~Graph();
 
-    void paintEvent( QPaintEvent* event );
-    void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
-    void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
-    void paintEdge( QPainter& painter, const QModelIndex& idx1, const QModelIndex& idx2, Edge::Type type ) const;
-    void paintArrow( QPainter& painter,const QLineF& line ) const;
-    void setNodeWeight( qreal weight );
-    void setElasticNode( bool enabled );
+        virtual QPainterPath itemPath(const QModelIndex &index) const;
 
-    void setModel( GraphModel* model );
-    GraphModel* model() const;
+        void mousePressEvent( QMouseEvent* event );
+        void mouseReleaseEvent( QMouseEvent* event );
+        void mouseMoveEvent( QMouseEvent* event );
 
-    public slots:
+        void paintEvent( QPaintEvent* event );
+        void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+        void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+        
+        void setModel( GraphModel* model );
+        GraphModel* model() const;
 
- public slots:
-    void updateValues();
+        public slots:
 
-};
+            public slots:
+                void updateValues();
+
+    };
 
 }
 

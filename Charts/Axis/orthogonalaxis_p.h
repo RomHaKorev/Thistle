@@ -1,11 +1,11 @@
 #ifndef ORTHOGONALAXIS_P_H
 #define ORTHOGONALAXIS_P_H
 
-#include "axis_p.h"
+#include "abstractaxis_p.h"
 
 namespace Thistle {
 
-struct OrthogonalAxisPrivate : public AxisPrivate {
+struct OrthogonalAxisPrivate : public AbstractAxisPrivate {
     OrthogonalAxisPrivate();
 
     QLineF yaxis;

@@ -104,11 +104,8 @@ QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const {
 }
 
 
-void PieChart3D::paintEvent( QPaintEvent* event ) {
-    Q_UNUSED(event)
+void PieChart3D::paintChart( QPainter& painter ) {
     const Q_D( PieChart );
-
-    QPainter painter( this->viewport() );
     painter.save();
     painter.setRenderHint( QPainter::Antialiasing );
     if ( d->render != Plain ) {
@@ -118,12 +115,11 @@ void PieChart3D::paintEvent( QPaintEvent* event ) {
     } else {
         this->paintExternal( painter, false );
     }
-    qDebug() << d->angles << d->front << d->rect;
     for ( int i = 0; i < d->angles.count() - 2; i += 2 ) {
         QModelIndex index = this->model()->index( i/2, 0 );
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Global::predefinedColor( i/2 );
+            color = Colors::predefinedColor( i/2 );
         }
 
         bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
@@ -147,7 +143,7 @@ void PieChart3D::paintExternal( QPainter& painter, bool top ) {
                                             || this->currentIndex() == index;
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Global::predefinedColor( i/2 );
+            color = Colors::predefinedColor( i/2 );
         }
         painter.save();
         qreal a1 = d->angles[i];
@@ -229,7 +225,7 @@ void PieChart3D::paintSides( QPainter& painter ) {
                                             || this->currentIndex() == index;
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() ) {
-            color = Global::predefinedColor( i/2 );
+            color = Colors::predefinedColor( i/2 );
         }
         QPointF offset = splittedOffset( d->angles[i], d->angles[i + 1] );
         QPainterPath path = this->side( d->angles[i], offset, isSelected );

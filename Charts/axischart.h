@@ -29,7 +29,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 namespace Thistle {
     class PointChart;
     class RadialChart;
-    class Axis;
+    class AbstractAxis;
 
     /*!
     \class AxisChart
@@ -59,10 +59,10 @@ namespace Thistle {
 
         explicit AxisChart( QWidget* parent = 0 );
         ~AxisChart();
-        Axis* axis() const;
+        AbstractAxis* axis() const;
         SerieFormat serieFormat( int column ) const;
 
-        void setAxis( Axis* axis );
+        void setAxis( AbstractAxis* axis );
         void setModel( QAbstractItemModel* model );
         void setSerieFormat( int column, SerieFormat style);
     };

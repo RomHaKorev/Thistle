@@ -26,7 +26,7 @@ RadialTree::RadialTree( QWidget* parent ) : AbstractTree( parent ) {
     Q_D( RadialTree );
     d->itemRect = QRect( -20, -20, 40, 40 );
     ItemStyle style = ItemStyle();
-    style.setShape( Global::Ellipse );
+    style.setShape( Thistle::Ellipse );
     d->delegate = new ItemDelegate( this );
     d->delegate->setItemStyle( style );
     setItemDelegate( d->delegate );

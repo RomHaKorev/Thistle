@@ -45,11 +45,11 @@ namespace Thistle {
         painter.restore();
     }
 
-    void ChartLegend::paintSerie( QPainter &painter, int column, QPoint pos, int maxHeight ) const {
+    void ChartLegend::paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const {
         QPoint p1 = pos + QPoint( 10, - maxHeight/2 );
         QPoint p2 = pos + QPoint( 40, - maxHeight/2 );
         QPoint posText = pos + QPoint( 45, 0 );
-        QString s( chart->model()->headerData( column, Qt::Horizontal ).toString() );
+        QString s( chart->model()->headerData( serie, Qt::Horizontal ).toString() );
         painter.drawText( posText, s );
         painter.restore();
     }

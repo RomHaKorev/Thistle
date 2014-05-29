@@ -1,18 +1,18 @@
-#include "axis.h"
+#include "abstractaxis.h"
 #include "../../kernel/global.h"
 #include <QAbstractItemModel>
 
 namespace Thistle {
 
-Axis::Axis() : d_ptr( new AxisPrivate() ) {
+AbstractAxis::AbstractAxis() : d_ptr( new AbstractAxisPrivate() ) {
     d_ptr->tickSize = 0;
     d_ptr->nbTicks = 10;
-    d_ptr->axisPen = QPen( QBrush(Global::Gray), 1.5 );
-    d_ptr->tickPen = QPen( QBrush(Global::LightGray), 0 );
-    d_ptr->textPen = QPen( QBrush(Global::DarkGray), 1 );
+    d_ptr->axisPen = QPen( QBrush(Thistle::Colors::Gray), 1.5 );
+    d_ptr->tickPen = QPen( QBrush(Thistle::Colors::LightGray), 0 );
+    d_ptr->textPen = QPen( QBrush(Thistle::Colors::DarkGray), 1 );
 }
 
-Axis::Axis( AxisPrivate* d ) : d_ptr( d ) {
+AbstractAxis::AbstractAxis( AbstractAxisPrivate* d ) : d_ptr( d ) {
 }
 
 
@@ -20,7 +20,7 @@ Axis::Axis( AxisPrivate* d ) : d_ptr( d ) {
 Calculates the d_ptr->order and the tick size(delta between two ticks on the Y axis) of the charts values.
 If the d_ptr->minimum is equal to the d_ptr->maximum, the d_ptr->minimum bound is equal to d_ptr->minimum - 1 and the d_ptr->maximum bound to d_ptr->maximum + 1
 */
-void Axis::calculateBounds() {
+void AbstractAxis::calculateBounds() {
     d_ptr->minBound = d_ptr->min;
     d_ptr->maxBound = d_ptr->max;
     if ( d_ptr->maxBound == d_ptr->minBound ) {
@@ -39,7 +39,7 @@ void Axis::calculateBounds() {
     }
 }
 
-long Axis::calculateOrder( qreal value ) const {
+long AbstractAxis::calculateOrder( qreal value ) const {
     /*Calculates the d_ptr->order of scale for value (i.e. the power of ten greater than value).*/
     long order = 1.0;
     qreal v = abs( value );

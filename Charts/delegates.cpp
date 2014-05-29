@@ -73,19 +73,19 @@ void DotDelegate::paintEnabled(QPainter *painter, const QStyleOptionViewItem &op
     painter->setPen( style.pen() );
     QRect r = option.rect;
 
-    if ( style.shape() == Global::Ellipse ) {
+    if ( style.shape() == Thistle::Ellipse ) {
         painter->drawEllipse( r );
-    } else if ( style.shape() == Global::RoundedRect ) {
+    } else if ( style.shape() == Thistle::RoundedRect ) {
         painter->drawRoundedRect( r, 5, 5 );
-    } else if ( style.shape() == Global::Diamond ) {
+    } else if ( style.shape() == Thistle::Diamond ) {
         painter->drawPolygon( createDiamond( r ) );
-    } else if ( style.shape() == Global::Triangle ) {
+    } else if ( style.shape() == Thistle::Triangle ) {
         QPolygon poly;
         poly.append( r.topLeft() + QPoint( r.width()/2, 0 ) );
         poly.append( r.bottomLeft() );
         poly.append( r.bottomRight() );
         painter->drawPolygon( poly );
-    } else if ( style.shape() == Global::ReversedTriangle ) {
+    } else if ( style.shape() == Thistle::ReversedTriangle ) {
         QPolygon poly;
         poly.append( r.bottomLeft() + QPoint( r.width()/2, 0 ) );
         poly.append( r.topLeft() );

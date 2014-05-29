@@ -12,12 +12,12 @@ namespace Thistle {
     RadialChartLegend::~RadialChartLegend()     {
     }
 
-    void RadialChartLegend::paintSerie( QPainter &painter, int column, QPoint pos, int maxHeight ) const {
+    void RadialChartLegend::paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const {
         QRect r( pos.x() + 25, pos.y() - 15, 30, 30 );
         QPoint posText = pos + QPoint( 45, 0 );
-        QString s( chart->model()->headerData( column, Qt::Horizontal ).toString() );
-        SerieFormat style = chart->serieFormat( column );
-        Global::Types t = style.type();
+        QString s( chart->model()->headerData( serie, Qt::Horizontal ).toString() );
+        SerieFormat style = chart->serieFormat( serie );
+        Thistle::Types t = style.type();
         painter.drawText( posText, s );
         painter.save();
         painter.setPen( style.pen() );

@@ -61,13 +61,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     painter->setPen( d->style.pen() );
     const QRect& r = option.rect;
     switch( d->style.shape() ) {
-        case Global::Ellipse:
+        case Thistle::Ellipse:
             painter->drawEllipse( r );
         break;
-        case Global::RoundedRect:
+        case Thistle::RoundedRect:
             painter->drawRoundedRect( r, 5, 5 );
         break;
-        case Global::Diamond:
+        case Thistle::Diamond:
         painter->drawPolygon( QPolygon()
                             << r.topLeft() + QPoint( r.width()/2, 0 )
                             << r.topRight() + QPoint( 0, r.height()/2 )
@@ -75,13 +75,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
                             << r.topLeft() + QPoint( 0, r.height()/2 )
                 );
         break;
-    case Global::Triangle:
+    case Thistle::Triangle:
         painter->drawPolygon( QPolygon()
                             << r.topLeft() + QPoint( r.width()/2, 0 )
                             << r.bottomLeft() << r.bottomRight()
                          );
     break;
-    case Global::ReversedTriangle:
+    case Thistle::ReversedTriangle:
         painter->drawPolygon( QPolygon()
                             << r.bottomLeft() + QPoint( r.width()/2, 0 )
                             << r.topLeft() << r.topRight()
@@ -122,7 +122,7 @@ void ItemDelegate::setItemStyle( const ItemStyle& s ) {
 /*!
 Returns the \a ItemStyle used to draw the item.
 */
-ItemStyle ItemDelegate::itemStyle() const {
+ItemStyle& ItemDelegate::itemStyle() const {
     return d->style;
 }
 

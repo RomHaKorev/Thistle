@@ -8,7 +8,7 @@
 
 namespace Thistle {
 
-RadialAxis::RadialAxis() : Axis( new RadialAxisPrivate() ) {
+RadialAxis::RadialAxis() : AbstractAxis( new RadialAxisPrivate() ) {
 }
 
 
@@ -93,7 +93,7 @@ void RadialAxis::paintBack( QPainter& painter ) const {
 void RadialAxis::paintFront( QPainter& painter ) const {
     const Q_D( RadialAxis );
     painter.save();
-    painter.setPen( QPen( QColor( Global::DarkGray ), 1.5 ) );
+    painter.setPen( QPen( QColor( Thistle::Colors::DarkGray ), 1.5 ) );
     QFontMetrics metrics( this->font() );
     qreal v = d->minBound;
     while ( v <= d->maxBound ) {

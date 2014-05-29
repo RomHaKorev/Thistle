@@ -11,7 +11,7 @@ namespace Thistle {
         RadialChartLegend( RadialChart* radialChart );
         ~RadialChartLegend();
     protected:
-        virtual void paintSerie( QPainter &painter, int column, QPoint pos, int maxHeight ) const;
+        virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const;
     };
 }
 

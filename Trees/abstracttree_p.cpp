@@ -9,7 +9,7 @@ AbstractTreePrivate::AbstractTreePrivate() : AbstractItemViewPrivate() {
     xDistance = 20;
     depth = 0;
     left = 0;
-    connectionPen = QPen( QColor( Global::LightGray ), 2 );
+    connectionPen = QPen( QColor( Thistle::Colors::LightGray ), 2 );
     delegate = new ItemDelegate();
 }
 

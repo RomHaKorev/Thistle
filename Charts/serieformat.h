@@ -30,8 +30,8 @@ namespace Thistle {
     struct SerieFormatPrivate {
         QBrush brush;
         QPen pen;
-        Global::Shape shape;
-        Global::Types type;
+        Thistle::Shape shape;
+        Types type;
     };
 
 
@@ -42,12 +42,12 @@ namespace Thistle {
         SerieFormat();
         void setBrush( const QBrush brush);
         void setPen( const QPen pen);
-        void setShape( const Global::Shape shape);
-        void setType( const Global::Types type);
+        void setShape( const Thistle::Shape shape);
+        void setType( const Thistle::Types type);
         QBrush brush() const;
         QPen pen() const;
-        Global::Shape shape() const;
-        Global::Types type() const;
+        Thistle::Shape shape() const;
+        Thistle::Types type() const;
     };
 
 }

@@ -52,7 +52,7 @@ namespace Thistle {
     Thistle::LinearChart linear;
     linear.setModel( model );
     Thistle::SerieFormat style = linear.serieFormat( 1 );
-    style.setType( Thistle::Global::Bar );
+    style.setType( Thistle::Thistle::Bar );
     linear.setSerieFormat( 1, style );
     linear.setTitle( "A line chart example" );
     linear.show();
@@ -72,7 +72,7 @@ namespace Thistle {
     protected:
         QList<int> calculateColumnsOrder() const;
         virtual void updateRects();
-        Global::Types columnType( int column ) const;
+        Thistle::Types columnType( int column ) const;
         QList<int> barStyleColumns() const;
         virtual QRectF itemRect( const QModelIndex& index ) const;
         virtual QRectF itemRect( int row, int column, const QModelIndex& parent = QModelIndex() ) const;

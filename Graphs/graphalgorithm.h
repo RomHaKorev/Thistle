@@ -14,6 +14,7 @@ namespace Thistle {
 class Graph;
 
 /*!
+\class GraphAlgorithm
 */
 class GraphAlgorithm : public QObject {
     Q_OBJECT
@@ -27,6 +28,7 @@ public:
 
     const Node node( const QModelIndex& index ) const;
     inline void setPosition( const QModelIndex& index, QPointF pos ) { d_ptr->itemPos[ index ].setPos( pos ); }
+    void setNodeWeight( qreal weight );
 private slots:
     void processTimer();
 

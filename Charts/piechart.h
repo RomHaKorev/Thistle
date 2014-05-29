@@ -31,6 +31,7 @@ namespace Thistle {
         Q_OBJECT
             Q_DECLARE_PRIVATE( PieChart );
         Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle)
+        friend class PieChartLegend;
     public:
         PieChart( QWidget* parent = 0 );
 
@@ -48,12 +49,12 @@ namespace Thistle {
 
         void scan();
 
-        virtual void configureColor( QPainter& painter, QColor base, int flag ) const;
+        virtual void configureColor( QPainter& painter, QColor base, int flag = 0 ) const;
 
         virtual QPainterPath itemPath( const QModelIndex& index ) const;
         virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
 
-        virtual void paintChart( QPainter& painter ) const;
+        virtual void paintChart( QPainter& painter );
         virtual void paintLegend( QPainter& painter) const;
         virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int maxHeight ) const;
         virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;

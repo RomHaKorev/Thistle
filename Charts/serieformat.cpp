@@ -21,10 +21,10 @@
 namespace Thistle {
 
 SerieFormat::SerieFormat() : d( new SerieFormatPrivate() ) {
-    d->brush = QBrush( Global::LightBlue );
-    d->pen = QPen( QColor( Global::Blue ), 2 );
-    d->shape = Global::Ellipse;
-    d->type = Global::Line | Global::Dot;
+    d->brush = QBrush( Thistle::Colors::LightBlue );
+    d->pen = QPen( QColor( Thistle::Colors::Blue ), 2 );
+    d->shape = Thistle::Ellipse;
+    d->type = Thistle::Line | Thistle::Dot;
 }
 
 /*!
@@ -62,14 +62,14 @@ void SerieFormat::setPen( const QPen pen) {
 /*!
 Sets the item's shape to \a shape.
 */
-void SerieFormat::setShape( const Global::Shape shape) {
+void SerieFormat::setShape( const Thistle::Shape shape) {
     d->shape = shape;
 }
 
 /*!
 Sets the serie's \c type.
 */
-void SerieFormat::setType( const Global::Types type) {
+void SerieFormat::setType( const Thistle::Types type) {
     d->type = type;
 }
 
@@ -77,14 +77,14 @@ void SerieFormat::setType( const Global::Types type) {
 /*!
 Returns the item's shape to \a shape.
 */
-Global::Shape SerieFormat::shape() const {
+Thistle::Shape SerieFormat::shape() const {
     return d->shape;
 }
 
 /*!
 Sets the serie's \c type.
 */
-Global::Types SerieFormat::type() const {
+Thistle::Types SerieFormat::type() const {
     return d->type;
 }
 

@@ -30,12 +30,12 @@ namespace Thistle {
         OrthogonalAxis* orthoAxis;
 
         LinearChartPrivate( LinearChart* q );
-        void selectDelegate( Global::Types type );
+        void selectDelegate( Thistle::Types type );
         inline AbstractChartDelegate* delegate() const { return currentDelegate; }
 
         void paintDelegate( QPainter& painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 
-        void paint( QPainter& painter, int column, Global::Types types, bool active ) const;
+        void paint( QPainter& painter, int column, Thistle::Types types, bool active ) const;
     };
 
 }

@@ -8,7 +8,7 @@
 
 namespace Thistle {
 
-struct AxisPrivate {
+struct AbstractAxisPrivate {
     QRect valuesRect;
     QRect chartRect;
     QFont font;
@@ -29,7 +29,7 @@ struct AxisPrivate {
     int nbDigits;
     int nbTicks;
     
-    AxisPrivate();
+    AbstractAxisPrivate();
 };
 
 }

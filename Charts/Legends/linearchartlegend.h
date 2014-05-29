@@ -1,5 +1,5 @@
-#ifndef LEGENDCHART_H
-#define LEGENDCHART_H
+#ifndef LINEARLEGENDCHART_H
+#define LINEARLEGENDCHART_H
 
 #include <QPainter>
 #include <QRect>
@@ -11,7 +11,7 @@ namespace Thistle {
     class LinearChartLegend : public ChartLegend {
     protected:
         LinearChart* chart;
-        virtual void paintSerie( QPainter &painter, int column, QPoint pos, int maxHeight ) const;
+        virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const;
     public:
         QRect area;
         LinearChartLegend( LinearChart* parent );
@@ -21,4 +21,4 @@ namespace Thistle {
     };
 }
 
-#endif // LEGENDCHART_H
+#endif // LINEARLEGENDCHART_H

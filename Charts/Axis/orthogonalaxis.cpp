@@ -9,7 +9,7 @@
 
 namespace Thistle {
 
-OrthogonalAxis::OrthogonalAxis() : Axis( new OrthogonalAxisPrivate() ) {
+OrthogonalAxis::OrthogonalAxis() : AbstractAxis( new OrthogonalAxisPrivate() ) {
     Q_D( OrthogonalAxis );
 }
 

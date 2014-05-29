@@ -2,7 +2,7 @@
 #define AXISCHART_P_H
 
 #include "abstractchart_p.h"
-#include "Axis/axis.h"
+#include "Axis/abstractaxis.h"
 #include "serieformat.h"
 
 #include <QMap>
@@ -10,7 +10,7 @@
 namespace Thistle {
     class AxisChart;
     struct AxisChartPrivate : public AbstractChartPrivate {
-        Axis* axis;
+        AbstractAxis* axis;
         QMap<int, SerieFormat> style;
         int x;
 

@@ -1,11 +1,1 @@
-#include "itemstyle.h"
-
-ItemStyle::ItemStyle()
-{
-
-}
-
-ItemStyle::~ItemStyle()
-{
-
-}
+#include "itemstyle_p.h"

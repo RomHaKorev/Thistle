@@ -21,7 +21,6 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include "piechart.h"
 #include "piechart_p.h"
-#include "piechart3D_p.h"
 
 namespace Thistle {
 
@@ -49,7 +48,7 @@ namespace Thistle {
         virtual QPainterPath side( qreal angle, QPointF centerOffset, bool splitted ) const;
         virtual void configureColor(QPainter &painter, QColor base, int flag) const;
 
-        virtual void paintEvent(QPaintEvent *event);
+        virtual void paintChart( QPainter& painter );;
         virtual void paintSides( QPainter& painter );
         virtual void paintExternal( QPainter& painter, bool top );
         virtual void paintLeft( QPainter& painter, QColor color, QPointF offset = QPointF(0,0) );

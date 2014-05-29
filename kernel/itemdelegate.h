@@ -1,19 +1,19 @@
 /*
- This file is part of Thistle.
+This file is part of Thistle.
 
-    Thistle is free software: you can redistribute it and/or modify
-    it under the terms of the Lesser GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
+Thistle is free software: you can redistribute it and/or modify
+it under the terms of the Lesser GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-    Thistle is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    Lesser GNU General Public License for more details.
+Thistle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+Lesser GNU General Public License for more details.
 
-    You should have received a copy of the Lesser GNU General Public License
-    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the Lesser GNU General Public License
+along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 
- Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #ifndef ITEMDELEGATE_H
@@ -28,37 +28,37 @@
 
 namespace Thistle {
 
-class ItemDelegatePrivate;
+    class ItemDelegatePrivate;
 
-/*!
-\class ItemDelegate
+    /*!
+    \class ItemDelegate
 
-\brief The ItemDelegate class provides display and editing facilities for data items.
+    \brief The ItemDelegate class provides display and editing facilities for data items.
 
-ItemDelegate inherits QStyledItemDelegate.
-ItemDelegate uses the ItemStyle class to determine the look and feel.
+    ItemDelegate inherits QStyledItemDelegate.
+    ItemDelegate uses the ItemStyle class to determine the look and feel.
 
-See Qt reference documentation for more detail on delegates.
-*/
-class ItemDelegate : public QStyledItemDelegate {
-    Q_OBJECT
+    See Qt reference documentation for more detail on delegates.
+    */
+    class ItemDelegate : public QStyledItemDelegate {
+        Q_OBJECT
 
-private:
+    private:
         QPolygon createDiamond( const QRect& r ) const;
-protected:
-    ItemDelegatePrivate* d;
-public:
+    protected:
+        ItemDelegatePrivate* d;
+    public:
 
-    void setItemStyle( const ItemStyle& myStyle );
-    ItemStyle itemStyle() const;
-    explicit ItemDelegate( QWidget* parent = 0 );
-    QWidget *createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-    void setEditorData( QWidget *editor, const QModelIndex &index ) const;
-    void setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
+        void setItemStyle( const ItemStyle& myStyle );
+        ItemStyle& itemStyle() const;
+        explicit ItemDelegate( QWidget* parent = 0 );
+        QWidget *createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+        void setEditorData( QWidget *editor, const QModelIndex &index ) const;
+        void setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-};
+        void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    };
 
 }
 #endif // ITEMDELEGATE_H

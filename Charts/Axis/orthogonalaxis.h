@@ -1,7 +1,7 @@
 #ifndef ORTHOGONALAXIS_H
 #define ORTHOGONALAXIS_H
 
-#include "axis.h"
+#include "abstractaxis.h"
 
 #include <QObject>
 #include <QPainter>
@@ -15,7 +15,7 @@ class QAbstractItemModel;
 namespace Thistle {
 class OrthogonalAxisPrivate;
 
-class OrthogonalAxis : public Axis {
+class OrthogonalAxis : public AbstractAxis {
     Q_DECLARE_PRIVATE( OrthogonalAxis )
 protected:
     void paintXAxis( QPainter& painter ) const;

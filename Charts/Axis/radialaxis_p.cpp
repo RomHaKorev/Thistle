@@ -2,12 +2,12 @@
 
 namespace Thistle {
 
-RadialAxisPrivate::RadialAxisPrivate()
-    : AxisPrivate() {
-    centerHoleDiam = 0;
-    origin = QPointF(0,0);
-    nbTicks = 5;
-    nbDigits = 0;
-}
+    RadialAxisPrivate::RadialAxisPrivate()
+        : AbstractAxisPrivate() {
+            centerHoleDiam = 0;
+            origin = QPointF(0,0);
+            nbTicks = 5;
+            nbDigits = 0;
+    }
 
 }
