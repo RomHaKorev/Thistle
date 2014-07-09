@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{83f06181-2d06-4fed-b7a9-08f17b318bda}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{b1f23f64-aafd-4cc0-af42-17e8cfb86a3c}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{6e77970e-ff14-49be-b8b3-4ce14d329ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\viewes">
+      <UniqueIdentifier>{ea6a1e48-715b-487b-9e58-003877034a27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Components">
+      <UniqueIdentifier>{0b1a5319-d78d-4c77-ac1e-89f6758c1fd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Components\Axis">
+      <UniqueIdentifier>{efc40431-8032-4ac9-b02a-c8353a43fd76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Components\Legends">
+      <UniqueIdentifier>{4e31b84a-e46e-4c6d-a0d5-ab11d0d707ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{564a3837-9297-4ee9-8cca-e1fd240b50df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\viewes">
+      <UniqueIdentifier>{3869cbd2-943e-462e-9476-04c082ef3275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Components">
+      <UniqueIdentifier>{19b4dbb0-2800-4e3e-98fa-c7bf46e232e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Components\Axis">
+      <UniqueIdentifier>{19e1c2be-a5d9-496c-a85e-af9ad20d1982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Components\Legends">
+      <UniqueIdentifier>{c2c71630-64f8-4ee4-b6e8-46d865425911}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Thistle\Charts\abstractchart.h">
+      <Filter>Headers\viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\abstractchart_p.h">
+      <Filter>Headers\viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\axischart_p.h">
+      <Filter>Headers\viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linearchart_p.h">
+      <Filter>Headers\viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\piechart_p.h">
+      <Filter>Headers\viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\radialchart_p.h">
+      <Filter>Headers\viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\serieformat_p.h">
+      <Filter>Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\serieformat.h">
+      <Filter>Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\delegates.h">
+      <Filter>Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radialaxis_p.h">
+      <Filter>Headers\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\abstractaxis.h">
+      <Filter>Headers\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\abstractaxis_p.h">
+      <Filter>Headers\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\orthogonalaxis_p.h">
+      <Filter>Headers\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radialaxis.h">
+      <Filter>Headers\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\orthogonalaxis.h">
+      <Filter>Headers\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Legends\chartlegend.h">
+      <Filter>Headers\Components\Legends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Legends\linearchartlegend.h">
+      <Filter>Headers\Components\Legends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Legends\piechartlegend.h">
+      <Filter>Headers\Components\Legends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Legends\RadialChartLegend.h">
+      <Filter>Headers\Components\Legends</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Thistle\Charts\axischart.h">
+      <Filter>Headers\viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\radialchart.h">
+      <Filter>Headers\viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\piechart3D.h">
+      <Filter>Headers\viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\piechart.h">
+      <Filter>Headers\viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\linearchart.h">
+      <Filter>Headers\viewes</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_axischart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_axischart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_radialchart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_radialchart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_piechart3D.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_piechart3D.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_piechart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_piechart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_linearchart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_linearchart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\abstractchart.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\abstractchart_p.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\axischart.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\axischart_p.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linearchart.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linearchart_p.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\piechart.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\piechart3D.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\piechart_p.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\radialchart.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\radialchart_p.cpp">
+      <Filter>Sources\viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\serieformat.cpp">
+      <Filter>Sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\delegates.cpp">
+      <Filter>Sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\abstractaxis.cpp">
+      <Filter>Sources\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\abstractaxis_p.cpp">
+      <Filter>Sources\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\orthogonalaxis.cpp">
+      <Filter>Sources\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\orthogonalaxis_p.cpp">
+      <Filter>Sources\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radialaxis.cpp">
+      <Filter>Sources\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radialaxis_p.cpp">
+      <Filter>Sources\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Legends\chartlegend.cpp">
+      <Filter>Sources\Components\Legends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Legends\linearchartlegend.cpp">
+      <Filter>Sources\Components\Legends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Legends\piechartlegend.cpp">
+      <Filter>Sources\Components\Legends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Legends\RadialChartLegend.cpp">
+      <Filter>Sources\Components\Legends</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
