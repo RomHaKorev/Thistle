@@ -44,6 +44,7 @@ namespace Thistle {
             const Q_D( LinearChart );
             return d->delegate();
         }
+
     protected:
         QList<int> calculateColumnsOrder() const;
         virtual void updateRects();
@@ -51,7 +52,7 @@ namespace Thistle {
         QList<int> barStyleColumns() const;
         virtual QRectF itemRect( const QModelIndex& index ) const;
         virtual QRectF itemRect( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
-        void paintValues( QPainter& painter, int column);
+        void paintSerie( QPainter& painter, int column);
         virtual void paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const;
         virtual void paintChart( QPainter& painter );
     };

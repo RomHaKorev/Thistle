@@ -12,6 +12,8 @@ namespace Thistle {
         QPointF pos;
         QPointF newPos;
         QList<Node*> connectedNode;
+        NodePrivate();
+        ~NodePrivate();
     };
 
 }

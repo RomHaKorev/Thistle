@@ -5,8 +5,6 @@
 #include <QPainter>
 
 namespace Thistle {
-
-
     class Edge {
     public:
         enum Type {
@@ -14,7 +12,7 @@ namespace Thistle {
             Bilateral    = 1,
             Unilateral = 2
         };
-        Q_ENUMS( Type )
+        Q_ENUMS( Type );
         
         Edge( QModelIndex idx1, QModelIndex idx2, Edge::Type type = NoArrow );
 

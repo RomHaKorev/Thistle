@@ -38,9 +38,9 @@ namespace Thistle {
             Translucent = 2
         };
 
-        Q_ENUMS( Render )
+        Q_ENUMS( Render );
 
-            PieChart3D(QWidget *parent = 0);
+        explicit PieChart3D(QWidget *parent = 0);
         void setRender( PieChart3D::Render );
     protected:
         virtual QPainterPath itemSidesPath( const QModelIndex& index ) const;

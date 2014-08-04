@@ -21,6 +21,7 @@ namespace Thistle {
 
 
     AbstractChart::~AbstractChart() {
+        Q_D( AbstractChart );
     }
 
     const QFont& AbstractChart::titleFont() const {
@@ -37,6 +38,7 @@ namespace Thistle {
 
     void AbstractChart::setLegend( ChartLegend* legend ) {
         Q_D( AbstractChart );
+        if ( d->legend != 0 ) delete d->legend;
         d->legend = legend;
     }
 

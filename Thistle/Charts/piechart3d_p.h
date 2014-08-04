@@ -19,7 +19,6 @@ public:
 
     virtual void createRects( const QRect& area );
 
-    void test() { qDebug() << Q_FUNC_INFO; }
 };
 
 }

@@ -10,4 +10,8 @@ namespace Thistle {
         this->legend = new RadialChartLegend( q );
     }
 
+    RadialChartPrivate::~RadialChartPrivate() {
+        if ( this->radialAxis != 0 ) delete this->radialAxis;
+    }
+
 }

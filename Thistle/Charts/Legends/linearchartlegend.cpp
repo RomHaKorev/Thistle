@@ -24,7 +24,9 @@ namespace Thistle {
         Thistle::Types t = style.type();
         painter.drawText( posText, s );
         painter.save();
-        painter.setPen( style.pen() );
+        QPen pen( style.pen() );
+        pen.setWidth( 2 );
+        painter.setPen( pen );
         if ( t.testFlag( Thistle::Area ) ) {
             painter.setBrush( style.brush() );
             QPolygon poly;
@@ -34,10 +36,10 @@ namespace Thistle {
             painter.drawLine( p1, p2 );
         } else if ( t.testFlag( Thistle::Spline ) ) {
             QPainterPath path;
-            p1 += QPoint( 0, 7 );
-            p2 -= QPoint( 0, 7 );
+            QPoint p11 = p1 + QPoint( 0, 7 );
+            QPoint p22 = p2 - QPoint( 0, 7 );
             path.moveTo( p1 );
-            path.cubicTo( p1  + QPoint( 25, 0 ), p2 - QPoint( 25, 0 ), p2 );
+            path.cubicTo( p11  + QPoint( 25, 0 ), p22 - QPoint( 25, 0 ), p22 );
             painter.drawPath( path );
         } else if ( t.testFlag( Thistle::Bar ) ) {
             int j = 0;

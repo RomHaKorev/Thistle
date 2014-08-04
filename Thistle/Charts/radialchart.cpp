@@ -91,7 +91,7 @@ namespace Thistle {
             SerieFormat style = serieFormat( c );
             painter.setPen( style.pen() );
             painter.setBrush( style.brush() );
-            this->paintValues( painter, c );
+            this->paintSerie( painter, c );
         }
         painter.restore();
         d->radialAxis->paintFront( painter );
@@ -101,7 +101,7 @@ namespace Thistle {
     }
 
 
-    void RadialChart::paintValues( QPainter& painter, int column ) const {
+    void RadialChart::paintSerie( QPainter& painter, int column ) const {
         int rows = this->model()->rowCount();
         painter.save();
         bool isActive = false;
@@ -151,11 +151,11 @@ namespace Thistle {
     }
 
 
-    void RadialChart::setAlphaBeta() {
+/*    void RadialChart::setAlphaBeta() {
         Q_D( RadialChart );
         qreal w = d->radialAxis->valuesRect().width();
         qreal m = w * 0.3;
-    }
+    }*/
 
 
     void RadialChart::updateRects() {

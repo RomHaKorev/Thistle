@@ -199,8 +199,6 @@ namespace Thistle {
 
     void GraphView::setAlgorithm( AbstractGraphAlgorithm* algorithm ) {
         Q_D ( GraphView );
-        d->algorithm->deleteLater();
-
         d->algorithm = algorithm;
         connect( d->algorithm, SIGNAL( updated() ), this, SLOT( update() ) );
         connect( d->algorithm, SIGNAL( updated() ), this->viewport(), SLOT( update() ) );

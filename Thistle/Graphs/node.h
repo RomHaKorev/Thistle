@@ -33,6 +33,7 @@ namespace Thistle {
         NodePrivate* d_ptr;
     public:
         Node();
+        ~Node();
         void process();
         void calculateForce();
         QPointF pos() const;

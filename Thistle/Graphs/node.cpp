@@ -24,6 +24,10 @@ Node::Node() {
     d_ptr = new NodePrivate();
 }
 
+Node::~Node() {
+    delete d_ptr;
+}
+
 QPointF Node::pos() const {
     return d_ptr->pos;
 }

@@ -11,9 +11,8 @@ namespace Thistle {
         d_ptr = d;
     }
 
-    AbstractGraphAlgorithm::~AbstractGraphAlgorithm()
-    {
-
+    AbstractGraphAlgorithm::~AbstractGraphAlgorithm() {
+        delete d_ptr;
     }
 
     

@@ -24,6 +24,7 @@ namespace Thistle {
         ChartLegend* legend;
 
         AbstractChartPrivate( AbstractChart* q );
+        ~AbstractChartPrivate();
 
         void pressEvent();
         void releaseEvent();

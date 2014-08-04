@@ -24,16 +24,20 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 namespace Thistle {
 
-    ItemDelegate::ItemDelegate( QWidget* parent ) :
-        QStyledItemDelegate(parent) {
-            d = new ItemDelegatePrivate();
+    ItemDelegate::ItemDelegate( QWidget* parent ) : QStyledItemDelegate(parent) {
+        d_ptr = new ItemDelegatePrivate();
+    }
+
+    ItemDelegate::~ItemDelegate() {
+        delete d_ptr;
     }
 
     QWidget* ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
         Q_UNUSED( parent )
-            Q_UNUSED( option )
-            Q_UNUSED( index )
-            QLineEdit* editor = new QLineEdit( parent );
+        Q_UNUSED( option )
+        Q_UNUSED( index )
+        
+        QLineEdit* editor = new QLineEdit( parent );
         editor->setGeometry( option.rect );
         return editor;
     }
@@ -54,10 +58,10 @@ namespace Thistle {
 
     void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
         painter->save();
-        painter->setBrush( d->style.brush() );
-        painter->setPen( d->style.pen() );
+        painter->setBrush( d_ptr->style.brush() );
+        painter->setPen( d_ptr->style.pen() );
         const QRect& r = option.rect;
-        switch( d->style.shape() ) {
+        switch( d_ptr->style.shape() ) {
         case Thistle::Ellipse:
             painter->drawEllipse( r );
             break;
@@ -87,8 +91,8 @@ namespace Thistle {
         default:
             painter->drawRect( r );
         }
-        if ( d->style.displayText() == true ) {
-            painter->setPen( d->style.textColor() );
+        if ( d_ptr->style.displayText() == true ) {
+            painter->setPen( d_ptr->style.textColor() );
             painter->drawText( r, Qt::AlignCenter, index.model()->data( index ).toString() );
         }
         painter->restore();
@@ -105,16 +109,16 @@ namespace Thistle {
 
     void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
         Q_UNUSED( editor )
-            Q_UNUSED( option )
-            Q_UNUSED( index )
+        Q_UNUSED( option )
+        Q_UNUSED( index )
     }
 
     void ItemDelegate::setItemStyle( const ItemStyle& s ) {
-        d->style = s;
+        d_ptr->style = s;
     }
 
     ItemStyle& ItemDelegate::itemStyle() const {
-        return d->style;
+        return d_ptr->style;
     }
 
 }

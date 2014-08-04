@@ -32,9 +32,8 @@ namespace Thistle {
     protected:
         QRectF itemRect(const QModelIndex &index) const;
         QPainterPath itemPath( const QModelIndex& index ) const;
-        void setAlphaBeta();
         void updateRects();
-        void paintValues( QPainter& painter, int column ) const;
+        void paintSerie( QPainter& painter, int column ) const;
         void paintAxis( QPainter& painter ) const;
         void paintTicks( QPainter& painter ) const;
         virtual void paintChart( QPainter& );

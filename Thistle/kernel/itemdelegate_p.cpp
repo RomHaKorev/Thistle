@@ -2,13 +2,13 @@
 
 namespace Thistle {
 
-ItemDelegatePrivate::ItemDelegatePrivate() : style() {
+    ItemDelegatePrivate::ItemDelegatePrivate() : style() {
 
-}
+    }
 
-ItemDelegatePrivate::~ItemDelegatePrivate()
-{
+    ItemDelegatePrivate::~ItemDelegatePrivate()
+    {
 
-}
+    }
 
 }

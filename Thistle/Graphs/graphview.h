@@ -30,7 +30,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 class GraphModel;
 
 namespace Thistle {
-    
+
     class GraphView : public AbstractItemView {
         friend class GraphAlgorithm;
         Q_OBJECT
@@ -46,24 +46,17 @@ namespace Thistle {
 
         virtual QPainterPath itemPath(const QModelIndex &index) const;
 
-        /*void mousePressEvent( QMouseEvent* event );
-        void mouseReleaseEvent( QMouseEvent* event );
-        void mouseMoveEvent( QMouseEvent* event );*/
-
         void paintEvent( QPaintEvent* event );
         void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
         void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
-        
+
         void setModel( GraphModel* model );
         GraphModel* model() const;
 
         AbstractGraphAlgorithm* algorithm() const;
         void setAlgorithm( AbstractGraphAlgorithm* algorithm );
-
-        public slots:
-
-            public slots:
-                void updateValues();
+    public slots:
+        void updateValues();
 
     };
 

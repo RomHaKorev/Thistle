@@ -16,6 +16,7 @@ namespace Thistle {
         qreal centerHoleDiam;
         RadialAxis* radialAxis;
         RadialChartPrivate( RadialChart* q );
+        ~RadialChartPrivate();
     };
 
 }

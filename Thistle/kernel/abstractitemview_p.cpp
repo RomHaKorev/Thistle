@@ -3,15 +3,15 @@
 
 namespace Thistle {
 
-AbstractItemViewPrivate::AbstractItemViewPrivate( AbstractItemView* parent ): margins( 20, 20, 20, 20 ) {
+    AbstractItemViewPrivate::AbstractItemViewPrivate( AbstractItemView* parent ): margins( 20, 20, 20, 20 ) {
         delegate = new ItemDelegate();
         rubberBand = new QRubberBand( QRubberBand::Rectangle, parent );
-}
+    }
 
 
-AbstractItemViewPrivate::~AbstractItemViewPrivate() {
-    delegate->deleteLater();
-    rubberBand->deleteLater();
-}
+    AbstractItemViewPrivate::~AbstractItemViewPrivate() {
+        delegate->deleteLater();
+        rubberBand->deleteLater();
+    }
 
 }

@@ -9,4 +9,8 @@ namespace Thistle {
         this->titleFont.setItalic( true );
         this->legend = 0;
     }
+
+    AbstractChartPrivate::~AbstractChartPrivate() {
+        if ( this->legend != 0 ) delete this->legend;
+    }
 }

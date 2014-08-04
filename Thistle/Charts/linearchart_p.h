@@ -30,6 +30,7 @@ namespace Thistle {
         OrthogonalAxis* orthoAxis;
 
         LinearChartPrivate( LinearChart* q );
+        ~LinearChartPrivate();
         void selectDelegate( Thistle::Types type );
         inline AbstractChartDelegate* delegate() const { return currentDelegate; }
 

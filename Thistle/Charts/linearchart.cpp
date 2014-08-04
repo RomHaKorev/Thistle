@@ -123,7 +123,7 @@ namespace Thistle {
         d->orthoAxis->paintBack( painter );
         QList<int> ordered = this->calculateColumnsOrder();
         Q_FOREACH( int c, ordered ) {
-            this->paintValues( painter, c );
+            this->paintSerie( painter, c );
         }
         d->orthoAxis->paintFront( painter );
 
@@ -176,7 +176,7 @@ namespace Thistle {
     }
 
 
-    void LinearChart::paintValues( QPainter& painter, int column ) {
+    void LinearChart::paintSerie( QPainter& painter, int column ) {
         Q_D( LinearChart );
         Thistle::Types t = this->columnType( column );
 
