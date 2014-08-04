@@ -31,6 +31,7 @@
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -40,68 +41,31 @@
 <div class="title">The Thistle Project </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1>What is Thistle:</h1>
-<p>Thistle is a open source library under LGPLv3 for Qt applications. Thistle provides a simple API to create charts, trees and graphs.</p>
+<div class="textblock"><h1>What is Thistle</h1>
+<p>Thistle is a open source library under LGPLv3 for Qt applications.Thistle provides a simple API to create charts, trees and graphs.</p>
+<h2>Why Thistle</h2>
+<p>Pour l'heure, il n'existe pas de bibliothèque pour Qt qui soit libre, gratuite et dont le rendu graphique soit suffisamment acceptable pour qu'elle puisse être intégrer à une application grand public. Thistle a donc vu le jour afin de se positionner en tant que bibliothèque libre et gratuite offrant une alternative aux outils professionnels disponibles comme KD Chart ou le module Chart de Qt Commercial.</p>
+<p>For now, there is no library for Qt which is open source, free or which provides a correct render. Thistle was created to provide a free and opensource library</p>
 <h1>OverView</h1>
 <p>Thistle is based on model/viewes class, such as <code>QAbstractIemView</code> class, from Qt framework. It doesn't need anything else than Qt (version &gt;= 4.7).</p>
 <p>Viewes are can be easily integrated to user interfaces and can be used as <code>QWidget</code>s. The project tries to provide a set of easy to use widgets and tries to make it easy to customize.</p>
+<p>The main purpose of Thistle is to offer a set of new views which can be use for Qt applications. These views represents data from a model (based on <code>QAbstractItemModel</code>) in a more useful way.</p>
+<p>Customizing views is an important point in Thistle: Thistle wants to let the developpers customize the render of each component (title, legend, axis, link, node, etc.).</p>
+<p>The views contains the essentials functionnalities like item selection, modification, deletion, addition, etc. For now, we are only focused on the development of the item views. But, Thistle will contain a larger set of widgets (menus, indicators, etc.).</p>
+<p>The libraries like Qwt already offer new components but the render don't often fit for client applications.</p>
+<p>Thistle contains three modules:</p>
 <h2>Charts</h2>
-<p>The Thistle Charts module contains a set of of classes to create line charts, barcharts, piecharts, etc.</p>
-<p>Below are a few examples of the different types of chart: </p>
-<table  class="gallery">
-<tr>
-<td><div class="image">
-<img src="./img/charts/linechart.png"  class="galleryItem" alt="line chart" title="chart example 1"/>
-</div>
-  </td><td><div class="image">
-<img src="./img/charts/linebarchart.png"  class="galleryItem" alt="line and bar chart" title="chart example 2"/>
-</div>
-   </td></tr>
-<tr>
-<td><div class="image">
-<img src="./img/charts/barchart.png"  class="galleryItem" alt="bar chart" title="chart example 3"/>
-</div>
-  </td><td><div class="image">
-<img src="./img/charts/barchart2.png"  class="galleryItem" alt="bar chart 2" title="chart example 4"/>
-</div>
-   </td></tr>
-<tr>
-<td><div class="image">
-<img src="./img/charts/dotchart.png"  class="galleryItem" alt="dot chart" title="chart example 5"/>
-</div>
-  </td><td><div class="image">
-<img src="./img/charts/linechart2.png"  class="galleryItem" alt="line chart 2" title="chart example 6"/>
-</div>
-   </td></tr>
-</table>
+<p>This module can display a chart. there is three types of chart:</p>
+<ul>
+<li>Linear Chart: display data as dots, lines, splines or bars.</li>
+<li>Radial Chart: display data as sector ona disk where the diameter represents the value of the data.</li>
+<li>Pie Chart: display data as percent.</li>
+</ul>
 <h2>Trees</h2>
-<p>The Thistle Trees module containss widgets to create vertical, horizontal, radial, etc. trees. It is based on the tree structures provided by <code>QAbstractItemModel</code> and <code>QModelIndex</code>.</p>
-<p>Below are a few examples of trees: </p>
-<table  class="gallery">
-<tr>
-<td><div class="image">
-<img src="./img/trees/horizontaltree.png"  class="galleryItem" alt="Horizontal tree" title="tree example 1"/>
-</div>
-  </td><td><div class="image">
-<img src="./img/trees/radialtree.png"  class="galleryItem" alt="Vertical tree" title="tree example 2"/>
-</div>
-   </td></tr>
-<tr>
-<td colspan="2"><div class="image">
-<img src="./img/trees/verticaltree.png"  class="galleryItem" alt="Vertical tree" title="tree example 3"/>
-</div>
-  </td></tr>
-</table>
+<p>The module works like the view <code>QTreeView</code>. It can display a tree. There is thre types of tree: Vertical tree: The classic way to display a tree. The root is on the top. The children are below their parent. Horizontal tree: Similar to the vertical tree. Radial tree: The root are at the center. The nodes are displayed on circle around their parent.</p>
 <h2>Graphs</h2>
-<p>The Thistle Graphs module provides an easy to use API to create grpahs. You can use your own algorithms to resolve the position of items.</p>
-<p>Below is an example of graphs: </p>
-<table  class="gallery">
-<tr>
-<td><div class="image">
-<img src="./img/graphs/graphoriented.png"  class="galleryItem" alt="Graph" title="graph example 1"/>
-</div>
-   </td></tr>
-</table>
+<p>This module can display a graph in a <code><a class="el" href="class_thistle_1_1_graph_view.html" title="The Thistle::GraphView class provides an item view to display graphs. ">Thistle::GraphView</a></code> from a <code><a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">Thistle::GraphModel</a></code> model. This modl contains the list of nodes (<code>QModelIndex</code>) and the list of links (<code><a class="el" href="class_thistle_1_1_edge.html" title="The Thistle::Edge class represents an edge between two Thistle::Node objects in a Thistle::GraphView...">Thistle::Edge</a></code>). <code><a class="el" href="class_thistle_1_1_graph_view.html" title="The Thistle::GraphView class provides an item view to display graphs. ">Thistle::GraphView</a></code> uses the <code><a class="el" href="class_thistle_1_1_abstract_graph_algorithm.html" title="The Thistle::AbstractGraphAlgorithm class provides an abstract base for the implementation of algorit...">Thistle::AbstractGraphAlgorithm</a></code> to calculate the position of each node.</p>
+<p>Soon, this module will allow developpers to use the functionnalities for graphs from a library like Boost. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -31,6 +31,7 @@
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -52,7 +53,7 @@
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_thistle_1_1_abstract_chart_delegate-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AbstractChartDelegate Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">AbstractChartDelegate Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group___charts.html">Charts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -71,22 +72,23 @@ Inheritance diagram for AbstractChartDelegate:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a61365bf108a38a0fc528616334b671d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61365bf108a38a0fc528616334b671d2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractChartDelegate</b> (QWidget *parent=0)</td></tr>
-<tr class="separator:a61365bf108a38a0fc528616334b671d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a138eea6e0da8f6fe0c97efe2ed991613"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#a138eea6e0da8f6fe0c97efe2ed991613">paint</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
-<tr class="separator:a138eea6e0da8f6fe0c97efe2ed991613"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a274cf4bc1ab0c028aec14b26ebd0fb6c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#a274cf4bc1ab0c028aec14b26ebd0fb6c">paintDisabled</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
-<tr class="separator:a274cf4bc1ab0c028aec14b26ebd0fb6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b8d79b7b8313636db7a99527f00484d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#a8b8d79b7b8313636db7a99527f00484d">paintEnabled</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
-<tr class="separator:a8b8d79b7b8313636db7a99527f00484d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dd0e5f699d0f199d9c37c0db58302f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dd0e5f699d0f199d9c37c0db58302f4"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#a9dd0e5f699d0f199d9c37c0db58302f4">paint</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
+<tr class="memdesc:a9dd0e5f699d0f199d9c37c0db58302f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints the data of the <em>index</em> relative to the shape set in the <em><a class="el" href="class_thistle_1_1_serie_format.html" title="The Thistle::SerieFormat class contains information, such as the Thistle::Types, the QPen...">SerieFormat</a></em> corresponding to the <em>index</em> column. <br/></td></tr>
+<tr class="separator:a9dd0e5f699d0f199d9c37c0db58302f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e6fb275cb4e739e6bb7043a737b05b5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#a9e6fb275cb4e739e6bb7043a737b05b5">paintDisabled</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
+<tr class="memdesc:a9e6fb275cb4e739e6bb7043a737b05b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints the delegate's disabled render.  <a href="#a9e6fb275cb4e739e6bb7043a737b05b5">More...</a><br/></td></tr>
+<tr class="separator:a9e6fb275cb4e739e6bb7043a737b05b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeea0b2bcd911481010d0da2b2b084e9d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html#aeea0b2bcd911481010d0da2b2b084e9d">paintEnabled</a> (QPainter *painter, const QStyleOptionViewItem &amp;option, const QModelIndex &amp;index) const =0</td></tr>
+<tr class="memdesc:aeea0b2bcd911481010d0da2b2b084e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints the delegate's enabled render.  <a href="#aeea0b2bcd911481010d0da2b2b084e9d">More...</a><br/></td></tr>
+<tr class="separator:aeea0b2bcd911481010d0da2b2b084e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <em><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html" title="The AbstractChartDelegate class provides an abstract base for every chart delegate. ">AbstractChartDelegate</a></em> class provides an abstract base for every chart delegate. </p>
 <p>The <em><a class="el" href="class_thistle_1_1_abstract_chart_delegate.html" title="The AbstractChartDelegate class provides an abstract base for every chart delegate. ">AbstractChartDelegate</a></em> class provides display and editing facilities for data items in a chart view.</p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_thistle_1_1_dot_delegate.html" title="The DotDelegate class provides display and editing facilities for data items in a LinearChart view...">DotDelegate</a>, <a class="el" href="class_thistle_1_1_bar_delegate.html" title="The BarDelegate class provides display and editing facilities for data items in a LinearChart view...">BarDelegate</a> </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a138eea6e0da8f6fe0c97efe2ed991613"></a>
+<a class="anchor" id="a9e6fb275cb4e739e6bb7043a737b05b5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -94,7 +96,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void paint </td>
+          <td class="memname">void paintDisabled </td>
           <td>(</td>
           <td class="paramtype">QPainter *&#160;</td>
           <td class="paramname"><em>painter</em>, </td>
@@ -123,57 +125,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Paints the data of the <em>index</em> relative to the shape set in the <em><a class="el" href="class_thistle_1_1_serie_format.html">SerieFormat</a></em> corresponding to the <em>index</em> column. </p>
 
-<p>Implemented in <a class="el" href="class_thistle_1_1_bar_delegate.html#a2d3066f3afc296586ac9eb2bd626a94c">BarDelegate</a>, and <a class="el" href="class_thistle_1_1_dot_delegate.html#a2d3066f3afc296586ac9eb2bd626a94c">DotDelegate</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a274cf4bc1ab0c028aec14b26ebd0fb6c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void paintDisabled </td>
-          <td>(</td>
-          <td class="paramtype">QPainter *&#160;</td>
-          <td class="paramname"><em>painter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QStyleOptionViewItem &amp;&#160;</td>
-          <td class="paramname"><em>option</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QModelIndex &amp;&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Paints the delegate's disabled render.</p>
+<p>Paints the delegate's disabled render. </p>
 <p>An item is considered as disabled when the selectionModel is not empty and doesn't contain the <em>index</em>. </p>
 
 <p>Implemented in <a class="el" href="class_thistle_1_1_bar_delegate.html#a339aaf359fc2566f71057ef7cc5ec589">BarDelegate</a>, and <a class="el" href="class_thistle_1_1_dot_delegate.html#a339aaf359fc2566f71057ef7cc5ec589">DotDelegate</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8b8d79b7b8313636db7a99527f00484d"></a>
+<a class="anchor" id="aeea0b2bcd911481010d0da2b2b084e9d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -181,7 +141,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void paintEnabled </td>
+          <td class="memname">void paintEnabled </td>
           <td>(</td>
           <td class="paramtype">QPainter *&#160;</td>
           <td class="paramname"><em>painter</em>, </td>
@@ -210,7 +170,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Paints the delegate's enabled render.</p>
+
+<p>Paints the delegate's enabled render. </p>
 <p>An item is considered as enabled when the selectionModel is empty or contains an index in the column of <em>index</em>. </p>
 
 <p>Implemented in <a class="el" href="class_thistle_1_1_bar_delegate.html#a7d665b24de1e7d84a1abb50b22452665">BarDelegate</a>, and <a class="el" href="class_thistle_1_1_dot_delegate.html#a7d665b24de1e7d84a1abb50b22452665">DotDelegate</a>.</p>

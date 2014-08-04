@@ -31,6 +31,7 @@
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -51,14 +52,13 @@
   <div class="summary">
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="class_thistle_1_1_graph_model-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">GraphModel Class Reference</div>  </div>
+<div class="title">GraphModel Class Reference<div class="ingroups"><a class="el" href="group___graphs.html">Graphs</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">GraphModel</a> class provides a specific model for <a class="el" href="class_thistle_1_1_graph.html" title="The Graph class provides the default implementation for graphs. ">Graph</a> viewes.  
+<p>The <a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">GraphModel</a> class provides a specific model for Graph viewes.  
  <a href="class_thistle_1_1_graph_model.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for GraphModel:</div>
@@ -72,39 +72,28 @@ Inheritance diagram for GraphModel:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:a11354cba004550babc621ee4561d37f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11354cba004550babc621ee4561d37f7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>updateEdges</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_graph_model.html#a11354cba004550babc621ee4561d37f7">updateEdges</a> ()</td></tr>
+<tr class="memdesc:a11354cba004550babc621ee4561d37f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This signal is emitted when an new edge has been added. <br/></td></tr>
 <tr class="separator:a11354cba004550babc621ee4561d37f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af3ef7324909e63a157aae6c347cc9a53"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3ef7324909e63a157aae6c347cc9a53"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GraphModel</b> (QObject *parent=0)</td></tr>
-<tr class="separator:af3ef7324909e63a157aae6c347cc9a53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1889c81d155ff950a12577ecfd82d82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1889c81d155ff950a12577ecfd82d82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GraphModel</b> (int rows, int columns, QObject *parent=0)</td></tr>
-<tr class="separator:ab1889c81d155ff950a12577ecfd82d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45c65d91d909c8e8da389f56749527c0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a45c65d91d909c8e8da389f56749527c0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addEdge</b> (const QModelIndex &amp;idx1, const QModelIndex &amp;idx2, <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a> type=Edge::NoArrow)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_graph_model.html#a45c65d91d909c8e8da389f56749527c0">addEdge</a> (const QModelIndex &amp;idx1, const QModelIndex &amp;idx2, <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a> type=Edge::NoArrow)</td></tr>
+<tr class="memdesc:a45c65d91d909c8e8da389f56749527c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an edge between the two nodes referenced by the <code>QModelIndex</code> <code>idx1</code> and <code>idx2</code>. <br/></td></tr>
 <tr class="separator:a45c65d91d909c8e8da389f56749527c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb80480ce581b691a1d9fd732066d145"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb80480ce581b691a1d9fd732066d145"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addEdge</b> (int row1, int col1, int row2, int col2, <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a> type=Edge::NoArrow)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_graph_model.html#acb80480ce581b691a1d9fd732066d145">addEdge</a> (int row1, int col1, int row2, int col2, <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a> type=Edge::NoArrow)</td></tr>
+<tr class="memdesc:acb80480ce581b691a1d9fd732066d145"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an edge between the two nodes referenced by the coordinates ([row1], [col1]) and ([row2], [col2]). <br/></td></tr>
 <tr class="separator:acb80480ce581b691a1d9fd732066d145"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a348714b52309689465d11715609555e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a348714b52309689465d11715609555e4"></a>
-QList&lt; <a class="el" href="class_thistle_1_1_edge.html">Edge</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>edges</b> () const </td></tr>
+QList&lt; <a class="el" href="class_thistle_1_1_edge.html">Edge</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_graph_model.html#a348714b52309689465d11715609555e4">edges</a> () const </td></tr>
+<tr class="memdesc:a348714b52309689465d11715609555e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the list of edges. <br/></td></tr>
 <tr class="separator:a348714b52309689465d11715609555e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9bf8b0884af0f0c538d8d0337deaf03c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bf8b0884af0f0c538d8d0337deaf03c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GraphModel</b> (GraphModelPrivate *d, QObject *parent=0)</td></tr>
-<tr class="separator:a9bf8b0884af0f0c538d8d0337deaf03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e82fe2f38d7b6ae1a1b879baaf09fcd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e82fe2f38d7b6ae1a1b879baaf09fcd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GraphModel</b> (GraphModelPrivate *d, int rows, int columns, QObject *parent=0)</td></tr>
-<tr class="separator:a3e82fe2f38d7b6ae1a1b879baaf09fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">GraphModel</a> class provides a specific model for <a class="el" href="class_thistle_1_1_graph.html" title="The Graph class provides the default implementation for graphs. ">Graph</a> viewes. </p>
-<p>The <a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">GraphModel</a> inherits QStandardItemModel and can store the edges between items. </p>
+<div class="textblock"><p>The <a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">GraphModel</a> class provides a specific model for Graph viewes. </p>
+<p>The <a class="el" href="class_thistle_1_1_graph_model.html" title="The GraphModel class provides a specific model for Graph viewes. ">GraphModel</a> inherits <code>QStandardItemModel</code> and can store the edges between items. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

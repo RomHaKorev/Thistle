@@ -31,6 +31,7 @@
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -51,92 +52,39 @@
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_thistle_1_1_edge-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Edge Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The <em><a class="el" href="class_thistle_1_1_edge.html" title="The Edge class represents an edge between two Node objects in a Graph. ">Edge</a></em> class represents an edge between two <em><a class="el" href="class_thistle_1_1_node.html">Node</a></em> objects in a <em><a class="el" href="class_thistle_1_1_graph.html" title="The Graph class provides the default implementation for graphs. ">Graph</a></em>.  
+<p>The <em><a class="el" href="class_thistle_1_1_edge.html" title="The Thistle::Edge class represents an edge between two Thistle::Node objects in a Thistle::GraphView...">Thistle::Edge</a></em> class represents an edge between two <em><a class="el" href="class_thistle_1_1_node.html" title="Thistle::Node represents a node in Thistle::GraphView. ">Thistle::Node</a></em> objects in a <em><a class="el" href="class_thistle_1_1_graph_view.html" title="The Thistle::GraphView class provides an item view to display graphs. ">Thistle::GraphView</a></em>.  
  <a href="class_thistle_1_1_edge.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a1d1cfd8ffb84e947f82999c682b666a7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Type</a> </td></tr>
+<tr class="memdesc:a1d1cfd8ffb84e947f82999c682b666a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the type of connection between two <em><a class="el" href="class_thistle_1_1_node.html" title="Thistle::Node represents a node in Thistle::GraphView. ">Thistle::Node</a></em> objects. <br/></td></tr>
 <tr class="separator:a1d1cfd8ffb84e947f82999c682b666a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2f88b192fb6ea977d02bd012435788d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_edge.html#a2f88b192fb6ea977d02bd012435788d1">paintArrow</a> (QPainter &amp;painter, const QLineF &amp;line) const </td></tr>
+<tr class="memitem:ad17fb37c783d6457875832cc229c99ad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad17fb37c783d6457875832cc229c99ad"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_edge.html#ad17fb37c783d6457875832cc229c99ad">Edge</a> (QModelIndex idx1, QModelIndex idx2, <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a> type=NoArrow)</td></tr>
+<tr class="memdesc:ad17fb37c783d6457875832cc229c99ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <code><a class="el" href="class_thistle_1_1_edge.html" title="The Thistle::Edge class represents an edge between two Thistle::Node objects in a Thistle::GraphView...">Edge</a></code> between <code>idx1</code> and <code>idx2</code> with the given <code>type</code>. <br/></td></tr>
+<tr class="separator:ad17fb37c783d6457875832cc229c99ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f88b192fb6ea977d02bd012435788d1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f88b192fb6ea977d02bd012435788d1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_edge.html#a2f88b192fb6ea977d02bd012435788d1">paintArrow</a> (QPainter &amp;painter, const QLineF &amp;line) const </td></tr>
+<tr class="memdesc:a2f88b192fb6ea977d02bd012435788d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <em>Thistle::Type</em> is different to <code>Thistle::Type::NoArrow</code>, paints the arrows of the <code><a class="el" href="class_thistle_1_1_edge.html" title="The Thistle::Edge class represents an edge between two Thistle::Node objects in a Thistle::GraphView...">Edge</a></code>. <br/></td></tr>
 <tr class="separator:a2f88b192fb6ea977d02bd012435788d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5e0c1eecb29103277102721db07c3d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thistle_1_1_edge.html#af5e0c1eecb29103277102721db07c3d7">paintEdge</a> (QPainter &amp;painter, QRectF r1, QRectF r2) const </td></tr>
+<tr class="memdesc:af5e0c1eecb29103277102721db07c3d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints the connections between its two <em><a class="el" href="class_thistle_1_1_node.html" title="Thistle::Node represents a node in Thistle::GraphView. ">Thistle::Node</a></em> objects.  <a href="#af5e0c1eecb29103277102721db07c3d7">More...</a><br/></td></tr>
 <tr class="separator:af5e0c1eecb29103277102721db07c3d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a8eb4b943284d449f68a020afd779893b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8eb4b943284d449f68a020afd779893b"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>idx2</b></td></tr>
-<tr class="separator:a8eb4b943284d449f68a020afd779893b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6b38ece0af8acd39cf5b41b3041d93"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e6b38ece0af8acd39cf5b41b3041d93"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>leftIndex</b></td></tr>
-<tr class="separator:a3e6b38ece0af8acd39cf5b41b3041d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57af586e1480b65e3fced7fc7ad4c46d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57af586e1480b65e3fced7fc7ad4c46d"></a>
-QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><b>rightIndex</b></td></tr>
-<tr class="separator:a57af586e1480b65e3fced7fc7ad4c46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d47294d8860557931c03476b90cc843"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d47294d8860557931c03476b90cc843"></a>
-QModelIndex <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>type</b> = NoArrow )</td></tr>
-<tr class="separator:a5d47294d8860557931c03476b90cc843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a121c888df88412c7b5825c2f9c7770"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a121c888df88412c7b5825c2f9c7770"></a>
-<a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Edge::Type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="separator:a0a121c888df88412c7b5825c2f9c7770"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <em><a class="el" href="class_thistle_1_1_edge.html" title="The Edge class represents an edge between two Node objects in a Graph. ">Edge</a></em> class represents an edge between two <em><a class="el" href="class_thistle_1_1_node.html">Node</a></em> objects in a <em><a class="el" href="class_thistle_1_1_graph.html" title="The Graph class provides the default implementation for graphs. ">Graph</a></em>. </p>
-<p>The <em><a class="el" href="class_thistle_1_1_edge.html" title="The Edge class represents an edge between two Node objects in a Graph. ">Edge</a></em> class stores the two connected <em><a class="el" href="class_thistle_1_1_node.html">Node</a></em> objects and its <em>Type</em>. It will be in charge to paint the connections on the <em><a class="el" href="class_thistle_1_1_graph.html" title="The Graph class provides the default implementation for graphs. ">Graph</a></em>. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="a1d1cfd8ffb84e947f82999c682b666a7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82999c682b666a7">Type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Defines the type of connection between two <em><a class="el" href="class_thistle_1_1_node.html">Node</a></em> objects. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a2f88b192fb6ea977d02bd012435788d1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void paintArrow </td>
-          <td>(</td>
-          <td class="paramtype">QPainter &amp;&#160;</td>
-          <td class="paramname"><em>painter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QLineF &amp;&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>If the <em>Type</em> is different to <em>Type::NoArrow</em>, paints the arrows of the <em><a class="el" href="class_thistle_1_1_edge.html" title="The Edge class represents an edge between two Node objects in a Graph. ">Edge</a></em>.</p>
-<p>Paints the edges arrows. </p>
-
-</div>
-</div>
+<div class="textblock"><p>The <em><a class="el" href="class_thistle_1_1_edge.html" title="The Thistle::Edge class represents an edge between two Thistle::Node objects in a Thistle::GraphView...">Thistle::Edge</a></em> class represents an edge between two <em><a class="el" href="class_thistle_1_1_node.html" title="Thistle::Node represents a node in Thistle::GraphView. ">Thistle::Node</a></em> objects in a <em><a class="el" href="class_thistle_1_1_graph_view.html" title="The Thistle::GraphView class provides an item view to display graphs. ">Thistle::GraphView</a></em>. </p>
+<p>The <em><a class="el" href="class_thistle_1_1_edge.html" title="The Thistle::Edge class represents an edge between two Thistle::Node objects in a Thistle::GraphView...">Edge</a></em> class stores the two connected <em><a class="el" href="class_thistle_1_1_node.html" title="Thistle::Node represents a node in Thistle::GraphView. ">Thistle::Node</a></em> objects and its <em>thistle::Type</em>. It will be in charge to paint the connections on the <em><a class="el" href="class_thistle_1_1_graph_view.html" title="The Thistle::GraphView class provides an item view to display graphs. ">Thistle::GraphView</a></em>. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="af5e0c1eecb29103277102721db07c3d7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -166,8 +114,9 @@ QModelIndex <a class="el" href="class_thistle_1_1_edge.html#a1d1cfd8ffb84e947f82
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Paints the connections between its two <em><a class="el" href="class_thistle_1_1_node.html">Node</a></em> objects. <em>r1</em> and  defines the bounding rect of <em>leftIndex</em> and <em>rightIndex</em>.</p>
-<p>Paint a <em><a class="el" href="class_thistle_1_1_edge.html" title="The Edge class represents an edge between two Node objects in a Graph. ">Edge</a></em> between the two item <em>idx1</em> and <em>idx2</em>. </p>
+
+<p>Paints the connections between its two <em><a class="el" href="class_thistle_1_1_node.html" title="Thistle::Node represents a node in Thistle::GraphView. ">Thistle::Node</a></em> objects. </p>
+<p><code>r1</code> and <code>r2</code> defines the bounding rect of <code>leftIndex</code> and <code>rightIndex</code>. </p>
 
 </div>
 </div>
