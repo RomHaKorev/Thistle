@@ -44,8 +44,7 @@
 <div class="textblock"><h1>What is Thistle</h1>
 <p>Thistle is a open source library under LGPLv3 for Qt applications.Thistle provides a simple API to create charts, trees and graphs.</p>
 <h2>Why Thistle</h2>
-<p>Pour l'heure, il n'existe pas de bibliothèque pour Qt qui soit libre, gratuite et dont le rendu graphique soit suffisamment acceptable pour qu'elle puisse être intégrer à une application grand public. Thistle a donc vu le jour afin de se positionner en tant que bibliothèque libre et gratuite offrant une alternative aux outils professionnels disponibles comme KD Chart ou le module Chart de Qt Commercial.</p>
-<p>For now, there is no library for Qt which is open source, free or which provides a correct render. Thistle was created to provide a free and opensource library</p>
+<p>For now, there is no library of charts, trees, etc. for Qt which is open source, free or which provides a correct render. The libraries like Qwt don't use the MVC pattern provided by Qt: their view need a list of points. The views in Thistle use a <code>QAbstractItemModel</code> to store the points/items. So, the Thistle's views work exactly like the Qt's views (<code>QListView</code>,<code>QTreeView</code>, <code>QTableView</code>,etc.) ans provide the same features.</p>
 <h1>OverView</h1>
 <p>Thistle is based on model/viewes class, such as <code>QAbstractIemView</code> class, from Qt framework. It doesn't need anything else than Qt (version &gt;= 4.7).</p>
 <p>Viewes are can be easily integrated to user interfaces and can be used as <code>QWidget</code>s. The project tries to provide a set of easy to use widgets and tries to make it easy to customize.</p>
