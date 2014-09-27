@@ -8,9 +8,11 @@
 
 #include "abstracttree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-struct HorizontalTreePrivate : public AbstractTreePrivate {
+struct HorizontalTreePrivate : public AbstractTreePrivate
+{
     HorizontalTreePrivate();
 };
 

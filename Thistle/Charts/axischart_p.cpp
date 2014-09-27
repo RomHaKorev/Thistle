@@ -2,10 +2,10 @@
 
 #include "axischart.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-AxisChartPrivate::AxisChartPrivate( AxisChart* q ) : AbstractChartPrivate( q ) {
-
-}
+AxisChartPrivate::AxisChartPrivate( AxisChart* q ) : AbstractChartPrivate( q )
+{}
 
 }

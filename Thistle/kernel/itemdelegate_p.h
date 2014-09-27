@@ -3,13 +3,15 @@
 
 #include "itemdelegate.h"
 #include "global.h"
-namespace Thistle {
+namespace Thistle
+{
 
-struct ItemDelegatePrivate {
+struct ItemDelegatePrivate
+{
     ItemStyle style;
 
     ItemDelegatePrivate();
-    ~ItemDelegatePrivate();    
+    ~ItemDelegatePrivate();
 };
 
 }

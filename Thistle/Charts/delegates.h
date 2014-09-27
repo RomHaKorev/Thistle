@@ -20,39 +20,43 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #define DELEGATES_H
 #include <QStyledItemDelegate>
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class AxisChart;
+class AxisChart;
 
-    
-    class AbstractChartDelegate : public QStyledItemDelegate {
-    public:
-        AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ){}
 
-        virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+class AbstractChartDelegate : public QStyledItemDelegate
+{
+public:
+    AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ) {}
 
-        virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
 
-        virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
-    };
+    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
 
-    class DotDelegate : public AbstractChartDelegate {
-        QPolygon createDiamond( const QRect& rect) const;
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+};
 
-    public:
-        explicit DotDelegate( AxisChart* parent = 0 );
-        virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    };
+class DotDelegate : public AbstractChartDelegate
+{
+    QPolygon createDiamond( const QRect& rect) const;
 
-    class BarDelegate : public AbstractChartDelegate {
-    public:
-        explicit BarDelegate( AxisChart* parent = 0 );
-        virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    };
+public:
+    explicit DotDelegate( AxisChart* parent = 0 );
+    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+};
+
+class BarDelegate : public AbstractChartDelegate
+{
+public:
+    explicit BarDelegate( AxisChart* parent = 0 );
+    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+};
 
 }
 

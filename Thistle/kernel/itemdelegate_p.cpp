@@ -1,14 +1,12 @@
 #include "itemdelegate_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    ItemDelegatePrivate::ItemDelegatePrivate() : style() {
+ItemDelegatePrivate::ItemDelegatePrivate() : style()
+{}
 
-    }
-
-    ItemDelegatePrivate::~ItemDelegatePrivate()
-    {
-
-    }
+ItemDelegatePrivate::~ItemDelegatePrivate()
+{}
 
 }

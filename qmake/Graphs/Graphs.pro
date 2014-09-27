@@ -6,23 +6,27 @@
 
 QT       += widgets
 
-TARGET = Graphs
+Release:TARGET = Graphs
+Debug:TARGET = Graphsd
 TEMPLATE = lib
 
 DEFINES += GRAPHS_LIBRARY
 
 
-Release:DESTDIR = ../../../bin/mingw32/release
-Release:OBJECTS_DIR = ../../../bin/mingw32/release/generatedFiles
-Release:MOC_DIR = ../../../bin/mingw32/release/generatedFiles
-Release:RCC_DIR = ../../../bin/mingw32/release/generatedFiles
-Release:UI_DIR = ../../../bin/mingw32/release/generatedFiles
+Release:DESTDIR_TARGET = ../../../bin/mingw32
+Release:DESTDIR = ../../../bin/mingw32
+Release:OBJECTS_DIR = ../../../bin/mingw32/generatedFiles
+Release:MOC_DIR = ../../../bin/mingw32/generatedFiles
+Release:RCC_DIR = ../../../bin/mingw32/generatedFiles
+Release:UI_DIR = ../../../bin/mingw32/generatedFiles
 
-Debug:DESTDIR = ../../../bin/mingw32/debug
-Debug:OBJECTS_DIR = ../../../bin/mingw32/debug/generatedFiles
-Debug:MOC_DIR = ../../../bin/mingw32/debug/generatedFiles
-Debug:RCC_DIR = ../../../bin/mingw32/debug/generatedFiles
-Debug:UI_DIR = ../../../bin/mingw32/debug/generatedFiles
+Debug:DESTDIR_TARGET = ../../../bin/mingw32
+Debug:DESTDIR = ../../../bin/mingw32
+Debug:OBJECTS_DIR = ../../../bin/mingw32/generatedFiles
+Debug:MOC_DIR = ../../../bin/mingw32/generatedFiles
+Debug:RCC_DIR = ../../../bin/mingw32/generatedFiles
+Debug:UI_DIR = ../../../bin/mingw32/generatedFiles
+
 
 HEADERS += \
 	../../Thistle/Graphs/abstractgraphalgorithm.h \
@@ -51,9 +55,8 @@ SOURCES += \
 	../../Thistle/Graphs/node_p.cpp
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$DESTDIR/ -lKernel
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$DESTDIR/ -lKernel
-else:unix: LIBS += -L$$DESTDIR/ -lKernel
+CONFIG(release): LIBS += -L$$DESTDIR/ -lKernel
+else:CONFIG(debug) LIBS += -L$$DESTDIR/ -lKerneld
 
 INCLUDEPATH += $$PWD/../../Thistle/kernel
 DEPENDPATH += $$PWD/../../Thistle/kernel

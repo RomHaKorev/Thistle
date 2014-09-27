@@ -26,14 +26,17 @@
 
 class QStandardItemModel;
 
-namespace Thistle {
+namespace Thistle
+{
 
 
-class VerticalTree : public AbstractTree {
+class VerticalTree : public AbstractTree
+{
     Q_OBJECT
     Q_DECLARE_PRIVATE( VerticalTree );
 public:
-    enum ConnectorType {
+    enum ConnectorType
+    {
         Straight = 0,
         Elbow        = 1
     };
@@ -44,7 +47,7 @@ protected:
 
 public:
     explicit VerticalTree( QWidget* parent = 0 );
-                     ~VerticalTree();
+    ~VerticalTree();
 
     virtual void positionsInView();
     virtual void positionsInTree();

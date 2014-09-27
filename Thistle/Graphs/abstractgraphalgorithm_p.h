@@ -7,14 +7,16 @@
 #include "node.h"
 
 
-namespace Thistle {
+namespace Thistle
+{
 
-    struct AbstractGraphAlgorithmPrivate {
-        QMap<QModelIndex, Node> itemPos;
+struct AbstractGraphAlgorithmPrivate
+{
+    QMap<QModelIndex, Node> itemPos;
 
-        AbstractGraphAlgorithmPrivate();
-        ~AbstractGraphAlgorithmPrivate();
-    };
+    AbstractGraphAlgorithmPrivate();
+    ~AbstractGraphAlgorithmPrivate();
+};
 
 }
 

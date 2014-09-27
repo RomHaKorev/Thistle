@@ -3,9 +3,11 @@
 
 #include "abstracttree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-struct RadialTreePrivate : public AbstractTreePrivate {
+struct RadialTreePrivate : public AbstractTreePrivate
+{
     RadialTreePrivate();
 
     qreal diagonal;

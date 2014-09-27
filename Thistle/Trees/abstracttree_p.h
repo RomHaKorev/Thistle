@@ -9,9 +9,11 @@
 #include "../kernel/itemdelegate.h"
 #include "../kernel/abstractitemview_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-struct AbstractTreePrivate : public AbstractItemViewPrivate {
+struct AbstractTreePrivate : public AbstractItemViewPrivate
+{
     AbstractTreePrivate();
 
     QPen connectionPen;

@@ -7,15 +7,17 @@
 
 #include <QMap>
 
-namespace Thistle {
-    class AxisChart;
-    struct AxisChartPrivate : public AbstractChartPrivate {
-        AbstractAxis* axis;
-        QMap<int, SerieFormat> style;
-        int x;
+namespace Thistle
+{
+class AxisChart;
+struct AxisChartPrivate : public AbstractChartPrivate
+{
+    AbstractAxis* axis;
+    QMap<int, SerieFormat> style;
+    int x;
 
-        AxisChartPrivate( AxisChart* q );
-    };
+    AxisChartPrivate( AxisChart* q );
+};
 
 }
 

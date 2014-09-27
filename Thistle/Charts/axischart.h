@@ -26,38 +26,40 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include "abstractchart.h"
 #include "axischart_p.h"
 
-namespace Thistle {
-    class PointChart;
-    class RadialChart;
-    class AbstractAxis;
+namespace Thistle
+{
+class PointChart;
+class RadialChart;
+class AbstractAxis;
 
-    
-    class AxisChart : public AbstractChart {
-        Q_OBJECT
-            Q_DECLARE_PRIVATE( AxisChart );
-    protected:
-        virtual void defineRects();
-        void scan();
 
-        virtual QList<int> calculateColumnsOrder() const;
+class AxisChart : public AbstractChart
+{
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( AxisChart );
+protected:
+    virtual void defineRects();
+    void scan();
 
-        virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const;
-        virtual void paintChart( QPainter& ) = 0;
+    virtual QList<int> calculateColumnsOrder() const;
 
-        virtual void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
+    virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const;
+    virtual void paintChart( QPainter& ) = 0;
 
-        AxisChart( AxisChartPrivate* d, QWidget* parent = 0 );
-    public:
+    virtual void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
 
-        explicit AxisChart( QWidget* parent = 0 );
-        ~AxisChart();
-        AbstractAxis* axis() const;
-        SerieFormat serieFormat( int column ) const;
+    AxisChart( AxisChartPrivate* d, QWidget* parent = 0 );
+public:
 
-        void setAxis( AbstractAxis* axis );
-        void setModel( QAbstractItemModel* model );
-        void setSerieFormat( int column, SerieFormat style);
-    };
+    explicit AxisChart( QWidget* parent = 0 );
+    ~AxisChart();
+    AbstractAxis* axis() const;
+    SerieFormat serieFormat( int column ) const;
+
+    void setAxis( AbstractAxis* axis );
+    void setModel( QAbstractItemModel* model );
+    void setSerieFormat( int column, SerieFormat style);
+};
 
 }
 

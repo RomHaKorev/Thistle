@@ -23,9 +23,11 @@
 
 #include "verticaltree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-class HorizontalTree : public VerticalTree {
+class HorizontalTree : public VerticalTree
+{
     Q_DECLARE_PRIVATE( VerticalTree );
 protected:
     virtual void positionsInView();

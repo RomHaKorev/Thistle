@@ -154,6 +154,24 @@
     <ClCompile Include="..\..\Thistle\Charts\axischart_p.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_radarchart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_radarchart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\radarchart.cpp">
+      <Filter>Source Files\Viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\radarchart_p.cpp">
+      <Filter>Source Files\Viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radaraxis.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radaraxis_p.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Thistle\Charts\abstractchart.h">
@@ -216,6 +234,15 @@
     <ClInclude Include="..\..\Thistle\Charts\Legends\linearchartlegend.h">
       <Filter>Header Files\Components\Legends</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\radarchart_p.h">
+      <Filter>Header Files\Viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radaraxis.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radaraxis_p.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Thistle\Charts\axischart.h">
@@ -231,6 +258,9 @@
       <Filter>Header Files\Viewes</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\radialchart.h">
+      <Filter>Header Files\Viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\radarchart.h">
       <Filter>Header Files\Viewes</Filter>
     </CustomBuild>
   </ItemGroup>

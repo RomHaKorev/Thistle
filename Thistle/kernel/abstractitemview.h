@@ -24,12 +24,14 @@
 #include <QPointer>
 #include <QRubberBand>
 
-namespace Thistle {
+namespace Thistle
+{
 
 class ItemDelegate;
 class AbstractItemViewPrivate;
 
-class AbstractItemView : public QAbstractItemView {
+class AbstractItemView : public QAbstractItemView
+{
     Q_OBJECT
     Q_DECLARE_PRIVATE( AbstractItemView );
 

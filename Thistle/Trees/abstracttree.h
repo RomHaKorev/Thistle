@@ -26,11 +26,13 @@
 
 #include "abstracttree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
 class ItemDelegate;
 
-class AbstractTree : public AbstractItemView {
+class AbstractTree : public AbstractItemView
+{
     Q_OBJECT
     Q_DECLARE_PRIVATE( AbstractTree );
 protected:

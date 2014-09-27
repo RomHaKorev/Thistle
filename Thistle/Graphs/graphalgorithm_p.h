@@ -9,10 +9,10 @@
 #include "node.h"
 #include "abstractgraphalgorithm_p.h"
 
-namespace Thistle {
-
-
-struct GraphAlgorithmPrivate : public AbstractGraphAlgorithmPrivate {
+namespace Thistle
+{
+struct GraphAlgorithmPrivate : public AbstractGraphAlgorithmPrivate
+{
     QTimer* timer;
     qreal oldLength;
     QSizeF realSize;
@@ -28,7 +28,7 @@ struct GraphAlgorithmPrivate : public AbstractGraphAlgorithmPrivate {
 
     GraphAlgorithmPrivate();
     ~GraphAlgorithmPrivate();
-    
+
 };
 
 }

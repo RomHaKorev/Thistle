@@ -26,31 +26,33 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include "itemstyle.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class ItemDelegatePrivate;
+class ItemDelegatePrivate;
 
-    class ItemDelegate : public QStyledItemDelegate {
-        Q_OBJECT
+class ItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
 
-    private:
-        QPolygon createDiamond( const QRect& r ) const;
-    protected:
-        ItemDelegatePrivate* d_ptr;
+private:
+    QPolygon createDiamond( const QRect& r ) const;
+protected:
+    ItemDelegatePrivate* d_ptr;
 
-    public:
-        explicit ItemDelegate( QWidget* parent = 0 );
-        ~ItemDelegate();
+public:
+    explicit ItemDelegate( QWidget* parent = 0 );
+    ~ItemDelegate();
 
-        void setItemStyle( const ItemStyle& myStyle );
-        ItemStyle& itemStyle() const;
-        QWidget *createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-        void setEditorData( QWidget *editor, const QModelIndex &index ) const;
-        void setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
+    void setItemStyle( const ItemStyle& myStyle );
+    ItemStyle& itemStyle() const;
+    QWidget *createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+    void setEditorData( QWidget *editor, const QModelIndex &index ) const;
+    void setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
 
-        void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    };
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+};
 
 }
 #endif // ITEMDELEGATE_H

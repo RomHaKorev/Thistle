@@ -10,28 +10,31 @@
 #include "graphalgorithm_p.h"
 #include "abstractgraphalgorithm.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class GraphView;
+class GraphView;
 
-    class GraphAlgorithm : public AbstractGraphAlgorithm {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE( GraphAlgorithm );
-    private:
-        void calculateForces( const QModelIndex& index );
-    public:
-        GraphAlgorithm( GraphView* parent );
+class GraphAlgorithm : public AbstractGraphAlgorithm
+{
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( GraphAlgorithm );
+private:
+    void calculateForces( const QModelIndex& index );
+public:
+    GraphAlgorithm( GraphView* parent );
 
-        void run();
+    void run();
 
-        inline void setPosition( const QModelIndex& index, QPointF pos ) { 
-            Q_D( GraphAlgorithm );
-            d->itemPos[ index ].setPos( pos );
-        }
-        void setNodeWeight( qreal weight );
-        private slots:
-            void processTimer();
-    };
+    inline void setPosition( const QModelIndex& index, QPointF pos )
+    {
+        Q_D( GraphAlgorithm );
+        d->itemPos[ index ].setPos( pos );
+    }
+    void setNodeWeight( qreal weight );
+private slots:
+    void processTimer();
+};
 
 }
 

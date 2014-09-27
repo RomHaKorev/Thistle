@@ -10,19 +10,21 @@
 
 class GraphModel;
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class AbstractGraphAlgorithm;
+class AbstractGraphAlgorithm;
 
-    struct GraphViewPrivate : AbstractItemViewPrivate {
-        GraphViewPrivate();
-        ~GraphViewPrivate();
+struct GraphViewPrivate : AbstractItemViewPrivate
+{
+    GraphViewPrivate();
+    ~GraphViewPrivate();
 
-        QSizeF realSize;
-        QPoint itemOffset;
-        GraphModel* model;
-        AbstractGraphAlgorithm* algorithm;
-    };
+    QRectF boundingRect;
+    QPoint itemOffset;
+    GraphModel* model;
+    AbstractGraphAlgorithm* algorithm;
+};
 
 }
 

@@ -22,37 +22,40 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include "piechart.h"
 #include "piechart_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class PieChart3DPrivate;
+class PieChart3DPrivate;
 
-    class PieChart3D : public PieChart {
-        Q_OBJECT
-            Q_DECLARE_PRIVATE( PieChart );
-    public:
-        PieChart3DPrivate* test;
+class PieChart3D : public PieChart
+{
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( PieChart );
+public:
+    PieChart3DPrivate* test;
 
-        enum Render {
-            Plain = 0,
-            WireFrame = 1,
-            Translucent = 2
-        };
-
-        Q_ENUMS( Render );
-
-        explicit PieChart3D(QWidget *parent = 0);
-        void setRender( PieChart3D::Render );
-    protected:
-        virtual QPainterPath itemSidesPath( const QModelIndex& index ) const;
-        virtual QPainterPath itemExternalPart( qreal angle, qreal delta, bool splitted = false ) const;
-        virtual QPainterPath side( qreal angle, QPointF centerOffset, bool splitted ) const;
-        virtual void configureColor(QPainter &painter, QColor base, int flag) const;
-
-        virtual void paintChart( QPainter& painter );;
-        virtual void paintSides( QPainter& painter );
-        virtual void paintExternal( QPainter& painter, bool top );
-        virtual void paintLeft( QPainter& painter, QColor color, QPointF offset = QPointF(0,0) );
+    enum Render
+    {
+        Plain = 0,
+        WireFrame = 1,
+        Translucent = 2
     };
+
+    Q_ENUMS( Render );
+
+    explicit PieChart3D(QWidget *parent = 0);
+    void setRender( PieChart3D::Render );
+protected:
+    virtual QPainterPath itemSidesPath( const QModelIndex& index ) const;
+    virtual QPainterPath itemExternalPart( qreal angle, qreal delta, bool splitted = false ) const;
+    virtual QPainterPath side( qreal angle, QPointF centerOffset, bool splitted ) const;
+    virtual void configureColor(QPainter &painter, QColor base, int flag) const;
+
+    virtual void paintChart( QPainter& painter );;
+    virtual void paintSides( QPainter& painter );
+    virtual void paintExternal( QPainter& painter, bool top );
+    virtual void paintLeft( QPainter& painter, QColor color, QPointF offset = QPointF(0,0) );
+};
 
 }
 

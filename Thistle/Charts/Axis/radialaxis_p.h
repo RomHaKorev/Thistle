@@ -3,15 +3,17 @@
 
 #include "abstractaxis_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    struct RadialAxisPrivate : public AbstractAxisPrivate {
-        qreal centerHoleDiam;
-        QPointF origin;
-        QLineF yaxis;
+struct RadialAxisPrivate : public AbstractAxisPrivate
+{
+    qreal centerHoleDiam;
+    QPointF origin;
+    QLineF yaxis;
 
-        RadialAxisPrivate();
-    };
+    RadialAxisPrivate();
+};
 
 }
 

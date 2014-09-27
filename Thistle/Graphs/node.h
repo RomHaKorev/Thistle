@@ -22,29 +22,38 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include <QPointF>
 #include <QList>
 #include <QModelIndex>
+#include <memory>
+
 
 #include "edge.h"
 #include "node_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class Node {
-    private:
-        NodePrivate* d_ptr;
-    public:
-        Node();
-        ~Node();
-        void process();
-        void calculateForce();
-        QPointF pos() const;
-        QList<Node*> edges() const;
-        void setPos( qreal x, qreal y );
-        void setPos( QPointF p );
-        void addEdge( Node* node );
-        inline bool isNull() const { return d_ptr->pos.isNull(); }
-        inline void init() { d_ptr->pos = QPointF(); }
-
-    };
+class Node
+{
+private:
+    std::shared_ptr<NodePrivate> d_ptr;
+public:
+    Node();
+    ~Node();
+    void process();
+    void calculateForce();
+    QPointF pos() const;
+    QList<Node*> edges() const;
+    void setPos( qreal x, qreal y );
+    void setPos( QPointF p );
+    void addEdge( Node* node );
+    inline bool isNull() const
+    {
+        return d_ptr->pos.isNull();
+    }
+    inline void init()
+    {
+        d_ptr->pos = QPointF();
+    }
+};
 
 }
 

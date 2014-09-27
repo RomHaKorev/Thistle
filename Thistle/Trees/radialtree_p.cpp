@@ -1,8 +1,9 @@
 #include "radialtree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-RadialTreePrivate::RadialTreePrivate() : AbstractTreePrivate() {
-}
+RadialTreePrivate::RadialTreePrivate() : AbstractTreePrivate()
+{}
 
 }

@@ -1,8 +1,9 @@
 #include "abstractaxis_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-AbstractAxisPrivate::AbstractAxisPrivate() {
-}
+AbstractAxisPrivate::AbstractAxisPrivate()
+{}
 
 }

@@ -4,48 +4,55 @@
 #include "../kernel/abstractitemview.h"
 
 #include <QWidget>
+#include <QPaintEvent>
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class ChartLegend;
-    class AbstractChartPrivate;
-    
-    class AbstractChart :  public AbstractItemView {
-        Q_DECLARE_PRIVATE( AbstractChart );
-    protected:
-        virtual void process();
+class ChartLegend;
+class AbstractChartPrivate;
 
-        virtual void defineRects() = 0;
-        virtual void scan() = 0;
-        void calculateLegendRect( const QRect& source );
+class AbstractChart :  public AbstractItemView
+{
+    Q_DECLARE_PRIVATE( AbstractChart );
 
-        virtual void setScrollBarValues();
-        virtual QPainterPath itemPath(const QModelIndex& index) const;
-        virtual void updateRects() = 0;
+protected:
+    virtual void process();
 
-        virtual void resizeEvent( QResizeEvent* ev );
-        virtual void paintEvent(QPaintEvent* event);
-        virtual void paintChart( QPainter& painter ) = 0;
+    virtual void defineRects() = 0;
+    virtual void scan() = 0;
+    void calculateLegendRect( const QRect& source );
 
-        AbstractChart( AbstractChartPrivate* d, QWidget* parent = 0 );
+    virtual void setScrollBarValues();
+    virtual QPainterPath itemPath(const QModelIndex& index) const;
+    virtual void updateRects() = 0;
 
-    public:
-        AbstractChart( QWidget* parent = 0 );
-        ~AbstractChart();
+    virtual bool event( QEvent* ev );
+    virtual void resizeEvent( QResizeEvent* ev );
+    virtual void paintEvent(QPaintEvent* event);
+    virtual void paintChart( QPainter& painter ) = 0;
 
-        virtual QModelIndex indexAt(const QPoint& point) const;
+    AbstractChart( AbstractChartPrivate* d, QWidget* parent = 0 );
 
-        void setTitle( const QString& title );
+    QModelIndex nearestItem( const QPointF& pos ) const;
 
-        const QFont& titleFont() const;
-        void setTitleFont( const QFont& font );
+public:
+    AbstractChart( QWidget* parent = 0 );
+    ~AbstractChart();
 
-        void setLegend( ChartLegend* legend );
-        ChartLegend* legend() const;
+    virtual QModelIndex indexAt(const QPoint& point) const;
 
-        public slots:
-            void updateValues();
-    };
+    void setTitle( const QString& title );
+
+    const QFont& titleFont() const;
+    void setTitleFont( const QFont& font );
+
+    void setLegend( ChartLegend* legend );
+    ChartLegend* legend() const;
+
+public slots:
+    void updateValues();
+};
 
 }
 

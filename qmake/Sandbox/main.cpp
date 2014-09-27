@@ -87,7 +87,7 @@ int main( int argc, char* argv[] ) {
     pie->setTitle( "A pie chart example" );
     pie->show();*/
 
-    Thistle::GraphModel* model = new Thistle::GraphModel(0,1);
+    /*Thistle::GraphModel* model = new Thistle::GraphModel(0,1);
     for( int i = 0; i < 9; ++i  ) {
         model->appendRow( new QStandardItem( QString::number( i ) ) );
     }
@@ -108,6 +108,6 @@ int main( int argc, char* argv[] ) {
     model->addEdge( 0, 0, 8, 0 );
     model->addEdge( 6, 0, 5, 0 );
     model->addEdge( 2, 0, 1, 0 );
-    graph.show();
+    graph.show();*/
     return a.exec();
 }

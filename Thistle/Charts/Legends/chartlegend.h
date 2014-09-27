@@ -4,23 +4,25 @@
 #include <QRect>
 #include <QPainter>
 
-namespace Thistle {
-    class AbstractChart;
+namespace Thistle
+{
+class AbstractChart;
 
-    class ChartLegend {
-    private:
-        AbstractChart* chart;
+class ChartLegend
+{
+private:
+    AbstractChart* chart;
 
-    public:
-        QRect area;
-        ChartLegend( AbstractChart* chart );
-        ~ChartLegend();
+public:
+    QRect area;
+    ChartLegend( AbstractChart* chart );
+    ~ChartLegend();
 
-        virtual void paint( QPainter& painter ) const;
+    virtual void paint( QPainter& painter ) const;
 
-    protected:
-        virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const = 0;
-    };
+protected:
+    virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const = 0;
+};
 
 }
 

@@ -1,13 +1,12 @@
 #include "abstractgraphalgorithm_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    AbstractGraphAlgorithmPrivate::AbstractGraphAlgorithmPrivate() {
+AbstractGraphAlgorithmPrivate::AbstractGraphAlgorithmPrivate()
+{}
 
-    }
-
-    AbstractGraphAlgorithmPrivate::~AbstractGraphAlgorithmPrivate() {
-
-    }
+AbstractGraphAlgorithmPrivate::~AbstractGraphAlgorithmPrivate()
+{}
 
 }

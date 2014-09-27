@@ -6,9 +6,11 @@
 #include <QFontMetrics>
 #include <QDebug>
 
-namespace Thistle {
+namespace Thistle
+{
 
-PieChartPrivate::PieChartPrivate( bool is3D, PieChart* q ) : AbstractChartPrivate( q )  {
+PieChartPrivate::PieChartPrivate( bool is3D, PieChart* q ) : AbstractChartPrivate( q )
+{
     offsetFactor = 1.2;
     ring = false;
     splitted = false;
@@ -18,14 +20,16 @@ PieChartPrivate::PieChartPrivate( bool is3D, PieChart* q ) : AbstractChartPrivat
     this->is3D = false;
 }
 
-void PieChartPrivate::createRects( const QRect& area ) {
+void PieChartPrivate::createRects( const QRect& area )
+{
 
     this->calculateLegendRect( area );
 
     this->rect = area;
     this->rect.setWidth( this->rect.width() - ( this->legend->area.width() + 15 ) );
 
-    if ( this->title != "" ) {
+    if ( this->title != "" )
+    {
         QFont font = q_ptr->font();
         font.setItalic( true );
         QFontMetrics metrics( font );
@@ -52,20 +56,24 @@ void PieChartPrivate::createRects( const QRect& area ) {
     this->rect.translate( this->rect.width() * 0.10,  this->rect.height() * 0.10 );
     this->rect.setWidth( this->rect.width() * 0.80 );
     this->rect.setHeight( this->rect.height() * 0.80 );
-    
-    if ( this->is3D ) {
+
+    if ( this->is3D )
+    {
         createRects3D( area );
     }
 }
 
-void PieChartPrivate::createRects3D( const QRect& area ) {
+void PieChartPrivate::createRects3D( const QRect& area )
+{
     Q_Q( PieChart );
     //PieChart* q = reinterpret_cast<PieChart*>( q_ptr );
-    if ( q->model() == 0 ) {
+    if ( q->model() == 0 )
+    {
         return;
     }
 
-    if ( this->splitted == true ) {
+    if ( this->splitted == true )
+    {
         this->rect.translate( 10, 10 );
         this->rect.setWidth( this->rect.width() - 20 );
         this->rect.setHeight( this->rect.height() - 20 );
@@ -74,7 +82,8 @@ void PieChartPrivate::createRects3D( const QRect& area ) {
     this->rect.setHeight( this->rect.height() * 0.75 );
     this->angles.clear();
     qreal angle = this->startAngle;
-    for ( int i = 0; i < q->model()->rowCount(); ++i ) {
+    for ( int i = 0; i < q->model()->rowCount(); ++i )
+    {
         this->angles << angle;
         QModelIndex index = q->model()->index( i, 0 );
         qreal v = qAbs( q->model()->data( index ).toReal() );
@@ -85,7 +94,8 @@ void PieChartPrivate::createRects3D( const QRect& area ) {
     this->angles << 360.0;
 }
 
-void PieChartPrivate::calculateLegendRect( const QRect& source ) {
+void PieChartPrivate::calculateLegendRect( const QRect& source )
+{
     Q_Q( PieChart );
     QFontMetrics metrics( q->font() );
     int h = metrics.height() + 10;
@@ -93,13 +103,14 @@ void PieChartPrivate::calculateLegendRect( const QRect& source ) {
 
     int w = 0;
 
-    for( int r = 0; r < rows; ++r ) {
+    for( int r = 0; r < rows; ++r )
+    {
         QString s( q->model()->headerData( r, Qt::Vertical ).toString() );
         w = qMax( metrics.width( s ) + 40, w );
     }
 
     w = qMin( source.width(), w );
-        
+
     this->legend->area = QRect( source.right() - w, q->contentsMargins().top(), w, rows * h );
 }
 

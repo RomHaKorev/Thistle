@@ -4,12 +4,14 @@
 #include "edge.h"
 #include <QList>
 
-//namespace Thistle {
+namespace Thistle
+{
 
-struct GraphModelPrivate {
+struct GraphModelPrivate
+{
     GraphModelPrivate();
     QList<Thistle::Edge> edges;
 };
-//}
+}
 
 #endif // GRAPHMODEL_P_H

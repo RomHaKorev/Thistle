@@ -9,11 +9,13 @@
 #include "piechart_p.h"
 //#include "piechart3D.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
 class PieChart;
 
-class PieChart3DPrivate : public PieChartPrivate {
+class PieChart3DPrivate : public PieChartPrivate
+{
 public:
     PieChart3DPrivate( PieChart* q );
 

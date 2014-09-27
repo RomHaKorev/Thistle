@@ -2,10 +2,12 @@
 
 #include "../../kernel/global.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
 OrthogonalAxisPrivate::OrthogonalAxisPrivate()
-    : AbstractAxisPrivate() {
+    : AbstractAxisPrivate()
+{
     this->model = 0;
     this->nbDigits = 3;
     this->nbTicks = 5;

@@ -12,10 +12,12 @@
 
 class QAbstractItemModel;
 
-namespace Thistle {
+namespace Thistle
+{
 class OrthogonalAxisPrivate;
 
-class OrthogonalAxis : public AbstractAxis {
+class OrthogonalAxis : public AbstractAxis
+{
     Q_DECLARE_PRIVATE( OrthogonalAxis );
 protected:
     void paintXAxis( QPainter& painter ) const;

@@ -8,27 +8,32 @@
 #include "../kernel/abstractitemview_p.h"
 #include "legends/chartlegend.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class AbstractChart;
+class AbstractChart;
 
-    struct AbstractChartPrivate : AbstractItemViewPrivate {
+struct AbstractChartPrivate : AbstractItemViewPrivate
+{
 
-        inline AbstractChart* const q_func() { return q_ptr; }
-        AbstractChart* q_ptr;
+    inline AbstractChart* const q_func()
+    {
+        return q_ptr;
+    }
+    AbstractChart* q_ptr;
 
-        QString title;
-        QRect titleRect;
-        QFont titleFont;
+    QString title;
+    QRect titleRect;
+    QFont titleFont;
 
-        ChartLegend* legend;
+    ChartLegend* legend;
 
-        AbstractChartPrivate( AbstractChart* q );
-        ~AbstractChartPrivate();
+    AbstractChartPrivate( AbstractChart* q );
+    ~AbstractChartPrivate();
 
-        void pressEvent();
-        void releaseEvent();
-    };
+    void pressEvent();
+    void releaseEvent();
+};
 
 }
 

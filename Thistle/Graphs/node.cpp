@@ -18,39 +18,48 @@
 
 #include "node.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-Node::Node() {
-    d_ptr = new NodePrivate();
+Node::Node()
+    : d_ptr( new NodePrivate() )
+{
 }
 
-Node::~Node() {
-    delete d_ptr;
+Node::~Node()
+{
 }
 
-QPointF Node::pos() const {
+QPointF Node::pos() const
+{
     return d_ptr->pos;
 }
 
-void Node::setPos( qreal x, qreal y ) {
+void Node::setPos( qreal x, qreal y )
+{
     setPos( QPointF( x, y ) );
 }
 
-void Node::setPos( QPointF p ) {
+void Node::setPos( QPointF p )
+{
     d_ptr->pos = p;
 }
 
-void Node::process() {
+void Node::process()
+{
 
 }
 
-void Node::addEdge( Node* node ) {
-    if ( node != this ) {
+void Node::addEdge( Node* node )
+{
+    if ( node != this )
+    {
         d_ptr->connectedNode << node;
     }
 }
 
-QList<Node*> Node::edges() const {
+QList<Node*> Node::edges() const
+{
     return d_ptr->connectedNode;
 }
 

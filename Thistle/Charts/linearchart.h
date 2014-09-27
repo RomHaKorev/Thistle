@@ -26,36 +26,42 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include "linearchart_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class DotDelegate;
-    class BarDelegate;
+class DotDelegate;
+class BarDelegate;
 
-    class OrthogonalAxis;
+class OrthogonalAxis;
 
-   
-    class LinearChart : public AxisChart {
-        Q_OBJECT
-            Q_DECLARE_PRIVATE( LinearChart );
-    public:
 
-        explicit LinearChart(QWidget *parent = 0);
-        virtual AbstractChartDelegate* delegate() const { 
-            const Q_D( LinearChart );
-            return d->delegate();
-        }
+class LinearChart : public AxisChart
+{
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( LinearChart );
+public:
 
-    protected:
-        QList<int> calculateColumnsOrder() const;
-        virtual void updateRects();
-        Thistle::Types columnType( int column ) const;
-        QList<int> barStyleColumns() const;
-        virtual QRectF itemRect( const QModelIndex& index ) const;
-        virtual QRectF itemRect( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
-        void paintSerie( QPainter& painter, int column);
-        virtual void paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const;
-        virtual void paintChart( QPainter& painter );
-    };
+    explicit LinearChart(QWidget *parent = 0);
+
+    virtual AbstractChartDelegate* delegate() const
+    {
+        const Q_D( LinearChart );
+        return d->delegate();
+    }
+
+protected:
+    explicit LinearChart( LinearChartPrivate* d, QWidget *parent = 0);
+
+    QList<int> calculateColumnsOrder() const;
+    virtual void updateRects();
+    Thistle::Types columnType( int column ) const;
+    QList<int> barStyleColumns() const;
+    virtual QRectF itemRect( const QModelIndex& index ) const;
+    virtual QRectF itemRect( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
+    virtual void paintSerie( QPainter& painter, int column);
+    virtual void paintSerieLegend(QPainter &painter, int column, QPoint pos, int maxHeight) const;
+    virtual void paintChart( QPainter& painter );
+};
 
 }
 

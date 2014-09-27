@@ -4,18 +4,21 @@
 #include "piechart3D.h"
 #include <QDebug>
 
-namespace Thistle {
+namespace Thistle
+{
 
-PieChart3DPrivate::PieChart3DPrivate( PieChart* q ) : PieChartPrivate( true, q ) {
-    this->front;
-}
+PieChart3DPrivate::PieChart3DPrivate( PieChart* q ) : PieChartPrivate( true, q )
+{}
 
-void PieChart3DPrivate::createRects( const QRect& area ) {
-    if ( q_ptr->model() == 0 ) {
+void PieChart3DPrivate::createRects( const QRect& area )
+{
+    if ( q_ptr->model() == 0 )
+    {
         return;
     }
 
-    if ( this->splitted == true ) {
+    if ( this->splitted == true )
+    {
         this->rect.translate( 10, 10 );
         this->rect.setWidth( this->rect.width() - 20 );
         this->rect.setHeight( this->rect.height() - 20 );
@@ -24,7 +27,8 @@ void PieChart3DPrivate::createRects( const QRect& area ) {
     this->rect.setHeight( this->rect.height() * 0.75 );
     this->angles.clear();
     qreal angle = this->startAngle;
-    for ( int i = 0; i < q_ptr->model()->rowCount(); ++i ) {
+    for ( int i = 0; i < q_ptr->model()->rowCount(); ++i )
+    {
         this->angles << angle;
         QModelIndex index = q_ptr->model()->index( i, 0 );
         qreal v = qAbs( q_ptr->model()->data( index ).toReal() );

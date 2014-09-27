@@ -1,72 +1,86 @@
 #include "itemstyle.h"
 #include "itemstyle_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    ItemStyle::ItemStyle() {
-        d_ptr = new ItemStylePrivate();
-    }
-
-
-    void ItemStyle::setBrush( const QBrush& brush ) {
-        d_ptr->brush = brush;
-    }
+ItemStyle::ItemStyle()
+{
+    d_ptr = new ItemStylePrivate();
+}
 
 
-    void ItemStyle::setPen( const QPen& pen ) {
-        d_ptr->border = pen;
-    }
+void ItemStyle::setBrush( const QBrush& brush )
+{
+    d_ptr->brush = brush;
+}
 
 
-    void ItemStyle::setFont( const QFont& font ) {
-        d_ptr->font = font;
-    }
+void ItemStyle::setPen( const QPen& pen )
+{
+    d_ptr->border = pen;
+}
 
 
-    void ItemStyle::setTextColor( const QColor& color ) {
-        d_ptr->textColor = color;
-    }
+void ItemStyle::setFont( const QFont& font )
+{
+    d_ptr->font = font;
+}
 
 
-    void ItemStyle::setDisplayText( bool displayText ) {
-        d_ptr->displayText = displayText;
-    }
+void ItemStyle::setTextColor( const QColor& color )
+{
+    d_ptr->textColor = color;
+}
 
 
-    void ItemStyle::setShape( Thistle::Shape shape ) {
-        d_ptr->shape = shape;
-    }
+void ItemStyle::setDisplayText( bool displayText )
+{
+    d_ptr->displayText = displayText;
+}
 
 
-    QBrush ItemStyle::brush() const {
-        return d_ptr->brush;
-    }
+void ItemStyle::setShape( Thistle::Shape shape )
+{
+    d_ptr->shape = shape;
+}
 
 
-    QPen ItemStyle::pen() const {
-        return d_ptr->border;
-    }
+QBrush ItemStyle::brush() const
+{
+    return d_ptr->brush;
+}
 
 
-
-    QFont ItemStyle::font() const {
-        return d_ptr->font;
-    }
-
-
-    QColor ItemStyle::textColor() const {
-        return d_ptr->textColor;
-    }
-
-
-    bool ItemStyle::displayText() const {
-        return d_ptr->displayText;
-    }
+QPen ItemStyle::pen() const
+{
+    return d_ptr->border;
+}
 
 
 
-    Thistle::Shape ItemStyle::shape() const {
-        return d_ptr->shape;
-    }
+QFont ItemStyle::font() const
+{
+    return d_ptr->font;
+}
+
+
+QColor ItemStyle::textColor() const
+{
+    return d_ptr->textColor;
+}
+
+
+bool ItemStyle::displayText() const
+{
+    return d_ptr->displayText;
+}
+
+
+
+Thistle::Shape ItemStyle::shape() const
+{
+    return d_ptr->shape;
+}
 
 }

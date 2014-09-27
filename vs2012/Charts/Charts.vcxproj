@@ -23,6 +23,9 @@
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_piechart3d.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_radarchart.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_radialchart.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -38,6 +41,9 @@
     <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_piechart3d.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_radarchart.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_radialchart.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -49,6 +55,8 @@
     <ClCompile Include="..\..\Thistle\Charts\Axis\abstractaxis_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\Axis\orthogonalaxis.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\Axis\orthogonalaxis_p.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radaraxis.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radaraxis_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\Axis\radialaxis.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\Axis\radialaxis_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\delegates.cpp" />
@@ -62,6 +70,8 @@
     <ClCompile Include="..\..\Thistle\Charts\piechart3d.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\piechart3d_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\piechart_p.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\radarchart.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\radarchart_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\radialchart.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\radialchart_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\serieformat.cpp" />
@@ -74,6 +84,8 @@
     <ClInclude Include="..\..\Thistle\Charts\Axis\abstractaxis_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\Axis\orthogonalaxis.h" />
     <ClInclude Include="..\..\Thistle\Charts\Axis\orthogonalaxis_p.h" />
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radaraxis.h" />
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radaraxis_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\Axis\radialaxis.h" />
     <ClInclude Include="..\..\Thistle\Charts\Axis\radialaxis_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\delegates.h" />
@@ -83,6 +95,17 @@
     <ClInclude Include="..\..\Thistle\Charts\Legends\RadialChartLegend.h" />
     <ClInclude Include="..\..\Thistle\Charts\linearchart_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\piechart3d_p.h" />
+    <CustomBuild Include="..\..\Thistle\Charts\radarchart.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing radarchart.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DCHARTS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Charts" "-I.\..\..\Thistle" "-I.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing radarchart.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DCHARTS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Charts" "-I.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles"</Command>
+    </CustomBuild>
+    <ClInclude Include="..\..\Thistle\Charts\radarchart_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\radialchart_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\serieformat.h" />
     <ClInclude Include="..\..\Thistle\Charts\serieformat_p.h" />

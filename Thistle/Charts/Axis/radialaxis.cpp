@@ -6,29 +6,33 @@
 
 #include "radialaxis_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-RadialAxis::RadialAxis() : AbstractAxis( new RadialAxisPrivate() ) {
-}
-
-
-RadialAxis::~RadialAxis() {
-}
+RadialAxis::RadialAxis() : AbstractAxis( new RadialAxisPrivate() )
+{}
 
 
-qreal RadialAxis::centerHoleDiam() const {
+RadialAxis::~RadialAxis()
+{}
+
+
+qreal RadialAxis::centerHoleDiam() const
+{
     const Q_D( RadialAxis );
     return d->centerHoleDiam;
 }
 
 
-QPointF RadialAxis::origin() const {
+QPointF RadialAxis::origin() const
+{
     const Q_D( RadialAxis );
     return d->valuesRect.center();
 }
 
 
-void RadialAxis::update() {
+void RadialAxis::update()
+{
     Q_D( RadialAxis );
     this->calculateBounds();
     QFontMetrics metrics( this->font() );
@@ -42,14 +46,16 @@ void RadialAxis::update() {
 }
 
 
-QPointF RadialAxis::valueToPoint( qreal value, int axisNumber ) const {
+QPointF RadialAxis::valueToPoint( qreal value, int axisNumber ) const
+{
     QPainterPath p;
     p.addEllipse( this->valueToRect( value ) );
     return p.pointAtPercent( axisNumber / ( this->model()->rowCount()) );
 }
 
 
-QRect RadialAxis::valueToRect( qreal value ) const {
+QRect RadialAxis::valueToRect( qreal value ) const
+{
     const Q_D( RadialAxis );
     float e = d->maxBound - d->minBound;
     qreal ratio = abs( float( value - d->minBound) / e );
@@ -58,7 +64,8 @@ QRect RadialAxis::valueToRect( qreal value ) const {
 }
 
 
-void RadialAxis::paintBack( QPainter& painter ) const {
+void RadialAxis::paintBack( QPainter& painter ) const
+{
     const Q_D( RadialAxis );
     qreal y = d->minBound;
     painter.save();
@@ -67,11 +74,12 @@ void RadialAxis::paintBack( QPainter& painter ) const {
 
     QFontMetrics metrics( this->font() );
     int h = metrics.height();
-    painter.drawLine( d->valuesRect.center(), QPointF( d->valuesRect.center().x(), d->valuesRect.top() - 10 ) ); 
+    painter.drawLine( d->valuesRect.center(), QPointF( d->valuesRect.center().x(), d->valuesRect.top() - 10 ) );
 
     painter.setPen( d->tickPen );
 
-    while ( y <= d->maxBound ) {
+    while ( y <= d->maxBound )
+    {
         QString text = QString::number( y );
         int w = metrics.width( text );
         QRect rectangle = this->valueToRect( y );
@@ -85,18 +93,20 @@ void RadialAxis::paintBack( QPainter& painter ) const {
     }
 
     this->paintText( painter );
-    
+
     painter.restore();
 }
 
 
-void RadialAxis::paintFront( QPainter& painter ) const {
+void RadialAxis::paintFront( QPainter& painter ) const
+{
     const Q_D( RadialAxis );
     painter.save();
     painter.setPen( QPen( QColor( Thistle::Colors::DarkGray ), 1.5 ) );
     QFontMetrics metrics( this->font() );
     qreal v = d->minBound;
-    while ( v <= d->maxBound ) {
+    while ( v <= d->maxBound )
+    {
         qreal y = this->valueToRect( v ).top();
         QString text = QString::number( v );
         int w = metrics.width( text );
@@ -106,7 +116,8 @@ void RadialAxis::paintFront( QPainter& painter ) const {
     painter.restore();
 }
 
-void RadialAxis::paintText( QPainter& painter )  const {
+void RadialAxis::paintText( QPainter& painter )  const
+{
     const Q_D( RadialAxis );
     qreal angle = this->stepSize();
     qreal delta = angle * 0.1;
@@ -125,7 +136,8 @@ void RadialAxis::paintText( QPainter& painter )  const {
     QPainterPath boundingPath;
     boundingPath.addEllipse( d->valuesRect );
 
-    for ( int i = 0; i < rows; ++i ) {
+    for ( int i = 0; i < rows; ++i )
+    {
         QString s( this->model()->headerData( i, Qt::Vertical ).toString() );
         QRect textRect;
 
@@ -141,20 +153,26 @@ void RadialAxis::paintText( QPainter& painter )  const {
         painter.drawPie( d->valuesRect, (start+delta/2) * 16, (angle-delta) * 16 );
         painter.restore();*/
 
-        if ( p.y() <= p1.y() ) { // To the top
+        if ( p.y() <= p1.y() )   // To the top
+        {
             textRect.setY( p.y() - h );
-        } else {                 // To the bottom
+        }
+        else                     // To the bottom
+        {
             textRect.setY( p.y() );
         }
 
         textRect.setHeight( h );
 
-        if ( p.x() >= p1.x() ) { // To the right
+        if ( p.x() >= p1.x() )   // To the right
+        {
             textRect.setX( p.x() );
             textRect.setWidth( d->chartRect.right() - p.x() );
             painter.drawText( textRect, Qt::AlignLeft, s );
 
-        } else {                // To the left
+        }
+        else                    // To the left
+        {
             textRect.setX( d->chartRect.left() );
             textRect.setWidth( p.x() - d->chartRect.left() );
             painter.drawText( textRect, Qt::AlignRight, s );
@@ -162,12 +180,14 @@ void RadialAxis::paintText( QPainter& painter )  const {
     }
 }
 
-qreal RadialAxis::startAngle() const {
+qreal RadialAxis::startAngle() const
+{
     return (90 + 10);
 }
 
 
-qreal RadialAxis::stepSize() const {
+qreal RadialAxis::stepSize() const
+{
     const Q_D( RadialAxis );
     return (360.0 - 20) / qreal( d->model->rowCount() );
 }

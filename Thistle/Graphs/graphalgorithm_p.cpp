@@ -1,9 +1,11 @@
 #include "graphalgorithm_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-GraphAlgorithmPrivate::GraphAlgorithmPrivate() {
-    timer = new QTimer();
+GraphAlgorithmPrivate::GraphAlgorithmPrivate()
+    : timer( new QTimer() )
+{
     timer->setInterval( 10 );
     movableItem = true;
     elasticItem = true;
@@ -11,7 +13,8 @@ GraphAlgorithmPrivate::GraphAlgorithmPrivate() {
     itemOffset = QPoint( 0, 0 );
 }
 
-GraphAlgorithmPrivate::~GraphAlgorithmPrivate() {
+GraphAlgorithmPrivate::~GraphAlgorithmPrivate()
+{
     this->timer->deleteLater();
 }
 

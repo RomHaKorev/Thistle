@@ -22,10 +22,11 @@
 #include "abstracttree.h"
 #include "radialtree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-
-class RadialTree : public AbstractTree {
+class RadialTree : public AbstractTree
+{
     Q_OBJECT
     Q_DECLARE_PRIVATE( RadialTree );
 protected:

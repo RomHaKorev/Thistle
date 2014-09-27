@@ -17,29 +17,19 @@
 
 #include "Thistle/Charts/linearchart.h"
 #include "Thistle/Charts/radialchart.h"
+#include "Thistle/Charts/radarchart.h"
 #include "Thistle/Charts/piechart.h"
 #include "Thistle/Charts/piechart3d.h"
 
-#include <QPropertyAnimation>
-#include <QLabel>
-#include <QCompleter>
-
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QLineEdit>
 #include <QDebug>
-#include <QDate>
 #include <QStringListModel>
 
-#include <QIdentityProxyModel>
-
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QGraphicsRectItem>
+#define TREE
 
 int main( int argc, char* argv[] ) {
     QApplication a(argc, argv);
-    
+
+#ifdef CHART
     int high = 40;
     int low = 5;
 
@@ -58,6 +48,8 @@ int main( int argc, char* argv[] ) {
         if ( i%2 ) model2->setData( model2->index( i, 2 ), 1 );
         else model2->setData( model2->index( i, 2 ), 3 );*/
     }
+
+
     Thistle::LinearChart linear;
     linear.setFrameShape( QFrame::NoFrame );
     linear.setModel( model2 );
@@ -75,34 +67,16 @@ int main( int argc, char* argv[] ) {
     linear.setTitle( "A line chart example" );
     linear.show();
     linear.setFixedSize( 400, 275 );
+#endif
 
-#if 0
-    Thistle::PieChart3D radial;
-    radial.setModel( model2 );
-    //radial.show();
-
-    Thistle::VerticalTree* tree = new Thistle::VerticalTree();
-    tree->setModel( model2 );
-    tree->show();
-
-    /*QPixmap pix( 400, 275 );
-    pix.fill( Qt::white );
-    QPainter painter( &pix );
-    linear.render( &painter );
-    pix.save( "linechart2.png" );*/
-
-    Thistle::PieChart3D* pie = new Thistle::PieChart3D();
-    pie->setModel( model2 );
-    pie->setTitle( "A pie chart example" );
-    pie->show();
-
+#ifdef GRAPH
     Thistle::GraphModel* model = new Thistle::GraphModel(0,1);
     for( int i = 0; i < 9; ++i  ) {
         model->appendRow( new QStandardItem( QString::number( i ) ) );
     }
 
     Thistle::GraphView graph;
-    graph.setFixedSize( 500, 500 );
+    //graph.setFixedSize( 500, 500 );
     graph.setModel( model );
     model->addEdge( 0, 0, 1, 0 );
     model->addEdge( 0, 0, 5, 0 );
@@ -118,6 +92,45 @@ int main( int argc, char* argv[] ) {
     model->addEdge( 6, 0, 5, 0 );
     model->addEdge( 2, 0, 1, 0 );
     graph.show();
+#endif
+
+#ifdef TREE
+    QStandardItemModel* model = new QStandardItemModel( 0, 1 );
+    QStandardItem* root = new QStandardItem( "root" );
+    QStandardItem* A = new QStandardItem( "A" );
+    QStandardItem* B = new QStandardItem( "B" );
+    QStandardItem* C = new QStandardItem( "C" );
+    QStandardItem* D = new QStandardItem( "D" );
+    QStandardItem* E = new QStandardItem( "E" );
+    QStandardItem* F = new QStandardItem( "F" );
+    QStandardItem* G = new QStandardItem( "G" );
+    QStandardItem* H = new QStandardItem( "H" );
+    QStandardItem* I = new QStandardItem( "I" );
+    QStandardItem* J = new QStandardItem( "J" );
+
+    root->appendRow( A );
+    root->appendRow( B );
+    root->appendRow( C );
+
+    A->appendRow( D );
+    A->appendRow( E );
+
+    C->appendRow( F );
+
+    D->appendRow( G );
+    D->appendRow( H );
+
+    E->appendRow( I );
+
+    I->appendRow( J );
+
+    model->appendRow( root );
+
+    Thistle::VerticalTree* tree = new Thistle::VerticalTree();
+    tree->setModel( model );
+
+    tree->show();
+
 #endif
     return a.exec();
 }

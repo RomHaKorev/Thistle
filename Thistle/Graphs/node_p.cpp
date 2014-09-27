@@ -2,10 +2,13 @@
 
 #include <QList>
 
-namespace Thistle {
-    NodePrivate::NodePrivate() {
-    }
+namespace Thistle
+{
+NodePrivate::NodePrivate()
+{
+}
 
-    NodePrivate::~NodePrivate() {
-    }
+NodePrivate::~NodePrivate()
+{
+}
 }

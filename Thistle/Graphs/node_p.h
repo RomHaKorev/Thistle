@@ -4,17 +4,19 @@
 #include <QPointF>
 #include <QList>
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class Node;
+class Node;
 
-    struct NodePrivate {
-        QPointF pos;
-        QPointF newPos;
-        QList<Node*> connectedNode;
-        NodePrivate();
-        ~NodePrivate();
-    };
+struct NodePrivate
+{
+    QPointF pos;
+    QPointF newPos;
+    QList<Node*> connectedNode;
+    NodePrivate();
+    ~NodePrivate();
+};
 
 }
 

@@ -1,8 +1,9 @@
 #include "horizontaltree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-HorizontalTreePrivate::HorizontalTreePrivate() : AbstractTreePrivate() {
-}
+HorizontalTreePrivate::HorizontalTreePrivate() : AbstractTreePrivate()
+{}
 
 }

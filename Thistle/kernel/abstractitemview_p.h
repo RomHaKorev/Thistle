@@ -9,11 +9,13 @@
 
 #include "itemdelegate.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
 class AbstractItemView;
 
-struct AbstractItemViewPrivate : public QObject {
+struct AbstractItemViewPrivate : public QObject
+{
     QMap<QModelIndex, QPointF> itemPos;
     ItemDelegate* delegate;
     QRubberBand* rubberBand;

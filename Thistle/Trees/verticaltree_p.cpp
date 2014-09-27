@@ -1,8 +1,9 @@
 #include "verticaltree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-VerticalTreePrivate::VerticalTreePrivate() : AbstractTreePrivate() {
-}
+VerticalTreePrivate::VerticalTreePrivate() : AbstractTreePrivate()
+{}
 
 }

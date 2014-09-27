@@ -6,18 +6,20 @@
 
 #include "axischart_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class RadialAxis;
-    class RadialChart;
-    class AxisChart;
+class RadialAxis;
+class RadialChart;
+class AxisChart;
 
-    struct RadialChartPrivate : public AxisChartPrivate {
-        qreal centerHoleDiam;
-        RadialAxis* radialAxis;
-        RadialChartPrivate( RadialChart* q );
-        ~RadialChartPrivate();
-    };
+struct RadialChartPrivate : public AxisChartPrivate
+{
+    qreal centerHoleDiam;
+    RadialAxis* radialAxis;
+    RadialChartPrivate( RadialChart* q );
+    ~RadialChartPrivate();
+};
 
 }
 

@@ -1,8 +1,10 @@
 #include "abstracttree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-AbstractTreePrivate::AbstractTreePrivate() : AbstractItemViewPrivate() {
+AbstractTreePrivate::AbstractTreePrivate() : AbstractItemViewPrivate()
+{
     realSize = QSize( 200, 200);
     itemRect = QRect( -40, -20, 80, 40 );
     yDistance = 50;

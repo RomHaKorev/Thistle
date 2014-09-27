@@ -4,9 +4,11 @@
 
 #include "abstracttree_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-struct VerticalTreePrivate : public AbstractTreePrivate {
+struct VerticalTreePrivate : public AbstractTreePrivate
+{
     VerticalTreePrivate();
     int connectorType;
     qreal max;

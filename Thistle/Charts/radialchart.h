@@ -22,28 +22,30 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include "radialchart_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class RadialAxis;
+class RadialAxis;
 
-    class RadialChart: public AxisChart {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE( RadialChart );
-    protected:
-        QRectF itemRect(const QModelIndex &index) const;
-        QPainterPath itemPath( const QModelIndex& index ) const;
-        void updateRects();
-        void paintSerie( QPainter& painter, int column ) const;
-        void paintAxis( QPainter& painter ) const;
-        void paintTicks( QPainter& painter ) const;
-        virtual void paintChart( QPainter& );
+class RadialChart: public AxisChart
+{
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( RadialChart );
+protected:
+    QRectF itemRect(const QModelIndex &index) const;
+    QPainterPath itemPath( const QModelIndex& index ) const;
+    void updateRects();
+    void paintSerie( QPainter& painter, int column ) const;
+    void paintAxis( QPainter& painter ) const;
+    void paintTicks( QPainter& painter ) const;
+    virtual void paintChart( QPainter& );
 
-        RadialChart( RadialChartPrivate* d, QWidget* parent = 0 );
+    RadialChart( RadialChartPrivate* d, QWidget* parent = 0 );
 
-    public:
-        RadialChart( QWidget* parent = 0 );
-        //void process();
-    };
+public:
+    RadialChart( QWidget* parent = 0 );
+    //void process();
+};
 
 }
 

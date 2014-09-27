@@ -18,9 +18,11 @@
 
 #include "serieformat.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-SerieFormat::SerieFormat() : d( new SerieFormatPrivate() ) {
+SerieFormat::SerieFormat() : d( new SerieFormatPrivate() )
+{
     d->brush = QBrush( Thistle::Colors::LightBlue );
     d->pen = QPen( QColor( Thistle::Colors::Blue ), 2 );
     d->shape = Thistle::Ellipse;
@@ -28,41 +30,49 @@ SerieFormat::SerieFormat() : d( new SerieFormatPrivate() ) {
 }
 
 
-QBrush SerieFormat::brush() const {
+QBrush SerieFormat::brush() const
+{
     return d->brush;
 }
 
 
-QPen SerieFormat::pen() const {
+QPen SerieFormat::pen() const
+{
     return d->pen;
 }
 
 
-void SerieFormat::setBrush( const QBrush& brush) {
+void SerieFormat::setBrush( const QBrush& brush)
+{
     d->brush = brush;
 }
 
 
-void SerieFormat::setPen( const QPen& pen) {
+void SerieFormat::setPen( const QPen& pen)
+{
     d->pen = pen;
 }
 
 
-void SerieFormat::setShape( const Thistle::Shape shape) {
+void SerieFormat::setShape( const Thistle::Shape shape)
+{
     d->shape = shape;
 }
 
 
-void SerieFormat::setType( const Thistle::Types type) {
+void SerieFormat::setType( const Thistle::Types type)
+{
     d->type = type;
 }
 
 
-Thistle::Shape SerieFormat::shape() const {
+Thistle::Shape SerieFormat::shape() const
+{
     return d->shape;
 }
 
-Thistle::Types SerieFormat::type() const {
+Thistle::Types SerieFormat::type() const
+{
     return d->type;
 }
 

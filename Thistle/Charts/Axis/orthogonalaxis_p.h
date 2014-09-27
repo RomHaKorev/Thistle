@@ -3,9 +3,11 @@
 
 #include "abstractaxis_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-struct OrthogonalAxisPrivate : public AbstractAxisPrivate {
+struct OrthogonalAxisPrivate : public AbstractAxisPrivate
+{
     OrthogonalAxisPrivate();
 
     QLineF yaxis;

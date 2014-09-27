@@ -25,22 +25,24 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include "serieformat_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class SerieFormat {
-    protected:
-        SerieFormatPrivate* d;
-    public:
-        SerieFormat();
-        void setBrush( const QBrush& brush);
-        void setPen( const QPen& pen);
-        void setShape( const Thistle::Shape shape);
-        void setType( const Thistle::Types type);
-        QBrush brush() const;
-        QPen pen() const;
-        Thistle::Shape shape() const;
-        Thistle::Types type() const;
-    };
+class SerieFormat
+{
+protected:
+    SerieFormatPrivate* d;
+public:
+    SerieFormat();
+    void setBrush( const QBrush& brush);
+    void setPen( const QPen& pen);
+    void setShape( const Thistle::Shape shape);
+    void setType( const Thistle::Types type);
+    QBrush brush() const;
+    QPen pen() const;
+    Thistle::Shape shape() const;
+    Thistle::Types type() const;
+};
 
 }
 

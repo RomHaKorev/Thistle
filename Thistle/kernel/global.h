@@ -26,112 +26,124 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include <QtCore/qnamespace.h>
 #include <QList>
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class Colors {
-        Q_GADGET
-    public:
+class Colors
+{
+    Q_GADGET
+public:
 
-        enum PredefinedColor {
-            Blue		= 0x6090E4,
-            Green		= 0x9AEC7A,
-            Purple		= 0x8600C8,
-            Red			= 0xDB0000,
-            Orange		= 0xFF8000,
-            Yellow      = 0xFDEF46,
-            Gray		= 0x868686,
+    enum PredefinedColor
+    {
+        Blue		= 0x6090E4,
+        Green		= 0x9AEC7A,
+        Purple		= 0x8600C8,
+        Red			= 0xDB0000,
+        Orange		= 0xFF8000,
+        Yellow      = 0xFDEF46,
+        Gray		= 0x868686,
 
-            LightBlue	= 0x68B9FF,
-            LightGreen	= 0xC9FF71,
-            LightPurple = 0x8274B0,
-            LightRed	= 0xFF5656,
-            LightOrange = 0xFFB366,
-            LightYellow = 0xFDF285,
-            LightGray	= 0xBEBEBE,
+        LightBlue	= 0x68B9FF,
+        LightGreen	= 0xC9FF71,
+        LightPurple = 0x8274B0,
+        LightRed	= 0xFF5656,
+        LightOrange = 0xFFB366,
+        LightYellow = 0xFDF285,
+        LightGray	= 0xBEBEBE,
 
-            DarkBlue     = 0x0839A1,
-            DarkGreen    = 0x8CD01E,
-            DarkPurple   = 0x7300AB,
-            DarkRed	     = 0xBA0000,
-            DarkOrange   = 0xff5100,
-            DarkYellow   = 0xFFF219,
-            DarkGray     = 0x505050
-        };
-
-        Q_ENUMS( PredefinedColor );
-
-        static QColor predefinedColor( int key ) {
-            QMetaObject metaObject = Colors::staticMetaObject;
-
-            QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
-
-            if ( key < 0 || key >= metaEnum.keyCount() ) return QColor( 90, 90, 90 );
-
-            return QColor( metaEnum.value( key ) );
-        }
-
-        static QColor predefinedLightColor( int key ) {
-            QMetaObject metaObject = Colors::staticMetaObject;
-
-            QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
-            QList<int> colors;
-
-            for( int i = 0; i < metaEnum.keyCount(); ++i ) {
-                QString key( metaEnum.key( i ) );
-                if ( key.startsWith("Light") == true ) colors << metaEnum.value( i );
-            }
-
-            if ( key < 0 || key >= colors.count() ) return QColor( 90, 90, 90 );
-
-            return QColor( colors.at( key ) );
-        }
-
-        static QColor predefinedRegularColor( int key ) {
-            QMetaObject metaObject = Colors::staticMetaObject;
-            QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
-            QList<int> colors;
-            for( int i = 0; i < metaEnum.keyCount(); ++i ) {
-                QString key( metaEnum.key( i ) );
-                if ( (key.startsWith("Light") || key.startsWith("Dark") ) == false ) colors << metaEnum.value( i );
-            }
-            if ( key < 0 || key >= colors.count() )  return QColor( 20, 20, 20 );
-
-            return QColor( colors.at( key ) );
-        }
-
-        static QColor predefinedDarkColor( int key ) {
-            QMetaObject metaObject = Colors::staticMetaObject;
-            QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
-            QList<int> colors;
-            for( int i = 0; i < metaEnum.keyCount(); ++i ) {
-                QString key( metaEnum.key( i ) );
-                if ( key.startsWith("Dark") == true ) colors << metaEnum.value( i );
-            }
-            if ( key < 0 || key >= colors.count() ) return QColor( 20, 20, 20 );
-
-            return QColor( colors.at( key ) );
-        }
+        DarkBlue     = 0x0839A1,
+        DarkGreen    = 0x8CD01E,
+        DarkPurple   = 0x7300AB,
+        DarkRed	     = 0xBA0000,
+        DarkOrange   = 0xff5100,
+        DarkYellow   = 0xFFF219,
+        DarkGray     = 0x505050
     };
 
-    enum Shape {
-        Rectangle = 0,
-        Ellipse     = 1,
-        RoundedRect = 2,
-        Diamond = 3,
-        Triangle = 4,
-        ReversedTriangle = 5
-    };
+    Q_ENUMS( PredefinedColor );
 
-    enum Type {
-        Dot     = 1,
-        Line    = 2,
-        Bar     = 4,
-        Spline  = 8, 
-        Area    = 16
-    };
+    static QColor predefinedColor( int key )
+    {
+        QMetaObject metaObject = Colors::staticMetaObject;
 
-    Q_DECLARE_FLAGS( Types, Type )
-    Q_DECLARE_OPERATORS_FOR_FLAGS( Types )
+        QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
+
+        if ( key < 0 || key >= metaEnum.keyCount() ) return QColor( 90, 90, 90 );
+
+        return QColor( metaEnum.value( key ) );
+    }
+
+    static QColor predefinedLightColor( int key )
+    {
+        QMetaObject metaObject = Colors::staticMetaObject;
+
+        QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
+        QList<int> colors;
+
+        for( int i = 0; i < metaEnum.keyCount(); ++i )
+        {
+            QString key( metaEnum.key( i ) );
+            if ( key.startsWith("Light") == true ) colors << metaEnum.value( i );
+        }
+
+        if ( key < 0 || key >= colors.count() ) return QColor( 90, 90, 90 );
+
+        return QColor( colors.at( key ) );
+    }
+
+    static QColor predefinedRegularColor( int key )
+    {
+        QMetaObject metaObject = Colors::staticMetaObject;
+        QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
+        QList<int> colors;
+        for( int i = 0; i < metaEnum.keyCount(); ++i )
+        {
+            QString key( metaEnum.key( i ) );
+            if ( (key.startsWith("Light") || key.startsWith("Dark") ) == false ) colors << metaEnum.value( i );
+        }
+        if ( key < 0 || key >= colors.count() )  return QColor( 20, 20, 20 );
+
+        return QColor( colors.at( key ) );
+    }
+
+    static QColor predefinedDarkColor( int key )
+    {
+        QMetaObject metaObject = Colors::staticMetaObject;
+        QMetaEnum metaEnum = metaObject.enumerator( metaObject.indexOfEnumerator( "PredefinedColor" ) );
+        QList<int> colors;
+        for( int i = 0; i < metaEnum.keyCount(); ++i )
+        {
+            QString key( metaEnum.key( i ) );
+            if ( key.startsWith("Dark") == true ) colors << metaEnum.value( i );
+        }
+        if ( key < 0 || key >= colors.count() ) return QColor( 20, 20, 20 );
+
+        return QColor( colors.at( key ) );
+    }
+};
+
+enum Shape
+{
+    Rectangle = 0,
+    Ellipse     = 1,
+    RoundedRect = 2,
+    Diamond = 3,
+    Triangle = 4,
+    ReversedTriangle = 5
+};
+
+enum Type
+{
+    Dot     = 1,
+    Line    = 2,
+    Bar     = 4,
+    Spline  = 8,
+    Area    = 16
+};
+
+Q_DECLARE_FLAGS( Types, Type )
+Q_DECLARE_OPERATORS_FOR_FLAGS( Types )
 
 }
 

@@ -2,21 +2,22 @@
 
 #include "graphview.h"
 
-namespace Thistle {
-    AbstractGraphAlgorithm::AbstractGraphAlgorithm( GraphView* parent ) : QObject( parent ) {
-        d_ptr = new AbstractGraphAlgorithmPrivate();
-    }
+namespace Thistle
+{
+AbstractGraphAlgorithm::AbstractGraphAlgorithm( GraphView* parent )
+    : QObject( parent ), d_ptr ( new AbstractGraphAlgorithmPrivate() )
+{}
 
-    AbstractGraphAlgorithm::AbstractGraphAlgorithm( AbstractGraphAlgorithmPrivate* d, GraphView* parent ) : QObject( parent ) {
-        d_ptr = d;
-    }
+AbstractGraphAlgorithm::AbstractGraphAlgorithm( AbstractGraphAlgorithmPrivate* d, GraphView* parent )
+    : QObject( parent ), d_ptr( d )
+{}
 
-    AbstractGraphAlgorithm::~AbstractGraphAlgorithm() {
-        delete d_ptr;
-    }
+AbstractGraphAlgorithm::~AbstractGraphAlgorithm()
+{}
 
-    
-    const Node AbstractGraphAlgorithm::node( const QModelIndex& index ) const {
-        return d_ptr->itemPos.value( index, Node() );
-    }
+
+const Node AbstractGraphAlgorithm::node( const QModelIndex& index ) const
+{
+    return d_ptr->itemPos.value( index, Node() );
+}
 }

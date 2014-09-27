@@ -1,9 +1,11 @@
 #include "graphmodel_p.h"
 
-//namespace Thistle {
+namespace Thistle
+{
 
-GraphModelPrivate::GraphModelPrivate() {
+GraphModelPrivate::GraphModelPrivate()
+{
 
 }
 
-//}
+}

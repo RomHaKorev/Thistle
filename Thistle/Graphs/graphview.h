@@ -29,36 +29,44 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 class GraphModel;
 
-namespace Thistle {
+namespace Thistle
+{
 
-    class GraphView : public AbstractItemView {
-        friend class GraphAlgorithm;
-        Q_OBJECT
-            Q_DECLARE_PRIVATE( GraphView );
+class GraphView : public AbstractItemView
+{
+    friend class GraphAlgorithm;
+    Q_OBJECT
+    Q_DECLARE_PRIVATE( GraphView );
 
-    protected:
-        virtual QModelIndex indexAt( const QPoint& point ) const;
-        virtual void setScrollBarValues();
+protected:
+    virtual QModelIndex indexAt( const QPoint& point ) const;
+    virtual void setScrollBarValues();
+public:
+    explicit GraphView( QWidget* parent = 0 );
+    ~GraphView();
 
-    public:
-        explicit GraphView( QWidget* parent = 0 );
-        ~GraphView();
+    virtual QPainterPath itemPath(const QModelIndex &index) const;
 
-        virtual QPainterPath itemPath(const QModelIndex &index) const;
+    void paintEvent( QPaintEvent* event );
+    void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+    void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
 
-        void paintEvent( QPaintEvent* event );
-        void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
-        void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+    void setModel( GraphModel* model );
+    GraphModel* model() const;
 
-        void setModel( GraphModel* model );
-        GraphModel* model() const;
+    AbstractGraphAlgorithm* algorithm() const;
+    void setAlgorithm( AbstractGraphAlgorithm* algorithm );
 
-        AbstractGraphAlgorithm* algorithm() const;
-        void setAlgorithm( AbstractGraphAlgorithm* algorithm );
-    public slots:
-        void updateValues();
+    void setNodeBoundingRect( const QRect& bounding )
+    {
+        Q_D( GraphView );
+        d->boundingRect = bounding;
+    }
 
-    };
+public slots:
+    void updateValues();
+
+};
 
 }
 

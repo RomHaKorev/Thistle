@@ -6,7 +6,8 @@
 
 QT       += widgets
 
-TARGET = Kernel
+Release:TARGET = Kernel
+Debug:TARGET = Kerneld
 TEMPLATE = lib
 
 DEFINES += KERNEL_LIBRARY
@@ -29,14 +30,16 @@ HEADERS += \
 	../../Thistle/kernel/itemstyle_p.h
 
 
-Release:DESTDIR = ../../../bin/mingw32/release
-Release:OBJECTS_DIR = ../../../bin/mingw32/release/generatedFiles
-Release:MOC_DIR = ../../../bin/mingw32/release/generatedFiles
-Release:RCC_DIR = ../../../bin/mingw32/release/generatedFiles
-Release:UI_DIR = ../../../bin/mingw32/release/generatedFiles
+Release:DESTDIR_TARGET = ../../../bin/mingw32
+Release:DESTDIR = ../../../bin/mingw32
+Release:OBJECTS_DIR = ../../../bin/mingw32/generatedFiles
+Release:MOC_DIR = ../../../bin/mingw32/generatedFiles
+Release:RCC_DIR = ../../../bin/mingw32/generatedFiles
+Release:UI_DIR = ../../../bin/mingw32/generatedFiles
 
-Debug:DESTDIR = ../../../bin/mingw32/debug
-Debug:OBJECTS_DIR = ../../../bin/mingw32/debug/generatedFiles
-Debug:MOC_DIR = ../../../bin/mingw32/debug/generatedFiles
-Debug:RCC_DIR = ../../../bin/mingw32/debug/generatedFiles
-Debug:UI_DIR = ../../../bin/mingw32/debug/generatedFiles
+Debug:DESTDIR_TARGET = ../../../bin/mingw32
+Debug:DESTDIR = ../../../bin/mingw32
+Debug:OBJECTS_DIR = ../../../bin/mingw32/generatedFiles
+Debug:MOC_DIR = ../../../bin/mingw32/generatedFiles
+Debug:RCC_DIR = ../../../bin/mingw32/generatedFiles
+Debug:UI_DIR = ../../../bin/mingw32/generatedFiles

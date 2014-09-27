@@ -6,9 +6,11 @@
 #include <QAbstractItemModel>
 #include <QPen>
 
-namespace Thistle {
+namespace Thistle
+{
 
-struct AbstractAxisPrivate {
+struct AbstractAxisPrivate
+{
     QRect valuesRect;
     QRect chartRect;
     QFont font;
@@ -28,7 +30,7 @@ struct AbstractAxisPrivate {
     long order;
     int nbDigits;
     int nbTicks;
-    
+
     AbstractAxisPrivate();
 };
 
