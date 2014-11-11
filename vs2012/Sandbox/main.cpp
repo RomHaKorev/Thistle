@@ -7,6 +7,9 @@
 #include <QListView>
 #include <QScrollBar>
 
+#include "Thistle/Trees/treeview.h"
+#include "Thistle/Trees/radialtreelayout.h"
+
 #include "Thistle/Trees/horizontaltree.h"
 #include "Thistle/Trees/verticaltree.h"
 #include "Thistle/Trees/radialtree.h"
@@ -111,7 +114,7 @@ int main( int argc, char* argv[] ) {
     root->appendRow( A );
     root->appendRow( B );
     root->appendRow( C );
-
+    
     A->appendRow( D );
     A->appendRow( E );
 
@@ -126,7 +129,17 @@ int main( int argc, char* argv[] ) {
 
     model->appendRow( root );
 
-    Thistle::VerticalTree* tree = new Thistle::VerticalTree();
+    Thistle::TreeView* tree = new Thistle::TreeView();
+
+    Thistle::ItemDelegate* d = new Thistle::ItemDelegate();
+    Thistle::ItemStyle style = d->itemStyle();
+    style.setShape( Thistle::Ellipse );
+    d->setItemStyle( style );
+    
+    tree->layout()->setOrientation( Qt::Horizontal );
+    tree->layout()->deleteLater();
+    tree->setLayout( new Thistle::RadialTreeLayout() );
+    tree->setItemDelegate( d );
     tree->setModel( model );
 
     tree->show();

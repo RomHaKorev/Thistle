@@ -13,16 +13,34 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstracttree.cpp" />
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_radialtree.cpp" />
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_treelayout.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_treeview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_verticaltree.cpp" />
     <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstracttree.cpp" />
     <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_radialtree.cpp" />
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_treelayout.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_treeview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_verticaltree.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\abstracttree.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\abstracttree_p.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\horizontaltree.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\horizontaltree_p.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\radialtree.cpp" />
+    <ClCompile Include="..\..\Thistle\Trees\radialtreelayout.cpp" />
+    <ClCompile Include="..\..\Thistle\Trees\radialtreelayout_p.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\radialtree_p.cpp" />
+    <ClCompile Include="..\..\Thistle\Trees\treelayout.cpp" />
+    <ClCompile Include="..\..\Thistle\Trees\treelayout_p.cpp" />
+    <ClCompile Include="..\..\Thistle\Trees\treeview.cpp" />
+    <ClCompile Include="..\..\Thistle\Trees\treeview_p.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\verticaltree.cpp" />
     <ClCompile Include="..\..\Thistle\Trees\verticaltree_p.cpp" />
   </ItemGroup>
@@ -42,7 +60,31 @@
     <ClInclude Include="..\..\Thistle\Trees\abstracttree_p.h" />
     <ClInclude Include="..\..\Thistle\Trees\horizontaltree.h" />
     <ClInclude Include="..\..\Thistle\Trees\horizontaltree_p.h" />
+    <ClInclude Include="..\..\Thistle\Trees\radialtreelayout.h" />
+    <ClInclude Include="..\..\Thistle\Trees\radialtreelayout_p.h" />
     <ClInclude Include="..\..\Thistle\Trees\radialtree_p.h" />
+    <CustomBuild Include="..\..\Thistle\Trees\treeview.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing treeview.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DTREES_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Trees" "-I.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing treeview.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DTREES_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Trees" "-I.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles"</Command>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Trees\treelayout.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing treelayout.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DTREES_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Trees" "-I.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing treelayout.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DTREES_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Trees" "-I.\..\..\..\bin\vs2012\$(ConfigurationName)\GeneratedFiles"</Command>
+    </CustomBuild>
+    <ClInclude Include="..\..\Thistle\Trees\treelayout_p.h" />
+    <ClInclude Include="..\..\Thistle\Trees\treeview_p.h" />
     <ClInclude Include="..\..\Thistle\Trees\verticaltree_p.h" />
     <CustomBuild Include="..\..\Thistle\Trees\verticaltree.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing verticaltree.h...</Message>
