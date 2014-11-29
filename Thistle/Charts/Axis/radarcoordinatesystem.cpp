@@ -1,5 +1,5 @@
-#include "radaraxis.h"
-#include "radaraxis_p.h"
+#include "radarcoordinatesystem.h"
+#include "radarcoordinatesystem_p.h"
 #include "../../kernel/global.h"
 
 #include <QAbstractItemModel>
@@ -8,32 +8,31 @@
 namespace Thistle
 {
 
-RadarAxis::RadarAxis() : AbstractAxis( new RadarAxisPrivate() )
+RadarCoordinateSystem::RadarCoordinateSystem() : AbstractCoordinateSystem( new RadarCoordinateSystemPrivate() )
 {}
 
 
-RadarAxis::~RadarAxis()
+RadarCoordinateSystem::~RadarCoordinateSystem()
 {}
 
-
-qreal RadarAxis::centerHoleDiam() const
+#if 0
+qreal RadarCoordinateSystem::centerHoleDiam() const
 {
-    const Q_D( RadarAxis );
+    const Q_D( RadarCoordinateSystem );
     return d->centerHoleDiam;
 }
 
 
-QPointF RadarAxis::origin() const
+QPointF RadarCoordinateSystem::origin() const
 {
-    const Q_D( RadarAxis );
+    const Q_D( RadarCoordinateSystem );
     return d->valuesRect.center();
 }
 
 
-void RadarAxis::update()
+void RadarCoordinateSystem::update()
 {
-    Q_D( RadarAxis );
-    this->calculateBounds();
+    Q_D( RadarCoordinateSystem );
     QFontMetrics metrics( this->font() );
     int h = metrics.height();
     d->valuesRect.setWidth( d->valuesRect.width() - h * 2 );
@@ -45,7 +44,7 @@ void RadarAxis::update()
 }
 
 
-QPointF RadarAxis::valueToPoint( qreal value, int axisNumber ) const
+QPointF RadarCoordinateSystem::valueToPoint( qreal value, int axisNumber ) const
 {
     QPainterPath p;
     p.addEllipse( this->valueToRect( value ) );
@@ -53,20 +52,20 @@ QPointF RadarAxis::valueToPoint( qreal value, int axisNumber ) const
 }
 
 
-QRect RadarAxis::valueToRect( qreal value ) const
+QRect RadarCoordinateSystem::valueToRect( qreal value ) const
 {
-    const Q_D( RadarAxis );
-    float e = d->maxBound - d->minBound;
-    qreal ratio = abs( float( value - d->minBound) / e );
+    const Q_D( RadarCoordinateSystem );
+    float e = d->yAxis.maximum() - d->yAxis.minimum();
+    qreal ratio = abs( float( value - d->yAxis.minimum() ) / e );
     int w = d->yaxis.pointAt( ratio ).x() - d->yaxis.p1().x() +d->centerHoleDiam;
     return QRect( this->origin().x() - w, this->origin().y() - w, w*2, w*2 );
 }
 
 
-void RadarAxis::paintBack( QPainter& painter ) const
+void RadarCoordinateSystem::paintBack( QPainter& painter ) const
 {
-    const Q_D( RadarAxis );
-    qreal y = d->minBound;
+    const Q_D( RadarCoordinateSystem );
+    qreal y = d->yAxis.minimum();
     painter.save();
 
     painter.setPen( d->axisPen );
@@ -77,7 +76,7 @@ void RadarAxis::paintBack( QPainter& painter ) const
 
     painter.setPen( d->tickPen );
 
-    while ( y <= d->maxBound )
+    while ( y <= d->yAxis.maximum() )
     {
         QString text = QString::number( y );
         int w = metrics.width( text );
@@ -88,7 +87,7 @@ void RadarAxis::paintBack( QPainter& painter ) const
 
         painter.eraseRect( d->valuesRect.center().x() - w/2.0, rectangle.y() - h - 1, w, h );
 
-        y += d->tickSize;
+        y += d->yAxis.tickSize();
     }
 
     this->paintText( painter );
@@ -97,27 +96,27 @@ void RadarAxis::paintBack( QPainter& painter ) const
 }
 
 
-void RadarAxis::paintFront( QPainter& painter ) const
+void RadarCoordinateSystem::paintFront( QPainter& painter ) const
 {
-    const Q_D( RadarAxis );
+    const Q_D( RadarCoordinateSystem );
     painter.save();
     painter.setPen( QPen( QColor( Thistle::Colors::DarkGray ), 1.5 ) );
     QFontMetrics metrics( this->font() );
-    qreal v = d->minBound;
-    while ( v <= d->maxBound )
+    qreal v = d->yAxis.minimum();
+    while ( v <= d->yAxis.maximum() )
     {
         qreal y = this->valueToRect( v ).top();
         QString text = QString::number( v );
         int w = metrics.width( text );
         painter.drawText( d->valuesRect.center().x() - w/2.0, y - 2, text );
-        v += d->tickSize;
+        v += d->yAxis.tickSize();
     }
     painter.restore();
 }
 
-void RadarAxis::paintText( QPainter& painter )  const
+void RadarCoordinateSystem::paintText( QPainter& painter )  const
 {
-    const Q_D( RadarAxis );
+    const Q_D( RadarCoordinateSystem );
     qreal angle = this->stepSize();
     qreal delta = angle * 0.1;
     int rows = this->model()->rowCount();
@@ -179,16 +178,16 @@ void RadarAxis::paintText( QPainter& painter )  const
     }
 }
 
-qreal RadarAxis::startAngle() const
+qreal RadarCoordinateSystem::startAngle() const
 {
     return (90 + 10);
 }
 
 
-qreal RadarAxis::stepSize() const
+qreal RadarCoordinateSystem::stepSize() const
 {
-    const Q_D( RadarAxis );
+    const Q_D( RadarCoordinateSystem );
     return (360.0 - 20) / qreal( d->model->rowCount() );
 }
-
+#endif
 }

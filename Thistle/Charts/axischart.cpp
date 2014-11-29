@@ -28,7 +28,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include <QDebug>
 
-#include "Axis/abstractaxis.h"
+#include "Axis/axisview.h"
 
 #include "../kernel/abstractitemview_p.h"
 #include "axischart_p.h"
@@ -46,10 +46,10 @@ AxisChart::AxisChart( AxisChartPrivate* d, QWidget* parent ) : AbstractChart( d,
 AxisChart::~AxisChart()
 {}
 
-AbstractAxis* AxisChart::axis() const
+AxisView* AxisChart::axisView() const
 {
     const Q_D( AxisChart );
-    return d->axis;
+    return d->axisView;
 }
 
 
@@ -64,38 +64,29 @@ QList<int> AxisChart::calculateColumnsOrder() const
 }
 
 
-SerieFormat AxisChart::serieFormat( int column ) const
-{
-    const Q_D( AxisChart );
-    if ( d->style.contains( column ) )
-    {
-        return d->style[ column ];
-    }
-    SerieFormat style;
-    QColor c1 =  Colors::predefinedLightColor( column );
-    QColor c2 = Colors::predefinedDarkColor( column );
-    style.setPen( QPen( QColor(c2), 2 ) );
-    style.setBrush( QBrush(c1) );
-    return style;
-}
-
-
 void AxisChart::defineRects()
 {
     Q_D( AxisChart );
-    d->axis->setChartRect( this->contentsRect() );
-    this->calculateLegendRect( d->axis->chartRect() );
-    d->axis->chartRect().setHeight( d->axis->chartRect().height() - d->legend->area.height() - 10 );
-    d->axis->chartRect().translate( 0, d->legend->area.height() + 10 );
+
+    QRect rect( this->contentsRect() );
+    this->calculateLegendRect( rect );
+    rect.setHeight( rect.height() - d->legend->area.height() - 10 );
+    rect.translate( 0, d->legend->area.height() + 10 );
+    d->axisView->setRect( rect );
+    /*d->axisView->setChartRect( this->contentsRect() );
+    this->calculateLegendRect( d->axisView->chartRect() );
+    d->axisView->chartRect().setHeight( d->axisView->chartRect().height() - d->legend->area.height() - 10 );
+    d->axisView->chartRect().translate( 0, d->legend->area.height() + 10 );*/
 
     if ( d->title != "" )
     {
         QFont font = this->font();
         font.setItalic( true );
         QFontMetrics metrics( font );
-        QRect r( 0, 0, d->axis->chartRect().width() - 40, 0 );
+        QRect r( 0, 0, rect.width() - 40, 0 );
         d->titleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, d->title );
-        d->axis->chartRect().setHeight( d->axis->chartRect().height() - d->titleRect.height() - 20 );
+        rect.setHeight( rect.height() - d->titleRect.height() - 20 );
+        d->axisView->setRect( rect );
     }
 }
 
@@ -120,46 +111,14 @@ void AxisChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int 
 void AxisChart::scan()
 {
     Q_D( AxisChart );
-    int rows = this->model()->rowCount();
-    int cols = this->model()->columnCount();
-    QFontMetrics metrics( this->font() );
-    int textWidth = 0;
-    int valueWidth = 0;
-    qreal value = this->model()->index( 0, 0 ).data().toDouble();
-    qreal min = 0;
-    qreal max = 0;
-    for ( int r = 0; r < rows; ++r )
-    {
-        QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
-        textWidth = qMax( textWidth, metrics.width( s ) + 5 );
-        for ( int c = 0; c < cols; ++c )
-        {
-            value = this->model()->index( r, c ).data().toDouble();
-            min = float( qMin( min, value ));
-            max = float( qMax( max, value ));
-            QString s = QString::number( value, 'f', d->axis->nbDigits() );
-            valueWidth = qMax( valueWidth, metrics.width( s ) );
-        }
-    }
-    d->axis->setMin( min );
-    d->axis->setMax( max );
-    d->axis->setTickSize( qMax( d->axis->calculateOrder( min ), d->axis->calculateOrder( max) ) );
-    d->axis->setYLabelsLength( valueWidth + 5 );
-    d->axis->setXLabelsLength( textWidth );
+    d->readModel();
 }
 
 
-void AxisChart::setAxis( AbstractAxis* axis )
+void AxisChart::setAxisView( AxisView* axis )
 {
     Q_D( AxisChart );
-    d->axis = axis;
-}
-
-
-void AxisChart::setSerieFormat( int column, SerieFormat style )
-{
-    Q_D( AxisChart );
-    d->style[ column ] = style;
+    d->axisView = axis;
 }
 
 
@@ -167,7 +126,7 @@ void AxisChart::setModel( QAbstractItemModel* model )
 {
     Q_D( AxisChart );
     QAbstractItemView::setModel( model );
-    d->axis->setModel( model );
+    d->axisView->setModel( model );
     this->process();
 }
 

@@ -1,29 +1,29 @@
-#ifndef CHARTLEGEND_H
-#define CHARTLEGEND_H
+#ifndef THISTLE_CHARTLEGEND_H
+#define THISTLE_CHARTLEGEND_H
 
 #include <QRect>
 #include <QPainter>
 
 namespace Thistle
 {
-class AbstractChart;
+class     AbstractItemView;
 
 class ChartLegend
 {
 private:
-    AbstractChart* chart;
+    AbstractItemView* chart;
 
 public:
     QRect area;
-    ChartLegend( AbstractChart* chart );
+    ChartLegend( AbstractItemView* chart );
     ~ChartLegend();
 
     virtual void paint( QPainter& painter ) const;
 
 protected:
-    virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const = 0;
+    virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const;
 };
 
 }
 
-#endif // CHARTLEGEND_H
+#endif // THISTLE_CHARTLEGEND_H

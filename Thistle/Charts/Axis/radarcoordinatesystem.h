@@ -1,20 +1,21 @@
-#ifndef RADARLAXIS_H
-#define RADARLAXIS_H
+#ifndef THISTLE_RADARLCOORDINATESYSTEM_H
+#define THISTLE_RADARLCOORDINATESYSTEM_H
 
-#include "abstractaxis.h"
+#include "abstractcoordinatesystem.h"
+#include "radarcoordinatesystem_p.h"
+
 #include <QPointF>
-
-#include "radaraxis_p.h"
 
 namespace Thistle
 {
 
-class RadarAxis : public AbstractAxis
+class RadarCoordinateSystem : public AbstractCoordinateSystem
 {
-    Q_DECLARE_PRIVATE( RadarAxis );
+    Q_DECLARE_PRIVATE( RadarCoordinateSystem );
 public:
-    RadarAxis();
-    ~RadarAxis();
+    RadarCoordinateSystem();
+    ~RadarCoordinateSystem();
+#if 0
     qreal centerHoleDiam() const;
     virtual QPointF origin() const;
     virtual void update();
@@ -24,11 +25,11 @@ public:
     virtual void paintFront( QPainter& painter ) const;
     qreal startAngle() const;
     virtual qreal stepSize() const;
-
+#endif
 private:
     void paintText( QPainter& painter ) const;
 };
 
 }
 
-#endif // RADARLAXIS_H
+#endif // THISTLE_RADARLCOORDINATESYSTEM_H

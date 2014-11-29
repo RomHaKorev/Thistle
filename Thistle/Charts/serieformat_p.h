@@ -1,3 +1,5 @@
+#ifndef THISTLE_SERIEFORMAT_P_H
+#define THISTLE_SERIEFORMAT_P_H
 #include <QBrush>
 #include <QPen>
 #include "../kernel/global.h"
@@ -12,3 +14,5 @@ struct SerieFormatPrivate
     Thistle::Types type;
 };
 }
+
+#endif // THISTLE_SERIEFORMAT_P_H

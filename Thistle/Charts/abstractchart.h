@@ -1,7 +1,8 @@
-#ifndef ABSTRACTCHART_H
-#define ABSTRACTCHART_H
+#ifndef THISTLE_ABSTRACTCHART_H
+#define THISTLE_ABSTRACTCHART_H
 
 #include "../kernel/abstractitemview.h"
+#include "serieformat.h"
 
 #include <QWidget>
 #include <QPaintEvent>
@@ -10,6 +11,7 @@ namespace Thistle
 {
 
 class ChartLegend;
+class AbstractLayer;
 class AbstractChartPrivate;
 
 class AbstractChart :  public AbstractItemView
@@ -49,6 +51,11 @@ public:
 
     void setLegend( ChartLegend* legend );
     ChartLegend* legend() const;
+
+    void addLayer( AbstractLayer* layer );
+
+    SerieFormat serieFormat( int column ) const;
+    void setSerieFormat( int column, SerieFormat style);
 
 public slots:
     void updateValues();

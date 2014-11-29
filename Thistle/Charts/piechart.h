@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef PIECHART_H
-#define PIECHART_H
+#ifndef THISTLE_PIECHART_H
+#define THISTLE_PIECHART_H
 
 #include "axischart.h"
 
@@ -74,4 +74,4 @@ public slots:
 
 }
 
-#endif // PIECHART_H
+#endif // THISTLE_PIECHART_H

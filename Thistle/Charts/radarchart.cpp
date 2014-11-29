@@ -13,7 +13,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "radarchart.h"
-#include "Axis/radaraxis.h"
+#include "Axis/radarcoordinatesystem.h"
 
 #include <QPainter>
 #include <QPaintEvent>
@@ -24,17 +24,17 @@ namespace Thistle
 
 RadarChart::RadarChart( QWidget* parent ) : LinearChart( new RadarChartPrivate( this ), parent )
 {
-    Q_D( RadarChart );
-    d->radarAxis = new RadarAxis();
+/*    Q_D( RadarChart );
+    d->radarAxis = new RadarCoordinateSystem();
 
-    this->setAxis( d->radarAxis );
+    this->setAxis( d->radarAxis );*/
 }
 
 RadarChart::RadarChart( RadarChartPrivate* d, QWidget* parent ) : LinearChart( d, parent )
 {
-    d->radarAxis = new RadarAxis();
+/*    d->radarAxis = new RadarCoordinateSystem();
 
-    this->setAxis( d->radarAxis );
+    this->setAxis( d->radarAxis );*/
 }
 
 
@@ -49,7 +49,7 @@ QPainterPath RadarChart::itemPath( const QModelIndex& index ) const
 {
     /*Returns the bounding path for the item pointed by the [index].
     *index: QModelIndex*/
-    const Q_D( RadarChart );
+    /*const Q_D( RadarChart );
     QPainterPath path;
     float angle = float(d->radarAxis->stepSize() / this->model()->columnCount() );
     float delta = 0.1 * angle;
@@ -67,7 +67,8 @@ QPainterPath RadarChart::itemPath( const QModelIndex& index ) const
     path.arcTo( rectangle, (startAngle + delta), (angle - delta * 2) );
     path.closeSubpath();
     path = path.subtracted( pathCenter );
-    return path;
+    return path;*/
+    return QPainterPath();
 }
 
 

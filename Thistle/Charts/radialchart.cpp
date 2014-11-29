@@ -13,7 +13,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "radialchart.h"
-#include "Axis/radialaxis.h"
+#include "Axis/radialcoordinatesystem.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QDebug>
@@ -24,16 +24,16 @@ namespace Thistle
 RadialChart::RadialChart( QWidget* parent ) : AxisChart( new RadialChartPrivate( this ), parent )
 {
     Q_D( RadialChart );
-    d->radialAxis = new RadialAxis();
+    //d->radialAxis = new RadialCoordinateSystem();
 
-    this->setAxis( d->radialAxis );
+    //this->setAxis( d->radialAxis );
 }
 
 RadialChart::RadialChart( RadialChartPrivate* d, QWidget* parent ) : AxisChart( d, parent )
 {
-    d->radialAxis = new RadialAxis();
+    //d->radialAxis = new RadialCoordinateSystem();
 
-    this->setAxis( d->radialAxis );
+//    this->setAxis( d->radialAxis );
 }
 
 
@@ -46,6 +46,9 @@ QRectF RadialChart::itemRect(const QModelIndex &index) const
 
 QPainterPath RadialChart::itemPath( const QModelIndex& index ) const
 {
+    qDebug() << Q_FUNC_INFO << "TODO";
+return QPainterPath();
+#if 0
     /*Returns the bounding path for the item pointed by the [index].
     *index: QModelIndex*/
     const Q_D( RadialChart );
@@ -67,6 +70,7 @@ QPainterPath RadialChart::itemPath( const QModelIndex& index ) const
     path.closeSubpath();
     path = path.subtracted( pathCenter );
     return path;
+#endif
 }
 
 

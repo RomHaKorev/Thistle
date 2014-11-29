@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef RADIALCHART_H
-#define RADIALCHART_H
+#ifndef THISTLE_RADIALCHART_H
+#define THISTLE_RADIALCHART_H
 #include "axischart.h"
 
 #include "radialchart_p.h"
@@ -25,7 +25,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 namespace Thistle
 {
 
-class RadialAxis;
+class RadialCoordinateSystem;
 
 class RadialChart: public AxisChart
 {

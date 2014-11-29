@@ -1,5 +1,5 @@
-#ifndef RADIALCHART_P_H
-#define RADIALCHART_P_H
+#ifndef THISTLE_RADIALCHART_P_H
+#define THISTLE_RADIALCHART_P_H
 
 #include <QRect>
 #include <QString>
@@ -9,18 +9,18 @@
 namespace Thistle
 {
 
-class RadialAxis;
+class RadialCoordinateSystem;
 class RadialChart;
 class AxisChart;
 
 struct RadialChartPrivate : public AxisChartPrivate
 {
     qreal centerHoleDiam;
-    RadialAxis* radialAxis;
+    RadialCoordinateSystem* radialAxis;
     RadialChartPrivate( RadialChart* q );
     ~RadialChartPrivate();
 };
 
 }
 
-#endif // RADIALCHART_P_H
+#endif // THISTLE_RADIALCHART_P_H

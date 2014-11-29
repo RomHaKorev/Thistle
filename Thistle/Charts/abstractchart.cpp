@@ -220,4 +220,34 @@ QModelIndex AbstractChart::nearestItem( const QPointF& pos ) const
     return nearest;
 }
 
+
+SerieFormat AbstractChart::serieFormat( int column ) const
+{
+    const Q_D( AbstractChart );
+    if ( d->style.contains( column ) )
+    {
+        return d->style[ column ];
+    }
+    SerieFormat style;
+    QColor c1 =  Colors::predefinedLightColor( column );
+    QColor c2 = Colors::predefinedDarkColor( column );
+    style.setPen( QPen( QColor(c2), 2 ) );
+    style.setBrush( QBrush(c1) );
+    return style;
+}
+
+void AbstractChart::setSerieFormat( int column, SerieFormat style )
+{
+    Q_D( AbstractChart );
+    d->style[ column ] = style;
+}
+
+
+void AbstractChart::addLayer( AbstractLayer* layer )
+{
+    Q_D( AbstractChart );
+    d->addLayer( layer );
+    this->update();
+}
+
 }

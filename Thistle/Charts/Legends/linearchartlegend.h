@@ -1,5 +1,5 @@
-#ifndef LINEARLEGENDCHART_H
-#define LINEARLEGENDCHART_H
+#ifndef THISTLE_LINEARLEGENDCHART_H
+#define THISTLE_LINEARLEGENDCHART_H
 
 #include <QPainter>
 #include <QRect>
@@ -23,4 +23,4 @@ private:
 };
 }
 
-#endif // LINEARLEGENDCHART_H
+#endif // THISTLE_LINEARLEGENDCHART_H

@@ -1,12 +1,14 @@
-#ifndef ABSTRACTCHART_P_H
-#define ABSTRACTCHART_P_H
+#ifndef THISTLE_ABSTRACTCHART_P_H
+#define THISTLE_ABSTRACTCHART_P_H
 
 #include <QRect>
 #include <QString>
 #include <QFont>
-#include <QTime>
+
 #include "../kernel/abstractitemview_p.h"
 #include "legends/chartlegend.h"
+#include "Layers/abstractLayer.h"
+#include "serieformat.h"
 
 namespace Thistle
 {
@@ -28,13 +30,20 @@ struct AbstractChartPrivate : AbstractItemViewPrivate
 
     ChartLegend* legend;
 
+    QMap<int, SerieFormat> style;
+
+    std::list<AbstractLayer*> layers;
+
     AbstractChartPrivate( AbstractChart* q );
     ~AbstractChartPrivate();
 
     void pressEvent();
     void releaseEvent();
+
+    void addLayer( AbstractLayer* layer );
+    void applyLayer( QPainter& painter );
 };
 
 }
 
-#endif // ABSTRACTCHART_P_H
+#endif // THISTLE_ABSTRACTCHART_P_H

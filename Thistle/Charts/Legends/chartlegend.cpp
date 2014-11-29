@@ -4,7 +4,7 @@
 
 namespace Thistle
 {
-ChartLegend::ChartLegend( AbstractChart* parent ) : chart( parent )
+ChartLegend::ChartLegend( AbstractItemView* parent ) : chart( parent )
 {}
 
 ChartLegend::~ChartLegend()
@@ -12,6 +12,9 @@ ChartLegend::~ChartLegend()
 
 void ChartLegend::paint( QPainter& painter ) const
 {
+    if ( chart->model() == 0 )
+        return;
+
     painter.save();
     QFontMetrics metrics( chart->font() );
     int metricsH = metrics.height();

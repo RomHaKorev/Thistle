@@ -1,7 +1,7 @@
 #include "linearchart_p.h"
 #include "delegates.h"
 #include "linearchart.h"
-#include "Axis/orthogonalaxis.h"
+#include "Axis/axisview.h"
 #include "Legends/linearchartlegend.h"
 
 #include <qmath.h>
@@ -16,7 +16,7 @@ LinearChartPrivate::LinearChartPrivate( LinearChart* q ) : AxisChartPrivate( q )
     pointDelegate = new DotDelegate();
     barDelegate = new BarDelegate();
 
-    orthoAxis = new OrthogonalAxis();
+    axisView = new AxisView();
     currentDelegate = 0;
 
     // Deletes the legend by default and sets the default legend for linear chart.
@@ -30,10 +30,14 @@ LinearChartPrivate::~LinearChartPrivate()
     this->pointDelegate->deleteLater();
 
     // Because we can get and delete these instances. We have to check beefore trying to destroy it.
-    if ( this->orthoAxis != 0 ) delete this->orthoAxis;
-    if ( this->legend != 0 ) delete this->legend;
+    if ( this->axisView != 0 )
+        delete this->axisView;
+
+    if ( this->legend != 0 )
+        delete this->legend;
+    
     this->legend = 0;
-    this->orthoAxis = 0;
+    this->axisView = 0;
 }
 
 QPair<QPointF, QPointF> LinearChartPrivate::controlPoints( const QPointF& p0, const QPointF& p1, const QPointF& p2, qreal t ) const
@@ -59,22 +63,17 @@ QPair<QPointF, QPointF> LinearChartPrivate::controlPoints( const QPointF& p0, co
 void LinearChartPrivate::selectDelegate( Thistle::Types type )
 {
     if ( type.testFlag( Thistle::Dot ) )
-    {
         this->currentDelegate = this->pointDelegate;
-    }
     else if ( type.testFlag( Thistle::Bar ) )
-    {
         this->currentDelegate = this->barDelegate;
-    }
     else
-    {
         this->currentDelegate = 0;
-    }
 }
 
 void LinearChartPrivate::paintDelegate( QPainter& painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const
 {
-    if ( this->currentDelegate == 0 ) return;
+    if ( this->currentDelegate == 0 )
+        return;
     this->currentDelegate->paint( &painter, option, index );
 }
 
@@ -83,10 +82,14 @@ void LinearChartPrivate::paint( QPainter& painter, int column, Thistle::Types ty
     const Q_Q( LinearChart );
     painter.save();
 
-    if ( types.testFlag( Thistle::Line ) ) this->paintStraightLine( painter, column, active, types.testFlag( Thistle::Area ) );
-    else if ( types.testFlag( Thistle::Spline ) ) this->paintSpline( painter, column, active, types.testFlag( Thistle::Area ) );
+    if ( types.testFlag( Thistle::Line ) )
+        this->paintStraightLine( painter, column, active, types.testFlag( Thistle::Area ) );
+    else if ( types.testFlag( Thistle::Spline ) )
+        this->paintSpline( painter, column, active, types.testFlag( Thistle::Area ) );
 
-    if ( types.testFlag( Thistle::Dot ) || types.testFlag( Thistle::Bar ) ) this->paintRaw( painter, column, active );
+    if ( types.testFlag( Thistle::Dot ) || types.testFlag( Thistle::Bar ) )
+        this->paintRaw( painter, column, active );
+
     painter.restore();
 }
 
@@ -99,22 +102,17 @@ void LinearChartPrivate::paintRaw( QPainter& painter, int column, bool isActive 
         QModelIndex index = q->model()->index( r, column );
         QStyleOptionViewItem option;
         qreal value = index.data().toReal();
+
         if ( value < 0 )
-        {
             option.decorationPosition = QStyleOptionViewItem::Bottom;
-        }
         else
-        {
             option.decorationPosition = QStyleOptionViewItem::Top;
-        }
+
         if ( isActive == false )
-        {
             option.state = QStyle::State_Off;
-        }
         else
-        {
             option.state = QStyle::State_Selected;
-        }
+
         QRectF rect = q->itemRect( index );
         option.rect = rect.toRect();
 
@@ -155,7 +153,10 @@ void LinearChartPrivate::paintStraightLine( QPainter& painter, int column, bool 
                 QPen pen( QBrush( gradient ), 8 );
                 painter.setPen( pen );
             }
-            if ( area ) polygon << rect.center();
+            
+            if ( area )
+                polygon << rect.center();
+            
             painter.drawLine( rect.center(), r2.center() );
         }
     }
@@ -172,8 +173,8 @@ void LinearChartPrivate::paintStraightLine( QPainter& painter, int column, bool 
         }
         painter.setPen( Qt::NoPen );
         polygon << q->itemRect( q->model()->index( rows - 1, column ) ).center();
-        polygon.prepend( QPointF( polygon.first().x(), this->orthoAxis->origin().y() - 1 ) );
-        polygon.append( QPointF( polygon.last().x(), this->orthoAxis->origin().y() - 1 ) );
+        polygon.prepend( QPointF( polygon.first().x(), this->axisView->origin().y() - 1 ) );
+        polygon.append( QPointF( polygon.last().x(), this->axisView->origin().y() - 1 ) );
         painter.drawPolygon( polygon );
         painter.setPen( pen );
         if ( isActive )
@@ -184,6 +185,7 @@ void LinearChartPrivate::paintStraightLine( QPainter& painter, int column, bool 
         }
     }
 }
+
 
 void LinearChartPrivate::paintSpline( QPainter& painter, int column, bool isActive, bool area ) const
 {
@@ -238,11 +240,22 @@ void LinearChartPrivate::paintSpline( QPainter& painter, int column, bool isActi
 
     if ( area )
     {
-        path.lineTo( QPointF( points.at(points.count() - 2 ).x(), this->orthoAxis->origin().y() ) );
-        path.lineTo( QPointF( points.at( 1 ).x(), this->orthoAxis->origin().y() ) );
+        path.lineTo( QPointF( points.at(points.count() - 2 ).x(), this->axisView->origin().y() ) );
+        path.lineTo( QPointF( points.at( 1 ).x(), this->axisView->origin().y() ) );
         path.closeSubpath();
     }
     painter.drawPath( path );
+}
+
+void LinearChartPrivate::updateAxis()
+{
+/*    Q_Q( LinearChart );
+    this->axisView->setValuesRect( QRect( this->axisView->chartRect() ) );
+    QFontMetrics m( q->font() );
+    this->axisView->valuesRect().setX( this->axisView->valuesRect().x() + this->axisView->labelsLength( CartesianCoordinateSystem::Y ) );
+    this->titleRect.moveTo( this->axisView->chartRect().bottomLeft() );
+    this->titleRect.translate( (this->axisView->chartRect().width() - this->titleRect.width())/2, 20 );*/
+    this->axisView->update();
 }
 
 }

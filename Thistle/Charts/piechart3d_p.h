@@ -1,5 +1,5 @@
-#ifndef PIECHART3D_P_H
-#define PIECHART3D_P_H
+#ifndef THISTLE_PIECHART3D_P_H
+#define THISTLE_PIECHART3D_P_H
 
 #include <QRect>
 #include <QString>
@@ -25,4 +25,4 @@ public:
 
 }
 
-#endif // PIECHART3D_P_H
+#endif // THISTLE_PIECHART3D_P_H

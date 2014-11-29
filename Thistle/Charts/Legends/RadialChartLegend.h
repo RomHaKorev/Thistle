@@ -1,5 +1,5 @@
-#ifndef RADIALCHARTLEGEND_H
-#define RADIALCHARTLEGEND_H
+#ifndef THISTLE_RADIALCHARTLEGEND_H
+#define THISTLE_RADIALCHARTLEGEND_H
 #include "chartlegend.h"
 
 namespace Thistle
@@ -19,4 +19,4 @@ protected:
 };
 }
 
-#endif // RADIALCHARTLEGEND
+#endif // THISTLE_RADIALCHARTLEGEND

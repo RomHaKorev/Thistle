@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;cxx;c;def</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h</Extensions>
@@ -38,17 +33,34 @@
     <Filter Include="Header Files\Components\Legends">
       <UniqueIdentifier>{f8805714-fa49-4003-97b7-773d6af8f5f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Layers">
+      <UniqueIdentifier>{cc431336-2a47-4985-b296-24f98ff6fa56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Viewes\Private">
+      <UniqueIdentifier>{7aa0cd11-81c8-4214-8cd7-8e196c179b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{365fd975-41f3-4e10-aa77-52794f74a88c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Viewes">
-      <UniqueIdentifier>{e369ea48-45ac-4ee8-8033-17b6bf3fc0fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Components\Legends">
       <UniqueIdentifier>{d2ef31ea-4f70-4228-aa47-36e531dd7e2e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Components\Axis">
       <UniqueIdentifier>{ef56447f-84d5-4a69-a2ca-25be67ed5f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Viewes">
+      <UniqueIdentifier>{e369ea48-45ac-4ee8-8033-17b6bf3fc0fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Viewes\Private">
+      <UniqueIdentifier>{fd8121f5-9e86-48a9-be16-027f3f5c66a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Layers">
+      <UniqueIdentifier>{34ab930e-2cfc-4703-9088-cce537609118}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,13 +97,7 @@
     <ClCompile Include="..\..\Thistle\Charts\abstractchart.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\abstractchart_p.cpp">
-      <Filter>Source Files\Viewes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\linearchart.cpp">
-      <Filter>Source Files\Viewes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\linearchart_p.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\piechart.cpp">
@@ -100,35 +106,11 @@
     <ClCompile Include="..\..\Thistle\Charts\piechart3d.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\piechart3d_p.cpp">
-      <Filter>Source Files\Viewes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\piechart_p.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\radialchart.cpp">
       <Filter>Source Files\Viewes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\radialchart_p.cpp">
-      <Filter>Source Files\Viewes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\abstractaxis_p.cpp">
-      <Filter>Source Files\Components\Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\abstractaxis.cpp">
-      <Filter>Source Files\Components\Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\orthogonalaxis.cpp">
-      <Filter>Source Files\Components\Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\orthogonalaxis_p.cpp">
-      <Filter>Source Files\Components\Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\radialaxis.cpp">
-      <Filter>Source Files\Components\Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\radialaxis_p.cpp">
-      <Filter>Source Files\Components\Axis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\Legends\chartlegend.cpp">
       <Filter>Source Files\Components\Legends</Filter>
@@ -151,9 +133,6 @@
     <ClCompile Include="..\..\Thistle\Charts\axischart.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\axischart_p.cpp">
-      <Filter>Source Files\Viewes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_radarchart.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -163,13 +142,82 @@
     <ClCompile Include="..\..\Thistle\Charts\radarchart.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\radarchart_p.cpp">
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstractlayer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstractlayer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Layers\abstractlayer.cpp">
+      <Filter>Source Files\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Layers\abstractlayer_p.cpp">
+      <Filter>Source Files\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\xychart.cpp">
       <Filter>Source Files\Viewes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\radaraxis.cpp">
+    <ClCompile Include="..\..\Thistle\Charts\Axis\abstractcoordinatesystem.cpp">
       <Filter>Source Files\Components\Axis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Axis\radaraxis_p.cpp">
+    <ClCompile Include="..\..\Thistle\Charts\Axis\abstractcoordinatesystem_p.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\cartesiancoordinatesystem.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radarcoordinatesystem.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radarcoordinatesystem_p.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radialcoordinatesystem.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\radialcoordinatesystem_p.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\linearaxis.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\linearaxis_p.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\cartesiancoordinatesystem_p.cpp">
+      <Filter>Source Files\Components\Legends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\abstractchart_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\axischart_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linearchart_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\piechart3d_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\radarchart_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\radialchart_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\xychart_p.cpp">
+      <Filter>Source Files\Viewes\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_xychart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_xychart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\axisview.cpp">
+      <Filter>Source Files\Components\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Axis\axisview_p.cpp">
       <Filter>Source Files\Components\Axis</Filter>
     </ClCompile>
   </ItemGroup>
@@ -177,41 +225,8 @@
     <ClInclude Include="..\..\Thistle\Charts\abstractchart.h">
       <Filter>Header Files\Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\abstractchart_p.h">
-      <Filter>Header Files\Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\axischart_p.h">
-      <Filter>Header Files\Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\linearchart_p.h">
-      <Filter>Header Files\Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\piechart3d_p.h">
-      <Filter>Header Files\Viewes</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\piechart_p.h">
       <Filter>Header Files\Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\radialchart_p.h">
-      <Filter>Header Files\Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\abstractaxis.h">
-      <Filter>Header Files\Components\Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\abstractaxis_p.h">
-      <Filter>Header Files\Components\Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\orthogonalaxis.h">
-      <Filter>Header Files\Components\Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\orthogonalaxis_p.h">
-      <Filter>Header Files\Components\Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\radialaxis.h">
-      <Filter>Header Files\Components\Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\radialaxis_p.h">
-      <Filter>Header Files\Components\Axis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\delegates.h">
       <Filter>Header Files\Components</Filter>
@@ -234,13 +249,64 @@
     <ClInclude Include="..\..\Thistle\Charts\Legends\linearchartlegend.h">
       <Filter>Header Files\Components\Legends</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\radarchart_p.h">
-      <Filter>Header Files\Viewes</Filter>
+    <ClInclude Include="..\..\Thistle\Charts\Layers\abstractlayer_p.h">
+      <Filter>Header Files\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\radaraxis.h">
+    <ClInclude Include="..\..\Thistle\Charts\Axis\abstractcoordinatesystem.h">
       <Filter>Header Files\Components\Axis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\Axis\radaraxis_p.h">
+    <ClInclude Include="..\..\Thistle\Charts\Axis\abstractcoordinatesystem_p.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\cartesiancoordinatesystem.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\cartesiancoordinatesystem_p.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radarcoordinatesystem.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radarcoordinatesystem_p.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radialcoordinatesystem.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\radialcoordinatesystem_p.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\linearaxis.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\linearaxis_p.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\abstractchart_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\axischart_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linearchart_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\piechart3d_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\radarchart_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\radialchart_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\xychart_p.h">
+      <Filter>Header Files\Viewes\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\axisview.h">
+      <Filter>Header Files\Components\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Axis\axisview_p.h">
       <Filter>Header Files\Components\Axis</Filter>
     </ClInclude>
   </ItemGroup>
@@ -261,6 +327,12 @@
       <Filter>Header Files\Viewes</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\radarchart.h">
+      <Filter>Header Files\Viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\Layers\abstractlayer.h">
+      <Filter>Header Files\Layers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\xychart.h">
       <Filter>Header Files\Viewes</Filter>
     </CustomBuild>
   </ItemGroup>

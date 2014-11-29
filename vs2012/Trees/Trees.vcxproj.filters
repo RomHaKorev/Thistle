@@ -22,29 +22,8 @@
     <Filter Include="Generated Files\Release">
       <UniqueIdentifier>{a35fda02-3346-48aa-9621-4f71a186b566}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_old">
-      <UniqueIdentifier>{6db82574-1a93-4673-9825-6a626e6fd23b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstracttree.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_radialtree.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_verticaltree.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstracttree.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_radialtree.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_verticaltree.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Thistle\Trees\treeview.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,30 +48,6 @@
     <ClCompile Include="..\..\Thistle\Trees\radialtreelayout_p.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\abstracttree.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\abstracttree_p.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\horizontaltree.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\radialtree.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\horizontaltree_p.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\radialtree_p.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\verticaltree_p.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Trees\verticaltree.cpp">
-      <Filter>_old</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_treelayout.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -103,15 +58,6 @@
   <ItemGroup>
     <CustomBuild Include="..\..\Thistle\Trees\treeview.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\Thistle\Trees\radialtree.h">
-      <Filter>_old</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\Thistle\Trees\verticaltree.h">
-      <Filter>_old</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\Thistle\Trees\abstracttree.h">
-      <Filter>_old</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Trees\treelayout.h">
       <Filter>Header Files</Filter>
@@ -129,21 +75,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Thistle\Trees\radialtreelayout_p.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Trees\horizontaltree.h">
-      <Filter>_old</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Trees\horizontaltree_p.h">
-      <Filter>_old</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Trees\radialtree_p.h">
-      <Filter>_old</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Trees\verticaltree_p.h">
-      <Filter>_old</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Thistle\Trees\abstracttree_p.h">
-      <Filter>_old</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

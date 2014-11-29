@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef SERIEFORMAT_H
-#define SERIEFORMAT_H
+#ifndef THISTLE_SERIEFORMAT_H
+#define THISTLE_SERIEFORMAT_H
 
 #include <QBrush>
 #include <QPen>
@@ -46,4 +46,4 @@ public:
 
 }
 
-#endif // CHARTSTYLE_H
+#endif // THISTLE_CHARTSTYLE_H

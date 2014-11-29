@@ -1,5 +1,5 @@
-#ifndef PIECHARTLEGEND_H
-#define PIECHARTLEGEND_H
+#ifndef THISTLE_PIECHARTLEGEND_H
+#define THISTLE_PIECHARTLEGEND_H
 
 #include "chartlegend.h"
 
@@ -20,4 +20,4 @@ private:
 };
 }
 
-#endif // PIECHARTLEGEND_H
+#endif // THISTLE_PIECHARTLEGEND_H

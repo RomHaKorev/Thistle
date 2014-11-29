@@ -22,7 +22,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include <QDebug>
 #include <QStyleOptionViewItem>
 
-#include "Axis/orthogonalaxis.h"
+#include "Axis/axisview.h"
 
 namespace Thistle
 {
@@ -30,7 +30,7 @@ namespace Thistle
 LinearChart::LinearChart( QWidget* parent ) : AxisChart( new LinearChartPrivate( this ), parent )
 {
     Q_D( LinearChart );
-    this->setAxis( d->orthoAxis );
+    this->setAxisView( d->axisView );
     d->pointDelegate->setParent( this );
     d->barDelegate->setParent( this );
 }
@@ -38,7 +38,7 @@ LinearChart::LinearChart( QWidget* parent ) : AxisChart( new LinearChartPrivate(
 
 LinearChart::LinearChart( LinearChartPrivate* d, QWidget* parent ) : AxisChart( d, parent )
 {
-    this->setAxis( d->orthoAxis );
+    this->setAxisView( d->axisView );
     d->pointDelegate->setParent( this );
     d->barDelegate->setParent( this );
 }
@@ -117,15 +117,15 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const
     {
         return QRectF();
     }
-    QPointF pos = d->orthoAxis->valueToPoint( value, index.row() );
+    QPointF pos = d->axisView->coordinateSystem()->valueToPoint( value, index.row() );
     QList<int> orderedColumns = this->calculateColumnsOrder();
     if ( t == Thistle::Bar )
     {
         QList<int> bars = this->barStyleColumns();
-        qreal margin = d->orthoAxis->stepSize() * 0.1;
-        qreal w = float( d->orthoAxis->stepSize() - margin ) / bars.count();
+        qreal margin = d->axisView->stepSize() * 0.1;
+        qreal w = float( d->axisView->stepSize() - margin ) / bars.count();
         pos += QPointF( margin/2.0 + w * orderedColumns.indexOf( index.column() ), 0 );
-        QPointF br( pos.x() + w, d->orthoAxis->origin().y() );
+        QPointF br( pos.x() + w, d->axisView->origin().y() );
         r = QRectF( pos, br );
         if ( value < 0 )
         {
@@ -136,10 +136,10 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const
             r.translate( 0, -1 );
         }
 
-        if ( d->orthoAxis->startOnAxis() == false )
+        /*if ( d->axisView->startOnAxis() == false )
         {
-            r.translate( -d->orthoAxis->stepSize()/2.0, 0 );
-        }
+            r.translate( -d->axisView->stepSize()/2.0, 0 );
+        }*/
     }
     else
     {
@@ -149,19 +149,20 @@ QRectF LinearChart::itemRect( const QModelIndex& index ) const
 }
 
 
-
 void LinearChart::paintChart( QPainter& painter )
 {
-    const Q_D( LinearChart );
-
+    Q_D( LinearChart );
     painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
-    d->orthoAxis->paintBack( painter );
+
+    d->axisView->paintBack( painter );
+
     QList<int> ordered = this->calculateColumnsOrder();
     Q_FOREACH( int c, ordered )
     {
         this->paintSerie( painter, c );
     }
-    d->orthoAxis->paintFront( painter );
+    
+    d->axisView->paintFront( painter );
 }
 
 
@@ -268,12 +269,15 @@ void LinearChart::updateRects()
 
     this->scan();
     this->defineRects();
-    d->orthoAxis->setValuesRect( QRect( d->orthoAxis->chartRect() ) );
+
+    d->updateAxis();
+    
+    /*d->orthoAxis->setValuesRect( QRect( d->orthoAxis->chartRect() ) );
     QFontMetrics m( this->font() );
-    d->orthoAxis->valuesRect().setX( d->orthoAxis->valuesRect().x() + d->orthoAxis->yLabelsLength() );
+    d->orthoAxis->valuesRect().setX( d->orthoAxis->valuesRect().x() + d->orthoAxis->labelsLength( CartesianCoordinateSystem::Y ) );
     d->titleRect.moveTo( d->orthoAxis->chartRect().bottomLeft() );
     d->titleRect.translate( (d->orthoAxis->chartRect().width() - d->titleRect.width())/2, 20 );
-    d->orthoAxis->update();
+    d->orthoAxis->update();*/
 }
 
 }

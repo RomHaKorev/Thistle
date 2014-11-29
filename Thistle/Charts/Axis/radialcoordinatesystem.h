@@ -1,19 +1,20 @@
-#ifndef RADIALAXIS_H
-#define RADIALAXIS_H
-#include "abstractaxis.h"
-#include <QPointF>
+#ifndef THISTLE_RADIALCOORDINATESYSTEM_H
+#define THISTLE_RADIALCOORDINATESYSTEM_H
+#include "abstractcoordinatesystem.h"
+#include "radialcoordinatesystem_p.h"
 
-#include "radialaxis_p.h"
+#include <QPointF>
 
 namespace Thistle
 {
 
-class RadialAxis : public AbstractAxis
+class RadialCoordinateSystem : public AbstractCoordinateSystem
 {
-    Q_DECLARE_PRIVATE( RadialAxis );
+    Q_DECLARE_PRIVATE( RadialCoordinateSystem );
 public:
-    RadialAxis();
-    ~RadialAxis();
+    RadialCoordinateSystem();
+    ~RadialCoordinateSystem();
+#if 0
     qreal centerHoleDiam() const;
     virtual QPointF origin() const;
     virtual void update();
@@ -26,8 +27,9 @@ public:
 
 private:
     void paintText( QPainter& painter ) const;
+#endif
 };
 
 }
 
-#endif // RADIALAXIS_H
+#endif // THISTLE_RADIALCOORDINATESYSTEM_H

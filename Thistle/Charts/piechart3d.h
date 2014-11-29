@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef PIECHART3D_H
-#define PIECHART3D_H
+#ifndef THISTLE_PIECHART3D_H
+#define THISTLE_PIECHART3D_H
 
 #include "piechart.h"
 #include "piechart_p.h"
@@ -59,4 +59,4 @@ protected:
 
 }
 
-#endif // PIECHART3D_H
+#endif // THISTLE_PIECHART3D_H

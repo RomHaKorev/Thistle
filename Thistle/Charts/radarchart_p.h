@@ -1,22 +1,22 @@
-#ifndef RADARCHART_P_H
-#define RADARCHART_P_H
+#ifndef THISTLE_RADARCHART_P_H
+#define THISTLE_RADARCHART_P_H
 
 #include "linearchart_p.h"
 
 namespace Thistle
 {
 
-class RadarAxis;
+class RadarCoordinateSystem;
 class RadarChart;
 class LinearChart;
 
 struct RadarChartPrivate : public LinearChartPrivate
 {
-    RadarAxis* radarAxis;
+    RadarCoordinateSystem* radarAxis;
     RadarChartPrivate( RadarChart* q );
     ~RadarChartPrivate();
 };
 
 }
 
-#endif // RADARCHART_P_H
+#endif // THISTLE_RADARCHART_P_H

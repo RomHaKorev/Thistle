@@ -1,5 +1,5 @@
-#ifndef LINEARCHART_P_H
-#define LINEARCHART_P_H
+#ifndef THISTLE_LINEARCHART_P_H
+#define THISTLE_LINEARCHART_P_H
 
 #include <QRect>
 #include <QString>
@@ -10,7 +10,7 @@ namespace Thistle
 {
 class DotDelegate;
 class BarDelegate;
-class OrthogonalAxis;
+class AxisView;
 class AbstractChartDelegate;
 
 class LinearChart;
@@ -19,11 +19,13 @@ class LinearChartPrivate : public AxisChartPrivate
 {
 private:
     QPair<QPointF, QPointF> controlPoints( const QPointF& p0, const QPointF& p1, const QPointF& p2, qreal t = 0.25 ) const;
+
 protected:
     AbstractChartDelegate* currentDelegate;
     void paintStraightLine( QPainter& painter, int column, bool isActive, bool area = false ) const;
     void paintSpline( QPainter& painter, int column, bool isActive, bool area = false ) const;
     void paintRaw( QPainter& painter, int column, bool isActive ) const;
+
 public:
     LinearChart* q_func() const
     {
@@ -32,10 +34,10 @@ public:
 
     DotDelegate* pointDelegate;
     BarDelegate* barDelegate;
-    OrthogonalAxis* orthoAxis;
 
     LinearChartPrivate( LinearChart* q );
     ~LinearChartPrivate();
+    
     void selectDelegate( Thistle::Types type );
     inline AbstractChartDelegate* delegate() const
     {
@@ -43,10 +45,11 @@ public:
     }
 
     void paintDelegate( QPainter& painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
-
     void paint( QPainter& painter, int column, Thistle::Types types, bool active ) const;
+
+    void updateAxis();
 };
 
 }
 
-#endif // LINEARCHART_P_H
+#endif // THISTLE_LINEARCHART_P_H

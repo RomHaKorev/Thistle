@@ -1,40 +1,38 @@
-#include "RadialAxis.h"
+#include "radialcoordinatesystem.h"
+#include "radialcoordinatesystem_p.h"
 #include "../../kernel/global.h"
 
 #include <QAbstractItemModel>
 #include <QDebug>
 
-#include "radialaxis_p.h"
-
 namespace Thistle
 {
 
-RadialAxis::RadialAxis() : AbstractAxis( new RadialAxisPrivate() )
+RadialCoordinateSystem::RadialCoordinateSystem() : AbstractCoordinateSystem( new RadialCoordinateSystemPrivate() )
 {}
 
 
-RadialAxis::~RadialAxis()
+RadialCoordinateSystem::~RadialCoordinateSystem()
 {}
 
-
-qreal RadialAxis::centerHoleDiam() const
+#if 0
+qreal RadialCoordinateSystem::centerHoleDiam() const
 {
-    const Q_D( RadialAxis );
+    const Q_D( RadialCoordinateSystem );
     return d->centerHoleDiam;
 }
 
 
-QPointF RadialAxis::origin() const
+QPointF RadialCoordinateSystem::origin() const
 {
-    const Q_D( RadialAxis );
+    const Q_D( RadialCoordinateSystem );
     return d->valuesRect.center();
 }
 
 
-void RadialAxis::update()
+void RadialCoordinateSystem::update()
 {
-    Q_D( RadialAxis );
-    this->calculateBounds();
+    Q_D( RadialCoordinateSystem );
     QFontMetrics metrics( this->font() );
     int h = metrics.height();
     d->valuesRect.setWidth( d->valuesRect.width() - h * 2 );
@@ -46,7 +44,7 @@ void RadialAxis::update()
 }
 
 
-QPointF RadialAxis::valueToPoint( qreal value, int axisNumber ) const
+QPointF RadialCoordinateSystem::valueToPoint( qreal value, int axisNumber ) const
 {
     QPainterPath p;
     p.addEllipse( this->valueToRect( value ) );
@@ -54,20 +52,20 @@ QPointF RadialAxis::valueToPoint( qreal value, int axisNumber ) const
 }
 
 
-QRect RadialAxis::valueToRect( qreal value ) const
+QRect RadialCoordinateSystem::valueToRect( qreal value ) const
 {
-    const Q_D( RadialAxis );
-    float e = d->maxBound - d->minBound;
-    qreal ratio = abs( float( value - d->minBound) / e );
+    const Q_D( RadialCoordinateSystem );
+    float e = d->yAxis.maximum() - d->yAxis.minimum();
+    qreal ratio = abs( float( value - d->yAxis.minimum()) / e );
     int w = d->yaxis.pointAt( ratio ).x() - d->yaxis.p1().x() +d->centerHoleDiam;
     return QRect( this->origin().x() - w, this->origin().y() - w, w*2, w*2 );
 }
 
 
-void RadialAxis::paintBack( QPainter& painter ) const
+void RadialCoordinateSystem::paintBack( QPainter& painter ) const
 {
-    const Q_D( RadialAxis );
-    qreal y = d->minBound;
+    const Q_D( RadialCoordinateSystem );
+    qreal y = d->yAxis.minimum();
     painter.save();
 
     painter.setPen( d->axisPen );
@@ -78,7 +76,7 @@ void RadialAxis::paintBack( QPainter& painter ) const
 
     painter.setPen( d->tickPen );
 
-    while ( y <= d->maxBound )
+    while ( y <= d->yAxis.maximum() )
     {
         QString text = QString::number( y );
         int w = metrics.width( text );
@@ -89,7 +87,7 @@ void RadialAxis::paintBack( QPainter& painter ) const
 
         painter.eraseRect( d->valuesRect.center().x() - w/2.0, rectangle.y() - h - 1, w, h );
 
-        y += d->tickSize;
+        y += d->yAxis.tickSize();
     }
 
     this->paintText( painter );
@@ -98,27 +96,27 @@ void RadialAxis::paintBack( QPainter& painter ) const
 }
 
 
-void RadialAxis::paintFront( QPainter& painter ) const
+void RadialCoordinateSystem::paintFront( QPainter& painter ) const
 {
-    const Q_D( RadialAxis );
+    const Q_D( RadialCoordinateSystem );
     painter.save();
     painter.setPen( QPen( QColor( Thistle::Colors::DarkGray ), 1.5 ) );
     QFontMetrics metrics( this->font() );
-    qreal v = d->minBound;
-    while ( v <= d->maxBound )
+    qreal v = d->yAxis.minimum();
+    while ( v <= d->yAxis.maximum() )
     {
         qreal y = this->valueToRect( v ).top();
         QString text = QString::number( v );
         int w = metrics.width( text );
         painter.drawText( d->valuesRect.center().x() - w/2.0, y - 2, text );
-        v += d->tickSize;
+        v += d->yAxis.tickSize();
     }
     painter.restore();
 }
 
-void RadialAxis::paintText( QPainter& painter )  const
+void RadialCoordinateSystem::paintText( QPainter& painter )  const
 {
-    const Q_D( RadialAxis );
+    const Q_D( RadialCoordinateSystem );
     qreal angle = this->stepSize();
     qreal delta = angle * 0.1;
     int rows = this->model()->rowCount();
@@ -180,16 +178,16 @@ void RadialAxis::paintText( QPainter& painter )  const
     }
 }
 
-qreal RadialAxis::startAngle() const
+qreal RadialCoordinateSystem::startAngle() const
 {
     return (90 + 10);
 }
 
 
-qreal RadialAxis::stepSize() const
+qreal RadialCoordinateSystem::stepSize() const
 {
-    const Q_D( RadialAxis );
+    const Q_D( RadialCoordinateSystem );
     return (360.0 - 20) / qreal( d->model->rowCount() );
 }
-
+#endif
 }

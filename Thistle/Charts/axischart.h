@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef AXISCHART_H
-#define AXISCHART_H
+#ifndef THISTLE_AXISCHART_H
+#define THISTLE_AXISCHART_H
 
 #include <QAbstractItemView>
 #include "../kernel/global.h"
@@ -30,7 +30,7 @@ namespace Thistle
 {
 class PointChart;
 class RadialChart;
-class AbstractAxis;
+class AxisView;
 
 
 class AxisChart : public AbstractChart
@@ -53,14 +53,12 @@ public:
 
     explicit AxisChart( QWidget* parent = 0 );
     ~AxisChart();
-    AbstractAxis* axis() const;
-    SerieFormat serieFormat( int column ) const;
-
-    void setAxis( AbstractAxis* axis );
+    AxisView* axisView() const;
+    
+    void setAxisView( AxisView* axis );
     void setModel( QAbstractItemModel* model );
-    void setSerieFormat( int column, SerieFormat style);
 };
 
 }
 
-#endif // AXISCHART_H
+#endif // THISTLE_AXISCHART_H

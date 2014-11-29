@@ -29,6 +29,31 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 namespace Thistle
 {
 
+static long calculateOrder( qreal value )
+{
+    long order = 1.0;
+    qreal v = abs( value );
+    if ( v >= 1 )
+    {
+        while ( v > 1 )
+        {
+            order *= 10.0;
+            v /= 10.0;
+        }
+        order /= 10.0;
+    }
+    else if ( v != 0 )
+    {
+        while ( v < 1 )
+        {
+            order /= 10.0;
+            v *= 10.0;
+        }
+        order *= 10.0;
+    }
+    return order;
+}
+
 class Colors
 {
     Q_GADGET
@@ -36,26 +61,26 @@ public:
 
     enum PredefinedColor
     {
-        Blue		= 0x6090E4,
-        Green		= 0x9AEC7A,
-        Purple		= 0x8600C8,
-        Red			= 0xDB0000,
-        Orange		= 0xFF8000,
+        Blue        = 0x6090E4,
+        Green       = 0x9AEC7A,
+        Purple      = 0x8600C8,
+        Red         = 0xDB0000,
+        Orange      = 0xFF8000,
         Yellow      = 0xFDEF46,
-        Gray		= 0x868686,
+        Gray        = 0x868686,
 
-        LightBlue	= 0x68B9FF,
-        LightGreen	= 0xC9FF71,
+        LightBlue   = 0x68B9FF,
+        LightGreen  = 0xC9FF71,
         LightPurple = 0x8274B0,
-        LightRed	= 0xFF5656,
+        LightRed    = 0xFF5656,
         LightOrange = 0xFFB366,
         LightYellow = 0xFDF285,
-        LightGray	= 0xBEBEBE,
+        LightGray   = 0xBEBEBE,
 
         DarkBlue     = 0x0839A1,
         DarkGreen    = 0x8CD01E,
         DarkPurple   = 0x7300AB,
-        DarkRed	     = 0xBA0000,
+        DarkRed      = 0xBA0000,
         DarkOrange   = 0xff5100,
         DarkYellow   = 0xFFF219,
         DarkGray     = 0x505050

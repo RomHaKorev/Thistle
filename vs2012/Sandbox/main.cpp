@@ -10,15 +10,12 @@
 #include "Thistle/Trees/treeview.h"
 #include "Thistle/Trees/radialtreelayout.h"
 
-#include "Thistle/Trees/horizontaltree.h"
-#include "Thistle/Trees/verticaltree.h"
-#include "Thistle/Trees/radialtree.h"
 #include "Thistle/kernel/itemdelegate.h"
-#include "Thistle/Trees/abstracttree.h"
 #include "Thistle/Graphs/graphview.h"
 #include "Thistle/Graphs/graphmodel.h"
 
 #include "Thistle/Charts/linearchart.h"
+#include "Thistle/Charts/xychart.h"
 #include "Thistle/Charts/radialchart.h"
 #include "Thistle/Charts/radarchart.h"
 #include "Thistle/Charts/piechart.h"
@@ -27,14 +24,19 @@
 #include <QDebug>
 #include <QStringListModel>
 
-#define TREE
+
+#include <iostream>
+
+#define CHART
 
 int main( int argc, char* argv[] ) {
     QApplication a(argc, argv);
 
-#ifdef CHART
-    int high = 40;
-    int low = 5;
+#ifdef XYCHART
+    int high_x = 40;
+    int low_x = 5;
+    int high_y = 100;
+    int low_y = -200;
 
     qsrand( QTime::currentTime().msec() );
 
@@ -42,34 +44,76 @@ int main( int argc, char* argv[] ) {
     //model2->setHorizontalHeaderLabels( QStringList() << "My values" << "My second values" );
     model2->setHorizontalHeaderLabels( QStringList() << "My values" );
     //model2->setVerticalHeaderLabels( QStringList() << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun" << "Jul" << "Aug" << "Sept" << "Oct" );
-    for ( int i = 0; i < model2->rowCount(); ++i ) {
-        int v = qrand() % ((high + 1) - low) + low;
-        model2->setData( model2->index( i, 0 ), v );
-        v = qrand() % ((high + 1) - low) + low;
-        model2->setData( model2->index( i, 1 ), v );
+    for ( int i = 0; i < model2->rowCount(); ++i )
+    {
+        for ( int j = 0; j < model2->columnCount(); ++j )
+        {
+            int x = qrand() % ((high_x + 1) - low_x) + low_x;
+            int y = qrand() % ((high_y + 1) - low_y) + low_y;
+
+            model2->setData( model2->index( i, j ), QPointF( x,y ) );
+        }
         /*model2->setData( model2->index( i, 1 ), 5 );
         if ( i%2 ) model2->setData( model2->index( i, 2 ), 1 );
         else model2->setData( model2->index( i, 2 ), 3 );*/
     }
+
+    model2->setData( model2->index( 1, 0 ), QLineF( 10, 50, 50, 65 ), Qt::UserRole );
+
+
+    Thistle::XYChart xy;
+    xy.setFrameShape( QFrame::NoFrame );
+    xy.setModel( model2 );
+    xy.setTitle( "A line chart example" );
+    xy.show();
+    xy.resize( 400, 275 );
+#endif
+#ifdef CHART
+    int high = 40;
+    int low = 5;
+
+    qsrand( QTime::currentTime().msec() );
+
+    QStandardItemModel* model2 = new QStandardItemModel( 6, 2 );
+    //model2->setHorizontalHeaderLabels( QStringList() << "My values" << "My second values" );
+    model2->setHorizontalHeaderLabels( QStringList() << "My values" );
+    //model2->setVerticalHeaderLabels( QStringList() << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun" << "Jul" << "Aug" << "Sept" << "Oct" );
+    for ( int i = 0; i < model2->rowCount(); ++i )
+    {
+        for ( int j = 0; j < model2->columnCount(); ++j )
+        {
+            int v = qrand() % ((high + 1) - low) + low;
+            model2->setData( model2->index( i, j ), v );
+        }
+        /*model2->setData( model2->index( i, 1 ), 5 );
+        if ( i%2 ) model2->setData( model2->index( i, 2 ), 1 );
+        else model2->setData( model2->index( i, 2 ), 3 );*/
+    }
+
+    model2->setData( model2->index( 1, 0 ), QLineF( 10, 50, 50, 65 ), Qt::UserRole );
 
 
     Thistle::LinearChart linear;
     linear.setFrameShape( QFrame::NoFrame );
     linear.setModel( model2 );
     Thistle::SerieFormat style = linear.serieFormat( 1 );
-    style.setType( Thistle::Area | Thistle::Line /*Thistle::Spline | Thistle::Dot | Thistle::Thistle::Area*/ );
+    style.setType( /*Thistle::Area | Thistle::Line */Thistle::Spline /*| Thistle::Dot*/ /*| Thistle::Thistle::Area*/ );
     QPen pen = style.pen();
     pen.setWidth( 3 );
     style.setPen( pen );
     linear.setSerieFormat( 1, style );
     style = linear.serieFormat( 0 );
-    style.setType( Thistle::Line | Thistle::Area /*| Thistle::Area | Thistle::Dot */);
+    style.setType( Thistle::Line | Thistle::Dot );
     style.setShape( Thistle::Shape::Triangle );
     linear.setSerieFormat(0, style );
     //linear.setFixedSize( 400, 275 );
     linear.setTitle( "A line chart example" );
     linear.show();
-    linear.setFixedSize( 400, 275 );
+    linear.resize( 400, 275 );
+
+    Thistle::AbstractLayer* layer = new Thistle::AbstractLayer( &linear );
+    //linear.addLayer( layer );
+
 #endif
 
 #ifdef GRAPH

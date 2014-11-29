@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef LINEARCHART_H
-#define LINEARCHART_H
+#ifndef THISTLE_LINEARCHART_H
+#define THISTLE_LINEARCHART_H
 
 #include "axischart.h"
 //#include "serieformat.h"
@@ -32,7 +32,7 @@ namespace Thistle
 class DotDelegate;
 class BarDelegate;
 
-class OrthogonalAxis;
+class CartesianCoordinateSystem;
 
 
 class LinearChart : public AxisChart
@@ -65,4 +65,4 @@ protected:
 
 }
 
-#endif // LINEARCHART_H
+#endif // THISTLE_LINEARCHART_H
