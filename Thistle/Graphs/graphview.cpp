@@ -30,7 +30,7 @@ static const qreal Pi = 3.14159265358979323846264338327950288419717;
 namespace Thistle
 {
 
-GraphView::GraphView(QWidget *parent) : AbstractItemView( new GraphViewPrivate(), parent )
+GraphView::GraphView(QWidget *parent) : AbstractItemView( new GraphViewPrivate( this ), parent )
 {
     Q_D( GraphView );
     setDragEnabled( true );
@@ -53,10 +53,9 @@ GraphView::~GraphView()
 
 
 
-QModelIndex GraphView::indexAt( const QPoint& point ) const
+/*QModelIndex GraphView::indexAt( const QPoint& point ) const
 {
-    const Q_D( GraphView );
-    QPoint p = point    + QPoint( horizontalOffset(), verticalOffset() );
+    QPoint p = point + QPoint( horizontalOffset(), verticalOffset() );
 
     QAbstractItemModel* model = this->model();
 
@@ -75,7 +74,7 @@ QModelIndex GraphView::indexAt( const QPoint& point ) const
         }
     }
     return QModelIndex();
-}
+}*/
 
 
 QPainterPath GraphView::itemPath( const QModelIndex& index ) const
@@ -85,11 +84,12 @@ QPainterPath GraphView::itemPath( const QModelIndex& index ) const
     //const Node& node = d->itemPos.value( index );
     Node node = d->algorithm->node( index );
     if ( node.isNull() )
-    {
         return path;
-    }
+
     QPointF pos = node.pos();
     path.addRect( QRect(-20,-20,40,40).translated( pos.x(), pos.y() ) );
+    //path.translate( -this->horizontalOffset(), -this->verticalOffset() );
+
     return path;
 }
 
@@ -172,13 +172,12 @@ void GraphView::paintEdges( QPainter& painter, const QPointF& offset ) const
 
 void GraphView::paintEvent( QPaintEvent* /*event*/ )
 {
-    Q_D( GraphView );
     if ( this->model() == 0 )
     {
         return;
     }
     QPainter painter( viewport() );
-    painter.translate( -this->horizontalOffset(), -this->verticalOffset() );
+    //painter.translate( -this->horizontalOffset(), -this->verticalOffset() );
     painter.setRenderHint( QPainter::Antialiasing );
     this->paintEdges( painter );
     this->paintItems( painter );
@@ -187,12 +186,11 @@ void GraphView::paintEvent( QPaintEvent* /*event*/ )
 
 void GraphView::paintItems( QPainter& painter, const QPointF& offset ) const
 {
-    const Q_D( GraphView );
     for (int r = 0; r < this->model()->rowCount(); ++r )
     {
         QModelIndex idx = this->model()->index( r, 0 );
         QStyleOptionViewItem option;
-        option.rect = this->itemRect( idx ).translated( offset.x(), offset.y() ).toRect();
+        option.rect = this->itemRect( idx )/*.translated( offset.x(), offset.y() )*/.toRect();
         this->itemDelegate()->paint( &painter, option, idx );
     }
 }
@@ -201,11 +199,26 @@ void GraphView::setScrollBarValues()
 {
     Q_D( GraphView );
 
-    QSizeF realSize = d->boundingRect.size() + ( this->itemRect( this->model()->index( 0, 0 ) ).size() );;
+    /*QSizeF realSize = d->boundingRect.size() + ( this->itemRect( this->model()->index( 0, 0 ) ).size() );
     this->horizontalScrollBar()->setMinimum( d->boundingRect.x() - this->itemRect( this->model()->index( 0, 0 ) ).width() );
     this->verticalScrollBar()->setMinimum( d->boundingRect.y() - this->itemRect( this->model()->index( 0, 0 ) ).height() );
     this->horizontalScrollBar()->setMaximum( realSize.width() - this->width() + 50 );
-    this->verticalScrollBar()->setMaximum( realSize.height() - this->height() + 50 );
+    this->verticalScrollBar()->setMaximum( realSize.height() - this->height() + 50 );*/
+
+	QSizeF realSize = d->boundingRect.size() + ( this->itemRect( this->model()->index( 0, 0 ) ).size() );
+	this->horizontalScrollBar()->setMinimum( 0 );
+	this->verticalScrollBar()->setMinimum( 0 );
+	if ( (realSize.width() - this->width() + 50) > 0 )
+		this->horizontalScrollBar()->setMaximum( realSize.width() - this->width() + 50 );
+	else
+		this->horizontalScrollBar()->setMaximum( 0 );
+
+	if ( (realSize.height() - this->height() + 50) > 0 )
+		this->verticalScrollBar()->setMaximum( realSize.height() - this->height() + 50 );
+	else
+		this->verticalScrollBar()->setMaximum( 0 );
+
+
 }
 
 
@@ -215,7 +228,6 @@ void GraphView::setModel( GraphModel* model )
     d->model = model;
     AbstractItemView::setModel( model );
     connect( model, SIGNAL(updateEdges()), this, SLOT(updateValues()));
-    AbstractItemView::setModel(model);
 }
 
 

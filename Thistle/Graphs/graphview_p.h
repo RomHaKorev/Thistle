@@ -14,16 +14,19 @@ namespace Thistle
 {
 
 class AbstractGraphAlgorithm;
+class GraphView;
 
 struct GraphViewPrivate : AbstractItemViewPrivate
 {
-    GraphViewPrivate();
+    GraphViewPrivate( GraphView* view );
     ~GraphViewPrivate();
 
     QRectF boundingRect;
     QPoint itemOffset;
     GraphModel* model;
     AbstractGraphAlgorithm* algorithm;
+
+    QModelIndex findItemAt( const QPointF& pos ) const;
 };
 
 }

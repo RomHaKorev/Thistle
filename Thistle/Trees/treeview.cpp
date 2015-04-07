@@ -58,7 +58,6 @@ QPen TreeView::connectionPen() const
 
 QModelIndex TreeView::indexAt(const QPoint& point) const
 {
-    const Q_D( TreeView );
     QPoint p = point - QPoint( this->horizontalScrollBar()->value(), this->verticalScrollBar()->value() );
 
     return this->layout()->indexAt( p );
@@ -75,7 +74,6 @@ QPainterPath TreeView::itemPath( const QModelIndex& index ) const
 
 QRectF TreeView::itemRect( const QModelIndex& index ) const
 {
-    const Q_D( TreeView );
     QPointF p = QPoint( this->horizontalOffset(), this->verticalOffset() );
     return this->layout()->itemRect( index ).translated( -p.toPoint() );
 }
@@ -98,7 +96,7 @@ void TreeView::paintEvent( QPaintEvent* event)
 
 void TreeView::paintItems( QPainter& painter, const QPointF& offset ) const
 {
-    const Q_D( TreeView );
+  Q_UNUSED( offset )
     Q_FOREACH ( QModelIndex index, this->layout()->validIndexes() )
     {
         QStyleOptionViewItem option;
@@ -176,7 +174,7 @@ void TreeView::setScrollBarValues()
     {
         this->horizontalScrollBar()->setMaximum( 0 );
     }
-    
+
     if ( h > 0 )
     {
         this->verticalScrollBar()->setMaximum(  h );

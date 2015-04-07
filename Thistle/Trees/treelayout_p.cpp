@@ -6,9 +6,36 @@
 namespace Thistle
 {
 
+
+/*
+Qt::Orientation orientation;
+
+    TreeView* view;
+
+    QRect rect;
+    QSize size;
+    QRect boundingRect;
+    QMargins margins;
+    QMargins spacing;
+    qreal depth;
+    qreal left;
+    QPoint centralItemPos;
+    QPointF itemOffset;
+    QMap<QModelIndex, QPointF> itemPos;
+    QMap<QModelIndex, QPointF> itemTreePos;
+ */
+
+
 TreeLayoutPrivate::TreeLayoutPrivate()
-    : view( 0 ), margins( 20, 10, 20, 10 ),
-      rect( -50, -40, 100, 80 ), orientation( Qt::Vertical )
+  : orientation( Qt::Vertical ),
+    view( 0 ),
+    rect( -50, -40, 100, 80 ),
+    size(),
+    boundingRect(),
+    margins( 20, 10, 20, 10 ),
+    spacing(0,0,0,0),
+    depth(0),
+    left(0)
 {}
 
 void TreeLayoutPrivate::calculateViewPositions()

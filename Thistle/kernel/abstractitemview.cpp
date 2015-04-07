@@ -74,21 +74,14 @@ int AbstractItemView::horizontalOffset() const
 
 QModelIndex AbstractItemView::indexAt(const QPoint &point) const
 {
-    QPoint p = point    + QPoint( horizontalOffset(), verticalOffset() );
-    if ( this->model() == 0 )
-    {
+	QPoint offset( horizontalOffset(), verticalOffset() );
+    QPoint p = point + offset;
+    
+	if ( this->model() == 0 )
         return QModelIndex();
-    }
 
-    Q_FOREACH( QModelIndex index, d_ptr->itemPos.keys() )
-    {
-        QPainterPath path = this->itemPath( index );
-        if ( path.contains( p ) )
-        {
-            return index;
-        }
-    }
-    return QModelIndex();
+
+    return d_ptr->findItemAt( p );
 }
 
 

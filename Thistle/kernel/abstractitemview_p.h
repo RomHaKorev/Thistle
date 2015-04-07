@@ -16,6 +16,12 @@ class AbstractItemView;
 
 struct AbstractItemViewPrivate : public QObject
 {
+    inline AbstractItemView* q_func()
+    {
+        return q_ptr;
+    }
+    AbstractItemView* q_ptr;
+
     QMap<QModelIndex, QPointF> itemPos;
     ItemDelegate* delegate;
     QRubberBand* rubberBand;
@@ -23,6 +29,8 @@ struct AbstractItemViewPrivate : public QObject
     QMargins margins;
     AbstractItemViewPrivate( AbstractItemView* parent = 0 );
     ~AbstractItemViewPrivate();
+
+    virtual QModelIndex findItemAt( const QPointF& pos ) const;
 };
 
 }

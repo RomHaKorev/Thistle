@@ -19,7 +19,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #ifndef THISTLE_RADARCHART_H
 #define THISTLE_RADARCHART_H
 
-#include "linearchart.h"
+#include "linear/linearchart.h"
 
 #include "radarchart_p.h"
 

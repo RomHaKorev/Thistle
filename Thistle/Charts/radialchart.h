@@ -18,7 +18,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #ifndef THISTLE_RADIALCHART_H
 #define THISTLE_RADIALCHART_H
-#include "axischart.h"
+#include "base/seriechart.h"
 
 #include "radialchart_p.h"
 
@@ -27,7 +27,7 @@ namespace Thistle
 
 class RadialCoordinateSystem;
 
-class RadialChart: public AxisChart
+class RadialChart: public SerieChart
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE( RadialChart );

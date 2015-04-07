@@ -8,7 +8,7 @@ namespace Thistle
 
 RadarChartPrivate::RadarChartPrivate( RadarChart* q ) : LinearChartPrivate( q )
 {
-    this->legend = new LinearChartLegend( q );
+//    this->legend = new LinearChartLegend( q );
 }
 
 RadarChartPrivate::~RadarChartPrivate()

@@ -22,7 +22,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include <QPointF>
 #include <QList>
 #include <QModelIndex>
-#include <memory>
+#include <QSharedPointer>
 
 
 #include "edge.h"
@@ -34,7 +34,7 @@ namespace Thistle
 class Node
 {
 private:
-    std::shared_ptr<NodePrivate> d_ptr;
+    QSharedPointer<NodePrivate> d_ptr;
 public:
     Node();
     ~Node();

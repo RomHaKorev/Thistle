@@ -6,10 +6,16 @@
 namespace Thistle
 {
 
-RadialTreeLayoutPrivate::RadialTreeLayoutPrivate() : TreeLayoutPrivate(), radius(10), diagonal(1)
+RadialTreeLayoutPrivate::RadialTreeLayoutPrivate()
+  : TreeLayoutPrivate(),
+    diagonal(1),
+    perimeter(0),
+    radius(10),
+    maxRad(0),
+    currentCenter( QPointF() )
 {
-    this->rect = QRect( -20, -20, 40, 40 );
-    this->margins = QMargins( 20, 20, 20, 20 );
+  this->rect = QRect( -20, -20, 40, 40 );
+  this->margins = QMargins( 20, 20, 20, 20 );
 }
 
 
@@ -45,9 +51,9 @@ void RadialTreeLayoutPrivate::calculateViewPositions()
     this->size.setHeight( this->radius * 2 + this->itemRect().height() );
 
     this->itemOffset = QPoint( 0, 0 );
-        
+
     QPointF offset( this->size.width() / 2, this->size.height() / 2 );
-    
+
     this->itemPos = this->itemTreePos;
     QPainterPath path;
     path.addEllipse( offset + this->itemRect().center(), this->radius, this->radius );
@@ -72,7 +78,7 @@ void RadialTreeLayoutPrivate::calculateViewPositions()
         }
     }
     QList<QModelIndex> reversedOrderedIndexes;
-    
+
     Q_FOREACH ( QModelIndex idx, this->orderedIndexes )
     {
         reversedOrderedIndexes.prepend( idx );
@@ -89,7 +95,7 @@ void RadialTreeLayoutPrivate::calculateViewPositions()
         this->itemPos[index] = QPointF( float(this->itemPos[left].x() + this->itemPos[right].x()) / 2.0, this->itemPos[index].y() );
     }
     this->itemPos[this->view->model()->index(0,0)] = QPointF(0, 0);
-    
+
     Q_FOREACH ( QModelIndex index, this->orderedIndexes )
     {
         if ( this->depth == this->itemPos[index].y() )

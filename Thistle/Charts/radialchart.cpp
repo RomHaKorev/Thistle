@@ -90,6 +90,7 @@ void RadialChart::paintAxis( QPainter& painter ) const
 
 void RadialChart::paintChart( QPainter& painter )
 {
+#if 0
     const Q_D( RadialChart );
     if ( this->model() == 0 )
     {
@@ -109,8 +110,9 @@ void RadialChart::paintChart( QPainter& painter )
     painter.restore();
     d->radialAxis->paintFront( painter );
     //this->paintLegend( painter );
-    d->legend->paint( painter );
+    //d->legend->paint( painter );
     painter.drawText( d->titleRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, d->title );
+#endif
 }
 
 

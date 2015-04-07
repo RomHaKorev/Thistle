@@ -1,7 +1,7 @@
 #ifndef THISTLE_RADARCHART_P_H
 #define THISTLE_RADARCHART_P_H
 
-#include "linearchart_p.h"
+#include "linear/private/linearchart_p.h"
 
 namespace Thistle
 {

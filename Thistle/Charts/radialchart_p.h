@@ -4,7 +4,7 @@
 #include <QRect>
 #include <QString>
 
-#include "axischart_p.h"
+#include "base/private/seriechart_p.h"
 
 namespace Thistle
 {
@@ -13,7 +13,7 @@ class RadialCoordinateSystem;
 class RadialChart;
 class AxisChart;
 
-struct RadialChartPrivate : public AxisChartPrivate
+struct RadialChartPrivate : public SerieChartPrivate
 {
     qreal centerHoleDiam;
     RadialCoordinateSystem* radialAxis;

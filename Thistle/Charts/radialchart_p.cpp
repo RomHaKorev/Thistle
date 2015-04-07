@@ -8,8 +8,8 @@ namespace Thistle
 
 RadialChartPrivate::RadialChartPrivate( RadialChart* q ) : AxisChartPrivate( q )
 {
-    delete this->legend;
-    this->legend = new RadialChartLegend( q );
+//    delete this->legend;
+//    this->legend = new RadialChartLegend( q );
 }
 
 RadialChartPrivate::~RadialChartPrivate()

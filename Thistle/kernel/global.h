@@ -29,30 +29,39 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 namespace Thistle
 {
 
-static long calculateOrder( qreal value )
+static double calculateOrder( qreal value )
 {
-    long order = 1.0;
+    double order = 1.0;
     qreal v = abs( value );
-    if ( v >= 1 )
+    if ( v > 10 )
     {
         while ( v > 1 )
         {
             order *= 10.0;
             v /= 10.0;
         }
-        order /= 10.0;
+
+    if ( value < ( order * 0.75 ) )
+      order /= 10.0;
+
+    order /= 10.0;
     }
-    else if ( v != 0 )
+  else if ( v > 0 && v < 1 )
+  {
+    while ( v < 1 )
     {
-        while ( v < 1 )
-        {
-            order /= 10.0;
-            v *= 10.0;
-        }
-        order *= 10.0;
+      order /= 10.0;
+      v *= 10.0;
     }
+  }
+  else if ( value == 1 )
+  {
+    order = 0.1;
+  }
+
     return order;
 }
+
 
 class Colors
 {
@@ -86,7 +95,7 @@ public:
         DarkGray     = 0x505050
     };
 
-    Q_ENUMS( PredefinedColor );
+    Q_ENUMS( PredefinedColor )
 
     static QColor predefinedColor( int key )
     {
@@ -167,6 +176,13 @@ enum Type
     Area    = 16
 };
 
+enum Layer
+{
+  Background = 0,
+  Foreground = 1
+};
+
+Q_DECLARE_FLAGS( Layers, Layer )
 Q_DECLARE_FLAGS( Types, Type )
 Q_DECLARE_OPERATORS_FOR_FLAGS( Types )
 

@@ -16,8 +16,8 @@
  Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef AbstractItemView_H
-#define AbstractItemView_H
+#ifndef THISTLE_ABSTRACTITEMVIEW_H
+#define THISTLE_ABSTRACTITEMVIEW_H
 
 #include <QAbstractItemView>
 #include <QPen>
@@ -80,4 +80,4 @@ public slots:
 };
 
 }
-#endif // AbstractItemView_H
+#endif // THISTLE_ABSTRACTITEMVIEW_H

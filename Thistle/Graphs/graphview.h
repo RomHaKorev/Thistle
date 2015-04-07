@@ -39,7 +39,7 @@ class GraphView : public AbstractItemView
     Q_DECLARE_PRIVATE( GraphView );
 
 protected:
-    virtual QModelIndex indexAt( const QPoint& point ) const;
+    //virtual QModelIndex indexAt( const QPoint& point ) const;
     virtual void setScrollBarValues();
 public:
     explicit GraphView( QWidget* parent = 0 );

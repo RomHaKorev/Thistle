@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Linear">
+      <UniqueIdentifier>{0dccfc24-0c37-4870-99ab-47bd14c75f36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{660fe23a-17af-48b1-a7d3-5f1332899dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear\Public">
+      <UniqueIdentifier>{f6484312-5aed-42c1-ac43-b0651b2ee67a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear\Public\Headers">
+      <UniqueIdentifier>{ec4cbfd0-ed75-4997-8c66-62e64b145cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear\Public\Sources">
+      <UniqueIdentifier>{ee0d9893-ebc3-44df-861e-94c890865b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear\Private">
+      <UniqueIdentifier>{762f74e7-dd05-40db-93ce-b0ba2d3769a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear\Private\Headers">
+      <UniqueIdentifier>{7324c585-ac40-42f9-b666-a5c73d641361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear\Private\Sources">
+      <UniqueIdentifier>{6ce4bdfd-4422-47be-bedb-7770be1c2116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base\Private">
+      <UniqueIdentifier>{ea3e8248-caf7-4467-8bce-426c82c730ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base\Private\Sources">
+      <UniqueIdentifier>{0c220fdc-67f9-456d-b8f1-5c3ba515f48d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base\Public">
+      <UniqueIdentifier>{bc418a60-2f62-4e6e-a825-1a52fe3a921b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base\Public\Sources">
+      <UniqueIdentifier>{9ecedbfd-7101-48df-9cf9-05ed98e4bbad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base\Public\Headers">
+      <UniqueIdentifier>{f8408db1-298a-4a4a-bafb-e78e4a857a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base\Private\Headers">
+      <UniqueIdentifier>{0d3d06b0-632d-4944-80e9-066a15f4ff5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="_Generated Files\Debug">
+      <UniqueIdentifier>{fbbf248c-6f13-49e4-9c4f-4b3961a318cd}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="_Generated Files\Release">
+      <UniqueIdentifier>{d5663f57-86ce-4f24-ba65-7d8eecee4329}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Point">
+      <UniqueIdentifier>{e4a9d3a4-6f40-47fe-ba60-208f084286d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Public">
+      <UniqueIdentifier>{c4f0b03c-35b2-4f67-8ce9-bd81c0795cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Public\Headers">
+      <UniqueIdentifier>{33a913dd-8def-4888-b943-579660b3801e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Public\Sources">
+      <UniqueIdentifier>{ae5b6f3f-609b-4045-99a0-eee496038b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Private">
+      <UniqueIdentifier>{668fe5f3-2692-44d3-be40-da524009d563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Private\Headers">
+      <UniqueIdentifier>{e8eb0d6a-9356-4349-b87c-eb771457798e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Private\Sources">
+      <UniqueIdentifier>{a038236e-f720-416c-9c0d-9c76e1317c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat">
+      <UniqueIdentifier>{30035e96-23ac-4a3e-b93c-a238a86151f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat\Public">
+      <UniqueIdentifier>{cd4c2c68-6daf-4dd9-a487-afdf6e70affb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat\Public\Headers">
+      <UniqueIdentifier>{eee410c3-95b9-429f-a7e9-2fbe6b373c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat\Public\Sources">
+      <UniqueIdentifier>{9191969f-6753-44dc-a1b7-70557d28a912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat\Private">
+      <UniqueIdentifier>{38b9837d-1950-4a3d-a375-a38a196fe6eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat\Private\Headers">
+      <UniqueIdentifier>{4e77d806-7f2f-4f98-8c60-9c0cead869fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kiviat\Private\Sources">
+      <UniqueIdentifier>{e4209599-f47e-405f-95b2-005e2e87b81d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie">
+      <UniqueIdentifier>{50108fec-da50-4478-9ace-a098b514ae54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie\Public">
+      <UniqueIdentifier>{12a02248-76de-44ec-bb5b-a2a9f30ae873}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie\Private">
+      <UniqueIdentifier>{0c6cd521-e3d4-4aa2-9abb-cb40dc4f7e33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie\Private\Headers">
+      <UniqueIdentifier>{2bdaab77-c03f-49aa-8ddd-6b98821c9901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie\Private\Sources">
+      <UniqueIdentifier>{c16e401d-9ccc-4bb8-b49e-9e1369410c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie\Public\Headers">
+      <UniqueIdentifier>{f7465878-bee7-4c07-8114-cf82cc9937f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pie\Public\Sources">
+      <UniqueIdentifier>{f18b3817-b092-4dfb-8ecb-386b8d8b2be6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_linearchart.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_linearchart.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_linearchartwidget.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_linearchartwidget.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\linearchart.cpp">
+      <Filter>Linear\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\linearchartlegend.cpp">
+      <Filter>Linear\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\linearchartwidget.cpp">
+      <Filter>Linear\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\linearlegendview.cpp">
+      <Filter>Linear\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\private\linearlegendview_p.cpp">
+      <Filter>Linear\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\private\linearchart_p.cpp">
+      <Filter>Linear\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\private\linearchartwidget_p.cpp">
+      <Filter>Linear\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractchart.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractcoordinatesystem.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractlegendview.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstractlegendview.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstractlegendview.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\serieformat.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\abstractaxis_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractaxis.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\abstractchart_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\abstractlegendview_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\abstractcoordinatesystem_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\abstractcoordinatesystemview_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractcoordinatesystemview.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\linear\linearchartcoordinateplaneview.cpp">
+      <Filter>Linear\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\cartesiancoordinateplane_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\cartesiancoordinateplaneview_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\cartesiancoordinateplane.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\cartesiancoordinateplaneview.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\point\private\pointchart_p.cpp">
+      <Filter>Point\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\point\pointchart.cpp">
+      <Filter>Point\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\point\pointchartcoordinateplaneview.cpp">
+      <Filter>Point\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatchart.cpp">
+      <Filter>Kiviat\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystemview.cpp">
+      <Filter>Kiviat\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystem.cpp">
+      <Filter>Kiviat\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\linearaxis_p.cpp">
+      <Filter>Linear\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\linearaxis.cpp">
+      <Filter>Linear\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatcoordinatesystem_p.cpp">
+      <Filter>Kiviat\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\linearaxisdelegate.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\linearaxisdelegate_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_seriechart.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_seriechart.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\seriechart.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\private\seriechart_p.cpp">
+      <Filter>base\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatchart_p.cpp">
+      <Filter>Kiviat\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_piechart.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_piechart.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_piechart3d.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_piechart3d.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\private\piechart_p.cpp">
+      <Filter>Pie\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\private\piechart3d_p.cpp">
+      <Filter>Pie\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\piechart.cpp">
+      <Filter>Pie\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\piechart3d.cpp">
+      <Filter>Pie\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\piechartlegend.cpp">
+      <Filter>Pie\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\seriedelegates.cpp">
+      <Filter>base\Public</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Thistle\Charts\linear\linearchartlegend.h">
+      <Filter>Linear\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linear\linearlegendview.h">
+      <Filter>Linear\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linear\private\linearchart_p.h">
+      <Filter>Linear\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linear\private\linearchartwidget_p.h">
+      <Filter>Linear\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linear\private\linearlegendview_p.h">
+      <Filter>Linear\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\abstractchart.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\abstractcoordinatesystem.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\serieformat.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\serieformat_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\abstractaxis_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\abstractaxis.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\abstractchart_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\abstractcoordinatesystem_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\abstractlegendview_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\abstractcoordinatesystemview_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\abstractcoordinatesystemview.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\linear\linearchartcoordinateplaneview.h">
+      <Filter>Linear\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\cartesiancoordinateplane.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\cartesiancoordinateplaneview.h">
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\cartesiancoordinateplane_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\cartesiancoordinateplaneview_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\point\private\pointchart_p.h">
+      <Filter>Point\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatchart.h">
+      <Filter>Kiviat\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystemview.h">
+      <Filter>Kiviat\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystem.h">
+      <Filter>Kiviat\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\linearaxis_p.h">
+      <Filter>Linear\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\linearaxis.h">
+      <Filter>Linear\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\private\kiviatcoordinatesystem_p.h">
+      <Filter>Kiviat\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\private\seriechart_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\private\kiviatchart_p.h">
+      <Filter>Kiviat\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\pie\private\piechart_p.h">
+      <Filter>Pie\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\pie\private\piechart3d_p.h">
+      <Filter>Pie\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\pie\piechartlegend.h">
+      <Filter>Pie\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\seriedelegates.h">
+      <Filter>base\Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Thistle\Charts\linear\linearchart.h">
+      <Filter>Linear\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\linear\linearchartwidget.h">
+      <Filter>Linear\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\base\abstractlegendview.h">
+      <Filter>base\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\point\pointchart.h">
+      <Filter>Point\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\point\pointchartcoordinateplaneview.h">
+      <Filter>Point\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\base\linearaxisdelegate.h">
+      <Filter>base\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\base\private\linearaxisdelegate_p.h">
+      <Filter>base\Private\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\base\seriechart.h">
+      <Filter>base\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\pie\piechart.h">
+      <Filter>Pie\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\pie\piechart3d.h">
+      <Filter>Pie\Public\Headers</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

@@ -1,55 +1,37 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2014-07-06T20:42:08
-#
-#-------------------------------------------------
-
 QT       += widgets
-
-Release:TARGET = Trees
-Debug:TARGET = Treesd
 TEMPLATE = lib
 
-DEFINES += TREES_LIBRARY
+release:TARGET = Trees
+debug:TARGET = Treesd
+
+DEFINES += THISTLE_TREES_LIBRARY
+
+QMAKE_CXXFLAGS += -Wno-unused-function
+
+DESTDIR = ../
+
+unix:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../bin/gcc/ -lKernel
+unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../bin/gcc/ -lKerneld
+
+win32:CONFIG(release, debug|release):: LIBS += -L$$PWD/../../../bin/mingw32 -lKernel
+win32:CONFIG(debug, debug|release):LIBS += -L$$PWD/../../../bin/mingw32 -lKerneld
 
 
-Release:DESTDIR_TARGET = ../../../bin/mingw32
-Release:DESTDIR = ../../../bin/mingw32
-Release:OBJECTS_DIR = ../../../bin/mingw32/generatedFiles
-Release:MOC_DIR = ../../../bin/mingw32/generatedFiles
-Release:RCC_DIR = ../../../bin/mingw32/generatedFiles
-Release:UI_DIR = ../../../bin/mingw32/generatedFiles
+INCLUDEPATH += $$PWD/../../../
+DEPENDPATH += $$PWD/../../../
 
-Debug:DESTDIR_TARGET = ../../../bin/mingw32
-Debug:DESTDIR = ../../../bin/mingw32
-Debug:OBJECTS_DIR = ../../../bin/mingw32/generatedFiles
-Debug:MOC_DIR = ../../../bin/mingw32/generatedFiles
-Debug:RCC_DIR = ../../../bin/mingw32/generatedFiles
-Debug:UI_DIR = ../../../bin/mingw32/generatedFiles
+QMAKE_CXXFLAGS += -Wno-unused-function
 
 
-HEADERS += \
-	../../Thistle/Trees/abstracttree.h \
-	../../Thistle/Trees/abstracttree_p.h \
-	../../Thistle/Trees/horizontaltree.h \
-	../../Thistle/Trees/horizontaltree_p.h \
-	../../Thistle/Trees/radialtree.h \
-	../../Thistle/Trees/radialtree_p.h \
-	../../Thistle/Trees/verticaltree.h \
-	../../Thistle/Trees/verticaltree_p.h
-
-SOURCES += \
-	../../Thistle/Trees/abstracttree.cpp \
-	../../Thistle/Trees/abstracttree_p.cpp \
-	../../Thistle/Trees/horizontaltree.cpp \
-	../../Thistle/Trees/horizontaltree_p.cpp \
-	../../Thistle/Trees/radialtree.cpp \
-	../../Thistle/Trees/radialtree_p.cpp \
-	../../Thistle/Trees/verticaltree.cpp \
-	../../Thistle/Trees/verticaltree_p.cpp
-
-CONFIG(release): LIBS += -L$$DESTDIR/ -lKernel
-else:CONFIG(debug) LIBS += -L$$DESTDIR/ -lKerneld
-
-INCLUDEPATH += $$PWD/../../Thistle/kernel
-DEPENDPATH += $$PWD/../../Thistle/kernel
+HEADERS += ../../Thistle/Trees/radialtreelayout.h \
+	../../Thistle/Trees/radialtreelayout_p.h \
+	../../Thistle/Trees/treelayout_p.h \
+	../../Thistle/Trees/treeview_p.h \
+	../../Thistle/Trees/treeview.h \
+	../../Thistle/Trees/treelayout.h
+SOURCES += ../../Thistle/Trees/radialtreelayout.cpp \
+	../../Thistle/Trees/radialtreelayout_p.cpp \
+	../../Thistle/Trees/treelayout.cpp \
+	../../Thistle/Trees/treelayout_p.cpp \
+	../../Thistle/Trees/treeview.cpp \
+	../../Thistle/Trees/treeview_p.cpp

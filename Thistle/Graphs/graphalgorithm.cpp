@@ -20,7 +20,7 @@ void GraphAlgorithm::calculateForces( const QModelIndex& index )
 {
     Q_D( GraphAlgorithm );
     Node* node = &( d->itemPos[ index ] );
-    GraphView* p = reinterpret_cast<GraphView*>( this->parent() );
+
     /* Calculate forces pushing the items */
 
     QPointF velocity( 0, 0 );
@@ -48,7 +48,7 @@ void GraphAlgorithm::calculateForces( const QModelIndex& index )
     {
         velocity = QPointF( 0, 0 );
     }
-    
+
     if ( index != d->movedItem )
     {
         node->setPos( node->pos() + velocity );
@@ -67,7 +67,7 @@ void GraphAlgorithm::processTimer()
         return;
     }
 
-   
+
     if ( d->itemPos.isEmpty() )
     {
         d->movedItem = QModelIndex();

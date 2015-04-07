@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="_Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="_Generated Files\Debug">
+      <UniqueIdentifier>{4eb998f0-4d58-4de6-a4d1-9a5988332511}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="_Generated Files\Release">
+      <UniqueIdentifier>{1c8290fd-d6b4-49fe-b1ea-f6ac53d16778}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{1237364b-e5ce-4653-ba4d-de9160a6063a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Public\Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Private">
+      <UniqueIdentifier>{576718e7-6f87-4c67-8d7a-80e4472a7403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Headers">
+      <UniqueIdentifier>{8df2da43-d764-46dc-8d07-c110de7bda5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Sources">
+      <UniqueIdentifier>{8294bb4c-730b-4f48-96af-19ef682dee78}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Thistle\kernel\abstractitemview.cpp">
+      <Filter>Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\kernel\itemdelegate.cpp">
+      <Filter>Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\kernel\itemstyle.cpp">
+      <Filter>Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_itemdelegate.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_itemdelegate.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_global.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_global.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstractitemview.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstractitemview.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\kernel\abstractitemview_p.cpp">
+      <Filter>Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\kernel\itemdelegate_p.cpp">
+      <Filter>Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\kernel\itemstyle_p.cpp">
+      <Filter>Private\Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Thistle\kernel\abstractitemview.h">
+      <Filter>Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\kernel\global.h">
+      <Filter>Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\kernel\itemdelegate.h">
+      <Filter>Public\Headers</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Thistle\kernel\itemstyle.h">
+      <Filter>Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\kernel\abstractitemview_p.h">
+      <Filter>Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\kernel\itemdelegate_p.h">
+      <Filter>Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\kernel\itemstyle_p.h">
+      <Filter>Private\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
