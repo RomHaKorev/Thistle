@@ -43,8 +43,9 @@ protected:
                             Qt::KeyboardModifiers modifiers );
     void resizeEvent( QResizeEvent* event );
 
-    AbstractItemView( AbstractItemViewPrivate* d, QWidget* parent = 0 );
+	bool isSelected( const QModelIndex& index ) const;
 
+    AbstractItemView( AbstractItemViewPrivate* d, QWidget* parent = 0 );
 public:
     explicit AbstractItemView( QWidget* parent = 0 );
     ~AbstractItemView();
@@ -62,6 +63,7 @@ public:
     virtual QRectF itemRect( const QModelIndex& index ) const;
     virtual QRectF itemRect( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
     virtual QPainterPath itemPath( const QModelIndex& index ) const = 0;
+	QRegion itemRegion( const QModelIndex &index ) const;
 
     int rows( const QModelIndex& index ) const;
 

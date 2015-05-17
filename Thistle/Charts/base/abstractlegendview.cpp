@@ -31,10 +31,8 @@ QModelIndex AbstractLegendView::indexAt( const QPoint& point ) const
     const Q_D( AbstractLegendView );
     QPoint p = point + QPoint( horizontalOffset(), verticalOffset() );
 
-    if ( this->model() == 0 )
-    {
+    if ( ( this->model() == 0 ) || d->itemRects.isEmpty() )
         return QModelIndex();
-    }
 
     int cols = this->model()->columnCount();
 

@@ -58,7 +58,9 @@ QPen TreeView::connectionPen() const
 
 QModelIndex TreeView::indexAt(const QPoint& point) const
 {
-    QPoint p = point - QPoint( this->horizontalScrollBar()->value(), this->verticalScrollBar()->value() );
+	int dx = this->horizontalScrollBar()->value();
+	int dy = this->verticalScrollBar()->value();
+    QPoint p = point + QPoint( dx, dy );
 
     return this->layout()->indexAt( p );
 }
@@ -68,15 +70,16 @@ QPainterPath TreeView::itemPath( const QModelIndex& index ) const
 {
     QPainterPath path;
     path.addRect( this->layout()->itemRect( index ) );
+	path.translate( -this->horizontalOffset(), -this->verticalOffset() );
     return path;
 }
 
 
-QRectF TreeView::itemRect( const QModelIndex& index ) const
+/*QRectF TreeView::itemRect( const QModelIndex& index ) const
 {
     QPointF p = QPoint( this->horizontalOffset(), this->verticalOffset() );
     return this->layout()->itemRect( index ).translated( -p.toPoint() );
-}
+}*/
 
 
 void TreeView::paintEvent( QPaintEvent* event)
@@ -101,6 +104,7 @@ void TreeView::paintItems( QPainter& painter, const QPointF& offset ) const
     {
         QStyleOptionViewItem option;
         option.rect = this->itemRect( index ).toRect();
+		option.showDecorationSelected = this->isSelected( index );
         this->itemDelegate()->paint( &painter, option, index );
     }
 }
@@ -208,6 +212,28 @@ void TreeView::setLayout( TreeLayout* layout )
     Q_D( TreeView );
     d->layout = layout;
     layout->setView( this );
+}
+
+
+void TreeView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command )
+{
+	QPainterPath contentsPath;
+	contentsPath.addRect( rect );
+	int count = 0;
+	Q_FOREACH( QModelIndex index, this->layout()->validIndexes() )
+	{
+		QPainterPath path = this->itemPath( index );
+		if ( !path.intersected( contentsPath ).isEmpty() )
+		{
+			count += 1;
+			this->selectionModel()->select( index, command );
+		}
+	}
+
+	if ( count == 0 )
+		this->selectionModel()->clear();
+
+	this->viewport()->update();
 }
 
 }

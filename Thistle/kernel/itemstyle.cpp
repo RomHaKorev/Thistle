@@ -10,15 +10,21 @@ ItemStyle::ItemStyle()
 }
 
 
-void ItemStyle::setBrush( const QBrush& brush )
+void ItemStyle::setBrush( const QBrush& brush, bool enabled )
 {
-    d_ptr->brush = brush;
+	if ( enabled )
+		d_ptr->brush = brush;
+	else
+		d_ptr->brush_disabled = brush;
 }
 
 
-void ItemStyle::setPen( const QPen& pen )
+void ItemStyle::setPen( const QPen& pen, bool enabled )
 {
-    d_ptr->border = pen;
+	if ( enabled )
+		d_ptr->border = pen;
+	else
+		d_ptr->border_disabled = pen;
 }
 
 
@@ -28,9 +34,12 @@ void ItemStyle::setFont( const QFont& font )
 }
 
 
-void ItemStyle::setTextColor( const QColor& color )
+void ItemStyle::setTextColor( const QColor& color, bool enabled )
 {
-    d_ptr->textColor = color;
+	if ( enabled )
+		d_ptr->textColor = color;
+	else
+		d_ptr->textColor_disabled = color;
 }
 
 
@@ -46,15 +55,21 @@ void ItemStyle::setShape( Thistle::Shape shape )
 }
 
 
-QBrush ItemStyle::brush() const
+QBrush ItemStyle::brush( bool enabled ) const
 {
-    return d_ptr->brush;
+	if ( enabled )
+		return d_ptr->brush;
+	else
+		return d_ptr->brush_disabled;
 }
 
 
-QPen ItemStyle::pen() const
+QPen ItemStyle::pen( bool enabled ) const
 {
-    return d_ptr->border;
+	if ( enabled )
+		return d_ptr->border;
+	else
+		return d_ptr->border_disabled;
 }
 
 
@@ -65,9 +80,12 @@ QFont ItemStyle::font() const
 }
 
 
-QColor ItemStyle::textColor() const
+QColor ItemStyle::textColor( bool enabled ) const
 {
-    return d_ptr->textColor;
+	if ( enabled )
+		return d_ptr->textColor;
+	else
+		return d_ptr->textColor_disabled;
 }
 
 

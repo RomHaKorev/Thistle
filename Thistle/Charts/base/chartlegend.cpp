@@ -1,16 +1,16 @@
-#include "chartlegend.h"
+#include "abstractchartlegend.h"
 
 #include "../kernel/abstractitemview.h"
 
 namespace Thistle
 {
-ChartLegend::ChartLegend( AbstractItemView* parent ) : chart( parent )
+AbstractChartLegend::AbstractChartLegend( AbstractItemView* parent ): chart( parent )
 {}
 
-ChartLegend::~ChartLegend()
+AbstractChartLegend::~AbstractChartLegend()
 {}
 
-void ChartLegend::paint( QPainter& painter ) const
+void AbstractChartLegend::paint( QPainter& painter ) const
 {
     if ( chart->model() == 0 )
         return;
@@ -48,7 +48,7 @@ void ChartLegend::paint( QPainter& painter ) const
     painter.restore();
 }
 
-void ChartLegend::paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const
+void AbstractChartLegend::paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const
 {
   Q_UNUSED( maxHeight)
     QPoint posText = pos + QPoint( 45, 0 );

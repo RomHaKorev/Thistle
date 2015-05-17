@@ -18,6 +18,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QStandardItem>
+#include <QtGui/QRegion>
 
 #include <QDebug>
 
@@ -26,7 +27,6 @@
 
 namespace Thistle
 {
-
 
 AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent )
 {
@@ -75,8 +75,8 @@ int AbstractItemView::horizontalOffset() const
 QModelIndex AbstractItemView::indexAt(const QPoint &point) const
 {
 	QPoint offset( horizontalOffset(), verticalOffset() );
-    QPoint p = point + offset;
-    
+    QPoint p = point/* + offset */;
+
 	if ( this->model() == 0 )
         return QModelIndex();
 
@@ -98,6 +98,11 @@ QRectF AbstractItemView::itemRect( const QModelIndex& index ) const
 QRectF AbstractItemView::itemRect( int row, int column, const QModelIndex& parent ) const
 {
     return this->itemRect( this->model()->index( row, column, parent ) );
+}
+
+QRegion AbstractItemView::itemRegion( const QModelIndex &index ) const
+{
+	return QRegion( this->itemRect( index ).toRect() );
 }
 
 QModelIndex AbstractItemView::moveCursor( QAbstractItemView::CursorAction cursorAction,
@@ -146,6 +151,7 @@ void AbstractItemView::rowsInserted(const QModelIndex& /*parent*/, int /*start*/
 
 void AbstractItemView::scrollTo(const QModelIndex& index, ScrollHint hint )
 {
+	return;
     Q_UNUSED( hint )
     QRect area = viewport()->rect();
     QRect rect = visualRect(index);
@@ -178,14 +184,11 @@ void AbstractItemView::setModel(QAbstractItemModel *model)
 
 void AbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command )
 {
-    QRect contentsRect = rect.translated(
-                             this->horizontalScrollBar()->value(),
-                             this->verticalScrollBar()->value()).normalized();
     int rows = this->model()->rowCount( this->rootIndex() );
     int columns = this->model()->columnCount( this->rootIndex() );
     int count = 0;
     QPainterPath contentsPath;
-    contentsPath.addRect( contentsRect );
+    contentsPath.addRect( rect );
     for ( int row = 0; row < rows; ++row )
     {
         for( int col = 0; col < columns; ++col )
@@ -224,6 +227,22 @@ QRegion AbstractItemView::visualRegionForSelection( const QItemSelection& select
 {
     Q_UNUSED( selection )
     return QRegion( QRect( 0, 0, this->width(), this->height() ) );
+}
+
+bool AbstractItemView::isSelected( const QModelIndex& index ) const
+{
+	if ( this->selectionModel() != 0 )
+	{
+		QModelIndexList selectedIndexes = this->selectionModel()->selectedIndexes();
+
+		if ( selectedIndexes.isEmpty() )
+			return true;
+
+		QModelIndex current = this->currentIndex();
+		bool contains = selectedIndexes.contains( index );
+		return index == current || contains;
+	}
+	return true;
 }
 
 }

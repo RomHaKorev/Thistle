@@ -23,10 +23,6 @@ struct AbstractChartPrivate : AbstractItemViewPrivate
     }
     AbstractChart* q_ptr;
 
-    QString title;
-    QRect titleRect;
-    QFont titleFont;
-
     QMap<int, SerieFormat> style;
 
     AbstractChartPrivate( AbstractChart* q );

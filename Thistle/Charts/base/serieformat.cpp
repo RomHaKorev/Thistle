@@ -29,6 +29,11 @@ SerieFormat::SerieFormat() : d( new SerieFormatPrivate() )
     d->type = Thistle::Line | Thistle::Dot;
 }
 
+void SerieFormat::reset()
+{
+	d->brush = Qt::NoBrush;
+}
+
 
 QBrush SerieFormat::brush() const
 {

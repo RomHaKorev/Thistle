@@ -66,47 +66,49 @@ void ItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, cons
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    painter->save();
-    painter->setBrush( d_ptr->style.brush() );
-    painter->setPen( d_ptr->style.pen() );
-    const QRect& r = option.rect;
-    switch( d_ptr->style.shape() )
-    {
-    case Thistle::Ellipse:
-        painter->drawEllipse( r );
-        break;
-    case Thistle::RoundedRect:
-        painter->drawRoundedRect( r, 5, 5 );
-        break;
-    case Thistle::Diamond:
-        painter->drawPolygon( QPolygon()
-                              << r.topLeft() + QPoint( r.width()/2, 0 )
-                              << r.topRight() + QPoint( 0, r.height()/2 )
-                              << r.bottomLeft() + QPoint( r.width()/2, 0 )
-                              << r.topLeft() + QPoint( 0, r.height()/2 )
-                            );
-        break;
-    case Thistle::Triangle:
-        painter->drawPolygon( QPolygon()
-                              << r.topLeft() + QPoint( r.width()/2, 0 )
-                              << r.bottomLeft() << r.bottomRight()
-                            );
-        break;
-    case Thistle::ReversedTriangle:
-        painter->drawPolygon( QPolygon()
-                              << r.bottomLeft() + QPoint( r.width()/2, 0 )
-                              << r.topLeft() << r.topRight()
-                            );
-        break;
-    default:
-        painter->drawRect( r );
-    }
-    if ( d_ptr->style.displayText() == true )
-    {
-        painter->setPen( d_ptr->style.textColor() );
-        painter->drawText( r, Qt::AlignCenter, index.model()->data( index ).toString() );
-    }
-    painter->restore();
+	painter->save();
+	painter->setBrush( d_ptr->style.brush( option.showDecorationSelected ) );
+	painter->setPen( d_ptr->style.pen( option.showDecorationSelected ) );
+
+
+	const QRect& r = option.rect;
+	switch ( d_ptr->style.shape() )
+	{
+		case Thistle::Ellipse:
+			painter->drawEllipse( r );
+			break;
+		case Thistle::RoundedRect:
+			painter->drawRoundedRect( r, 5, 5 );
+			break;
+		case Thistle::Diamond:
+			painter->drawPolygon( QPolygon()
+								  << r.topLeft() + QPoint( r.width() / 2, 0 )
+								  << r.topRight() + QPoint( 0, r.height() / 2 )
+								  << r.bottomLeft() + QPoint( r.width() / 2, 0 )
+								  << r.topLeft() + QPoint( 0, r.height() / 2 )
+								  );
+			break;
+		case Thistle::Triangle:
+			painter->drawPolygon( QPolygon()
+								  << r.topLeft() + QPoint( r.width() / 2, 0 )
+								  << r.bottomLeft() << r.bottomRight()
+								  );
+			break;
+		case Thistle::ReversedTriangle:
+			painter->drawPolygon( QPolygon()
+								  << r.bottomLeft() + QPoint( r.width() / 2, 0 )
+								  << r.topLeft() << r.topRight()
+								  );
+			break;
+		default:
+			painter->drawRect( r );
+	}
+	if ( d_ptr->style.displayText() == true )
+	{
+		painter->setPen( d_ptr->style.textColor( option.showDecorationSelected ) );
+		painter->drawText( r, Qt::AlignCenter, index.model()->data( index ).toString() );
+	}
+	painter->restore();
 }
 
 QPolygon ItemDelegate::createDiamond( const QRect& r ) const

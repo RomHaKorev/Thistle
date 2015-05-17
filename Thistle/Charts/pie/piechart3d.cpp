@@ -13,7 +13,7 @@
 */
 
 #include "piechart3d.h"
-#include "../kernel/global.h"
+#include "../../kernel/global.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QDebug>
@@ -117,9 +117,10 @@ QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const
 }
 
 
-void PieChart3D::paintChart( QPainter& painter )
+void PieChart3D::paintEvent( QPaintEvent* ev )
 {
     const Q_D( PieChart );
+	QPainter painter( this->viewport() );
     painter.save();
     painter.setRenderHint( QPainter::Antialiasing );
     if ( d->render != Plain )
@@ -141,8 +142,7 @@ void PieChart3D::paintChart( QPainter& painter )
             color = Colors::predefinedColor( i/2 );
         }
 
-        bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
-                          || this->currentIndex() == index;
+        bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
         if ( d->splitted == false )
         {
             paintPart( painter, d->angles[i], d->angles[i + 1], color, isSelected );
@@ -163,8 +163,7 @@ void PieChart3D::paintExternal( QPainter& painter, bool top )
     for ( int i = 0; i < d->angles.count() - 2; i+=2 )
     {
         QModelIndex index = this->model()->index( i/2, 0 );
-        bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
-                          || this->currentIndex() == index;
+        bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() )
         {
@@ -258,8 +257,7 @@ void PieChart3D::paintSides( QPainter& painter )
     for ( int i = 0; i < d->angles.count() - 2; i+=2 )
     {
         QModelIndex index = this->model()->index( i/2, 0 );
-        bool isSelected = this->selectionModel()->selectedIndexes().contains( index )
-                          || this->currentIndex() == index;
+        bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
         QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
         if ( !color.isValid() )
         {

@@ -19,21 +19,26 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #ifndef THISTLE_SERIEFORMAT_H
 #define THISTLE_SERIEFORMAT_H
 
-#include <QBrush>
-#include <QPen>
+#include <QtGui/QBrush>
+#include <QtGui/QPen>
 #include "../../kernel/global.h"
 
 #include "private/serieformat_p.h"
+
+class SerieFormatDigester;
 
 namespace Thistle
 {
 
 class SerieFormat
 {
+	friend class SerieFormatDigester;
 protected:
     SerieFormatPrivate* d;
 public:
     SerieFormat();
+	void reset();
+
     void setBrush( const QBrush& brush);
     void setPen( const QPen& pen);
     void setShape( const Thistle::Shape shape);

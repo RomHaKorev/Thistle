@@ -4,7 +4,7 @@
 
 namespace Thistle
 {
-LinearChartLegend::LinearChartLegend( LinearChart* parent ) : ChartLegend( parent ), chart( parent )
+LinearChartLegend::LinearChartLegend( LinearChart* parent ) : AbstractChartLegend( parent ), chart( parent )
 {}
 
 LinearChartLegend::~LinearChartLegend()

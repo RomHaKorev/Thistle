@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef THISTLE_GRAPH_H
+#define THISTLE_GRAPH_H
 
 #include <QTimer>
 #include <QTime>
@@ -39,6 +39,7 @@ class GraphView : public AbstractItemView
     Q_DECLARE_PRIVATE( GraphView );
 
 protected:
+
     //virtual QModelIndex indexAt( const QPoint& point ) const;
     virtual void setScrollBarValues();
 public:
@@ -70,4 +71,4 @@ public slots:
 
 }
 
-#endif // GRAPH_H
+#endif // THISTLE_GRAPH_H

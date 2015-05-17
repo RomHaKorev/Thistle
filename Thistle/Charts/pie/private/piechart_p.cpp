@@ -1,8 +1,7 @@
 #include "piechart_p.h"
 
-#include "abstractchart.h"
+#include "../../base/abstractchart.h"
 #include "../piechart.h"
-#include "../piechartlegend.h"
 #include <QFontMetrics>
 #include <QDebug>
 
@@ -25,41 +24,14 @@ PieChartPrivate::PieChartPrivate( bool is3D, PieChart* q ) : AbstractChartPrivat
 
 void PieChartPrivate::createRects( const QRect& area )
 {
-
-    this->calculateLegendRect( area );
-#if 0
-    this->rect = area;
-    this->rect.setWidth( this->rect.width() - ( this->legend->area.width() + 15 ) );
-#endif
-
-    if ( this->title != "" )
-    {
-        QFont font = q_ptr->font();
-        font.setItalic( true );
-        QFontMetrics metrics( font );
-        QRect r( 0, 0, this->rect.width() - 40, 0 );
-        this->titleRect = metrics.boundingRect( r, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, this->title );
-        this->rect.setHeight( this->rect.height() - this->titleRect.height() - 20 );
-    }
-
-
-    int w = qMin( this->rect.width(), this->rect.height() );
+	double w = qMin( q_ptr->width(), q_ptr->height() ) * 0.80;
 
     this->rect.setWidth( w );
     this->rect.setHeight( w );
 
-    /*QPoint offset = area.center() - this->rect.center();
-    this->rect.translate( offset );*/
+	QPointF p( double( q_ptr->width() - w ) / 2.0, double( q_ptr->height() - w ) / 2.0 );
 
-    this->titleRect.moveTo( this->rect.x(), this->rect.top() );
-    this->titleRect.setWidth( this->rect.width() );
-    this->rect.moveTo( this->rect.x(), this->titleRect.bottom() + 10 );
-#if 0
-    this->legend->area.moveLeft( this->rect.right() + 15 );
-#endif
-    this->rect.translate( this->rect.width() * 0.10,  this->rect.height() * 0.10 );
-    this->rect.setWidth( this->rect.width() * 0.80 );
-    this->rect.setHeight( this->rect.height() * 0.80 );
+	this->rect.moveTo( p.toPoint() );
 
     if ( this->is3D )
     {
@@ -70,7 +42,6 @@ void PieChartPrivate::createRects( const QRect& area )
 void PieChartPrivate::createRects3D( const QRect& area )
 {
     Q_Q( PieChart );
-    //PieChart* q = reinterpret_cast<PieChart*>( q_ptr );
     if ( q->model() == 0 )
     {
         return;

@@ -30,48 +30,48 @@ class AbstractChart;
 
 class PieChart : public AbstractChart
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( PieChart );
-    Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle)
-    friend class PieChartLegend;
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( PieChart );
+	Q_PROPERTY(qreal startAngle READ startAngle WRITE setStartAngle)
+	friend class PieLegendView;
 public:
-    PieChart( QWidget* parent = 0 );
+	PieChart( QWidget* parent = 0 );
 
-    QRect visualRect( const QModelIndex& index ) const;
+	QRect visualRect( const QModelIndex& index ) const;
 
-    void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
-    void setSplitted( bool splitted = true );
-    void setRing( bool ring = true );
-    virtual void defineRects();
+	void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
+	void setSplitted( bool splitted = true );
+	void setRing( bool ring = true );
+	virtual void defineRects();
 
 protected:
-    PieChart( PieChartPrivate* d, QWidget* parent = 0 );
+	PieChart( PieChartPrivate* d, QWidget* parent = 0 );
 
-    qreal startAngle() const;
+	qreal startAngle() const;
 
-    void scan();
+	void scan();
 
-    virtual void configureColor( QPainter& painter, QColor base, int flag = 0 ) const;
+	virtual void configureColor( QPainter& painter, QColor base, int flag = 0 ) const;
 
-    virtual QPainterPath itemPath( const QModelIndex& index ) const;
-    virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
+	virtual QPainterPath itemPath( const QModelIndex& index ) const;
+	virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
 
-    virtual void paintChart( QPainter& painter );
+	virtual void paintEvent( QPaintEvent* ev );
 #if 0
-    virtual void paintLegend( QPainter& painter) const;
-    virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int maxHeight ) const;
+	virtual void paintLegend( QPainter& painter) const;
+	virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int maxHeight ) const;
 #endif
-    virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
-    virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
+	virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
+	virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
 
-    //void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
-    virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
-    //virtual void updateChart();
-    virtual void updateRects();
+	//void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
+	virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
+	//virtual void updateChart();
+	virtual void updateRects();
 
 
 public slots:
-    void setStartAngle( qreal angle );
+	void setStartAngle( qreal angle );
 };
 
 }

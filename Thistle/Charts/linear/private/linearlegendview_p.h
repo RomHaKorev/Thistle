@@ -22,7 +22,7 @@ struct LinearLegendViewPrivate : public AbstractLegendViewPrivate
     LinearLegendViewPrivate( LinearLegendView* parent, LinearChart* associatedChart );
     ~LinearLegendViewPrivate();
 
-    void calculateSizeHint( const QSize& source );
+    virtual void calculateSizeHint( const QSize& source );
 };
 
 }

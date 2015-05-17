@@ -51,7 +51,7 @@ protected:
     virtual QPainterPath side( qreal angle, QPointF centerOffset, bool splitted ) const;
     virtual void configureColor(QPainter &painter, QColor base, int flag) const;
 
-    virtual void paintChart( QPainter& painter );;
+    virtual void paintEvent( QPaintEvent* ev );
     virtual void paintSides( QPainter& painter );
     virtual void paintExternal( QPainter& painter, bool top );
     virtual void paintLeft( QPainter& painter, QColor color, QPointF offset = QPointF(0,0) );

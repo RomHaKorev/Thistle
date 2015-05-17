@@ -44,6 +44,7 @@ protected:
     void paintEvent( QPaintEvent* event);
     QModelIndex indexAt(const QPoint &point) const;
     virtual void resizeEvent( QResizeEvent* event );
+	void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
 
     virtual void paintItems( QPainter& painter, const QPointF& offset ) const;
     virtual void paintConnections( QPainter& painter, const QPointF& offset ) const;
@@ -55,7 +56,7 @@ public:
 
     explicit TreeView( QWidget* parent = 0 );
 
-    virtual QRectF itemRect( const QModelIndex& index ) const;
+//    virtual QRectF itemRect( const QModelIndex& index ) const;
     virtual QPainterPath itemPath( const QModelIndex& index ) const;
 
     /*    DESIGN METHODS */

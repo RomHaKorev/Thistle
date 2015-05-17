@@ -43,10 +43,6 @@ public:
 
     virtual QModelIndex indexAt(const QPoint& point) const;
 
-    void setTitle( const QString& title );
-
-    const QFont& titleFont() const;
-    void setTitleFont( const QFont& font );
 #if 0
     void addLayer( AbstractLayer* layer );
 #endif

@@ -28,20 +28,6 @@ AbstractChart::~AbstractChart()
 
 }
 
-const QFont& AbstractChart::titleFont() const
-{
-    const Q_D(AbstractChart);
-    return d->titleFont;
-}
-
-
-void AbstractChart::setTitleFont( const QFont& font )
-{
-    Q_D(AbstractChart);
-    d->titleFont = font;
-}
-
-
 void AbstractChart::setScrollBarValues()
 {
 }
@@ -97,13 +83,6 @@ void AbstractChart::process()
         return;
     }
     this->scan();
-    this->updateRects();
-}
-
-void AbstractChart::setTitle( const QString& title )
-{
-    Q_D( AbstractChart );
-    d->title = title;
     this->updateRects();
 }
 

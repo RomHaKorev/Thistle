@@ -61,7 +61,11 @@ HEADERS += ../../Thistle/Charts/linear/linearchartcoordinateplaneview.h \
 	../../Thistle/Charts/kiviat/private/kiviatchart_p.h \
 	../../Thistle/Charts/base/linearaxisdelegate.h \
 	../../Thistle/Charts/base/private/linearaxisdelegate_p.h \
-	../../Thistle/Charts/chartlegend.h
+    ../../Thistle/Charts/pie/piechart.h \
+    ../../Thistle/Charts/pie/piechart3d.h \
+    ../../Thistle/Charts/pie/private/piechart_p.h \
+    ../../Thistle/Charts/pie/private/piechart3d_p.h \
+    ../../Thistle/Charts/base/chartlegend.h
 SOURCES += ../../Thistle/Charts/base/seriedelegates.cpp \
 	../../Thistle/Charts/base/linearaxis.cpp \
 	../../Thistle/Charts/linear/linearchart.cpp \
@@ -100,4 +104,8 @@ SOURCES += ../../Thistle/Charts/base/seriedelegates.cpp \
 	../../Thistle/Charts/kiviat/private/kiviatchart_p.cpp \
 	../../Thistle/Charts/base/linearaxisdelegate.cpp \
 	../../Thistle/Charts/base/private/linearaxisdelegate_p.cpp \
-	../../Thistle/Charts/chartlegend.cpp
+    ../../Thistle/Charts/pie/piechart.cpp \
+    ../../Thistle/Charts/pie/piechart3d.cpp \
+    ../../Thistle/Charts/pie/private/piechart_p.cpp \
+    ../../Thistle/Charts/pie/private/piechart3d_p.cpp \
+    ../../Thistle/Charts/base/chartlegend.cpp

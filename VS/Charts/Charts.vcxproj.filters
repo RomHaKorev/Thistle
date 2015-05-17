@@ -123,22 +123,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_linearchart.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_linearchart.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_linearchartwidget.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_linearchartwidget.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\linear\linearchart.cpp">
-      <Filter>Linear\Public\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\linear\linearchartlegend.cpp">
       <Filter>Linear\Public\Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\linear\linearchartwidget.cpp">
@@ -164,12 +149,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\base\abstractlegendview.cpp">
       <Filter>base\Public\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstractlegendview.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstractlegendview.cpp">
-      <Filter>_Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\base\serieformat.cpp">
       <Filter>base\Public\Sources</Filter>
@@ -243,12 +222,6 @@
     <ClCompile Include="..\..\Thistle\Charts\base\private\linearaxisdelegate_p.cpp">
       <Filter>base\Private\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_seriechart.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_seriechart.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\base\seriechart.cpp">
       <Filter>base\Public\Sources</Filter>
     </ClCompile>
@@ -257,18 +230,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatchart_p.cpp">
       <Filter>Kiviat\Private\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_piechart.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_piechart.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_piechart3d.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_piechart3d.cpp">
-      <Filter>_Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\pie\private\piechart_p.cpp">
       <Filter>Pie\Private\Sources</Filter>
@@ -282,17 +243,53 @@
     <ClCompile Include="..\..\Thistle\Charts\pie\piechart3d.cpp">
       <Filter>Pie\Public\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\pie\piechartlegend.cpp">
+    <ClCompile Include="..\..\Thistle\Charts\base\seriedelegates.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\private\pielegendview_p.cpp">
+      <Filter>Pie\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\pie\pielegendview.cpp">
       <Filter>Pie\Public\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\base\seriedelegates.cpp">
-      <Filter>base\Public</Filter>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_seriechart.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_seriechart.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_piechart3d.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_piechart3d.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_piechart.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_piechart.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_linearchartwidget.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_linearchartwidget.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_linearchart.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_linearchart.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_abstractlegendview.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_abstractlegendview.cpp">
+      <Filter>_Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Thistle\Charts\linear\linearchartlegend.h">
-      <Filter>Linear\Public\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\linear\linearlegendview.h">
       <Filter>Linear\Public\Headers</Filter>
     </ClInclude>
@@ -386,11 +383,14 @@
     <ClInclude Include="..\..\Thistle\Charts\pie\private\piechart3d_p.h">
       <Filter>Pie\Private\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\pie\piechartlegend.h">
-      <Filter>Pie\Public\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\base\seriedelegates.h">
-      <Filter>base\Public</Filter>
+      <Filter>base\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\pie\private\pielegendview_p.h">
+      <Filter>Pie\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\pie\pielegendview.h">
+      <Filter>Pie\Public\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

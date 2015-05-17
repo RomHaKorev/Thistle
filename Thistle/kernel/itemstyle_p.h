@@ -16,6 +16,11 @@ struct ItemStylePrivate
     QColor textColor;
     bool displayText;
     Thistle::Shape shape;
+
+	QBrush brush_disabled;
+	QPen border_disabled;
+	QColor textColor_disabled;
+
     ItemStylePrivate()
     {
         brush = QBrush( Thistle::Colors::Blue );
@@ -25,6 +30,9 @@ struct ItemStylePrivate
         displayText = true;
         shape = Thistle::Rectangle;
 
+		brush_disabled = QBrush( Thistle::Colors::Gray );
+		border_disabled = QPen( QColor( Thistle::Colors::LightGray ), 1.5 );
+		textColor_disabled = QColor( 0xFAFAFA );
     }
 };
 }

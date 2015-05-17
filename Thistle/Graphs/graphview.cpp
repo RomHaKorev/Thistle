@@ -52,31 +52,6 @@ GraphView::~GraphView()
 }
 
 
-
-/*QModelIndex GraphView::indexAt( const QPoint& point ) const
-{
-    QPoint p = point + QPoint( horizontalOffset(), verticalOffset() );
-
-    QAbstractItemModel* model = this->model();
-
-    if ( model == 0 ) return QModelIndex();
-
-    for (int row = 0; row < model->rowCount(); ++row )
-    {
-        for (int col = 0; col < model->columnCount(); ++col )
-        {
-            QModelIndex index = model->index( row, col );
-            QPainterPath path = this->itemPath( index );
-            if ( path.contains( p ) )
-            {
-                return index;
-            }
-        }
-    }
-    return QModelIndex();
-}*/
-
-
 QPainterPath GraphView::itemPath( const QModelIndex& index ) const
 {
     const Q_D( GraphView );
@@ -88,7 +63,7 @@ QPainterPath GraphView::itemPath( const QModelIndex& index ) const
 
     QPointF pos = node.pos();
     path.addRect( QRect(-20,-20,40,40).translated( pos.x(), pos.y() ) );
-    //path.translate( -this->horizontalOffset(), -this->verticalOffset() );
+    path.translate( -this->horizontalOffset(), -this->verticalOffset() );
 
     return path;
 }
@@ -164,6 +139,10 @@ void GraphView::paintEdges( QPainter& painter, const QPointF& offset ) const
     painter.setBrush( QColor( Thistle::Colors::Gray ) );
     Q_FOREACH( Edge edge, d->model->edges() )
     {
+		if ( !this->isSelected( edge.leftIndex ) && !this->isSelected( edge.rightIndex ) )
+			painter.setOpacity( 0.5 );
+		else
+			painter.setOpacity( 1 );
         edge.paintEdge( painter, this->itemRect( edge.leftIndex ), this->itemRect( edge.rightIndex ) );
     }
     painter.restore();
@@ -186,24 +165,22 @@ void GraphView::paintEvent( QPaintEvent* /*event*/ )
 
 void GraphView::paintItems( QPainter& painter, const QPointF& offset ) const
 {
+	
+	painter.save();
     for (int r = 0; r < this->model()->rowCount(); ++r )
     {
         QModelIndex idx = this->model()->index( r, 0 );
-        QStyleOptionViewItem option;
-        option.rect = this->itemRect( idx )/*.translated( offset.x(), offset.y() )*/.toRect();
-        this->itemDelegate()->paint( &painter, option, idx );
+		QStyleOptionViewItem option;
+		option.rect = this->itemRect( idx ).toRect();
+		option.showDecorationSelected = this->isSelected( idx );
+		this->itemDelegate()->paint( &painter, option, idx );
     }
+	painter.restore();
 }
 
 void GraphView::setScrollBarValues()
 {
     Q_D( GraphView );
-
-    /*QSizeF realSize = d->boundingRect.size() + ( this->itemRect( this->model()->index( 0, 0 ) ).size() );
-    this->horizontalScrollBar()->setMinimum( d->boundingRect.x() - this->itemRect( this->model()->index( 0, 0 ) ).width() );
-    this->verticalScrollBar()->setMinimum( d->boundingRect.y() - this->itemRect( this->model()->index( 0, 0 ) ).height() );
-    this->horizontalScrollBar()->setMaximum( realSize.width() - this->width() + 50 );
-    this->verticalScrollBar()->setMaximum( realSize.height() - this->height() + 50 );*/
 
 	QSizeF realSize = d->boundingRect.size() + ( this->itemRect( this->model()->index( 0, 0 ) ).size() );
 	this->horizontalScrollBar()->setMinimum( 0 );
@@ -217,8 +194,6 @@ void GraphView::setScrollBarValues()
 		this->verticalScrollBar()->setMaximum( realSize.height() - this->height() + 50 );
 	else
 		this->verticalScrollBar()->setMaximum( 0 );
-
-
 }
 
 

@@ -4,12 +4,12 @@
 #include <QPainter>
 #include <QRect>
 
-#include "../chartlegend.h"
+#include "../base/chartlegend.h"
 
 namespace Thistle
 {
 class LinearChart;
-class LinearChartLegend : public ChartLegend
+class LinearChartLegend : public AbstractChartLegend
 {
 protected:
     LinearChart* chart;

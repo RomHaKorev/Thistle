@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef ITEMDELEGATE_H
-#define ITEMDELEGATE_H
+#ifndef THISTLE_ITEMDELEGATE_H
+#define THISTLE_ITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
 #include <QPen>
@@ -55,4 +55,4 @@ public:
 };
 
 }
-#endif // ITEMDELEGATE_H
+#endif // THISTLE_ITEMDELEGATE_H
