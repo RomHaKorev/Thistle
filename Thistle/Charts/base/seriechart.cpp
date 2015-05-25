@@ -50,13 +50,6 @@ SerieChart::SerieChart( SerieChartPrivate* d, QWidget* parent ) : AbstractChart(
 SerieChart::~SerieChart()
 {}
 
-void SerieChart::defineRects()
-{
-    Q_D( SerieChart );
-
-    d->coordinateSystemView()->setRect( this->contentsRect() );
-}
-
 
 void SerieChart::scan()
 {
@@ -75,8 +68,8 @@ void SerieChart::updateRects()
   }
 
   this->scan();
-  this->defineRects();
-
+  
+  d->coordinateSystemView()->setRect( this->contentsRect() );
   d->coordinateSystemView()->update();
 }
 

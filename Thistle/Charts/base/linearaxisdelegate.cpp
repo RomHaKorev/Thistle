@@ -70,7 +70,7 @@ void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, 
   }
   else
   {
-    order = axis.tickSize();
+    order = axis.tickIncrement();
     value = axis.minimum();
     Q_FOREACH( QString str, options.alternativeLabels )
     {
@@ -129,7 +129,7 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
   {
     qreal value = order;
     QPointF pos;
-    while ( value < axis.maximum() )
+    while ( value <= axis.maximum() )
     {
       pos = axis.pinpoint( value );
       QLineF l( pos + offset2, pos + offset1 );
@@ -141,7 +141,7 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
     }
 
     value = 0;
-    while ( value > axis.minimum() )
+    while ( value >= axis.minimum() )
     {
       pos = axis.pinpoint( value );
       QLineF l( pos + offset1, pos + offset2 );
@@ -154,7 +154,7 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
   }
   else
   {
-    order = axis.tickSize();
+    order = axis.tickIncrement();
     qreal value = axis.minimum();
     Q_FOREACH( QString str, options.alternativeLabels )
     {

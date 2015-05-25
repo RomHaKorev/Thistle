@@ -40,13 +40,6 @@ bool CartesianCoordinatePlane::startOnAxis() const
 }
 
 
-qreal CartesianCoordinatePlane::stepSize() const
-{
-    const Q_D( CartesianCoordinatePlane );
-    return d->xAxis().line().length() / qreal( d->model->rowCount() );
-}
-
-
 void CartesianCoordinatePlane::update( QAbstractItemModel* model )
 {
   Q_UNUSED( model )
@@ -66,7 +59,9 @@ void CartesianCoordinatePlane::update( QAbstractItemModel* model )
 
   this->setAxisLine( CartesianCoordinatePlane::X, line );
 
-  d->verticalLabels = ( this->stepSize() <= d->yAxis().labelsLength() );
+  qreal stepSize = line.length() / d->model->rowCount();
+
+  d->verticalLabels = ( stepSize <= d->yAxis().labelsLength() );
   if ( d->verticalLabels == true )
   {
     qreal delta = qAbs( d->rect.bottom() - origin.y() );
@@ -102,16 +97,16 @@ qreal CartesianCoordinatePlane::labelsLength( CartesianCoordinatePlane::Axis axi
 
 };
 
-qreal CartesianCoordinatePlane::tickSize( CartesianCoordinatePlane::Axis axis ) const
+qreal CartesianCoordinatePlane::tickIncrement( CartesianCoordinatePlane::Axis axis ) const
 {
     const Q_D( CartesianCoordinatePlane );
     switch( axis )
     {
     case CartesianCoordinatePlane::X:
-        return d->xAxis().tickSize();
+        return d->xAxis().tickIncrement();
     break;
     default:
-        return d->yAxis().tickSize();
+        return d->yAxis().tickIncrement();
     }
 
 };
@@ -177,7 +172,7 @@ int CartesianCoordinatePlane::ticksCount( CartesianCoordinatePlane::Axis axis ) 
 
 
 
-void CartesianCoordinatePlane::setTickSize( CartesianCoordinatePlane::Axis axis, qreal size )
+void CartesianCoordinatePlane::setTickIncrement( CartesianCoordinatePlane::Axis axis, qreal size )
 {
     Q_D( CartesianCoordinatePlane );
     if( size <= 0 )
@@ -186,10 +181,10 @@ void CartesianCoordinatePlane::setTickSize( CartesianCoordinatePlane::Axis axis,
     switch( axis )
     {
     case CartesianCoordinatePlane::X:
-        d->xAxis().setTickSize( size );
+        d->xAxis().setTickIncrement( size );
     break;
     default:
-        d->yAxis().setTickSize(  size );
+        d->yAxis().setTickIncrement(  size );
     }
 };
 

@@ -21,15 +21,11 @@ class AbstractChart :  public AbstractItemView
 protected:
     virtual void process();
 
-    virtual void defineRects() = 0;
     virtual void scan() = 0;
-    void calculateLegendRect( const QRect& source );
 
     virtual void setScrollBarValues();
-    virtual QPainterPath itemPath(const QModelIndex& index) const = 0;
     virtual void updateRects() = 0;
 
-    //virtual bool event( QEvent* ev );
     virtual void resizeEvent( QResizeEvent* ev );
     virtual void paintEvent(QPaintEvent* event) = 0;
 

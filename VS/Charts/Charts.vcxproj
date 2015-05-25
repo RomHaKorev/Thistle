@@ -49,6 +49,7 @@
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\base\abstractaxis.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\base\abstractchart.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractchartlegend.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\base\abstractcoordinatesystem.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\base\abstractcoordinatesystemview.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\base\abstractlegendview.cpp" />
@@ -106,6 +107,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </Command>
     </CustomBuild>
+    <ClInclude Include="..\..\Thistle\Charts\base\abstractchartlegend.h" />
     <ClInclude Include="..\..\Thistle\Charts\base\cartesiancoordinateplane.h" />
     <ClInclude Include="..\..\Thistle\Charts\base\cartesiancoordinateplaneview.h" />
     <CustomBuild Include="..\..\Thistle\Charts\base\private\linearaxisdelegate_p.h">
@@ -271,11 +273,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\</IntDir>
+    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\</IntDir>
+    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

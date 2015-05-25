@@ -17,13 +17,6 @@ CartesianCoordinatePlaneView::CartesianCoordinatePlaneView()
 {}
 
 
-qreal CartesianCoordinatePlaneView::stepSize() const
-{
-    const Q_D( CartesianCoordinatePlaneView );
-    return d->coordinateSystem()->axisLine( CartesianCoordinatePlane::X ).length() / qreal( d_ptr->model->rowCount() );
-}
-
-
 void CartesianCoordinatePlaneView::paintBack( QPainter& painter ) const
 {
   Q_UNUSED( painter )

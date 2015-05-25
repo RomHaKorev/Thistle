@@ -41,8 +41,6 @@ public:
     virtual void paintBack( QPainter& painter ) const;
     virtual void paintFront( QPainter& painter ) const;
 
-    qreal stepSize() const;
-
     QPointF origin() const;
 
     void setRect( const QRect& );

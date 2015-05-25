@@ -64,4 +64,22 @@ unsigned int AbstractCoordinateSystem::axisCount() const
   return d_ptr->axisCount();
 }
 
+
+qreal AbstractCoordinateSystem::axisLength( int axisIndex ) const
+{
+
+	if ( axisIndex < d_ptr->axisCount() )
+		return d_ptr->axis( axisIndex ).length();
+
+
+
+	/*	return d->xAxis().line().length();
+	else if ( axisIndex == CartesianCoordinatePlane::X )
+		return d->yAxis().line().length();
+	else
+		return 0;*/
+
+	return 0;
+}
+
 }

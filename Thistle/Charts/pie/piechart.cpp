@@ -299,11 +299,11 @@ QPointF PieChart::splittedOffset( qreal angle, qreal delta ) const
 
 void PieChart::updateRects()
 {
-  if ( this->model() == 0 )
-  {
-    return;
-  }
-  this->defineRects();
+	Q_D( PieChart );
+	if ( this->model() == 0 )
+		return;
+
+	d->createRects( this->contentsRect() );
 }
 
 
@@ -329,11 +329,5 @@ void PieChart::scan()
   }
 }
 
-
-void PieChart::defineRects()
-{
-  Q_D( PieChart );
-  d->createRects( this->contentsRect() );
-}
 
 }

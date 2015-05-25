@@ -37,19 +37,19 @@ void AbstractAxis::setBounds( qreal min, qreal max )
     else if ( max == 0 )
         orderMax = -1;
 
-    this->setTickSize( qMax( orderMin, orderMax ) );
+    this->setTickIncrement( qMax( orderMin, orderMax ) );
 
-    if ( this->tickSize() >= 10 )
+    if ( this->tickIncrement() >= 10 )
     {
         d_ptr->precision = 0;
     }
-    else if ( this->tickSize() == 1 )
+    else if ( this->tickIncrement() == 1 )
     {
         d_ptr->precision = 2;
     }
     else
     {
-        int nbZero = QString::number( this->tickSize() ).count( "0" );
+        int nbZero = QString::number( this->tickIncrement() ).count( "0" );
         d_ptr->precision = nbZero + 2;
     }
 }
@@ -78,9 +78,9 @@ int AbstractAxis::precision() const
     return d_ptr->precision;
 }
 
-qreal AbstractAxis::tickSize() const
+qreal AbstractAxis::tickIncrement() const
 {
-    return d_ptr->tickSize;
+    return d_ptr->tickIncrement;
 }
 
 int AbstractAxis::ticksCount() const
@@ -108,9 +108,9 @@ void AbstractAxis::setLabelsLength( int length )
     d_ptr->labelsLength = length;
 }
 
-void AbstractAxis::setTickSize( qreal size )
+void AbstractAxis::setTickIncrement( qreal size )
 {
-    d_ptr->tickSize = size;
+    d_ptr->tickIncrement = size;
 }
 
 void AbstractAxis::setOrder( double order )

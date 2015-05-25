@@ -35,7 +35,7 @@ protected:
 
 public:
     AbstractLegendView( AbstractChart* chart, QWidget* parent = 0 );
-    ~AbstractLegendView();
+    virtual ~AbstractLegendView();
 
     void resizeEvent( QResizeEvent* ev );
 

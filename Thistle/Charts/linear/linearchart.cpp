@@ -68,7 +68,8 @@ QPainterPath LinearChart::itemPath( const QModelIndex& index ) const
     Thistle::Types t = this->columnType( index.column() );
     bool ok = false;
     qreal value = index.data().toReal( &ok );
-    if ( ok == false )
+    
+	if ( ok == false )
         return path;
 
 	QPointF pos = coordSys->valueToPoint( index.row(), value );
@@ -76,25 +77,24 @@ QPainterPath LinearChart::itemPath( const QModelIndex& index ) const
     if ( t == Thistle::Bar )
     {
         QList<int> bars = this->barStyleColumns();
-		qreal margin = d->coordinateSystemView()->stepSize() * 0.1;
-		qreal w = float( d->coordinateSystemView()->stepSize() - margin ) / bars.count();
-		pos += QPointF( margin / 2.0 + w * orderedColumns.indexOf( index.column() ) - d->coordinateSystemView()->stepSize() / 2.0, 0 );
+
+		qreal stepSize = coordSys->axisLength( CartesianCoordinatePlane::X ) / this->model()->rowCount();
+
+		qreal margin = stepSize * 0.1;
+		qreal w = float( stepSize - margin ) / bars.count();
+		pos += QPointF( margin / 2.0 + w * bars.indexOf( index.column() ) - stepSize / 2.0, 0 );
 
 		QPointF br( pos.x() + w, d->coordinateSystemView()->origin().y() );
         r = QRectF( pos, br );
-        if ( value < 0 )
-        {
+
+		if ( value < 0 )
             r.translate( 0, 1 );
-        }
         else
-        {
             r.translate( 0, -1 );
-        }
     }
     else
-    {
         r = QRectF( -7, -7, 14 ,14 ).translated( pos.x(), pos.y() );
-    }
+
     path.addRect( r.normalized() );
 	return path;
 }

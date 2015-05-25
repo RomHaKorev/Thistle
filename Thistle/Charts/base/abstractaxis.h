@@ -20,15 +20,20 @@ struct AbstractAxis
     qreal minimum() const;
     qreal maximum() const;
     int precision() const;
-    qreal tickSize() const;
+    qreal tickIncrement() const;
     int ticksCount() const;
     qreal labelsLength() const;
     double order() const;
 
+	inline virtual qreal length()
+	{
+		return 0;
+	}
+
     void setPrecision( int precision );
     void setTicksCount( int count );
     void setLabelsLength( int length );
-    void setTickSize( qreal size );
+    void setTickIncrement( qreal size );
     void setOrder( double order );
 
     virtual QPointF pinpoint( qreal value ) const = 0;

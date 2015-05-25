@@ -84,11 +84,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\</IntDir>
+    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\</IntDir>
+    <IntDir>$(SolutionDir)..\..\bin\msvc\$(Configuration)\GeneratedFiles\$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

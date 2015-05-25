@@ -26,7 +26,7 @@ public:
     void setModel( QAbstractItemModel* m );
 
     virtual QPointF origin() const = 0;
-    virtual qreal stepSize() const = 0;
+    virtual qreal axisLength( int axisIndex ) const;
 
     int precision( int axisIndex ) const;
     void setPrecision( int axisIndex, int precision );

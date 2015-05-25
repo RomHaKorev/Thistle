@@ -4,7 +4,7 @@
 namespace Thistle
 {
 
-AbstractAxisPrivate::AbstractAxisPrivate() : minBound(0), maxBound(0), min(0), max(0), order(1), precision(3), ticksCount(10), tickSize(1), labelsLength(20)
+AbstractAxisPrivate::AbstractAxisPrivate() : minBound(0), maxBound(0), min(0), max(0), order(1), precision(3), ticksCount(10), tickIncrement(1), labelsLength(20)
  {}
 
 void AbstractAxisPrivate::calculateBounds()
@@ -17,7 +17,7 @@ void AbstractAxisPrivate::calculateBounds()
         --this->minBound;
     }
     this->order = Thistle::calculateOrder( this->max - this->min );
-    this->tickSize = (this->max - this->min ) / ( this->ticksCount - 1 );
+    this->tickIncrement = (this->max - this->min ) / ( this->ticksCount - 1 );
     this->precision = 4;
 }
 

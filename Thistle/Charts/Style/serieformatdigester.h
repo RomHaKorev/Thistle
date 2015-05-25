@@ -31,6 +31,8 @@ public:
 	QPen& currentPen();
 	void setBrush( int color );
 
+	void setShape( Thistle::Shape shape );
+	void setType( Thistle::Types type );
 
 	static SerieFormatDigester* instance;
 };

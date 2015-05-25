@@ -39,12 +39,12 @@ public:
     
     int   ticksCount( CartesianCoordinatePlane::Axis axis ) const;
     long  order( CartesianCoordinatePlane::Axis axis ) const;
-    qreal tickSize( CartesianCoordinatePlane::Axis axis ) const;
+    qreal tickIncrement( CartesianCoordinatePlane::Axis axis ) const;
 
     void setLabelsLength( CartesianCoordinatePlane::Axis axis, int length );
     void setTicksCount( CartesianCoordinatePlane::Axis axis, int nb );
     void setOrder( CartesianCoordinatePlane::Axis axis, long order );
-    void setTickSize( CartesianCoordinatePlane::Axis axis, qreal size );
+    void setTickIncrement( CartesianCoordinatePlane::Axis axis, qreal size );
     void setBounds( CartesianCoordinatePlane::Axis axis, qreal minimum, qreal maximum );
     void setAxisLine( CartesianCoordinatePlane::Axis axis, const QLineF& line );
     const QLineF& axisLine(CartesianCoordinatePlane::Axis axis );
@@ -54,7 +54,6 @@ public:
 
     void setStartOnAxis( bool startOn );
     bool startOnAxis() const;
-    qreal stepSize() const;
     QPointF valueToPoint( qreal x, qreal y ) const;
     virtual void update( QAbstractItemModel* model = 0 );
 

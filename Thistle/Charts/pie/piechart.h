@@ -42,7 +42,6 @@ public:
 	void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
 	void setSplitted( bool splitted = true );
 	void setRing( bool ring = true );
-	virtual void defineRects();
 
 protected:
 	PieChart( PieChartPrivate* d, QWidget* parent = 0 );
@@ -63,10 +62,7 @@ protected:
 #endif
 	virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
 	virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
-
-	//void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
 	virtual QPointF splittedOffset( qreal angle, qreal delta ) const;
-	//virtual void updateChart();
 	virtual void updateRects();
 
 

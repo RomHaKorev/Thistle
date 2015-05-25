@@ -288,6 +288,9 @@
     <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_abstractlegendview.cpp">
       <Filter>_Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\base\abstractchartlegend.cpp">
+      <Filter>base\Public\Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Thistle\Charts\linear\linearlegendview.h">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\pie\pielegendview.h">
       <Filter>Pie\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\base\abstractchartlegend.h">
+      <Filter>base\Public\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

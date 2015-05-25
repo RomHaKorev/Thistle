@@ -16,7 +16,7 @@ private:
 public:
     QRect area;
 	AbstractChartLegend( AbstractItemView* chart );
-	~AbstractChartLegend();
+	virtual ~AbstractChartLegend();
 
     virtual void paint( QPainter& painter ) const;
 

@@ -38,8 +38,6 @@ public:
     void setTicksCount( int axisIndex, int nb );
     void setOrder( int axisIndex, long order );
 
-    virtual qreal stepSize() const = 0;
-
     virtual QPointF origin() const;
     void setRect( const QRect& );
 

@@ -78,7 +78,7 @@ void PointChartCoordinatePlaneView::paintXAxis( QPainter& painter ) const
 	painter.save();
 	QFontMetrics metrics( d_ptr->font );
 	int h = metrics.height();
-	qreal order = d->coordinateSystem()->tickSize( CartesianCoordinatePlane::X );
+	qreal order = d->coordinateSystem()->tickIncrement( CartesianCoordinatePlane::X );
 
 	qreal precision = d->coordinateSystem()->precision( CartesianCoordinatePlane::X );
 
@@ -119,7 +119,7 @@ void PointChartCoordinatePlaneView::paintXAxisFront( QPainter& painter ) const
     painter.save();
     QFontMetrics metrics( d_ptr->font );
     int h = metrics.height();
-    qreal order = d->coordinateSystem()->tickSize( CartesianCoordinatePlane::X );
+    qreal order = d->coordinateSystem()->tickIncrement( CartesianCoordinatePlane::X );
     
 	qreal precision = d->coordinateSystem()->precision( CartesianCoordinatePlane::X );
 

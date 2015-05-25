@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QRect>
 
-#include "../base/chartlegend.h"
+#include "../base/abstractchartlegend.h"
 
 namespace Thistle
 {

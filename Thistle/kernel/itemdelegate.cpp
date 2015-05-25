@@ -68,7 +68,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 {
 	painter->save();
 	painter->setBrush( d_ptr->style.brush( option.showDecorationSelected ) );
-	painter->setPen( d_ptr->style.pen( option.showDecorationSelected ) );
+	painter->setPen( d_ptr->style.borderPen( option.showDecorationSelected ) );
 
 
 	const QRect& r = option.rect;

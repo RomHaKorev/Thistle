@@ -19,7 +19,7 @@ void ItemStyle::setBrush( const QBrush& brush, bool enabled )
 }
 
 
-void ItemStyle::setPen( const QPen& pen, bool enabled )
+void ItemStyle::setBorderPen( const QPen& pen, bool enabled )
 {
 	if ( enabled )
 		d_ptr->border = pen;
@@ -64,7 +64,7 @@ QBrush ItemStyle::brush( bool enabled ) const
 }
 
 
-QPen ItemStyle::pen( bool enabled ) const
+QPen ItemStyle::borderPen( bool enabled ) const
 {
 	if ( enabled )
 		return d_ptr->border;

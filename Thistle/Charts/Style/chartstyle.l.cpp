@@ -1,6 +1,6 @@
-#line 2 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l.cpp"
+#line 2 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l.cpp"
 
-#line 4 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l.cpp"
+#line 4 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -446,8 +446,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 48
-#define YY_END_OF_BUFFER 49
+#define YY_NUM_RULES 55
+#define YY_END_OF_BUFFER 56
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -455,35 +455,36 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[242] =
+static yyconst flex_int16_t yy_accept[259] =
     {   0,
-        0,    0,    0,    0,   49,   47,   11,   12,    7,    9,
-       10,   47,   47,   47,   47,   47,   47,   47,   47,   47,
-       47,   47,   47,   47,   13,   14,   48,   11,    7,    0,
+        0,    0,    0,    0,   56,   54,   11,   12,    7,    9,
+       10,   54,   54,   54,   54,   54,   54,   54,   54,   54,
+       54,   54,   54,   54,   13,   14,   55,   11,    7,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    6,    0,    0,    0,    0,    0,    0,    0,    7,
-        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    5,    0,   29,    0,    0,    0,    0,
-        0,    0,    7,    0,    0,   26,    0,    0,    0,    0,
-       32,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    7,    0,    0,    0,    0,    0,    0,
+        0,    0,    6,    0,    0,    0,    0,    0,    0,    0,
+        0,    7,    0,   31,    0,    0,    0,    0,   29,    0,
+        0,    0,    0,    0,    0,    0,    5,    0,   36,    0,
+        0,    0,    0,    0,    0,    0,    7,    0,    0,   33,
+        0,    0,    0,    0,   39,    0,    0,   30,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    7,
 
-        0,    0,    0,    0,    0,    0,   27,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,    7,    8,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,    0,   30,
-       28,    0,    0,    2,    0,    0,    0,    0,   31,    7,
-        0,    0,    0,    0,    0,    0,   43,    0,    0,    0,
-       17,   23,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,   40,   46,    0,
-        0,    0,    0,    0,    0,   16,    0,    0,    0,    0,
-        0,   36,    0,    0,    0,   25,    0,    0,    0,    0,
+        0,    0,   34,    0,    0,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,   28,    0,    0,    7,    8,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,   37,    0,
+        0,   35,    0,    0,    2,    0,    0,    0,    0,   38,
+        7,    0,    0,    0,    0,    0,    0,   50,    0,    0,
+        0,   19,   25,    0,    0,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+       47,   53,    0,    0,    0,    0,    0,    0,   18,    0,
 
-        1,   21,   41,    0,    0,    0,    0,    0,   33,   39,
-        0,    0,    0,    0,    0,   20,   22,    0,   15,   24,
-       44,   42,   45,    0,    0,   34,    0,    0,    0,    0,
-        3,    0,   18,   37,   35,   38,    4,    0,    0,   19,
-        0
+        0,    0,    0,    0,   43,    0,    0,    0,    0,    0,
+       27,    0,    0,    0,    0,    1,   23,   48,    0,    0,
+        0,    0,    0,   40,   46,    0,    0,    0,    0,    0,
+       22,   16,   15,   24,    0,   17,   26,   51,   49,   52,
+        0,    0,   41,    0,    0,    0,    0,    3,    0,   20,
+       44,   42,   45,    4,    0,    0,   21,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -492,16 +493,16 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    4,    5,    4,
-        4,    4,    4,    4,    4,    4,    4,    6,    7,    1,
-        1,    1,    1,    1,    8,    9,   10,   11,   12,   13,
-       14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
-       24,   25,   26,   27,   28,   29,   30,   31,   32,    1,
-        1,    1,    1,    1,   33,    1,   34,   35,   36,   37,
+        1,    1,    1,    1,    4,    1,    1,    5,    6,    5,
+        5,    5,    5,    5,    5,    5,    5,    7,    8,    1,
+        1,    1,    1,    1,    9,   10,   11,   12,   13,   14,
+       15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
+       25,   26,   27,   28,   29,   30,   31,   32,   33,    1,
+        1,    1,    1,    1,   34,    1,   35,   36,   37,   38,
 
-       38,   39,   40,   41,   42,   43,   44,   45,   46,   47,
-       48,   49,   50,   51,   52,   53,   54,   55,   56,   57,
-       58,    1,   59,    1,   60,    1,    1,    1,    1,    1,
+       39,   40,   41,   42,   43,   44,   45,   46,   47,   48,
+       49,   50,   51,   52,   53,   54,   55,   56,   57,   58,
+       59,    1,   60,    1,   61,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -518,144 +519,152 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[61] =
+static yyconst flex_int32_t yy_meta[62] =
     {   0,
-        1,    1,    1,    2,    2,    1,    1,    2,    2,    2,
-        2,    2,    2,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    2,    2,    1,    1,    2,    2,
+        2,    2,    2,    2,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    2,    2,    2,    2,    2,    2,    1,
+        1,    1,    1,    1,    2,    2,    2,    2,    2,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1
     } ;
 
-static yyconst flex_int16_t yy_base[248] =
+static yyconst flex_int16_t yy_base[265] =
     {   0,
-        0,    0,    0,    0,  471,  498,  468,  498,   57,  498,
-      498,    0,   51,   56,   46,   41,   51,   52,   44,   69,
-       60,   61,   60,   64,  498,  498,  498,  275,   75,    0,
-       48,   56,   61,   61,   97,  107,  103,   79,  108,   97,
-       95,  498,  110,   94,  100,  108,  100,  113,  111,  129,
-        0,  123,  124,  119,  123,  120,  113,  117,  140,  142,
-      146,  147,  139,  498,  144,  498,  147,  153,  154,  163,
-      146,  154,  172,    0,  155,  498,  192,  168,  165,  172,
-      498,  169,  165,  194,  178,  190,  190,  199,  199,  201,
-      194,  193,  199,  184,    0,  205,  204,  200,  201,  203,
+        0,    0,    0,    0,  501,  528,  498,  528,   57,  528,
+      528,    0,   55,   56,   46,   41,   52,   53,   45,   70,
+       59,   61,   61,   65,  528,  528,  528,  291,   75,    0,
+       59,   57,   59,   80,   88,  108,  109,  104,   92,  112,
+      101,   98,  528,  115,  100,  104,  111,  105,  102,  119,
+      117,  133,    0,  528,  127,  128,  132,  138,  138,  131,
+      131,  152,  152,  156,  157,  149,  279,  148,  528,  151,
+      157,  158,  167,  158,  152,  161,  177,    0,  166,  528,
+      203,  194,  172,  182,  528,  186,  181,  202,  190,  202,
+      211,  200,  209,  210,  212,  199,  215,  202,  208,  182,
 
-      221,  222,  217,  226,  223,  245,  498,  271,  230,  239,
-      246,  249,  252,  261,  244,  252,  253,  243,  270,  498,
-      254,  250,  293,  275,  261,  280,  273,  273,  286,  296,
-      287,  294,  289,  290,  288,  309,  311,  314,  303,  498,
-      498,  320,  308,  498,  317,  319,  327,  326,  498,  339,
-      329,  334,  316,  340,  332,  332,  498,  338,  348,  348,
-      498,  498,  334,  357,  358,  343,  359,  354,  360,  360,
-      354,  364,  374,  363,  379,  234,  368,  498,  498,  369,
-      383,  379,  378,  382,  389,  498,  395,  377,  399,  391,
-      391,  498,  398,  410,  398,  498,  399,  396,  410,  402,
+        0,  215,  221,  219,  232,  231,  248,  250,  242,  249,
+      246,  260,  528,  286,  246,  255,  261,  253,  249,  265,
+      270,  269,  259,  269,  528,  265,  259,  312,  528,  274,
+      284,  311,  306,  295,  313,  306,  300,  307,  317,  307,
+      312,  307,  308,  308,  327,  329,  332,  321,  528,  328,
+      316,  528,  344,  338,  528,  346,  347,  354,  354,  528,
+      366,  356,  363,  344,  365,  358,  357,  528,  362,  372,
+      370,  528,  528,  356,  385,  377,  363,  383,  376,  381,
+      383,  378,  385,  389,  397,  407,  395,  410,  236,  403,
+      528,  528,  406,  414,  410,  409,  410,  417,  528,  422,
 
-      498,  498,  498,  415,  416,  399,  405,  413,  498,  498,
-      415,  425,  422,  420,  424,  498,  498,  423,  498,  498,
-      498,  498,  498,  433,  444,  498,  445,  447,  431,  436,
-      498,  448,  498,  498,  498,  498,  498,  445,  457,  498,
-      498,  495,  252,  189,  178,   72,   69
+      403,  424,  416,  417,  528,  424,  437,  425,  422,  436,
+      528,  428,  426,  440,  433,  528,  528,  528,  452,  453,
+      437,  441,  449,  528,  528,  455,  465,  461,  459,  458,
+      528,  528,  528,  528,  457,  528,  528,  528,  528,  528,
+      466,  474,  528,  475,  476,  459,  465,  528,  479,  528,
+      528,  528,  528,  528,  476,  486,  528,  528,  525,  208,
+      201,  190,   74,   71
     } ;
 
-static yyconst flex_int16_t yy_def[248] =
+static yyconst flex_int16_t yy_def[265] =
     {   0,
-      241,    1,  242,  242,  241,  241,  241,  241,  243,  241,
-      241,  243,  243,  243,  243,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  244,  244,
-      244,  241,  244,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  245,
-      245,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  246,  246,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  247,  247,  241,  241,  241,  241,  241,
+      258,    1,  259,  259,  258,  258,  258,  258,  260,  258,
+      258,  260,  260,  260,  260,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  261,  261,
+      261,  261,  258,  261,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  262,  262,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  263,  263,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  264,
 
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
+      264,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
 
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-        0,  241,  241,  241,  241,  241,  241
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,    0,  258,  258,
+      258,  258,  258,  258
     } ;
 
-static yyconst flex_int16_t yy_nxt[559] =
+static yyconst flex_int16_t yy_nxt[590] =
     {   0,
-        6,    7,    8,    9,    9,   10,   11,   12,   13,   12,
-       14,   12,   15,   16,    6,    6,    6,    6,   17,   18,
-        6,   19,   20,    6,   21,   22,   23,    6,    6,    6,
-        6,   24,    6,   12,   13,   12,   14,   12,   15,   16,
-        6,    6,    6,    6,   17,   18,    6,   19,   20,    6,
-       21,   22,   23,    6,    6,    6,    6,   24,   25,   26,
-       29,   29,   31,   33,   35,   36,   37,   38,   39,   32,
-      120,   43,   45,   95,   48,   49,   52,   34,   50,   50,
-       40,   44,   46,   53,   47,   54,   55,   56,   31,   33,
-       35,   36,   37,   38,   39,   32,   41,   43,   45,   42,
+        6,    7,    8,    6,    9,    9,   10,   11,   12,   13,
+       12,   14,   12,   15,   16,    6,    6,    6,    6,   17,
+       18,    6,   19,   20,    6,   21,   22,   23,    6,    6,
+        6,    6,   24,    6,   12,   13,   12,   14,   12,   15,
+       16,    6,    6,    6,    6,   17,   18,    6,   19,   20,
+        6,   21,   22,   23,    6,    6,    6,    6,   24,   25,
+       26,   29,   29,   31,   34,   36,   37,   32,   38,   39,
+       40,   44,  129,   46,   33,  101,   50,   51,   35,   52,
+       52,   45,   41,   47,   54,   48,   55,   56,   49,   31,
+       34,   36,   37,   32,   38,   39,   40,   44,   42,   46,
 
-       48,   49,   52,   34,   57,   62,   40,   44,   46,   53,
-       47,   54,   55,   56,   58,   63,   60,   64,   59,   65,
-       66,   67,   41,   61,   68,   42,   69,   70,   71,   72,
-       57,   62,   73,   73,   75,   76,   77,   78,   79,   80,
-       58,   63,   60,   64,   59,   65,   66,   67,   81,   61,
-       68,   82,   69,   70,   71,   72,   83,   84,   85,   86,
-       75,   76,   77,   78,   79,   80,   87,   88,   89,   90,
-       91,   92,   93,   96,   81,   94,   94,   82,  103,   74,
-      105,  106,   83,   84,   85,   86,  104,  119,  119,  107,
-       51,  108,   87,   88,   89,   90,   91,   92,   93,   96,
+       33,   43,   50,   51,   35,   57,   58,   45,   41,   47,
+       54,   48,   55,   56,   49,   59,   60,   61,   63,   65,
+       66,   62,   67,   68,   42,   64,   69,   43,   70,   71,
+       72,   57,   58,   73,   74,   75,   76,   77,   77,   79,
+       80,   59,   60,   61,   63,   65,   66,   62,   67,   68,
+       81,   64,   69,   82,   70,   71,   72,   83,   84,   73,
+       74,   75,   76,   85,   86,   79,   80,   87,   88,   89,
+       90,   92,   93,   94,   95,   96,   81,   97,   98,   82,
+       99,  100,  100,   83,   84,  102,  128,  128,  111,   85,
+       86,   78,  112,   87,   88,   89,   90,   92,   93,   94,
 
-       97,  109,  110,  111,  103,   98,  105,  106,  112,  113,
-      114,  115,  104,   99,  100,  107,  101,  108,  116,  117,
-      118,  121,  122,  102,  123,  124,   97,  109,  110,  111,
-      125,   98,  126,  127,  112,  113,  114,  115,  128,   99,
-      100,  129,  101,  130,  116,  117,  118,  121,  122,  102,
-      123,  124,  131,   30,  138,  139,  125,  140,  126,  127,
-      141,  142,  146,  147,  128,  144,  201,  129,  143,  130,
-      145,  148,  149,  150,  150,  151,   28,  152,  131,  132,
-      138,  139,  155,  140,  133,  156,  141,  142,  146,  147,
-      157,  158,  134,  135,  143,  136,  145,  148,  149,  159,
+       95,   96,   53,   97,   98,  109,   99,  113,  114,   30,
+      115,  102,  103,  110,  111,  116,  117,  104,  112,  120,
+      121,  118,  122,  123,  124,  105,  106,  125,  107,  126,
+      127,  109,  130,  113,  114,  108,  115,  119,  103,  110,
+      131,  116,  117,  104,  132,  120,  121,  118,  122,  123,
+      124,  105,  106,  125,  107,  126,  127,  133,  130,  134,
+      135,  108,  136,  119,  137,  138,  131,  139,  140,  216,
+      132,  147,  148,  149,  155,  150,  151,  152,  157,  156,
+      153,  158,   91,  133,  159,  134,  135,  154,  136,  160,
+      137,  138,   28,  139,  140,  141,  162,  147,  148,  149,
 
-      153,  151,  137,  152,  154,  132,  160,  161,  155,  162,
-      133,  156,  163,  164,  165,  166,  157,  158,  134,  135,
-      167,  136,  168,  169,  170,  159,  153,  171,  137,  172,
-      154,  173,  160,  161,  174,  162,  175,  176,  163,  164,
-      165,  166,  150,  150,  177,  178,  167,  179,  168,  169,
-      170,  180,  181,  171,  182,  172,  183,  173,  184,  186,
-      174,  187,  175,  176,  188,  190,  185,  191,  189,  192,
-      177,  178,  193,  179,  194,  195,  196,  180,  181,  197,
-      182,  198,  183,  199,  184,  186,  200,  187,  202,  203,
-      188,  190,  185,  191,  189,  192,  204,  205,  193,  206,
+      142,  150,  151,  152,  157,  156,  153,  158,  143,  144,
+      159,  145,  163,  154,  166,  160,  161,  161,  146,  164,
+      167,  141,  162,  165,  168,  169,  142,  170,  171,  172,
+      173,  174,  175,  176,  143,  144,  177,  145,  163,  178,
+      166,  179,  180,  181,  146,  164,  167,  182,  183,  165,
+      168,  169,  184,  170,  171,  172,  173,  174,  175,  176,
+      185,  186,  177,  187,  188,  178,  189,  179,  180,  181,
+      161,  161,  190,  182,  183,  191,  192,  193,  184,  194,
+      195,  196,  199,  197,  200,  203,  185,  186,  204,  187,
+      188,  198,  189,  201,  205,  206,  207,  202,  190,  208,
 
-      194,  195,  196,  207,  208,  197,  209,  198,  210,  199,
-      211,  212,  200,  213,  202,  203,  214,  215,  216,  217,
-      218,  219,  204,  205,  220,  206,  221,  222,  223,  207,
-      208,  224,  209,  225,  210,  226,  211,  212,  227,  213,
-      228,  229,  214,  215,  216,  217,  218,  219,  230,  231,
-      220,  232,  221,  222,  223,  233,  234,  224,  235,  225,
-      236,  226,  237,  238,  227,  239,  228,  229,  240,   28,
-      241,  241,  241,  241,  230,  231,  241,  232,  241,  241,
-      241,  233,  234,  241,  235,  241,  236,  241,  237,  238,
-      241,  239,  241,  241,  240,   27,   27,    5,  241,  241,
+      209,  191,  192,  193,  210,  194,  195,  196,  199,  197,
+      200,  203,  211,  212,  204,  213,  214,  198,  215,  201,
+      205,  206,  207,  202,  217,  208,  209,  218,  219,  220,
+      210,  221,  222,  223,  224,  225,  226,  227,  211,  212,
+      228,  213,  214,  229,  215,  230,  231,  232,  233,  234,
+      217,  235,  236,  218,  219,  220,  237,  221,  222,  223,
+      224,  225,  226,  227,  238,  239,  228,  240,  241,  229,
+      242,  230,  231,  232,  233,  234,  243,  235,  236,  244,
+      245,  246,  237,  247,  248,  249,  250,  251,  252,  253,
+      238,  239,  254,  240,  241,  255,  242,  256,  257,   28,
 
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241
+      258,  258,  243,  258,  258,  244,  245,  246,  258,  247,
+      248,  249,  250,  251,  252,  253,  258,  258,  254,  258,
+      258,  255,  258,  256,  257,   27,   27,    5,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258
     } ;
 
-static yyconst flex_int16_t yy_chk[559] =
+static yyconst flex_int16_t yy_chk[590] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -663,61 +672,64 @@ static yyconst flex_int16_t yy_chk[559] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        9,    9,   13,   14,   15,   16,   17,   18,   19,   13,
-      247,   21,   22,  246,   23,   24,   31,   14,   29,   29,
-       20,   21,   22,   32,   22,   33,   33,   34,   13,   14,
-       15,   16,   17,   18,   19,   13,   20,   21,   22,   20,
+        1,    9,    9,   13,   14,   15,   16,   13,   17,   18,
+       19,   21,  264,   22,   13,  263,   23,   24,   14,   29,
+       29,   21,   20,   22,   31,   22,   32,   33,   22,   13,
+       14,   15,   16,   13,   17,   18,   19,   21,   20,   22,
 
-       23,   24,   31,   14,   35,   38,   20,   21,   22,   32,
-       22,   33,   33,   34,   36,   39,   37,   40,   36,   41,
-       43,   44,   20,   37,   45,   20,   46,   47,   48,   49,
-       35,   38,   50,   50,   52,   53,   54,   55,   56,   57,
-       36,   39,   37,   40,   36,   41,   43,   44,   58,   37,
-       45,   59,   46,   47,   48,   49,   60,   61,   62,   63,
-       52,   53,   54,   55,   56,   57,   65,   67,   68,   69,
-       70,   71,   72,   75,   58,   73,   73,   59,   78,  245,
-       79,   80,   60,   61,   62,   63,   78,   94,   94,   82,
-      244,   83,   65,   67,   68,   69,   70,   71,   72,   75,
+       13,   20,   23,   24,   14,   34,   34,   21,   20,   22,
+       31,   22,   32,   33,   22,   35,   36,   37,   38,   39,
+       40,   37,   41,   42,   20,   38,   44,   20,   45,   46,
+       47,   34,   34,   48,   49,   50,   51,   52,   52,   55,
+       56,   35,   36,   37,   38,   39,   40,   37,   41,   42,
+       57,   38,   44,   58,   45,   46,   47,   59,   60,   48,
+       49,   50,   51,   61,   62,   55,   56,   63,   64,   65,
+       66,   68,   70,   71,   72,   73,   57,   74,   75,   58,
+       76,   77,   77,   59,   60,   79,  100,  100,   83,   61,
+       62,  262,   84,   63,   64,   65,   66,   68,   70,   71,
 
-       77,   84,   85,   86,   78,   77,   79,   80,   87,   88,
-       89,   90,   78,   77,   77,   82,   77,   83,   91,   92,
-       93,   96,   97,   77,   98,   99,   77,   84,   85,   86,
-      100,   77,  101,  102,   87,   88,   89,   90,  103,   77,
-       77,  104,   77,  105,   91,   92,   93,   96,   97,   77,
-       98,   99,  106,  243,  109,  110,  100,  111,  101,  102,
-      112,  113,  115,  116,  103,  114,  176,  104,  113,  105,
-      114,  117,  118,  119,  119,  121,   28,  122,  106,  108,
-      109,  110,  124,  111,  108,  125,  112,  113,  115,  116,
-      126,  127,  108,  108,  113,  108,  114,  117,  118,  128,
+       72,   73,  261,   74,   75,   82,   76,   86,   87,  260,
+       88,   79,   81,   82,   83,   89,   90,   81,   84,   92,
+       93,   91,   94,   95,   96,   81,   81,   97,   81,   98,
+       99,   82,  102,   86,   87,   81,   88,   91,   81,   82,
+      103,   89,   90,   81,  104,   92,   93,   91,   94,   95,
+       96,   81,   81,   97,   81,   98,   99,  105,  102,  106,
+      107,   81,  108,   91,  109,  110,  103,  111,  112,  189,
+      104,  115,  116,  117,  122,  118,  119,  120,  123,  122,
+      121,  124,   67,  105,  126,  106,  107,  121,  108,  127,
+      109,  110,   28,  111,  112,  114,  130,  115,  116,  117,
 
-      123,  121,  108,  122,  123,  108,  129,  130,  124,  131,
-      108,  125,  132,  133,  134,  135,  126,  127,  108,  108,
-      136,  108,  137,  138,  139,  128,  123,  142,  108,  143,
-      123,  145,  129,  130,  146,  131,  147,  148,  132,  133,
-      134,  135,  150,  150,  151,  152,  136,  153,  137,  138,
-      139,  154,  155,  142,  156,  143,  158,  145,  159,  160,
-      146,  163,  147,  148,  164,  165,  159,  166,  164,  167,
-      151,  152,  168,  153,  169,  170,  171,  154,  155,  172,
-      156,  173,  158,  174,  159,  160,  175,  163,  177,  180,
-      164,  165,  159,  166,  164,  167,  181,  182,  168,  183,
+      114,  118,  119,  120,  123,  122,  121,  124,  114,  114,
+      126,  114,  131,  121,  133,  127,  128,  128,  114,  132,
+      134,  114,  130,  132,  135,  136,  114,  137,  138,  139,
+      140,  141,  142,  143,  114,  114,  144,  114,  131,  145,
+      133,  146,  147,  148,  114,  132,  134,  150,  151,  132,
+      135,  136,  153,  137,  138,  139,  140,  141,  142,  143,
+      154,  156,  144,  157,  158,  145,  159,  146,  147,  148,
+      161,  161,  162,  150,  151,  163,  164,  165,  153,  166,
+      167,  169,  171,  170,  174,  176,  154,  156,  177,  157,
+      158,  170,  159,  175,  178,  179,  180,  175,  162,  181,
 
-      169,  170,  171,  184,  185,  172,  187,  173,  188,  174,
-      189,  190,  175,  191,  177,  180,  193,  194,  195,  197,
-      198,  199,  181,  182,  200,  183,  204,  205,  206,  184,
-      185,  207,  187,  208,  188,  211,  189,  190,  212,  191,
-      213,  214,  193,  194,  195,  197,  198,  199,  215,  218,
-      200,  224,  204,  205,  206,  225,  227,  207,  228,  208,
-      229,  211,  230,  232,  212,  238,  213,  214,  239,    7,
-        5,    0,    0,    0,  215,  218,    0,  224,    0,    0,
-        0,  225,  227,    0,  228,    0,  229,    0,  230,  232,
-        0,  238,    0,    0,  239,  242,  242,  241,  241,  241,
+      182,  163,  164,  165,  183,  166,  167,  169,  171,  170,
+      174,  176,  184,  185,  177,  186,  187,  170,  188,  175,
+      178,  179,  180,  175,  190,  181,  182,  193,  194,  195,
+      183,  196,  197,  198,  200,  201,  202,  203,  184,  185,
+      204,  186,  187,  206,  188,  207,  208,  209,  210,  212,
+      190,  213,  214,  193,  194,  195,  215,  196,  197,  198,
+      200,  201,  202,  203,  219,  220,  204,  221,  222,  206,
+      223,  207,  208,  209,  210,  212,  226,  213,  214,  227,
+      228,  229,  215,  230,  235,  241,  242,  244,  245,  246,
+      219,  220,  247,  221,  222,  249,  223,  255,  256,    7,
 
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241,  241,  241,
-      241,  241,  241,  241,  241,  241,  241,  241
+        5,    0,  226,    0,    0,  227,  228,  229,    0,  230,
+      235,  241,  242,  244,  245,  246,    0,    0,  247,    0,
+        0,  249,    0,  255,  256,  259,  259,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258,  258,
+      258,  258,  258,  258,  258,  258,  258,  258,  258
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -726,13 +738,14 @@ static char *yy_last_accepting_cpos;
 extern int yy_flex_debug;
 int yy_flex_debug = 1;
 
-static yyconst flex_int16_t yy_rule_linenum[48] =
+static yyconst flex_int16_t yy_rule_linenum[55] =
     {   0,
        31,   32,   34,   35,   37,   39,   41,   42,   44,   45,
-       47,   48,   50,   51,   53,   54,   55,   56,   57,   59,
-       60,   61,   63,   64,   65,   67,   68,   69,   70,   71,
-       72,   73,   74,   75,   76,   77,   78,   79,   80,   81,
-       82,   83,   84,   85,   86,   87,   89
+       47,   48,   50,   51,   53,   54,   56,   57,   58,   59,
+       60,   62,   63,   64,   66,   67,   68,   71,   73,   74,
+       75,   76,   79,   80,   81,   82,   83,   84,   85,   86,
+       87,   88,   89,   90,   91,   92,   93,   94,   95,   96,
+       97,   98,   99,  101
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -743,15 +756,15 @@ static yyconst flex_int16_t yy_rule_linenum[48] =
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-#line 2 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-#include "parser.y.h"
+#line 1 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+#line 2 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+#include "chartstyle.y.h"
 
 #include <string>
 
 #include <QtGui/QPen>
 
-#include "cssparser_chart.h"
+#include "serieformatdigester.h"
 
 #define YY_NO_UNISTD_H
 
@@ -762,7 +775,7 @@ int yyerror( const char* str );
 bool getSerieId( const std::string& str, int& out );
 
 
-#line 766 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l.cpp"
+#line 779 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -998,9 +1011,9 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 30 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 30 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 
-#line 1004 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l.cpp"
+#line 1017 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -1063,13 +1076,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 242 )
+				if ( yy_current_state >= 259 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 498 );
+		while ( yy_base[yy_current_state] != 528 );
 
 yy_find_action:
 /* %% [10.0] code to find the action number goes here */
@@ -1092,13 +1105,13 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				fprintf( stderr, "--scanner backing up\n" );
-			else if ( yy_act < 48 )
+			else if ( yy_act < 55 )
 				fprintf( stderr, "--accepting rule at line %ld (\"%s\")\n",
 				         (long)yy_rule_linenum[yy_act], yytext );
-			else if ( yy_act == 48 )
+			else if ( yy_act == 55 )
 				fprintf( stderr, "--accepting default rule (\"%s\")\n",
 				         yytext );
-			else if ( yy_act == 49 )
+			else if ( yy_act == 56 )
 				fprintf( stderr, "--(end of buffer or a NUL)\n" );
 			else
 				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
@@ -1116,246 +1129,281 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 31 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 31 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return THISTLE;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 32 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 { bool ok = getSerieId(yytext, yylval); return SERIE_ID; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 34 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 34 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return SERIECHART_TYPE;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 35 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 35 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return SERIECHART_TYPE;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 37 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 37 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return PEN;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 39 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 39 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 { return UNIT; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 41 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 41 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 { yylval = atoi(yytext); return INTEGER; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 42 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 42 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 { return RGB; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 44 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 44 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return ':';
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 45 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 45 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return ';';
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 47 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 47 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 {/* ignore whitespace */}
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 48 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 48 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 {/* ignore whitespace */}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 50 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 50 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return '{';
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 51 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 51 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 return '}';
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 53 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setStyle( Qt::SolidLine ); return PEN_STYLE; }
+#line 53 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+return P_PENSTYLE;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 54 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setStyle( Qt::DashLine ); return PEN_STYLE; }
+#line 54 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+return P_PENCOLOR;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 55 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setStyle( Qt::DotLine ); return PEN_STYLE; }
+#line 56 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::SolidLine; return V_PEN_STYLE; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 56 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setStyle( Qt::DashDotLine ); return PEN_STYLE; }
+#line 57 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::DashLine; return V_PEN_STYLE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 57 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setStyle( Qt::DashDotDotLine ); return PEN_STYLE; }
+#line 58 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::DotLine; return V_PEN_STYLE; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 59 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setJoinStyle( Qt::MiterJoin ); return PEN_JOINSTYLE; }
+#line 59 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::DashDotLine; return V_PEN_STYLE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 60 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setJoinStyle( Qt::BevelJoin ); return PEN_JOINSTYLE; }
+#line 60 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::DashDotDotLine; return V_PEN_STYLE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 61 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setJoinStyle( Qt::RoundJoin ); return PEN_JOINSTYLE; }
+#line 62 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::MiterJoin; return V_PEN_JOINSTYLE; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 63 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setCapStyle( Qt::FlatCap ); return PEN_CAPSTYLE; }
+#line 63 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::BevelJoin; return V_PEN_JOINSTYLE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 64 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setCapStyle( Qt::SquareCap ); return PEN_CAPSTYLE; }
+#line 64 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::RoundJoin; return V_PEN_JOINSTYLE; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 65 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setCapStyle( Qt::RoundCap ); return PEN_CAPSTYLE; }
+#line 66 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::FlatCap; return V_PEN_CAPSTYLE; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 67 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x6090E4 ); return COLOR; }
+#line 67 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::SquareCap; return V_PEN_CAPSTYLE; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 68 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x9AEC7A ); return COLOR; }
+#line 68 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = Qt::RoundCap; return V_PEN_CAPSTYLE; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 69 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x8600C8 ); return COLOR; }
+#line 71 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+return P_SERIETYPE;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 70 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xDB0000 ); return COLOR; }
+#line 73 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ return V_SERIETYPE; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 71 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xFF8000 ); return COLOR; }
+#line 74 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ return V_SERIETYPE; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 72 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xFDEF46 ); return COLOR; }
+#line 75 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ return V_SERIETYPE; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 73 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x868686 ); return COLOR; }
+#line 76 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ return V_SERIETYPE; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 74 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x68B9FF ); return COLOR; }
+#line 79 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x6090E4; return COLOR; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 75 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xC9FF71 ); return COLOR; }
+#line 80 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x9AEC7A; return COLOR; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 76 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x8274B0 ); return COLOR; }
+#line 81 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x8600C8; return COLOR; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 77 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xFF5656 ); return COLOR; }
+#line 82 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xDB0000; return COLOR; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 78 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xFFB366 ); return COLOR; }
+#line 83 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xFF8000; return COLOR; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 79 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xFDF285 ); return COLOR; }
+#line 84 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xFDEF46; return COLOR; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 80 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xBEBEBE ); return COLOR; }
+#line 85 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x868686; return COLOR; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 81 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x0839A1 ); return COLOR; }
+#line 86 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x68B9FF; return COLOR; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 82 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x8CD01E ); return COLOR; }
+#line 87 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xC9FF71; return COLOR; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 83 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x7300AB ); return COLOR; }
+#line 88 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x8274B0; return COLOR; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 84 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xBA0000 ); return COLOR; }
+#line 89 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xFF5656; return COLOR; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 85 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xff5100 ); return COLOR; }
+#line 90 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xFFB366; return COLOR; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 86 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0xFFF219 ); return COLOR; }
+#line 91 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xFDF285; return COLOR; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 87 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{ SerieFormatDigester::instance->currentPen().setColor( 0x505050 ); return COLOR; }
+#line 92 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xBEBEBE; return COLOR; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 89 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
-{yyerror("Illegal character");}
+#line 93 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x0839A1; return COLOR; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 91 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 94 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x8CD01E; return COLOR; }
+	YY_BREAK
+case 49:
+YY_RULE_SETUP
+#line 95 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x7300AB; return COLOR; }
+	YY_BREAK
+case 50:
+YY_RULE_SETUP
+#line 96 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xBA0000; return COLOR; }
+	YY_BREAK
+case 51:
+YY_RULE_SETUP
+#line 97 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xff5100; return COLOR; }
+	YY_BREAK
+case 52:
+YY_RULE_SETUP
+#line 98 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0xFFF219; return COLOR; }
+	YY_BREAK
+case 53:
+YY_RULE_SETUP
+#line 99 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{ yylval = 0x505050; return COLOR; }
+	YY_BREAK
+case 54:
+YY_RULE_SETUP
+#line 101 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
+{yyerror("Illegal character");}
+	YY_BREAK
+case 55:
+YY_RULE_SETUP
+#line 103 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"
 ECHO;
 	YY_BREAK
-#line 1359 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l.cpp"
+#line 1407 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -1669,7 +1717,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 242 )
+			if ( yy_current_state >= 259 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1702,11 +1750,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 242 )
+		if ( yy_current_state >= 259 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 241);
+	yy_is_jam = (yy_current_state == 258);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2480,4 +2528,4 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 90 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\parser.l"
+#line 102 "Y:\\Boulot\\Projets_Qt\\Thistle\\src\\Thistle\\Charts\\Style\\chartstyle.l"

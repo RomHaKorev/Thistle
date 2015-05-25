@@ -55,9 +55,4 @@ void KiviatCoordinateSystem::update( QAbstractItemModel* model )
 	}*/
 }
 
-qreal KiviatCoordinateSystem::stepSize() const
-{
-	return 0;
-}
-
 } // namespace Thistle

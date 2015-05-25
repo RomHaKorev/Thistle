@@ -14,7 +14,7 @@ struct AbstractAxisPrivate
     double order;
     int precision;
     int ticksCount;
-    qreal tickSize;
+    qreal tickIncrement;
     qreal labelsLength;
     QLineF line;
     AbstractAxisPrivate();

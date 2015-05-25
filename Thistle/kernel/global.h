@@ -95,7 +95,7 @@ public:
         DarkGray     = 0x505050
     };
 
-    Q_ENUMS( PredefinedColor )
+	Q_ENUMS( PredefinedColor );
 
     static QColor predefinedColor( int key )
     {

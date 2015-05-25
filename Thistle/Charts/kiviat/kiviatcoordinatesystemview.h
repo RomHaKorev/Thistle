@@ -10,8 +10,6 @@ class KiviatCoordinateSystemView : public AbstractCoordinateSystemView
 {
 
 protected:
-	virtual qreal stepSize() const
-	{return 0;}
 	virtual void paintBack( QPainter& painter ) const;
 	virtual void paintFront( QPainter& painter ) const;
 	virtual void update();

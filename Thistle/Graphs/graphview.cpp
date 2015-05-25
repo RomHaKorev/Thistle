@@ -62,8 +62,12 @@ QPainterPath GraphView::itemPath( const QModelIndex& index ) const
         return path;
 
     QPointF pos = node.pos();
-    path.addRect( QRect(-20,-20,40,40).translated( pos.x(), pos.y() ) );
+
+	QRect r( -20 + pos.x(), -20 + pos.y(), 40, 40 );
+	path.addRect( r );
     path.translate( -this->horizontalOffset(), -this->verticalOffset() );
+
+	
 
     return path;
 }

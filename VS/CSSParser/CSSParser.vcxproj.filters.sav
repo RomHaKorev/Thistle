@@ -1,48 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d1db0534-1ff8-468c-9522-7b3e1049f7a3}</UniqueIdentifier>
+    <Filter Include="Defs">
+      <UniqueIdentifier>{2a0e3248-84f9-4384-8b94-ceac21a5175b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="defs">
-      <UniqueIdentifier>{b738848b-f5b3-4837-98e1-ab732b56129e}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{f1b9edb7-38e8-4bac-b89b-6976224887d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{e8037464-30f8-428f-81c9-42da48e7e96b}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h</Extensions>
-      <ParseFiles>true</ParseFiles>
+      <UniqueIdentifier>{4aef222c-c8eb-4800-9764-b88b0469d548}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;cxx;c;def</Extensions>
-      <ParseFiles>true</ParseFiles>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Thistle\Charts\Style\parser.y.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\Style\parser.l.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\Style\cssparser_chart.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Style\parser.l.cpp">
-      <Filter>src\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\Style\parser.y.cpp">
+    <ClCompile Include="..\..\Thistle\Charts\Style\main.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Thistle\Charts\Style\cssparser_chart.h">
-      <Filter>src\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\Style\parser.y.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\Style\cssparser_chart.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Thistle\Charts\Style\parser.l">
-      <Filter>defs</Filter>
+      <Filter>Defs</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\Style\parser.y">
-      <Filter>defs</Filter>
+      <Filter>Defs</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

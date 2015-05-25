@@ -38,7 +38,6 @@ class SerieChart : public AbstractChart
     Q_OBJECT
     Q_DECLARE_PRIVATE( SerieChart );
 protected:
-    virtual void defineRects();
     virtual void scan();
 	virtual void updateRects();
 

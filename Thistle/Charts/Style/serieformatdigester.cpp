@@ -1,4 +1,4 @@
-#include "cssparser_chart.h"
+#include "serieformatdigester.h"
 
 #include <QtCore/QDebug>
 
@@ -38,3 +38,12 @@ QPen& SerieFormatDigester::currentPen()
 	return currentFormat.d->pen;
 }
 
+void SerieFormatDigester::setShape( Thistle::Shape shape )
+{
+	currentFormat.d->shape = shape;
+}
+
+void SerieFormatDigester::setType( Thistle::Types type )
+{
+	currentFormat.d->type = type;
+}
