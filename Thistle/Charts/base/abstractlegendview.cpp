@@ -230,17 +230,19 @@ void AbstractLegendView::resizeEvent( QResizeEvent* ev )
 {
     Q_D( AbstractLegendView );
     AbstractItemView::resizeEvent( ev );
+#if 0
     if ( !d->parentManageSize )
         this->updateSizeHint( ev->size() );
+#endif
 }
 
-
+#if 0
 void AbstractLegendView::parentManageSize( bool leave )
 {
     Q_D( AbstractLegendView );
     d->parentManageSize = leave;
 }
-
+#endif
 
 void AbstractLegendView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command )
 {

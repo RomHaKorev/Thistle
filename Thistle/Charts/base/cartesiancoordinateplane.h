@@ -32,6 +32,7 @@ public:
     };
 
     CartesianCoordinatePlane();
+	virtual ~CartesianCoordinatePlane();
 
     qreal labelsLength( CartesianCoordinatePlane::Axis axis ) const;
     qreal maximum( CartesianCoordinatePlane::Axis axis ) const;

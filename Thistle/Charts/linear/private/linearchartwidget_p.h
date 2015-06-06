@@ -1,24 +1,25 @@
 #ifndef THISTLE_LINEARCHARTWIDGET_P_H
 #define THISTLE_LINEARCHARTWIDGET_P_H
 
-#include <QRect>
+#include <QtCore/QRect>
+#include <QLabel>
 
-class QAbstractItemModel;
-class QLabel;
+#include "../linearchart.h"
+#include "../linearlegendview.h"
+
 
 namespace Thistle
 {
 
 class LinearLegendView;
-class LinearChart;
 class LinearChartWidget;
 
 struct LinearChartWidgetPrivate
 {
     LinearChartWidget* parent;
-    LinearChart* chart;
-    LinearLegendView* legendView;
-    QLabel* title;
+    LinearChart chart;
+    LinearLegendView legendView;
+    QLabel title;
 
     LinearChartWidgetPrivate( LinearChartWidget* parent );
     ~LinearChartWidgetPrivate(); 

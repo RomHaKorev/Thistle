@@ -17,6 +17,9 @@ AbstractCoordinateSystemViewPrivate::~AbstractCoordinateSystemViewPrivate()
 {
   if ( delegate )
     delete delegate;
+
+  if ( coordSystem )
+	  delete coordSystem;
 }
 
 

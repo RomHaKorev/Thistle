@@ -42,8 +42,9 @@ public:
     void updateSizeHint( const QSize& source );
 
     QSize sizeHint() const;
-
-    void parentManageSize( bool leave );
+#if 0
+	void parentManageSize( bool leave );
+#endif
 };
 
 }

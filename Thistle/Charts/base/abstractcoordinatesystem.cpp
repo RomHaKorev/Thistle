@@ -16,6 +16,10 @@ AbstractCoordinateSystem::AbstractCoordinateSystem( AbstractCoordinateSystemPriv
   d_ptr->textPen = QPen( QBrush( Thistle::Colors::DarkGray ), 1 );
 }
 
+AbstractCoordinateSystem::~AbstractCoordinateSystem()
+{
+	delete d_ptr;
+}
 
 
 QAbstractItemModel* AbstractCoordinateSystem::model() const

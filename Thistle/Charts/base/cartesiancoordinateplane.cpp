@@ -15,6 +15,9 @@ CartesianCoordinatePlane::CartesianCoordinatePlane() : AbstractCoordinateSystem(
 CartesianCoordinatePlane::CartesianCoordinatePlane( CartesianCoordinatePlanePrivate* d ) : AbstractCoordinateSystem( d )
 {}
 
+CartesianCoordinatePlane::~CartesianCoordinatePlane()
+{}
+
 
 QPointF CartesianCoordinatePlane::origin() const
 {

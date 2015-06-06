@@ -80,7 +80,11 @@ QPainterPath LinearChart::itemPath( const QModelIndex& index ) const
 
 		qreal stepSize = coordSys->axisLength( CartesianCoordinatePlane::X ) / this->model()->rowCount();
 
+		if ( stepSize > 40 )
+			stepSize = 40;
+
 		qreal margin = stepSize * 0.1;
+
 		qreal w = float( stepSize - margin ) / bars.count();
 		pos += QPointF( margin / 2.0 + w * bars.indexOf( index.column() ) - stepSize / 2.0, 0 );
 

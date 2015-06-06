@@ -18,6 +18,7 @@ protected:
     AbstractCoordinateSystem( AbstractCoordinateSystemPrivate* d );
 public:
     AbstractCoordinateSystem();
+	virtual ~AbstractCoordinateSystem();
 
 	const QRectF& rect() const;
     virtual void setRect( const QRectF& r );

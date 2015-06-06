@@ -1,24 +1,20 @@
 #include "linearchartwidget_p.h"
 #include "../linearchartwidget.h"
-#include "../linearchart.h"
-#include "../linearlegendview.h"
+
 
 #include <QAbstractItemModel>
-#include <QLabel>
 
 namespace Thistle
 {
 LinearChartWidgetPrivate::LinearChartWidgetPrivate( LinearChartWidget* p )
-: parent( p ), chart( new LinearChart( parent ) ), legendView( new LinearLegendView( chart ) ), title( new QLabel( "", p ) )
+: parent( p ), chart( parent ), legendView( &chart ), title( "", p )
 {
-    legendView->setParent( parent );
-    QFont f = this->title->font();
+    legendView.setParent( parent );
+    QFont f = this->title.font();
     f.setPixelSize( 14 );
     f.setItalic( true );
-    this->title->setFont( f );
-    this->title->setAlignment( Qt::AlignCenter );
-
-    this->legendView->parentManageSize( true );
+    this->title.setFont( f );
+    this->title.setAlignment( Qt::AlignCenter );
 }
 
 LinearChartWidgetPrivate::~LinearChartWidgetPrivate()
@@ -26,47 +22,47 @@ LinearChartWidgetPrivate::~LinearChartWidgetPrivate()
 
 void LinearChartWidgetPrivate::setModel( QAbstractItemModel* model )
 {
-    this->chart->setModel( model );
-    this->legendView->setModel( model );
-    this->legendView->setSelectionModel( this->chart->selectionModel() );
+    this->chart.setModel( model );
+    this->legendView.setModel( model );
+    this->legendView.setSelectionModel( this->chart.selectionModel() );
 }
 
 QAbstractItemModel* LinearChartWidgetPrivate::model() const
 {
-    return this->chart->model();
+    return this->chart.model();
 }
 
 void LinearChartWidgetPrivate::resize( const QRect& rect )
 {
-    this->legendView->updateSizeHint( rect.size() );
-    this->legendView->setMinimumHeight( legendView->sizeHint().height() );
+    this->legendView.updateSizeHint( rect.size() );
+    this->legendView.setMinimumHeight( legendView.sizeHint().height() );
     
     int marginBottom = parent->contentsMargins().bottom();
 
     QPoint p( rect.topLeft() );
-    QRect r( p, this->legendView->sizeHint() );
+    QRect r( p, this->legendView.sizeHint() );
     
-    this->legendView->setGeometry( r );
-    this->chart->setGeometry( QRect( r.bottomLeft() + QPoint( 0, marginBottom ),
+    this->legendView.setGeometry( r );
+    this->chart.setGeometry( QRect( r.bottomLeft() + QPoint( 0, marginBottom ),
                               QSize( rect.width(), rect.height() - r.height() - marginBottom * 2 ) ) );
 
     int height = rect.height() - r.height() - marginBottom * 2;
 
-    if ( this->title != 0 && this->title->text() != "" )
+    if ( this->title.text() != "" )
     {
-        height -= this->title->height() + marginBottom;
+        height -= this->title.height() + marginBottom;
     }
 
-    this->chart->setGeometry( QRect( r.bottomLeft() + QPoint( 0, marginBottom ),
+    this->chart.setGeometry( QRect( r.bottomLeft() + QPoint( 0, marginBottom ),
                               QSize( rect.width(), height ) ) );
     
-    if ( this->title == 0 || this->title->text() == "" )
+    if ( this->title.text() == "" )
         return;
     
-    r = this->chart->geometry();
+    r = this->chart.geometry();
 
-    this->title->setGeometry( QRect( r.bottomLeft() + QPoint( 0, marginBottom ),
-                              QSize( rect.width(), this->title->sizeHint().height() ) ) );
+    this->title.setGeometry( QRect( r.bottomLeft() + QPoint( 0, marginBottom ),
+                              QSize( rect.width(), this->title.sizeHint().height() ) ) );
 }
 
 }

@@ -27,9 +27,9 @@ LinearChartWidget::~LinearChartWidget()
 {}
 
 
-LinearChart* LinearChartWidget::chart() const
+LinearChart& LinearChartWidget::chart()
 {
-    const Q_D( LinearChartWidget );
+    Q_D( LinearChartWidget );
     return d->chart;
 }
 
@@ -61,36 +61,30 @@ QAbstractItemModel* LinearChartWidget::model() const
 void LinearChartWidget::setTitle( const QString& title )
 {
     Q_D( LinearChartWidget );
-    if ( d->title != 0 )
-    {
-        d->title->setText( title );
-    }
+    d->title.setText( title );
 }
 
 
 QString LinearChartWidget::title() const
 {
-    const Q_D( LinearChartWidget );
-    if ( d->title != 0 )
-    {
-        return d->title->text();
-    }
+	const Q_D( LinearChartWidget );
 
-    return "";
+	return d->title.text();
+
 }
 
 
 QFont LinearChartWidget::font() const
 {
     const Q_D( LinearChartWidget );
-    return d->title->font();
+    return d->title.font();
 }
 
 
 void LinearChartWidget::setFont( const QFont& font )
 {
     Q_D( LinearChartWidget );
-    d->title->setFont( font );
+    d->title.setFont( font );
     d->resize( this->contentsRect() );
 }
 
