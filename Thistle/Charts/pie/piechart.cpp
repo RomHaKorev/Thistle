@@ -117,39 +117,47 @@ void PieChart::paintEvent( QPaintEvent* ev )
 {
   Q_UNUSED( ev );
 
-  const Q_D( PieChart );
-
   QPainter painter( this->viewport() );
-  painter.save();
-  painter.setRenderHint( QPainter::Antialiasing );
 
-  int rows = this->model()->rowCount();
-  qreal angle = d->startAngle;
-  for ( int i = 0; i < rows; ++i )
-  {
-    QModelIndex index = this->model()->index( i, 0 );
-    QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
-    if ( !color.isValid() )
-    {
-      color = Colors::predefinedColor( i );
-    }
-    qreal v = qAbs( this->model()->data( index ).toReal() );
-    qreal delta = 360.0 * v/d->total;
-    
-	bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
-
-    if ( d->splitted == false )
-    {
-      this->paintPart( painter, angle, delta, color, isSelected );
-    }
-    else
-    {
-      this->paintPartSplitted( painter, angle, delta, color, isSelected );
-    }
-    angle += delta;
-  }
-  painter.restore();
+  paint( painter );
 }
+
+
+void PieChart::paint( QPainter& painter )
+{
+	const Q_D( PieChart );
+
+	painter.save();
+	painter.setRenderHint( QPainter::Antialiasing );
+
+	int rows = this->model()->rowCount();
+	qreal angle = d->startAngle;
+	for ( int i = 0; i < rows; ++i )
+	{
+		QModelIndex index = this->model()->index( i, 0 );
+		QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
+		if ( !color.isValid() )
+		{
+			color = Colors::predefinedColor( i );
+		}
+		qreal v = qAbs( this->model()->data( index ).toReal() );
+		qreal delta = 360.0 * v/d->total;
+
+		bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
+
+		if ( d->splitted == false )
+		{
+			this->paintPart( painter, angle, delta, color, isSelected );
+		}
+		else
+		{
+			this->paintPartSplitted( painter, angle, delta, color, isSelected );
+		}
+		angle += delta;
+	}
+	painter.restore();
+}
+
 
 #if 0
 /*Paint the legend in the QRect self._legendRect

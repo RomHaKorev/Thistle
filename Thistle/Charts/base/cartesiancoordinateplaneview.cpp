@@ -18,23 +18,10 @@ CartesianCoordinatePlaneView::CartesianCoordinatePlaneView()
 
 
 void CartesianCoordinatePlaneView::paintBack( QPainter& painter ) const
-{
-  Q_UNUSED( painter )
-  /*const Q_D( CartesianCoordinatePlaneView );
-  //delegate->paint( painter, this->coordinateSystem()->axis() );
-  LinearAxis& x = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::X ) );
-  LinearAxis& y = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::Y ) );
+{}
 
-  AxisDelegateOptions options;
-  options.layer = Thistle::Background;
-
-  options.referenceAxis.append( &y );
-  delegate->paint( painter, x, options );
-
-  options.referenceAxis.clear();
-  options.referenceAxis.append( &x );
-  delegate->paint( painter, y, options );*/
-}
+void CartesianCoordinatePlaneView::paintGrid( QPainter& painter ) const
+{}
 
 
 void CartesianCoordinatePlaneView::paintFront( QPainter& painter ) const

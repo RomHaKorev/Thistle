@@ -3,13 +3,15 @@
 
 #include "../../base/private/abstractcoordinatesystem_p.h"
 #include "../../base/linearaxis.h"
+#include <QtCore/QSharedPointer>
+
 
 namespace Thistle
 {
 class KiviatCoordinateSystemPrivate: public AbstractCoordinateSystemPrivate
 {
 private:
-	QList<LinearAxis> axisList;
+	QList<QSharedPointer<LinearAxis> > axisList;
 public:
 	KiviatCoordinateSystemPrivate();
 	~KiviatCoordinateSystemPrivate();

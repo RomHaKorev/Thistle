@@ -14,6 +14,7 @@ LinearAxis::LinearAxis(): AbstractAxis( new LinearAxisPrivate() )
 LinearAxis::~LinearAxis()
 {}
 
+
 void LinearAxis::setLine( const QLineF& line )
 {
     Q_D( LinearAxis );

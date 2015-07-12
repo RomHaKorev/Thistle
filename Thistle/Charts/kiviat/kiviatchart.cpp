@@ -17,6 +17,10 @@ KiviatChart::~KiviatChart()
 QPainterPath KiviatChart::itemPath( const QModelIndex& index ) const
 {
   QPainterPath path;
+
+  if ( !index.isValid() )
+	  return path;
+
   AbstractCoordinateSystem* coordSys = this->coordinateSystemView()->coordinateSystem();
   if ( index.row() >= int(coordSys->axisCount()) ) // index.row could be equal to -1
     return path;

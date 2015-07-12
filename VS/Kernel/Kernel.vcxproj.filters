@@ -49,24 +49,6 @@
     <ClCompile Include="..\..\Thistle\kernel\itemstyle.cpp">
       <Filter>Public\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_itemdelegate.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_itemdelegate.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_global.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_global.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Debug\GeneratedFiles\moc_abstractitemview.cpp">
-      <Filter>_Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bin\vs2012\Release\GeneratedFiles\moc_abstractitemview.cpp">
-      <Filter>_Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Thistle\kernel\abstractitemview_p.cpp">
       <Filter>Private\Sources</Filter>
     </ClCompile>
@@ -75,6 +57,24 @@
     </ClCompile>
     <ClCompile Include="..\..\Thistle\kernel\itemstyle_p.cpp">
       <Filter>Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_abstractitemview.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_global.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_itemdelegate.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_abstractitemview.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_global.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_itemdelegate.cpp">
+      <Filter>_Generated Files\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

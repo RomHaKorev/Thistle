@@ -37,8 +37,9 @@ public:
     void setLabelsLength( CartesianCoordinatePlane::Axis axis, int length );
     void setTicksCount( CartesianCoordinatePlane::Axis axis, int nb );
     void setOrder( CartesianCoordinatePlane::Axis axis, long order );
-     
-    virtual void paintBack( QPainter& painter ) const;
+    
+	virtual void paintBack( QPainter& painter ) const;
+	virtual void paintGrid( QPainter& painter ) const;
     virtual void paintFront( QPainter& painter ) const;
 
     QPointF origin() const;

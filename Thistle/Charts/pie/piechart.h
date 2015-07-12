@@ -43,6 +43,8 @@ public:
 	void setSplitted( bool splitted = true );
 	void setRing( bool ring = true );
 
+	virtual void paint( QPainter& painter );
+
 protected:
 	PieChart( PieChartPrivate* d, QWidget* parent = 0 );
 

@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef THISTLE_GLOBAL_H
+#define THISTLE_GLOBAL_H
 #include <QObject>
 #include <QMetaEnum>
 #include <QDateTime>
@@ -188,4 +188,4 @@ Q_DECLARE_OPERATORS_FOR_FLAGS( Types )
 
 }
 
-#endif // MARB_H
+#endif // THISTLE_GLOBAL_H

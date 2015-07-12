@@ -200,20 +200,26 @@ void SerieChart::paintEvent( QPaintEvent* ev )
 {
   Q_UNUSED( ev )
 
-  Q_D( SerieChart );
-
   QPainter painter( this->viewport() );
-  painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
+  paint( painter );
 
-  d->coordinateSystemView()->paintBack( painter );
+}
 
-  QList<int> ordered = this->calculateColumnsOrder();
-  Q_FOREACH( int c, ordered )
-  {
-    this->paintSerie( painter, c );
-  }
+void SerieChart::paint( QPainter& painter )
+{
+	Q_D( SerieChart );
 
-  d->coordinateSystemView()->paintFront( painter );
+	painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
+
+	d->coordinateSystemView()->paintBack( painter );
+
+	QList<int> ordered = this->calculateColumnsOrder();
+	Q_FOREACH( int c, ordered )
+	{
+		this->paintSerie( painter, c );
+	}
+
+	d->coordinateSystemView()->paintFront( painter );
 }
 
 }

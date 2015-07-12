@@ -24,8 +24,6 @@ namespace Thistle
 
   class LinearAxisDelegate
   {
-  public:
-
   protected:
     LinearAxisDelegatePrivate* d_ptr;
     inline LinearAxisDelegatePrivate* d_func() const
@@ -39,13 +37,13 @@ namespace Thistle
     virtual void paintTick( QPainter& painter, const QPointF& pos, qreal angle ) const;
     virtual QRectF paintLabel( QPainter& painter, const QPointF& pos, const QString& label, qreal angle, Qt::Alignment alignment = Qt::AlignLeft, QRectF lastLabelRect = QRectF() ) const;
 
-    virtual qreal calculateTickValue( const LinearAxis& axis ) const;
-
   public:
     LinearAxisDelegate( AbstractCoordinateSystemView* parent );
     virtual ~LinearAxisDelegate();
 
     void paint( QPainter& painter, const LinearAxis& axis, const AxisDelegateOptions& options ) const;
+
+	virtual qreal calculateTickValue( const LinearAxis& axis ) const;
 
     QFont font() const;
     QPen  basePen() const;

@@ -61,6 +61,9 @@ public:
         const Q_D( SerieChart );
         return d->coordinateSystemView();
     }
+
+	void paint( QPainter& painter );
+
     void setModel( QAbstractItemModel* model );
 };
 

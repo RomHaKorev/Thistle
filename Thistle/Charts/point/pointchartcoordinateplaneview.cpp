@@ -5,7 +5,9 @@ namespace Thistle
 
 PointChartCoordinatePlaneView::PointChartCoordinatePlaneView()
 : CartesianCoordinatePlaneView()
-{}
+{
+	//this->setGridAttributes( AbstractCoordinateSystemView::HorizontalGrid | AbstractCoordinateSystemView::VerticalGrid );
+}
 
 
 PointChartCoordinatePlaneView::~PointChartCoordinatePlaneView()
@@ -71,94 +73,81 @@ void PointChartCoordinatePlaneView::update()
 }
 
 
-#if 0
-void PointChartCoordinatePlaneView::paintXAxis( QPainter& painter ) const
+void PointChartCoordinatePlaneView::paintBack( QPainter& painter ) const
+{
+	this->paintGrid( painter );
+
+	const Q_D( CartesianCoordinatePlaneView );
+	LinearAxis& x = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::X ) );
+	LinearAxis& y = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::Y ) );
+
+	AxisDelegateOptions options;
+	options.layer = Thistle::Background;
+	options.labelAlignment = Qt::AlignLeft;
+	options.labelAlignment |= Qt::AlignTop;
+	options.referenceAxis.append( &x );
+	this->delegate()->paint( painter, y, options );
+
+	options.referenceAxis.clear();
+	options.labelAlignment = Qt::AlignBottom;
+	options.labelAlignment |= Qt::AlignRight;
+	options.referenceAxis.append( &y );
+	this->delegate()->paint( painter, x, options );
+}
+
+
+void PointChartCoordinatePlaneView::paintGrid( QPainter& painter ) const
 {
 	const Q_D( CartesianCoordinatePlaneView );
-	painter.save();
-	QFontMetrics metrics( d_ptr->font );
-	int h = metrics.height();
-	qreal order = d->coordinateSystem()->tickIncrement( CartesianCoordinatePlane::X );
 
-	qreal precision = d->coordinateSystem()->precision( CartesianCoordinatePlane::X );
+	LinearAxis& x = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::X ) );
+	LinearAxis& y = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::Y ) );
 
-	painter.setPen( d_ptr->textPen );
+	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::HorizontalGrid ) )
+		this->paintGridFor( painter, x, y );
 
-	qreal max = d->coordinateSystem()->maximum( CartesianCoordinatePlane::X );
-	qreal min = d->coordinateSystem()->minimum( CartesianCoordinatePlane::X );
-
-	if ( ( max / order ) < 8 ) /* Too few of ticks while we have place */
-		order /= 2;
-
-	qreal x = order;
-
-	while ( x < max )
-	{
-		this->paintXAxisTick( painter, x );
-		x += order;
-	}
-
-	x = -order;
-
-	while ( x >= min )
-	{
-		this->paintXAxisTick( painter, x );
-		x -= order;
-	}
-
-	/* Paints the axis line */
-	painter.setPen( d_ptr->axisPen );
-	painter.drawLine( d->coordinateSystem()->axisLine( CartesianCoordinatePlane::X ) );
-
-	painter.restore();
+	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::VerticalGrid ) )
+		this->paintGridFor( painter, y, x );
+	
 }
 
-void PointChartCoordinatePlaneView::paintXAxisFront( QPainter& painter ) const
+
+void PointChartCoordinatePlaneView::paintGridFor( QPainter& painter, LinearAxis& axis, LinearAxis& other ) const
 {
-    const Q_D( CartesianCoordinatePlaneView );
-    painter.save();
-    QFontMetrics metrics( d_ptr->font );
-    int h = metrics.height();
-    qreal order = d->coordinateSystem()->tickIncrement( CartesianCoordinatePlane::X );
-    
-	qreal precision = d->coordinateSystem()->precision( CartesianCoordinatePlane::X );
+	const Q_D( CartesianCoordinatePlaneView );
 
-    painter.setPen( d_ptr->textPen );
+	painter.save();
+	painter.setRenderHint( QPainter::Antialiasing, false );
+	painter.setPen( d->delegate->tickPen() );
 
-	qreal max = d->coordinateSystem()->maximum( CartesianCoordinatePlane::X );
-	qreal min = d->coordinateSystem()->minimum( CartesianCoordinatePlane::X );
+	QPointF p;
+	if ( other.line().intersect( axis.line(), &p ) != QLineF::BoundedIntersection )
+		p = axis.pinpoint( 0 );
 
-	qreal labelSize = metrics.width( QString::number( max, 'f', precision ) + "X" ) + 10; /* Size needed to draw the label*/
-	qreal tickSize = d->coordinateSystem()->valueToPoint( order, 0 ).x() - d->coordinateSystem()->valueToPoint( 0, 0 ).x(); /* Size between two ticks */
-	int nbLabel = qMax( 1, qFloor( labelSize / tickSize + 0.5 ) ); /* Number of labels we have to skip to avoid overlays */
-	qreal step = order * nbLabel; /* Value of the increment */
+	QPointF offset1 = other.pinpoint( other.minimum() ) - p;
+	QPointF offset2 = other.pinpoint( other.maximum() ) - p;
 
-	if ( ( max / step ) < 8 && ( tickSize > labelSize * 2 ) ) /* Too few of ticks while we have place */
-		step /= 2;
-	
-	qreal x = step;
-
-	while ( x < max )
+	qreal order = d->delegate->calculateTickValue( axis );
+	qreal value = order;
+	QPointF pos;
+	while ( value <= axis.maximum() )
 	{
-		QPoint p1( d->coordinateSystem()->valueToPoint( x, 0 ).x(), d->coordinateSystem()->origin().y() );
-		QString s = QString::number( x, 'f', precision );
-		QRect r( QPoint( p1.x(), p1.y() ), QSize( metrics.width( s ), h ) );
-		painter.drawText( r, Qt::AlignRight, s );
-		x += step;
+		pos = axis.pinpoint( value );
+		QLineF l( pos + offset2, pos + offset1 );
+		painter.drawLine( l );
+		value += order;
 	}
-	
-	x = -step;
 
-	while ( x >= min )
+	value = 0;
+	while ( value >= axis.minimum() )
 	{
-		QPoint p1( d->coordinateSystem()->valueToPoint( x, 0 ).x(), d->coordinateSystem()->origin().y() );
-		QString s = QString::number( x, 'f', precision );
-		QRect r( QPoint( p1.x(), p1.y() ), QSize( metrics.width( s ), h ) );
-		painter.drawText( r, Qt::AlignRight, s );
-		x -= step;
+		pos = axis.pinpoint( value );
+		QLineF l( pos + offset1, pos + offset2 );
+		painter.drawLine( l );
+		value -= order;
 	}
+
 	painter.restore();
 }
-#endif
 
 }

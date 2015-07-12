@@ -48,11 +48,11 @@ void LinearLegendView::paintSerie( QPainter& painter, int serie, const QRect& re
         QPen pen( p );
         pen.setColor( c );
         painter.setPen( pen );
-        painter.drawText( rect.translated( 40, 0 ), Qt::AlignVCenter, s );
+        painter.drawText( rect.translated( 40, -3 ), Qt::AlignVCenter, s );
         painter.setPen( p );
     }
     else
-        painter.drawText( rect.translated( 40, 0 ), Qt::AlignVCenter, s );
+        painter.drawText( rect.translated( 40, -3 ), Qt::AlignVCenter, s );
 
     painter.save();
 

@@ -22,6 +22,19 @@ class LinearAxisDelegate;
 class AbstractCoordinateSystemView
 {
     Q_DECLARE_PRIVATE( AbstractCoordinateSystemView );
+
+public:
+	enum GridAttribute
+	{
+		NoGrid = 0,
+		HorizontalGrid = 1,
+		VerticalGrid = 2,
+	};
+	Q_ENUMS( GridAttribute )
+
+	Q_DECLARE_FLAGS( GridAttributes, GridAttribute )
+	
+
 protected:
     AbstractCoordinateSystemViewPrivate* d_ptr;
     AbstractCoordinateSystemView( AbstractCoordinateSystemViewPrivate* d );
@@ -54,8 +67,12 @@ public:
   LinearAxisDelegate* delegate() const;
   void setDelegate( LinearAxisDelegate* delegate );
 
+  void setGridAttributes( AbstractCoordinateSystemView::GridAttributes attrib );
+  AbstractCoordinateSystemView::GridAttributes gridAttributes() const;
+
 };
 
+Q_DECLARE_OPERATORS_FOR_FLAGS( AbstractCoordinateSystemView::GridAttributes )
 }
 
 #endif // THISTLE_ABSTRACTCOORDSYSVIEW_H

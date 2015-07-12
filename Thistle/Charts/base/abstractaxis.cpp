@@ -17,6 +17,7 @@ AbstractAxis::~AbstractAxis()
 {
   if ( d_ptr )
     delete d_ptr;
+  d_ptr = 0;
 }
 
 void AbstractAxis::setBounds( qreal min, qreal max )

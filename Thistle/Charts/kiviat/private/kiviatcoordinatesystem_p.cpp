@@ -17,7 +17,7 @@ AbstractAxis& KiviatCoordinateSystemPrivate::axis( unsigned int index )
   if ( int(index) >= this->axisList.count() ) // Count could be be equal to -1
     throw std::out_of_range( "Axis index out of range" );
 
-    return this->axisList[ index ];
+    return *( this->axisList[ index ].data() );
 }
 
 
@@ -34,6 +34,7 @@ void KiviatCoordinateSystemPrivate::update( QAbstractItemModel* model, const QRe
     return;
 
   this->axisList.clear();
+
 
   double minimum = 0;
   double maximum = 0;
@@ -52,9 +53,9 @@ void KiviatCoordinateSystemPrivate::update( QAbstractItemModel* model, const QRe
   qreal angle = 360.0 / qreal( model->rowCount() );
   for ( int row = 0; row < model->rowCount(); ++row )
   {
-    LinearAxis axis;
-    axis.setLine( line );
-    axis.setBounds( minimum, maximum );
+	QSharedPointer<LinearAxis> axis( new LinearAxis() );
+    axis->setLine( line );
+    axis->setBounds( minimum, maximum );
     line.setAngle( line.angle() + angle );
     this->axisList.append( axis );
   }

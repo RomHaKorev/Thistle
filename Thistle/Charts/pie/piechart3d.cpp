@@ -117,10 +117,9 @@ QPainterPath PieChart3D::itemSidesPath( const QModelIndex& index ) const
 }
 
 
-void PieChart3D::paintEvent( QPaintEvent* ev )
+void PieChart3D::paint( QPainter& painter )
 {
     const Q_D( PieChart );
-	QPainter painter( this->viewport() );
     painter.save();
     painter.setRenderHint( QPainter::Antialiasing );
     if ( d->render != Plain )

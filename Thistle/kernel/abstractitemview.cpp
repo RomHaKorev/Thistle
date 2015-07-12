@@ -218,6 +218,9 @@ int AbstractItemView::verticalOffset() const
 
 QRect AbstractItemView::visualRect(const QModelIndex &index) const
 {
+	if ( !index.isValid() )
+		return QRect();
+
     QRect rect = itemRect(index).toRect();
     return rect;
 }

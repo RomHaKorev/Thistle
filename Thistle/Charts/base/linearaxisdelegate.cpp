@@ -32,6 +32,7 @@ void LinearAxisDelegate::paint( QPainter& painter, const LinearAxis& axis, const
   }
 }
 
+
 void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, const AxisDelegateOptions& options ) const
 {
   painter.save();
@@ -124,7 +125,6 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
     return;
   }
 
-
   if ( options.alternativeLabels.isEmpty() )
   {
     qreal value = order;
@@ -132,9 +132,6 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
     while ( value <= axis.maximum() )
     {
       pos = axis.pinpoint( value );
-      QLineF l( pos + offset2, pos + offset1 );
-      painter.setPen( d_ptr->tick );
-      painter.drawLine( l );
       painter.setPen( d_ptr->base );
       this->paintTick( painter, pos, angle );
       value += order;
@@ -144,9 +141,6 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
     while ( value >= axis.minimum() )
     {
       pos = axis.pinpoint( value );
-      QLineF l( pos + offset1, pos + offset2 );
-      painter.setPen( d_ptr->tick );
-      painter.drawLine( l );
       painter.setPen( d_ptr->base );
       this->paintTick( painter, pos, angle );
       value -= order;
@@ -159,9 +153,6 @@ void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, c
     Q_FOREACH( QString str, options.alternativeLabels )
     {
       QPointF pos = axis.pinpoint( value );
-      QLineF l( pos + offset2, pos + offset1 );
-      painter.setPen( d_ptr->tick );
-      painter.drawLine( l );
       painter.setPen( d_ptr->base );
       this->paintTick( painter, pos, angle );
       value += order;
@@ -184,6 +175,7 @@ void LinearAxisDelegate::paintTick( QPainter& painter, const QPointF& pos, qreal
 
   painter.drawLine( p1, p2 );
 }
+
 
 QRectF LinearAxisDelegate::paintLabel( QPainter& painter, const QPointF& pos, const QString& label, qreal angle, Qt::Alignment alignment, QRectF lastLabelRect ) const
 {
@@ -214,6 +206,7 @@ QRectF LinearAxisDelegate::paintLabel( QPainter& painter, const QPointF& pos, co
 
   return r;
 }
+
 
 qreal LinearAxisDelegate::calculateTickValue( const LinearAxis& axis ) const
 {
@@ -250,19 +243,24 @@ QFont LinearAxisDelegate::font() const
   return d_ptr->font;
 }
 
+
 void LinearAxisDelegate::setFont( const QFont& font )
 {
   d_ptr->font = font;
 }
 
+
 QPen LinearAxisDelegate::basePen() const
 {
   return d_ptr->base;
 }
+
+
 QPen LinearAxisDelegate::tickPen() const
 {
   return d_ptr->tick;
 }
+
 
 QPen LinearAxisDelegate::textPen() const
 {
@@ -286,5 +284,6 @@ void LinearAxisDelegate::setTextPen( const QPen& p )
 {
   d_ptr->textPen = p;
 }
+
 
 }

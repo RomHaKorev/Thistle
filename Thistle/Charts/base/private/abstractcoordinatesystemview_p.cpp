@@ -9,7 +9,7 @@ namespace Thistle
 {
 
 AbstractCoordinateSystemViewPrivate::AbstractCoordinateSystemViewPrivate( AbstractCoordinateSystem* coordSys, AbstractCoordinateSystemView* coordSysView )
-  : tickPen(Qt::lightGray, 1), model(0), delegate( new LinearAxisDelegate( coordSysView ) ), coordSystem(coordSys)
+	: tickPen( Qt::lightGray, 1 ), model( 0 ), delegate( new LinearAxisDelegate( coordSysView ) ), gridAttrib( AbstractCoordinateSystemView::VerticalGrid ), coordSystem( coordSys )
 {}
 
 
