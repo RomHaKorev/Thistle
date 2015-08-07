@@ -56,6 +56,7 @@ void KiviatCoordinateSystemPrivate::update( QAbstractItemModel* model, const QRe
 	QSharedPointer<LinearAxis> axis( new LinearAxis() );
     axis->setLine( line );
     axis->setBounds( minimum, maximum );
+	axis->setName( model->headerData( row, Qt::Vertical ).toString()  );
     line.setAngle( line.angle() + angle );
     this->axisList.append( axis );
   }

@@ -234,7 +234,7 @@ qreal LinearAxisDelegate::calculateTickValue( const LinearAxis& axis ) const
   if ( floor == 0 )
     floor = ( axis.maximum() - axis.minimum() ) * percent;
 
-  return floor;
+  return floor * d_ptr->tickReduceFactor;
 }
 
 
@@ -283,6 +283,13 @@ void LinearAxisDelegate::setTickPen( const QPen& p )
 void LinearAxisDelegate::setTextPen( const QPen& p )
 {
   d_ptr->textPen = p;
+}
+
+
+void LinearAxisDelegate::setTickReduceFactor( qreal factor )
+{
+	if ( factor >= 0 )
+		d_ptr->tickReduceFactor = factor;
 }
 
 

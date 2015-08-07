@@ -118,11 +118,11 @@ void LinearChartCoordinatePlaneView::paintBack( QPainter& painter ) const
 
 void LinearChartCoordinatePlaneView::paintGrid( QPainter& painter ) const
 {
-	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::HorizontalGrid ) )
+	/*if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::HorizontalGrid ) )
 		this->paintGrid_x( painter );
 
 	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::VerticalGrid ) )
-		this->paintGrid_y( painter );
+		this->paintGrid_y( painter );*/
 }
 
 

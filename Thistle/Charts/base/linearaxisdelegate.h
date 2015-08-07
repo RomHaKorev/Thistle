@@ -53,6 +53,8 @@ namespace Thistle
     void setBasePen( const QPen& p );
     void setTickPen( const QPen& p );
     void setTextPen( const QPen& p );
+
+	void setTickReduceFactor( qreal factor );
   };
 }
 #endif // THISTLE_LINEARAXISDELEGATE_H

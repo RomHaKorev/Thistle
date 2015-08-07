@@ -31,9 +31,7 @@ public:
 		VerticalGrid = 2,
 	};
 	Q_ENUMS( GridAttribute )
-
 	Q_DECLARE_FLAGS( GridAttributes, GridAttribute )
-	
 
 protected:
     AbstractCoordinateSystemViewPrivate* d_ptr;
@@ -66,9 +64,6 @@ public:
 
   LinearAxisDelegate* delegate() const;
   void setDelegate( LinearAxisDelegate* delegate );
-
-  void setGridAttributes( AbstractCoordinateSystemView::GridAttributes attrib );
-  AbstractCoordinateSystemView::GridAttributes gridAttributes() const;
 
 };
 

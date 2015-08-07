@@ -66,17 +66,4 @@ AbstractCoordinateSystem* AbstractCoordinateSystemView::coordinateSystem() const
     return d_ptr->coordinateSystem();
 }
 
-
-void AbstractCoordinateSystemView::setGridAttributes( AbstractCoordinateSystemView::GridAttributes attrib )
-{
-  d_ptr->gridAttrib = attrib;
-  this->update();
-}
-
-
-AbstractCoordinateSystemView::GridAttributes AbstractCoordinateSystemView::gridAttributes() const
-{
-  return AbstractCoordinateSystemView::GridAttributes(d_ptr->gridAttrib);
-}
-
 }

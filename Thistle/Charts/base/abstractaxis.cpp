@@ -120,4 +120,15 @@ void AbstractAxis::setOrder( double order )
 }
 
 
+void AbstractAxis::setName( const QString& name )
+{
+	d_ptr->name = name;
+}
+
+QString AbstractAxis::name() const
+{
+	return d_ptr->name;
+}
+
+
 }

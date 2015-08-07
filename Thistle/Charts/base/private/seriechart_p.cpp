@@ -191,13 +191,16 @@ void SerieChartPrivate::paintStraightLine( QPainter& painter, int column, bool i
     polygon << q->itemRect( q->model()->index( rows - 1, column ) ).center();
     polygon.prepend( QPointF( polygon.first().x(), this->coordinateSysView->origin().y() - 1 ) );
     polygon.append( QPointF( polygon.last().x(), this->coordinateSysView->origin().y() - 1 ) );
-    painter.drawPolygon( polygon );
+	polygon << q->itemRect( q->model()->index( rows - 1, column ) ).center();
+
+	painter.drawPolygon( polygon );
     painter.setPen( pen );
     if ( isActive )
     {
-            polygon.pop_front();
-            polygon.pop_back();
-      painter.drawPolyline( polygon );
+        polygon.pop_front();
+        polygon.pop_back();
+		polygon.pop_back();
+		painter.drawPolyline( polygon );
     }
   }
 }

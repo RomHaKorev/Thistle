@@ -25,7 +25,6 @@ struct AbstractCoordinateSystemViewPrivate
   QPen textPen;
   QAbstractItemModel* model;
   LinearAxisDelegate* delegate;
-  int gridAttrib;
 
 protected:
   AbstractCoordinateSystem* coordSystem;

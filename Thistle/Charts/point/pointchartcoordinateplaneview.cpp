@@ -103,11 +103,11 @@ void PointChartCoordinatePlaneView::paintGrid( QPainter& painter ) const
 	LinearAxis& x = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::X ) );
 	LinearAxis& y = static_cast< LinearAxis& >( d->coordinateSystem()->axis( CartesianCoordinatePlane::Y ) );
 
-	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::HorizontalGrid ) )
+/*	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::HorizontalGrid ) )
 		this->paintGridFor( painter, x, y );
 
 	if ( this->gridAttributes().testFlag( CartesianCoordinatePlaneView::VerticalGrid ) )
-		this->paintGridFor( painter, y, x );
+		this->paintGridFor( painter, y, x );*/
 	
 }
 

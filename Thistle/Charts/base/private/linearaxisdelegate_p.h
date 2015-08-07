@@ -17,6 +17,7 @@ struct LinearAxisDelegatePrivate
 	QPen base;
 	QPen tick;
 	QPen textPen;
+	qreal tickReduceFactor;
 };
 }
 

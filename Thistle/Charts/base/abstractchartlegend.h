@@ -12,9 +12,9 @@ class AbstractChartLegend
 {
 private:
     AbstractItemView* chart;
+	QRect area;
 
 public:
-    QRect area;
 	AbstractChartLegend( AbstractItemView* chart );
 	virtual ~AbstractChartLegend();
 
