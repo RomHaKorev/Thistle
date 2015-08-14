@@ -28,9 +28,9 @@
 namespace Thistle
 {
 
-AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent )
+AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent ),
+d_ptr( new AbstractItemViewPrivate( this ) )
 {
-    d_ptr = new AbstractItemViewPrivate( this );
     setItemDelegate( d_ptr->delegate );
 }
 
