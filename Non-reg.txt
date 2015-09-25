@@ -1,0 +1,44 @@
+CHARTS
+		SERIE
+			Painting two series
+			Painting serie with different formats
+				Dot
+					Rectangle
+					Ellipse
+					RoundedRect
+					Diamond
+					Triangle
+					ReversedTriangle
+				Line
+				Spline
+				Bar
+				Dot + Line
+					Rectangle
+					Ellipse
+					RoundedRect
+					Diamond
+					Triangle
+					ReversedTriangle
+				Dot + Spline
+					Rectangle
+					Ellipse
+					RoundedRect
+					Diamond
+					Triangle
+					ReversedTriangle
+				Changing color
+			Changing axis
+				Tick styles
+					Short
+					Long
+					None
+					Label
+					Short+Label
+					Long+Label
+					Long+None
+					None+Label
+				New Delegate
+					Changing Delegate for one axis
+					Same Delegate for two axis
+					Deleting a setted delegate
+					

@@ -1,0 +1,15 @@
+﻿Build started 22/06/2015 23:09:16.
+     1>Project "Y:\Boulot\Projets_Qt\Thistle\src\VS\Kernel\Kernel.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Moc'ing abstractitemview.h...
+         Le chemin d'accès spécifié est introuvable.
+         Moc'ing itemdelegate.h...
+         Le chemin d'accès spécifié est introuvable.
+         Moc'ing global.h...
+         Le chemin d'accès spécifié est introuvable.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(170,5): error MSB6006: "cmd.exe" exited with code 3.
+     1>Done Building Project "Y:\Boulot\Projets_Qt\Thistle\src\VS\Kernel\Kernel.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.09

@@ -1,0 +1,9 @@
+CHARTS
+
+	LINEAR
+		Two different Axis delegates by default							OK
+		Refactoring code in LinearAxisDelegate::paintBack()
+		  It should be simplier to paint the ticks
+	
+	KIVIAT			
+		Bar style does not work
