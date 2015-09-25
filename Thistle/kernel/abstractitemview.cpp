@@ -1,14 +1,14 @@
 /*
  This file is part of Thistle.
-    Thistle is free software: you can redistribute it and/or modify
-    it under the terms of the Lesser GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
-    Thistle is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    Lesser GNU General Public License for more details.
-    You should have received a copy of the Lesser GNU General Public License
-    along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+	Thistle is free software: you can redistribute it and/or modify
+	it under the terms of the Lesser GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License.
+	Thistle is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	Lesser GNU General Public License for more details.
+	You should have received a copy of the Lesser GNU General Public License
+	along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
  Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 #include "abstractitemview.h"
@@ -23,81 +23,86 @@
 #include <QDebug>
 
 
-#include "abstractitemview_p.h"
+#include "private/abstractitemview_p.h"
 
 namespace Thistle
 {
 
-AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent )
+AbstractItemView::AbstractItemView(QWidget *parent) : QAbstractItemView( parent ),
+	d_ptr( new AbstractItemViewPrivate( this ) )
 {
-    d_ptr = new AbstractItemViewPrivate( this );
-    setItemDelegate( d_ptr->delegate );
+	setItemDelegate( d_ptr->delegate );
 }
 
 
 AbstractItemView::AbstractItemView( AbstractItemViewPrivate* d, QWidget* parent ) : QAbstractItemView( parent ), d_ptr( d )
 {
-    setItemDelegate( d_ptr->delegate );
+	setItemDelegate( d_ptr->delegate );
 }
 
 AbstractItemView::~AbstractItemView()
 {
-    delete d_ptr;
+	delete d_ptr;
 }
 
 
 QMargins AbstractItemView::contentsMargins() const
 {
-    return d_ptr->margins;
+	return d_ptr->margins;
 }
 
 
 QRect AbstractItemView::contentsRect() const
 {
-    return QRect( d_ptr->margins.left(), d_ptr->margins.top(), width() - d_ptr->margins.left() - d_ptr->margins.right(),
-                  height() - d_ptr->margins.top() - d_ptr->margins.bottom() );
+	return QRect( d_ptr->margins.left(), d_ptr->margins.top(), width() - d_ptr->margins.left() - d_ptr->margins.right(),
+				  height() - d_ptr->margins.top() - d_ptr->margins.bottom() );
 }
 
 
+QSize AbstractItemView::sizeHint() const
+{
+	return QSize( 500, 450 );
+}
+
 void AbstractItemView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
-    QAbstractItemView::dataChanged(topLeft, bottomRight);
-    update( this->model()->index(0, 0) );
+	QAbstractItemView::dataChanged(topLeft, bottomRight);
+	update( this->model()->index(0, 0) );
 }
 
 
 int AbstractItemView::horizontalOffset() const
 {
-    return horizontalScrollBar()->value();
+	return horizontalScrollBar()->value();
 }
 
 
 QModelIndex AbstractItemView::indexAt(const QPoint &point) const
 {
 	QPoint offset( horizontalOffset(), verticalOffset() );
-    QPoint p = point/* + offset */;
+	QPoint p = point/* + offset */;
 
 	if ( this->model() == 0 )
-        return QModelIndex();
+		return QModelIndex();
 
 
-    return d_ptr->findItemAt( p );
+	return d_ptr->findItemAt( p );
 }
 
 
 bool AbstractItemView::isIndexHidden(const QModelIndex& /*index*/ ) const
 {
-    return false;
+	return false;
 }
 
 QRectF AbstractItemView::itemRect( const QModelIndex& index ) const
 {
-    return this->itemPath( index ).boundingRect();
+	return this->itemPath( index ).boundingRect();
 }
 
 QRectF AbstractItemView::itemRect( int row, int column, const QModelIndex& parent ) const
 {
-    return this->itemRect( this->model()->index( row, column, parent ) );
+	return this->itemRect( this->model()->index( row, column, parent ) );
 }
 
 QRegion AbstractItemView::itemRegion( const QModelIndex &index ) const
@@ -106,113 +111,113 @@ QRegion AbstractItemView::itemRegion( const QModelIndex &index ) const
 }
 
 QModelIndex AbstractItemView::moveCursor( QAbstractItemView::CursorAction cursorAction,
-        Qt::KeyboardModifiers /*modifiers*/ )
+										  Qt::KeyboardModifiers /*modifiers*/ )
 {
-    switch( cursorAction )
-    {
-    case QAbstractItemView::MoveDown:
-        break;
-    default:
-        break;
-    }
-    return QModelIndex();
+	switch( cursorAction )
+	{
+		case QAbstractItemView::MoveDown:
+		break;
+		default:
+		break;
+	}
+	return QModelIndex();
 }
 
 
 void AbstractItemView::resizeEvent( QResizeEvent* event )
 {
-    setScrollBarValues();
-    QAbstractItemView::resizeEvent( event );
+	setScrollBarValues();
+	QAbstractItemView::resizeEvent( event );
 }
 
 
 int AbstractItemView::rows(const QModelIndex &index) const
 {
-    return this->model()->rowCount(model()->parent(index));
+	return this->model()->rowCount(model()->parent(index));
 }
 
 
 void AbstractItemView::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
 {
-    QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
-    updateValues();
-    viewport()->update();
-    setScrollBarValues();
+	QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);
+	updateValues();
+	viewport()->update();
+	setScrollBarValues();
 }
 
 
 void AbstractItemView::rowsInserted(const QModelIndex& /*parent*/, int /*start*/, int /*end*/)
 {
-    updateValues();
-    viewport()->update();
-    setScrollBarValues();
+	updateValues();
+	viewport()->update();
+	setScrollBarValues();
 }
 
 
 void AbstractItemView::scrollTo(const QModelIndex& index, ScrollHint hint )
 {
 	return;
-    Q_UNUSED( hint )
-    QRect area = viewport()->rect();
-    QRect rect = visualRect(index);
-    horizontalScrollBar()->setValue( area.width() / 2 );
-    return;
-    if (rect.left() < area.left())
-        horizontalScrollBar()->setValue(
-            horizontalScrollBar()->value() + rect.left() - area.left());
-    else if (rect.right() > area.right())
-        horizontalScrollBar()->setValue(
-            horizontalScrollBar()->value() + qMin(
-                rect.right() - area.right(), rect.left() - area.left()));
-    if (rect.top() < area.top())
-        verticalScrollBar()->setValue(
-            verticalScrollBar()->value() + rect.top() - area.top());
-    else if (rect.bottom() > area.bottom())
-        verticalScrollBar()->setValue(
-            verticalScrollBar()->value() + qMin(
-                rect.bottom() - area.bottom(), rect.top() - area.top()));
-    update();
+	Q_UNUSED( hint )
+	QRect area = viewport()->rect();
+	QRect rect = visualRect(index);
+	horizontalScrollBar()->setValue( area.width() / 2 );
+	return;
+	if (rect.left() < area.left())
+		horizontalScrollBar()->setValue(
+					horizontalScrollBar()->value() + rect.left() - area.left());
+	else if (rect.right() > area.right())
+		horizontalScrollBar()->setValue(
+					horizontalScrollBar()->value() + qMin(
+						rect.right() - area.right(), rect.left() - area.left()));
+	if (rect.top() < area.top())
+		verticalScrollBar()->setValue(
+					verticalScrollBar()->value() + rect.top() - area.top());
+	else if (rect.bottom() > area.bottom())
+		verticalScrollBar()->setValue(
+					verticalScrollBar()->value() + qMin(
+						rect.bottom() - area.bottom(), rect.top() - area.top()));
+	update();
 }
 
 
 void AbstractItemView::setModel(QAbstractItemModel *model)
 {
-    QAbstractItemView::setModel( model );
-    this->updateValues();
+	QAbstractItemView::setModel( model );
+	this->updateValues();
 }
 
 
 void AbstractItemView::setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command )
 {
-    int rows = this->model()->rowCount( this->rootIndex() );
-    int columns = this->model()->columnCount( this->rootIndex() );
-    int count = 0;
-    QPainterPath contentsPath;
-    contentsPath.addRect( rect );
-    for ( int row = 0; row < rows; ++row )
-    {
-        for( int col = 0; col < columns; ++col )
-        {
-            QModelIndex index = this->model()->index( row, col, this->rootIndex() );
-            QPainterPath path = this->itemPath( index );
-            if ( !path.intersected(contentsPath).isEmpty() )
-            {
-                count += 1;
-                this->selectionModel()->select( index, command );
-            }
-        }
-    }
-    if ( count == 0 )
-    {
-        this->selectionModel()->clear();
-    }
-    this->viewport()->update();
+	int rows = this->model()->rowCount( this->rootIndex() );
+	int columns = this->model()->columnCount( this->rootIndex() );
+	int count = 0;
+	QPainterPath contentsPath;
+	contentsPath.addRect( rect );
+	for ( int row = 0; row < rows; ++row )
+	{
+		for( int col = 0; col < columns; ++col )
+		{
+			QModelIndex index = this->model()->index( row, col, this->rootIndex() );
+			QPainterPath path = this->itemPath( index );
+			if ( !path.intersected(contentsPath).isEmpty() )
+			{
+				count += 1;
+				this->selectionModel()->select( index, command );
+			}
+		}
+	}
+	if ( count == 0 )
+	{
+		this->selectionModel()->clear();
+	}
+	this->viewport()->update();
 }
 
 
 int AbstractItemView::verticalOffset() const
 {
-    return verticalScrollBar()->value();
+	return verticalScrollBar()->value();
 }
 
 
@@ -221,15 +226,15 @@ QRect AbstractItemView::visualRect(const QModelIndex &index) const
 	if ( !index.isValid() )
 		return QRect();
 
-    QRect rect = itemRect(index).toRect();
-    return rect;
+	QRect rect = itemRect(index).toRect();
+	return rect;
 }
 
 
 QRegion AbstractItemView::visualRegionForSelection( const QItemSelection& selection ) const
 {
-    Q_UNUSED( selection )
-    return QRegion( QRect( 0, 0, this->width(), this->height() ) );
+	Q_UNUSED( selection )
+	return QRegion( QRect( 0, 0, this->width(), this->height() ) );
 }
 
 bool AbstractItemView::isSelected( const QModelIndex& index ) const

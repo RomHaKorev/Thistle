@@ -15,108 +15,108 @@ AbstractAxis::AbstractAxis( AbstractAxisPrivate* d ): d_ptr( d )
 
 AbstractAxis::~AbstractAxis()
 {
-  if ( d_ptr )
-    delete d_ptr;
-  d_ptr = 0;
+	if ( d_ptr )
+		delete d_ptr;
+	d_ptr = 0;
 }
 
 void AbstractAxis::setBounds( qreal min, qreal max )
 {
-    d_ptr->min = min;
-    d_ptr->max = max;
-    d_ptr->calculateBounds();
-    qreal orderMin = Thistle::calculateOrder( min );
-    qreal orderMax = Thistle::calculateOrder( max );
+	d_ptr->min = min;
+	d_ptr->max = max;
+	d_ptr->calculateBounds();
+	qreal orderMin = Thistle::calculateOrder( min );
+	qreal orderMax = Thistle::calculateOrder( max );
 
-    if ( qFloor( qAbs(min) / orderMin ) > 12 )
-        orderMin *= 10.0;
-    else if ( min == 0 )
-        orderMin = -1;
+	if ( qFloor( qAbs(min) / orderMin ) > 12 )
+		orderMin *= 10.0;
+	else if ( min == 0 )
+		orderMin = -1;
 
-    if ( qFloor( qAbs(max) / orderMax ) > 12 )
-        orderMax *= 10.0;
-    else if ( max == 0 )
-        orderMax = -1;
+	if ( qFloor( qAbs(max) / orderMax ) > 12 )
+		orderMax *= 10.0;
+	else if ( max == 0 )
+		orderMax = -1;
 
-    this->setTickIncrement( qMax( orderMin, orderMax ) );
+	this->setTickIncrement( qMax( orderMin, orderMax ) );
 
-    if ( this->tickIncrement() >= 10 )
-    {
-        d_ptr->precision = 0;
-    }
-    else if ( this->tickIncrement() == 1 )
-    {
-        d_ptr->precision = 2;
-    }
-    else
-    {
-        int nbZero = QString::number( this->tickIncrement() ).count( "0" );
-        d_ptr->precision = nbZero + 2;
-    }
+	if ( this->tickIncrement() >= 10 )
+	{
+		d_ptr->precision = 0;
+	}
+	else if ( this->tickIncrement() == 1 )
+	{
+		d_ptr->precision = 2;
+	}
+	else
+	{
+		int nbZero = QString::number( this->tickIncrement() ).count( "0" );
+		d_ptr->precision = nbZero + 2;
+	}
 }
 
 qreal AbstractAxis::minimum() const
 {
-  qreal exp = qPow( 10, this->precision() );
-  qreal floor = d_ptr->minBound * exp;
-    return floor / exp;
+	qreal exp = qPow( 10, this->precision() );
+	qreal floor = d_ptr->minBound * exp;
+	return floor / exp;
 }
 
 qreal AbstractAxis::maximum() const
 {
-  qreal exp = qPow( 10, this->precision() );
-  qreal floor = d_ptr->maxBound * exp;
-  return floor / exp;
+	qreal exp = qPow( 10, this->precision() );
+	qreal floor = d_ptr->maxBound * exp;
+	return floor / exp;
 }
 
 double AbstractAxis::order() const
 {
-    return d_ptr->order;
+	return d_ptr->order;
 }
 
 int AbstractAxis::precision() const
 {
-    return d_ptr->precision;
+	return d_ptr->precision;
 }
 
 qreal AbstractAxis::tickIncrement() const
 {
-    return d_ptr->tickIncrement;
+	return d_ptr->tickIncrement;
 }
 
 int AbstractAxis::ticksCount() const
 {
-    return d_ptr->ticksCount;
+	return d_ptr->ticksCount;
 }
 
 qreal AbstractAxis::labelsLength() const
 {
-    return d_ptr->labelsLength;
+	return d_ptr->labelsLength;
 }
 
 void AbstractAxis::setPrecision( int precision )
 {
-    d_ptr->precision = precision;
+	d_ptr->precision = precision;
 }
 
 void AbstractAxis::setTicksCount( int count )
 {
-    d_ptr->ticksCount = count;
+	d_ptr->ticksCount = count;
 }
 
 void AbstractAxis::setLabelsLength( int length )
 {
-    d_ptr->labelsLength = length;
+	d_ptr->labelsLength = length;
 }
 
 void AbstractAxis::setTickIncrement( qreal size )
 {
-    d_ptr->tickIncrement = size;
+	d_ptr->tickIncrement = size;
 }
 
 void AbstractAxis::setOrder( double order )
 {
-    d_ptr->order = order;
+	d_ptr->order = order;
 }
 
 

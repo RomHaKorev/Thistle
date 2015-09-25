@@ -16,17 +16,17 @@ class LinearChart;
 class LinearChartPrivate : public SerieChartPrivate
 {
 protected:
-    LinearChart* q_func() const
-    {
-        return reinterpret_cast<LinearChart*>(q_ptr);
-    }
+	LinearChart* q_func() const
+	{
+		return reinterpret_cast<LinearChart*>(q_ptr);
+	}
 
 public:
-    LinearChartPrivate( LinearChart* q );
+	LinearChartPrivate( LinearChart* q );
 	LinearChartPrivate( LinearChart* q, AbstractCoordinateSystemView* coordView );
-    virtual ~LinearChartPrivate();
-   
-    void updateAxis();
+	virtual ~LinearChartPrivate();
+
+	void updateAxis();
 };
 
 }

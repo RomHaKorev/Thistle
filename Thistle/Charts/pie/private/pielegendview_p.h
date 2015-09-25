@@ -18,7 +18,7 @@ public:
 	virtual void calculateSizeHint( const QSize& source );
 
 private:
-	
+
 };
 
 } // namespace Thistle

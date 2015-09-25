@@ -37,23 +37,23 @@ class CartesianCoordinatePlane;
 
 class LinearChart : public SerieChart
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( LinearChart );
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( LinearChart );
 public:
 
-    explicit LinearChart(QWidget *parent = 0);
+	explicit LinearChart(QWidget *parent = 0);
 	explicit LinearChart( AbstractCoordinateSystemView* coordSysView, QWidget *parent = 0 );
 
-    virtual AbstractChartDelegate* delegate() const
-    {
-        const Q_D( LinearChart );
-        return d->delegate();
-    }
+	virtual AbstractChartDelegate* delegate() const
+	{
+		const Q_D( LinearChart );
+		return d->delegate();
+	}
 
 protected:
-    explicit LinearChart( LinearChartPrivate* d, QWidget *parent = 0);
+	explicit LinearChart( LinearChartPrivate* d, QWidget *parent = 0);
 	explicit LinearChart( LinearChartPrivate* d, AbstractCoordinateSystemView* coordSysView, QWidget* parent = 0 );
-    virtual QPainterPath itemPath( const QModelIndex& index ) const;
+	virtual QPainterPath itemPath( const QModelIndex& index ) const;
 };
 
 }

@@ -6,7 +6,7 @@
 namespace Thistle
 {
 AbstractLegendViewPrivate::AbstractLegendViewPrivate( AbstractLegendView* parent, AbstractChart* chart )
-: AbstractItemViewPrivate( parent ), q_ptr( parent ), associatedChart( chart ), parentManageSize( false )
+	: AbstractItemViewPrivate( parent ), q_ptr( parent ), associatedChart( chart ), parentManageSize( false )
 {}
 
 

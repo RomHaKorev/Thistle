@@ -20,7 +20,7 @@ private:
 public:
 	QRectF valuesRect;
 
-    CartesianCoordinatePlanePrivate();
+	CartesianCoordinatePlanePrivate();
 	~CartesianCoordinatePlanePrivate();
 
 	const LinearAxis& xAxis() const;
@@ -32,8 +32,8 @@ public:
 	virtual AbstractAxis& axis( unsigned int index );
 	virtual unsigned int axisCount() const;
 
-    bool verticalLabels;
-    QPointF valueOffset;
+	bool verticalLabels;
+	QPointF valueOffset;
 
 };
 

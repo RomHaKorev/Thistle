@@ -5,12 +5,13 @@
 #include <QPen>
 namespace Thistle
 {
-	class AbstractCoordinateSystemView;
+class AbstractCoordinateSystemView;
+
 struct LinearAxisDelegatePrivate
 {
 	LinearAxisDelegatePrivate( AbstractCoordinateSystemView* parent );
 	~LinearAxisDelegatePrivate();
-	
+
 	AbstractCoordinateSystemView* parent;
 
 	QFont font;
@@ -18,7 +19,9 @@ struct LinearAxisDelegatePrivate
 	QPen tick;
 	QPen textPen;
 	qreal tickReduceFactor;
+	int tickStyle;
 };
+
 }
 
 #endif // THISTLE_LinearAxisDelegate_H

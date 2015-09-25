@@ -28,20 +28,20 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 namespace Thistle
 {
-class PointChart;
+class ScatterChart;
 class RadialChart;
 class CartesianCoordinatePlaneView;
 
 
 class SerieChart : public AbstractChart
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( SerieChart );
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( SerieChart );
 protected:
-    virtual void scan();
+	virtual void scan();
 	virtual void updateRects();
 
-    SerieChart( SerieChartPrivate* d, QWidget* parent = 0 );
+	SerieChart( SerieChartPrivate* d, QWidget* parent = 0 );
 
 	virtual void paintSerie( QPainter& painter, int column );
 	virtual void paintEvent( QPaintEvent* ev );
@@ -52,19 +52,19 @@ protected:
 	bool isActiveColumn( int column ) const;
 
 public:
-    explicit SerieChart( AbstractCoordinateSystemView* coordSysView, QWidget* parent = 0 );
-    ~SerieChart();
-    
-    void setCoordSysView( AbstractCoordinateSystemView* axis );
-    inline AbstractCoordinateSystemView* coordinateSystemView() const
-    {
-        const Q_D( SerieChart );
-        return d->coordinateSystemView();
-    }
+	explicit SerieChart( AbstractCoordinateSystemView* coordSysView, QWidget* parent = 0 );
+	virtual ~SerieChart();
+
+	void setCoordSysView( AbstractCoordinateSystemView* axis );
+	inline AbstractCoordinateSystemView* coordinateSystemView() const
+	{
+		const Q_D( SerieChart );
+		return d->coordinateSystemView();
+	}
 
 	void paint( QPainter& painter );
 
-    void setModel( QAbstractItemModel* model );
+	void setModel( QAbstractItemModel* model );
 };
 
 }

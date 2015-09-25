@@ -21,7 +21,7 @@ class LinearAxisDelegate;
 
 class AbstractCoordinateSystemView
 {
-    Q_DECLARE_PRIVATE( AbstractCoordinateSystemView );
+	Q_DECLARE_PRIVATE( AbstractCoordinateSystemView );
 
 public:
 	enum GridAttribute
@@ -34,37 +34,38 @@ public:
 	Q_DECLARE_FLAGS( GridAttributes, GridAttribute )
 
 protected:
-    AbstractCoordinateSystemViewPrivate* d_ptr;
-    AbstractCoordinateSystemView( AbstractCoordinateSystemViewPrivate* d );
+	AbstractCoordinateSystemViewPrivate* d_ptr;
+	AbstractCoordinateSystemView( AbstractCoordinateSystemViewPrivate* d );
 
 public:
-    AbstractCoordinateSystemView( AbstractCoordinateSystem* coordSys );
-    virtual ~AbstractCoordinateSystemView();
+	AbstractCoordinateSystemView( AbstractCoordinateSystem* coordSys );
+	virtual ~AbstractCoordinateSystemView();
 
-    qreal labelsLength( int axisIndex ) const;
-    int   ticksCount( int axisIndex ) const;
-    long  order( int axisIndex ) const;
+	qreal labelsLength( int axisIndex ) const;
+	int   ticksCount( int axisIndex ) const;
+	long  order( int axisIndex ) const;
 
-    void setLabelsLength( int axisIndex, int length );
-    void setTicksCount( int axisIndex, int nb );
-    void setOrder( int axisIndex, long order );
+	void setLabelsLength( int axisIndex, int length );
+	void setTicksCount( int axisIndex, int nb );
+	void setOrder( int axisIndex, long order );
 
-    virtual QPointF origin() const;
-    void setRect( const QRect& );
+	virtual QPointF origin() const;
+	void setRect( const QRect& );
 
-    virtual void paintBack( QPainter& painter ) const = 0;
-    virtual void paintFront( QPainter& painter ) const = 0;
+	virtual void paintBack( QPainter& painter ) const = 0;
+	virtual void paintFront( QPainter& painter ) const = 0;
 
-    AbstractCoordinateSystem* coordinateSystem() const;
+	AbstractCoordinateSystem* coordinateSystem() const;
 
-    void setModel( QAbstractItemModel* model );
-    QAbstractItemModel* model() const;
+	void setModel( QAbstractItemModel* model );
+	QAbstractItemModel* model() const;
 
-    virtual void update() = 0;
+	virtual void update() = 0;
 
-  LinearAxisDelegate* delegate() const;
-  void setDelegate( LinearAxisDelegate* delegate );
-
+	QSharedPointer<LinearAxisDelegate> delegate() const;
+	void setDelegate( QSharedPointer<LinearAxisDelegate> delegate );
+	void setDelegateForAxis( int index, QSharedPointer<LinearAxisDelegate> delegate );
+	QSharedPointer<LinearAxisDelegate> delegateForAxis( int index ) const;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( AbstractCoordinateSystemView::GridAttributes )

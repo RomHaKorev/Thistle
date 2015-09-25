@@ -9,8 +9,8 @@ class PieChart;
 class PieLegendView : public AbstractLegendView
 {
 protected:
-    PieChart* chart;
-    //virtual void paint( QPainter& painter ) const;
+	PieChart* chart;
+	//virtual void paint( QPainter& painter ) const;
 	virtual void paintSerie( QPainter &painter, int serie, const QRect& rect ) const;
 public:
 	PieLegendView( PieChart* parent );

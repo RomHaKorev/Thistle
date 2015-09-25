@@ -8,7 +8,6 @@
 
 namespace Thistle
 {
-
 PieLegendViewPrivate::PieLegendViewPrivate( PieLegendView* parent, PieChart* associatedChart )
 	: AbstractLegendViewPrivate( parent, associatedChart )
 {}

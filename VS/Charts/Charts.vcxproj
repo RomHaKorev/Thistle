@@ -14,6 +14,9 @@
     <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_abstractlegendview.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_kiviatchartwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_linearchart.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -30,6 +33,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_abstractlegendview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_kiviatchartwidget.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_linearchart.cpp">
@@ -71,8 +77,10 @@
     <ClCompile Include="..\..\Thistle\Charts\base\seriedelegates.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\base\serieformat.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatchart.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatchartwidget.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystem.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystemview.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatchartwidget_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatchart_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatcoordinatesystem_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\linear\linearchart.cpp" />
@@ -88,11 +96,18 @@
     <ClCompile Include="..\..\Thistle\Charts\pie\private\piechart3d_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\pie\private\pielegendview_p.cpp" />
     <ClCompile Include="..\..\Thistle\Charts\pie\private\piechart_p.cpp" />
-    <ClCompile Include="..\..\Thistle\Charts\point\pointchart.cpp" />
-    <ClCompile Include="..\..\Thistle\Charts\point\private\pointchart_p.cpp" />
-    <ClCompile Include="..\..\Thistle\Charts\point\pointchartcoordinateplaneview.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\scatter\private\scatterchartwidget_p.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\scatter\private\scatterchart_p.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\scatter\scatterchart.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\scatter\scatterchartcoordinateplaneview.cpp" />
+    <ClCompile Include="..\..\Thistle\Charts\scatter\scatterchartwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Thistle\Charts\scatter\private\scatterchartwidget_p.h" />
+    <ClInclude Include="..\..\Thistle\Charts\scatter\private\scatterchart_p.h" />
+    <ClInclude Include="..\..\Thistle\Charts\scatter\scatterchart.h" />
+    <ClInclude Include="..\..\Thistle\Charts\scatter\scatterchartcoordinateplaneview.h" />
+    <ClInclude Include="..\..\Thistle\Charts\scatter\scatterchartwidget.h" />
     <CustomBuild Include="..\..\Thistle\Charts\base\linearaxisdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </Message>
@@ -130,25 +145,22 @@
     <ClInclude Include="..\..\Thistle\Charts\base\private\linearaxis_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\base\seriedelegates.h" />
     <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatchart.h" />
+    <CustomBuild Include="..\..\Thistle\Charts\kiviat\kiviatchartwidget.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing kiviatchartwidget.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DCHARTS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Charts" "-I.\..\..\Thistle" "-I.\..\..\Thistle\Charts\Layers" "-I.\..\..\Thistle\Charts\private" "-I.\..\..\Thistle\Charts\linear\private" "-I.\..\..\Thistle\Charts\linear" "-I.\..\..\Thistle\Charts\xy" "-I.\..\..\Thistle\Charts\base" "-I.\..\..\Thistle\Charts\kiviat" "-I.\..\..\Thistle\Charts\pie\private" "-I.\..\..\Thistle\Charts\Style" "-I.\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing kiviatchartwidget.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DCHARTS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\Thistle\Charts" "-I.\..\..\Thistle\Charts\Layers" "-I.\..\..\Thistle\Charts\linear\private" "-I.\..\..\Thistle\Charts\linear" "-I.\..\..\Thistle\Charts\xy" "-I.\..\..\Thistle\Charts\base" "-I.\..\..\Thistle\Charts\kiviat" "-I.\..\..\Thistle\Charts\pie\private" "-I.\..\..\Thistle\Charts\Style" "-I.\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles"</Command>
+    </CustomBuild>
     <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystem.h" />
     <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatcoordinatesystemview.h" />
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\private\kiviatchartwidget_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\kiviat\private\kiviatchart_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\kiviat\private\kiviatcoordinatesystem_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\linear\linearchartcoordinateplaneview.h" />
-    <CustomBuild Include="..\..\Thistle\Charts\point\pointchart.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Command>
-    </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\pie\piechart.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing piechart.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
@@ -173,21 +185,6 @@
     <ClInclude Include="..\..\Thistle\Charts\pie\private\piechart3d_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\pie\private\pielegendview_p.h" />
     <ClInclude Include="..\..\Thistle\Charts\pie\private\piechart_p.h" />
-    <ClInclude Include="..\..\Thistle\Charts\point\private\pointchart_p.h" />
-    <CustomBuild Include="..\..\Thistle\Charts\point\pointchartcoordinateplaneview.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Command>
-    </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\base\seriechart.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing seriechart.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\bin\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>

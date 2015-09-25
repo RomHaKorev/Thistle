@@ -4,13 +4,12 @@
 
 namespace Thistle
 {
-
 CartesianCoordinatePlanePrivate::CartesianCoordinatePlanePrivate()
-: AbstractCoordinateSystemPrivate()
+	: AbstractCoordinateSystemPrivate()
 {
-    this->model = 0;
-    //this->yAxis().setPrecision( 2 );
-    //this->yAxis().setTicksCount( 5 );
+	this->model = 0;
+	//this->yAxis().setPrecision( 2 );
+	//this->yAxis().setTicksCount( 5 );
 	//this->yAxis().setLabelsLength( 10 );
 	//this->xAxis().setLabelsLength( 0 );
 	this->axis_x.setPrecision( 2 );
@@ -18,8 +17,8 @@ CartesianCoordinatePlanePrivate::CartesianCoordinatePlanePrivate()
 	this->axis_y.setTicksCount( 5 );
 	this->axis_y.setLabelsLength( 10 );
 
-    this->axisPen = QPen( QColor( Thistle::Colors::DarkGray ), 1 );
-    this->verticalLabels = true;
+	this->axisPen = QPen( QColor( Thistle::Colors::DarkGray ), 1 );
+	this->verticalLabels = true;
 }
 
 CartesianCoordinatePlanePrivate::~CartesianCoordinatePlanePrivate()
@@ -59,6 +58,5 @@ unsigned int CartesianCoordinatePlanePrivate::axisCount() const
 {
 	return 2;
 }
-
 
 }

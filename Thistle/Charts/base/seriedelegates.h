@@ -29,33 +29,33 @@ class SerieChart;
 class AbstractChartDelegate : public QStyledItemDelegate
 {
 public:
-    AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ) {}
+	AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ) {}
 
-    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+	virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
 
-    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+	virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
 
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
 };
 
 class DotDelegate : public AbstractChartDelegate
 {
-    QPolygon createDiamond( const QRect& rect) const;
+	QPolygon createDiamond( const QRect& rect) const;
 
 public:
-    explicit DotDelegate( SerieChart* parent = 0 );
-    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	explicit DotDelegate( SerieChart* parent = 0 );
+	virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 class BarDelegate : public AbstractChartDelegate
 {
 public:
-    explicit BarDelegate( SerieChart* parent = 0 );
-    virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	explicit BarDelegate( SerieChart* parent = 0 );
+	virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 }

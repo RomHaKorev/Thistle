@@ -17,12 +17,12 @@ class DotDelegate;
 
 struct LinearLegendViewPrivate : public AbstractLegendViewPrivate
 {
-    DotDelegate* dotDelegate;
+	DotDelegate* dotDelegate;
 
-    LinearLegendViewPrivate( LinearLegendView* parent, LinearChart* associatedChart );
-    ~LinearLegendViewPrivate();
+	LinearLegendViewPrivate( LinearLegendView* parent, LinearChart* associatedChart );
+	~LinearLegendViewPrivate();
 
-    virtual void calculateSizeHint( const QSize& source );
+	virtual void calculateSizeHint( const QSize& source );
 };
 
 }

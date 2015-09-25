@@ -6,7 +6,6 @@
 
 namespace Thistle
 {
-
 KiviatChartPrivate::KiviatChartPrivate( KiviatChart* q, AbstractCoordinateSystemView* coordSysView )
 	:LinearChartPrivate( q, coordSysView )
 {}
@@ -68,7 +67,7 @@ void KiviatChartPrivate::paintSpline( QPainter& painter, int column, bool isActi
 
 	const Q_Q( SerieChart );
 	int rows = q->model()->rowCount();
-	
+
 	if ( rows < 3 )
 		return;
 

@@ -16,18 +16,18 @@ class LinearChartWidget;
 
 struct LinearChartWidgetPrivate
 {
-    LinearChartWidget* parent;
-    LinearChart chart;
-    LinearLegendView legendView;
-    QLabel title;
+	LinearChartWidget* parent;
+	LinearChart chart;
+	LinearLegendView legendView;
+	QLabel title;
 
-    LinearChartWidgetPrivate( LinearChartWidget* parent );
-    ~LinearChartWidgetPrivate(); 
+	LinearChartWidgetPrivate( LinearChartWidget* parent );
+	~LinearChartWidgetPrivate();
 
-    void resize( const QRect& rect );
+	void resize( const QRect& rect );
 
-    void setModel( QAbstractItemModel* model );
-    QAbstractItemModel* model() const;
+	void setModel( QAbstractItemModel* model );
+	QAbstractItemModel* model() const;
 };
 
 }

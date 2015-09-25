@@ -7,11 +7,10 @@
 
 namespace Thistle
 {
-
 struct LinearAxisPrivate: public AbstractAxisPrivate
 {
-    QLineF line;
-    LinearAxisPrivate();
+	QLineF line;
+	LinearAxisPrivate();
 };
 
 }

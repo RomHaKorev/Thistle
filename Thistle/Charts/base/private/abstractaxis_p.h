@@ -9,20 +9,20 @@ namespace Thistle
 {
 struct AbstractAxisPrivate
 {
-    qreal minBound;
-    qreal maxBound;
-    qreal min;
-    qreal max;
-    double order;
-    int precision;
-    int ticksCount;
-    qreal tickIncrement;
-    qreal labelsLength;
-    QLineF line;
+	qreal minBound;
+	qreal maxBound;
+	qreal min;
+	qreal max;
+	double order;
+	int precision;
+	int ticksCount;
+	qreal tickIncrement;
+	qreal labelsLength;
+	QLineF line;
 	QString name;
-    AbstractAxisPrivate();
+	AbstractAxisPrivate();
 
-    void calculateBounds();
+	void calculateBounds();
 };
 
 }

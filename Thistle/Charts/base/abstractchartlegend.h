@@ -11,17 +11,17 @@ class AbstractItemView;
 class AbstractChartLegend
 {
 private:
-    AbstractItemView* chart;
+	AbstractItemView* chart;
 	QRect area;
 
 public:
 	AbstractChartLegend( AbstractItemView* chart );
 	virtual ~AbstractChartLegend();
 
-    virtual void paint( QPainter& painter ) const;
+	virtual void paint( QPainter& painter ) const;
 
 protected:
-    virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const;
+	virtual void paintSerie( QPainter &painter, int serie, QPoint pos, int maxHeight ) const;
 };
 
 }

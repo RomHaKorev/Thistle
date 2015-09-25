@@ -16,37 +16,37 @@ class AbstractChartPrivate;
 
 class AbstractChart :  public AbstractItemView
 {
-    Q_DECLARE_PRIVATE( AbstractChart );
+	Q_DECLARE_PRIVATE( AbstractChart );
 
 protected:
-    virtual void process();
+	virtual void process();
 
-    virtual void scan() = 0;
+	virtual void scan() = 0;
 
-    virtual void setScrollBarValues();
-    virtual void updateRects() = 0;
+	virtual void setScrollBarValues();
+	virtual void updateRects() = 0;
 
-    virtual void resizeEvent( QResizeEvent* ev );
-    virtual void paintEvent(QPaintEvent* event) = 0;
+	virtual void resizeEvent( QResizeEvent* ev );
+	virtual void paintEvent(QPaintEvent* event) = 0;
 
-    AbstractChart( AbstractChartPrivate* d, QWidget* parent = 0 );
+	AbstractChart( AbstractChartPrivate* d, QWidget* parent = 0 );
 
-    QModelIndex nearestItem( const QPointF& pos ) const;
+	QModelIndex nearestItem( const QPointF& pos ) const;
 
 public:
-    AbstractChart( QWidget* parent = 0 );
-    ~AbstractChart();
+	AbstractChart( QWidget* parent = 0 );
+	virtual ~AbstractChart();
 
-    virtual QModelIndex indexAt(const QPoint& point) const;
+	virtual QModelIndex indexAt(const QPoint& point) const;
 
 #if 0
-    void addLayer( AbstractLayer* layer );
+	void addLayer( AbstractLayer* layer );
 #endif
-    SerieFormat serieFormat( int column ) const;
-    void setSerieFormat( int column, SerieFormat style);
+	SerieFormat serieFormat( int column ) const;
+	void setSerieFormat( int column, SerieFormat style);
 
 public slots:
-    void updateValues();
+	void updateValues();
 };
 
 }

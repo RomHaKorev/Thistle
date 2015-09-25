@@ -2,19 +2,19 @@
 #define RADIALTREELAYOUT_H
 
 #include "treelayout.h"
-#include "radialtreelayout_p.h"
+#include "private/radialtreelayout_p.h"
 
 namespace Thistle
 {
-    class TreeView;
+class TreeView;
 
 class RadialTreeLayout : public TreeLayout
 {
-    Q_DECLARE_PRIVATE( RadialTreeLayout );
+	Q_DECLARE_PRIVATE( RadialTreeLayout );
 public:
-    RadialTreeLayout( TreeView* parent = 0 );
-    ~RadialTreeLayout();
-    virtual void update();
+	RadialTreeLayout( TreeView* parent = 0 );
+	virtual ~RadialTreeLayout();
+	virtual void update();
 
 private:
 

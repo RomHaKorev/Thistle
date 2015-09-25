@@ -1,31 +1,45 @@
 #include "abstractcoordinatesystemview_p.h"
 #include "../abstractcoordinatesystem.h"
 #include "../../../kernel/global.h"
-#include "../linearaxisdelegate.h"
 
 #include <QAbstractItemModel>
 
 namespace Thistle
 {
-
 AbstractCoordinateSystemViewPrivate::AbstractCoordinateSystemViewPrivate( AbstractCoordinateSystem* coordSys, AbstractCoordinateSystemView* coordSysView )
-	: tickPen( Qt::lightGray, 1 ), model( 0 ), delegate( new LinearAxisDelegate( coordSysView ) ), coordSystem( coordSys )
+	: tickPen( Qt::lightGray, 1 ), model( 0 ), defaultDelegate( new LinearAxisDelegate( coordSysView ) ), coordSystem( coordSys )
 {}
 
 
 AbstractCoordinateSystemViewPrivate::~AbstractCoordinateSystemViewPrivate()
 {
-  if ( delegate )
-    delete delegate;
-
-  if ( coordSystem )
-	  delete coordSystem;
+	if ( coordSystem )
+		delete coordSystem;
 }
 
 
 AbstractCoordinateSystem* AbstractCoordinateSystemViewPrivate::coordinateSystem() const
 {
-  return coordSystem;
+	return coordSystem;
+}
+
+
+void AbstractCoordinateSystemViewPrivate::setDelegateFor( int index, QSharedPointer<LinearAxisDelegate> delegate )
+{
+	if ( delegates.contains( index ) )
+		delegates[ index ] = delegate;
+	else
+		delegates.insert( index, delegate );
+}
+
+
+QSharedPointer<LinearAxisDelegate> AbstractCoordinateSystemViewPrivate::delegateFor( int index )
+{
+	if ( delegates.contains( index ) )
+		if ( !delegates[ index ].isNull() )
+			return delegates[ index ];
+
+	return defaultDelegate;
 }
 
 }

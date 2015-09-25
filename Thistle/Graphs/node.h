@@ -16,8 +16,8 @@ along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
 Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef NODE_H
-#define NODE_H
+#ifndef THISTLE_NODE_H
+#define THISTLE_NODE_H
 
 #include <QPointF>
 #include <QList>
@@ -26,7 +26,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 
 #include "edge.h"
-#include "node_p.h"
+#include "private/node_p.h"
 
 namespace Thistle
 {
@@ -34,27 +34,27 @@ namespace Thistle
 class Node
 {
 private:
-    QSharedPointer<NodePrivate> d_ptr;
+	QSharedPointer<NodePrivate> d_ptr;
 public:
-    Node();
-    ~Node();
-    void process();
-    void calculateForce();
-    QPointF pos() const;
-    QList<Node*> edges() const;
-    void setPos( qreal x, qreal y );
-    void setPos( QPointF p );
-    void addEdge( Node* node );
-    inline bool isNull() const
-    {
-        return d_ptr->pos.isNull();
-    }
-    inline void init()
-    {
-        d_ptr->pos = QPointF();
-    }
+	Node();
+	virtual ~Node();
+	void process();
+	void calculateForce();
+	QPointF pos() const;
+	QList<Node*> edges() const;
+	void setPos( qreal x, qreal y );
+	void setPos( QPointF p );
+	void addEdge( Node* node );
+	inline bool isNull() const
+	{
+		return d_ptr->pos.isNull();
+	}
+	inline void init()
+	{
+		d_ptr->pos = QPointF();
+	}
 };
 
 }
 
-#endif // NODE_H
+#endif // THISTLE_NODE_H

@@ -14,26 +14,26 @@ class LinearChart;
 
 class LinearChartWidget : public QWidget
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( LinearChartWidget );
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( LinearChartWidget );
 
 protected:
-    LinearChartWidgetPrivate* d_ptr;
-    void resizeEvent( QResizeEvent* ev );
+	LinearChartWidgetPrivate* d_ptr;
+	void resizeEvent( QResizeEvent* ev );
 public:
-    LinearChartWidget( QWidget* parent = 0 );
-    ~LinearChartWidget();
+	LinearChartWidget( QWidget* parent = 0 );
+	~LinearChartWidget();
 
-    void setModel( QAbstractItemModel* model );
-    QAbstractItemModel* model() const;
+	void setModel( QAbstractItemModel* model );
+	QAbstractItemModel* model() const;
 
-    void setTitle( const QString& title );
-    QString title() const;
+	void setTitle( const QString& title );
+	QString title() const;
 
-    QFont font() const;
-    void setFont( const QFont& font );
+	QFont font() const;
+	void setFont( const QFont& font );
 
-    LinearChart& chart();
+	LinearChart& chart();
 };
 }
 

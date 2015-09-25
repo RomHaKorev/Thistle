@@ -15,33 +15,33 @@ class AbstractLegendViewPrivate;
 
 class AbstractLegendView : public AbstractItemView
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( AbstractLegendView );
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( AbstractLegendView );
 private:
-    virtual void setScrollBarValues();
+	virtual void setScrollBarValues();
 
-    virtual QModelIndex indexAt(const QPoint &point) const;
-    virtual void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
-    virtual QPainterPath itemPath( const QModelIndex& index ) const;
-    virtual void updateValues();
+	virtual QModelIndex indexAt(const QPoint &point) const;
+	virtual void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
+	virtual QPainterPath itemPath( const QModelIndex& index ) const;
+	virtual void updateValues();
 
-    virtual void paintSerie( QPainter &painter, int serie, const QRect& rect ) const = 0;
-    virtual void paintEvent( QPaintEvent* ev );
+	virtual void paintSerie( QPainter &painter, int serie, const QRect& rect ) const = 0;
+	virtual void paintEvent( QPaintEvent* ev );
 
-    bool isActiveColumn( int column ) const;
+	bool isActiveColumn( int column ) const;
 
 protected:
-    AbstractLegendView( AbstractLegendViewPrivate* d, QWidget* parent = 0 );
+	AbstractLegendView( AbstractLegendViewPrivate* d, QWidget* parent = 0 );
 
 public:
-    AbstractLegendView( AbstractChart* chart, QWidget* parent = 0 );
-    virtual ~AbstractLegendView();
+	AbstractLegendView( AbstractChart* chart, QWidget* parent = 0 );
+	virtual ~AbstractLegendView();
 
-    void resizeEvent( QResizeEvent* ev );
+	void resizeEvent( QResizeEvent* ev );
 
-    void updateSizeHint( const QSize& source );
+	void updateSizeHint( const QSize& source );
 
-    QSize sizeHint() const;
+	QSize sizeHint() const;
 #if 0
 	void parentManageSize( bool leave );
 #endif

@@ -33,25 +33,25 @@ class ItemDelegatePrivate;
 
 class ItemDelegate : public QStyledItemDelegate
 {
-    Q_OBJECT
+	Q_OBJECT
 
 private:
-    QPolygon createDiamond( const QRect& r ) const;
+	QPolygon createDiamond( const QRect& r ) const;
 protected:
-    ItemDelegatePrivate* d_ptr;
+	ItemDelegatePrivate* d_ptr;
 
 public:
-    explicit ItemDelegate( QWidget* parent = 0 );
-    ~ItemDelegate();
+	explicit ItemDelegate( QWidget* parent = 0 );
+	virtual ~ItemDelegate();
 
-    void setItemStyle( const ItemStyle& myStyle );
-    ItemStyle& itemStyle() const;
-    QWidget *createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-    void setEditorData( QWidget *editor, const QModelIndex &index ) const;
-    void setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
+	void setItemStyle( const ItemStyle& myStyle );
+	ItemStyle& itemStyle() const;
+	QWidget *createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+	void setEditorData( QWidget *editor, const QModelIndex &index ) const;
+	void setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 }

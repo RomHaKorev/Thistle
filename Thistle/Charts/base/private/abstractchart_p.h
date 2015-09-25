@@ -5,36 +5,35 @@
 #include <QString>
 #include <QFont>
 
-#include "../../../kernel/abstractitemview_p.h"
+#include "../../../kernel/private/abstractitemview_p.h"
 //#include "Layers/abstractLayer.h"
 #include "../../base/serieformat.h"
 
 namespace Thistle
 {
-
 class AbstractChart;
 
 struct AbstractChartPrivate : AbstractItemViewPrivate
 {
 
-    inline AbstractChart* q_func()
-    {
-        return q_ptr;
-    }
-    AbstractChart* q_ptr;
+	inline AbstractChart* q_func()
+	{
+		return q_ptr;
+	}
+	AbstractChart* q_ptr;
 
-    QMap<int, SerieFormat> style;
+	QMap<int, SerieFormat> style;
 
-    AbstractChartPrivate( AbstractChart* q );
-    ~AbstractChartPrivate();
+	AbstractChartPrivate( AbstractChart* q );
+	~AbstractChartPrivate();
 
-    void pressEvent();
-    void releaseEvent();
+	void pressEvent();
+	void releaseEvent();
 
 #if 0
-    std::list<AbstractLayer*> layers;
-    void addLayer( AbstractLayer* layer );
-    void applyLayer( QPainter& painter );
+	std::list<AbstractLayer*> layers;
+	void addLayer( AbstractLayer* layer );
+	void applyLayer( QPainter& painter );
 #endif
 };
 

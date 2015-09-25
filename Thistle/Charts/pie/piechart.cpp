@@ -26,100 +26,100 @@ namespace Thistle
 {
 
 PieChart::PieChart( QWidget* parent ) :
-  AbstractChart( new PieChartPrivate( false, this ), parent )
+	AbstractChart( new PieChartPrivate( false, this ), parent )
 {
-  this->setEditTriggers( QAbstractItemView::NoEditTriggers );
+	this->setEditTriggers( QAbstractItemView::NoEditTriggers );
 }
 
 PieChart::PieChart( PieChartPrivate* d, QWidget* parent ) : AbstractChart( d, parent )
 {
-  this->setEditTriggers( QAbstractItemView::NoEditTriggers );
+	this->setEditTriggers( QAbstractItemView::NoEditTriggers );
 }
 
 
 qreal PieChart::startAngle() const
 {
-  const Q_D( PieChart );
-  return d->startAngle;
+	const Q_D( PieChart );
+	return d->startAngle;
 }
 
 
 void PieChart::configureColor(QPainter &painter, QColor base, int flag ) const
 {
-  switch ( flag )
-  {
-  case 0:
-  default:
-    painter.setPen( QPen( base.darker( 105 ), 4 ) );
-    painter.setBrush( base );
-    break;
-  case 1:
-    painter.setPen( QPen( base.darker( 105 ), 2 ) );
-    painter.setBrush( base );
-    break;
-  case 2:
-    base.setAlpha( base.alpha() * 0.75 );
-    painter.setPen( QPen( base.lighter( 110 ), 2 ) );
-    painter.setBrush( base.lighter( 120 ) );
-  }
+	switch ( flag )
+	{
+		case 0:
+		default:
+			painter.setPen( QPen( base.darker( 105 ), 4 ) );
+			painter.setBrush( base );
+		break;
+		case 1:
+			painter.setPen( QPen( base.darker( 105 ), 2 ) );
+			painter.setBrush( base );
+		break;
+		case 2:
+			base.setAlpha( base.alpha() * 0.75 );
+			painter.setPen( QPen( base.lighter( 110 ), 2 ) );
+			painter.setBrush( base.lighter( 120 ) );
+	}
 }
 
 
 QPainterPath PieChart::itemPart( qreal angle, qreal delta, bool splitted ) const
 {
-  const Q_D( PieChart );
-  QPainterPath part;
-  part.moveTo( d->rect.center() );
-  part.arcTo( d->rect, -angle, -delta );
-  if ( splitted == true )
-  {
-    QPointF p = this->splittedOffset( angle, delta );
-    part.translate( p.x(), p.y() );
-  }
-  part.closeSubpath();
-  if ( d->ring == true )
-  {
-    QPainterPath p;
-    p.addEllipse( d->rect.center(), d->rect.width() * 0.2, d->rect.height() * 0.2 );
-    part = part.subtracted( p );
-  }
-  return part;
+	const Q_D( PieChart );
+	QPainterPath part;
+	part.moveTo( d->rect.center() );
+	part.arcTo( d->rect, -angle, -delta );
+	if ( splitted == true )
+	{
+		QPointF p = this->splittedOffset( angle, delta );
+		part.translate( p.x(), p.y() );
+	}
+	part.closeSubpath();
+	if ( d->ring == true )
+	{
+		QPainterPath p;
+		p.addEllipse( d->rect.center(), d->rect.width() * 0.2, d->rect.height() * 0.2 );
+		part = part.subtracted( p );
+	}
+	return part;
 }
 
 
 QPainterPath PieChart::itemPath( const QModelIndex& index ) const
 {
-  const Q_D( PieChart );
-  QPainterPath path;
-  qreal angle = d->startAngle;
-  for ( int r = 0; r < index.row(); ++r )
-  {
-    QModelIndex id = this->model()->index( r, 0 );
-    qreal v = qAbs( this->model()->data( id ).toReal() );
-    qreal delta = 360.0 * v/d->total;
-    angle += delta;
-  }
-  qreal v = qAbs( this->model()->data( index ).toReal() );
-  qreal delta = 360.0 * v/d->total;
-  if ( this->selectionModel()->selectedIndexes().contains( index ))
-  {
-    path = this->itemPart( angle, delta, true );
-  }
-  else
-  {
-    path = this->itemPart( angle, delta );
-  }
-  return path;
+	const Q_D( PieChart );
+	QPainterPath path;
+	qreal angle = d->startAngle;
+	for ( int r = 0; r < index.row(); ++r )
+	{
+		QModelIndex id = this->model()->index( r, 0 );
+		qreal v = qAbs( this->model()->data( id ).toReal() );
+		qreal delta = 360.0 * v/d->total;
+		angle += delta;
+	}
+	qreal v = qAbs( this->model()->data( index ).toReal() );
+	qreal delta = 360.0 * v/d->total;
+	if ( this->selectionModel()->selectedIndexes().contains( index ))
+	{
+		path = this->itemPart( angle, delta, true );
+	}
+	else
+	{
+		path = this->itemPart( angle, delta );
+	}
+	return path;
 }
 
 
 void PieChart::paintEvent( QPaintEvent* ev )
 {
-  Q_UNUSED( ev );
+	Q_UNUSED( ev );
 
-  QPainter painter( this->viewport() );
+	QPainter painter( this->viewport() );
 
-  paint( painter );
+	paint( painter );
 }
 
 
@@ -165,101 +165,101 @@ The legend corresponds to the text in the Horizontal QHeaderView and the style d
 */
 void PieChart::paintLegend( QPainter& painter) const
 {
-  return;
-  const Q_D( PieChart );
-  painter.save();
-  QFontMetrics metrics( this->font() );
-  int metricsH = metrics.height();
-  int h = metricsH + 10;
-  int rows = this->model()->rowCount();
-  int w = 0;
-  int maxWidth = d->legend->area.width();
-  QPoint legendPos( d->legend->area.topLeft() );
-  QPoint pos = legendPos + QPoint( 50, 0);
-  for (int r = 0; r < rows; ++r )
-  {
-    QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
-    int sWidth = metrics.width( s ) + 50;
-    QPoint p;
-    if ( ( w + sWidth ) > maxWidth )
-    {
-      int y = pos.y();
-      p = QPoint( d->legend->area.x(), y + h );
-      pos = QPoint( d->legend->area.x(), y + h );
-      w = sWidth;
-      pos += QPoint( sWidth, 0 );
-    }
-    else
-    {
-      p = pos + QPoint( -40,    0 );
-      w += sWidth;
-      pos += QPoint( sWidth, 0 );
-    }
-    this->paintSerieLegend(painter, r, p, metricsH);
-  }
-  painter.restore();
+	return;
+	const Q_D( PieChart );
+	painter.save();
+	QFontMetrics metrics( this->font() );
+	int metricsH = metrics.height();
+	int h = metricsH + 10;
+	int rows = this->model()->rowCount();
+	int w = 0;
+	int maxWidth = d->legend->area.width();
+	QPoint legendPos( d->legend->area.topLeft() );
+	QPoint pos = legendPos + QPoint( 50, 0);
+	for (int r = 0; r < rows; ++r )
+	{
+		QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
+		int sWidth = metrics.width( s ) + 50;
+		QPoint p;
+		if ( ( w + sWidth ) > maxWidth )
+		{
+			int y = pos.y();
+			p = QPoint( d->legend->area.x(), y + h );
+			pos = QPoint( d->legend->area.x(), y + h );
+			w = sWidth;
+			pos += QPoint( sWidth, 0 );
+		}
+		else
+		{
+			p = pos + QPoint( -40,    0 );
+			w += sWidth;
+			pos += QPoint( sWidth, 0 );
+		}
+		this->paintSerieLegend(painter, r, p, metricsH);
+	}
+	painter.restore();
 }
 
 
 void PieChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const
 {
 
-  QColor color( this->model()->data( this->model()->index( serie, 0 ), Qt::DecorationRole ).toString() );
-  if ( !color.isValid() )
-  {
-    color = Colors::predefinedColor( serie );
-  }
+	QColor color( this->model()->data( this->model()->index( serie, 0 ), Qt::DecorationRole ).toString() );
+	if ( !color.isValid() )
+	{
+		color = Colors::predefinedColor( serie );
+	}
 
-  QRect r( pos.x(), pos.y() - 20, 14, 14 );
-  QPoint posText = pos + QPoint( 20, -metricsH/2 );
+	QRect r( pos.x(), pos.y() - 20, 14, 14 );
+	QPoint posText = pos + QPoint( 20, -metricsH/2 );
 
-  QString s = this->model()->headerData( serie, Qt::Vertical ).toString();
-  painter.drawText( posText, s );
-  painter.save();
-  painter.setBrush( color );
-  painter.setPen( QPen( color.darker( 100 ), 1 ) );
-  painter.drawRect( r );
+	QString s = this->model()->headerData( serie, Qt::Vertical ).toString();
+	painter.drawText( posText, s );
+	painter.save();
+	painter.setBrush( color );
+	painter.setPen( QPen( color.darker( 100 ), 1 ) );
+	painter.drawRect( r );
 
-  painter.restore();
+	painter.restore();
 }
 #endif
 
 
 void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) const
 {
-  if ( isSelected == true )
-  {
-    this->paintPartSplitted( painter, angle, delta, color );
-    return;
-  }
-  QPainterPath part = this->itemPart( angle, delta );
-  painter.save();
-  painter.setClipPath( part ); /* To avoid the "borders superposition" */
-  int flag = 0;
-  this->configureColor( painter, color, flag );
-  painter.drawPath( part );
-  painter.restore();
+	if ( isSelected == true )
+	{
+		this->paintPartSplitted( painter, angle, delta, color );
+		return;
+	}
+	QPainterPath part = this->itemPart( angle, delta );
+	painter.save();
+	painter.setClipPath( part ); /* To avoid the "borders superposition" */
+	int flag = 0;
+	this->configureColor( painter, color, flag );
+	painter.drawPath( part );
+	painter.restore();
 }
 
 
 void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
-                  QColor color, bool isSelected ) const
+								  QColor color, bool isSelected ) const
 {
-  const Q_D( PieChart );
-  QPainterPath part = this->itemPart( angle, delta, true );
-  painter.save();
-  if ( d->splitted == true
-      && ( !this->selectionModel()->selectedIndexes().isEmpty() || this->currentIndex().isValid() )
-      && isSelected == false )
-  {
-    this->configureColor( painter, color, 2 );
-  }
-  else
-  {
-    this->configureColor( painter, color, 1 );
-  }
-  painter.drawPath( part );
-  painter.restore();
+	const Q_D( PieChart );
+	QPainterPath part = this->itemPart( angle, delta, true );
+	painter.save();
+	if ( d->splitted == true
+		 && ( !this->selectionModel()->selectedIndexes().isEmpty() || this->currentIndex().isValid() )
+		 && isSelected == false )
+	{
+		this->configureColor( painter, color, 2 );
+	}
+	else
+	{
+		this->configureColor( painter, color, 1 );
+	}
+	painter.drawPath( part );
+	painter.restore();
 }
 
 
@@ -270,38 +270,38 @@ void PieChart::scrollTo(const QModelIndex &/*index*/, ScrollHint /*hint*/)
 
 void PieChart::setRing( bool ring )
 {
-  Q_D( PieChart );
-  d->ring = ring;
+	Q_D( PieChart );
+	d->ring = ring;
 }
 
 
 void PieChart::setSplitted( bool splitted )
 {
-  Q_D( PieChart );
-  d->splitted = splitted;
+	Q_D( PieChart );
+	d->splitted = splitted;
 }
 
 
 void PieChart::setStartAngle( qreal angle )
 {
-  Q_D( PieChart );
-  d->startAngle = angle;
-  this->viewport()->update();
+	Q_D( PieChart );
+	d->startAngle = angle;
+	this->viewport()->update();
 }
 
 
 QPointF PieChart::splittedOffset( qreal angle, qreal delta ) const
 {
-  const Q_D( PieChart );
-  QPainterPath part;
-  part.moveTo( d->rect.center() );
-  part.arcTo( d->rect, -angle, -delta );
-  part.closeSubpath();
-  QPointF p = part.pointAtPercent( 0.5 );
-  QLineF line( p, d->rect.center() );
-  line.setLength( line.length() * d->offsetFactor );
-  p = line.p2();
-  return d->rect.center() - p;
+	const Q_D( PieChart );
+	QPainterPath part;
+	part.moveTo( d->rect.center() );
+	part.arcTo( d->rect, -angle, -delta );
+	part.closeSubpath();
+	QPointF p = part.pointAtPercent( 0.5 );
+	QLineF line( p, d->rect.center() );
+	line.setLength( line.length() * d->offsetFactor );
+	p = line.p2();
+	return d->rect.center() - p;
 }
 
 
@@ -317,24 +317,24 @@ void PieChart::updateRects()
 
 QRect PieChart::visualRect( const QModelIndex& index ) const
 {
-  Q_UNUSED(index)
-  /* To force to repaint the whole chart. Not only the area of the part*/
-  return QRect( 0, 0, width(), height() );
+	Q_UNUSED(index)
+	/* To force to repaint the whole chart. Not only the area of the part*/
+	return QRect( 0, 0, width(), height() );
 }
 
 void PieChart::scan()
 {
-  Q_D( PieChart );
+	Q_D( PieChart );
 
-  int rows = this->model()->rowCount();
+	int rows = this->model()->rowCount();
 
-  d->total = 0;
-  for ( int r = 0; r < rows; ++r )
-  {
-	  QVariant var = this->model()->index( r, 0 ).data();
-    qreal value = var.toDouble();
-    d->total += value;
-  }
+	d->total = 0;
+	for ( int r = 0; r < rows; ++r )
+	{
+		QVariant var = this->model()->index( r, 0 ).data();
+		qreal value = var.toDouble();
+		d->total += value;
+	}
 }
 
 

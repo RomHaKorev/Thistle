@@ -4,9 +4,8 @@
 
 namespace Thistle
 {
-
 CartesianCoordinatePlaneViewPrivate::CartesianCoordinatePlaneViewPrivate( AbstractCoordinateSystemView* coordSysView )
-: AbstractCoordinateSystemViewPrivate( new CartesianCoordinatePlane(), coordSysView )
+	: AbstractCoordinateSystemViewPrivate( new CartesianCoordinatePlane(), coordSysView )
 {}
 
 CartesianCoordinatePlaneViewPrivate::~CartesianCoordinatePlaneViewPrivate()
@@ -14,7 +13,7 @@ CartesianCoordinatePlaneViewPrivate::~CartesianCoordinatePlaneViewPrivate()
 
 CartesianCoordinatePlane* CartesianCoordinatePlaneViewPrivate::coordinateSystem() const
 {
-    return dynamic_cast<CartesianCoordinatePlane*>( coordSystem );
+	return dynamic_cast<CartesianCoordinatePlane*>( coordSystem );
 }
 
 }

@@ -20,11 +20,11 @@ HEADERS  += \
 
 DISTFILES += \
 	Sandbox.qml \
-    ItemTypeView.qml
+	ItemTypeView.qml
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../bin/mingw32/ -lKernel
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../bin/mingw32/ -lKerneld
-else:unix: LIBS += -L$$PWD/../../../bin/mingw32/ -lKernel
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../bin/libs/mingw32/ -lKernel -lCharts
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../bin/libs/mingw32/ -lKerneld -lChartsd
+else:unix: LIBS += -L$$PWD/../../../bin/libs/mingw32/ -lKernel -lChartsd
 
-INCLUDEPATH += $$PWD/../../Thistle/kernel
-DEPENDPATH += $$PWD/../../Thistle/kernel
+INCLUDEPATH += $$PWD/../../Thistle
+DEPENDPATH += $$PWD/../../Thistle

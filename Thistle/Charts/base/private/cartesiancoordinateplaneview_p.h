@@ -12,10 +12,10 @@ class CartesianCoordinatePlane;
 
 struct CartesianCoordinatePlaneViewPrivate : public AbstractCoordinateSystemViewPrivate
 {
-    CartesianCoordinatePlane* coordinateSystem() const;
+	CartesianCoordinatePlane* coordinateSystem() const;
 
 	CartesianCoordinatePlaneViewPrivate( AbstractCoordinateSystemView* coordSysView );
-    virtual ~CartesianCoordinatePlaneViewPrivate();
+	virtual ~CartesianCoordinatePlaneViewPrivate();
 };
 
 }

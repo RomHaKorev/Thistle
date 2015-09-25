@@ -8,21 +8,21 @@ DEFINES += THISTLE_KERNEL_LIBRARY
 
 DESTDIR = ../
 
-QMAKE_CXXFLAGS += -Wno-unused-function
+QMAKE_CXXFLAGS += -Wno-unused-function -Wall
 
 SOURCES += \
-	../../Thistle/kernel/itemstyle_p.cpp \
+	../../Thistle/kernel/private/itemstyle_p.cpp \
 	../../Thistle/kernel/itemstyle.cpp \
-	../../Thistle/kernel/itemdelegate_p.cpp \
+	../../Thistle/kernel/private/itemdelegate_p.cpp \
 	../../Thistle/kernel/itemdelegate.cpp \
-	../../Thistle/kernel/abstractitemview_p.cpp \
+	../../Thistle/kernel/private/abstractitemview_p.cpp \
 	../../Thistle/kernel/abstractitemview.cpp
 
 HEADERS += \
-	../../Thistle/kernel/itemstyle_p.h \
+	../../Thistle/kernel/private/itemstyle_p.h \
 	../../Thistle/kernel/itemstyle.h \
-	../../Thistle/kernel/itemdelegate_p.h \
+	../../Thistle/kernel/private/itemdelegate_p.h \
 	../../Thistle/kernel/itemdelegate.h \
 	../../Thistle/kernel/global.h \
-	../../Thistle/kernel/abstractitemview_p.h \
+	../../Thistle/kernel/private/abstractitemview_p.h \
 	../../Thistle/kernel/abstractitemview.h

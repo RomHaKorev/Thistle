@@ -34,19 +34,19 @@ class SerieFormat
 {
 	friend class SerieFormatDigester;
 protected:
-    SerieFormatPrivate* d;
+	SerieFormatPrivate* d;
 public:
-    SerieFormat();
+	SerieFormat();
 	void reset();
 
-    void setBrush( const QBrush& brush);
-    void setPen( const QPen& pen);
-    void setShape( const Thistle::Shape shape);
-    void setType( const Thistle::Types type);
-    QBrush brush() const;
-    QPen pen() const;
-    Thistle::Shape shape() const;
-    Thistle::Types type() const;
+	void setBrush( const QBrush& brush);
+	void setPen( const QPen& pen);
+	void setShape( const Thistle::Shape shape);
+	void setType( const Thistle::Types type);
+	QBrush brush() const;
+	QPen pen() const;
+	Thistle::Shape shape() const;
+	Thistle::Types type() const;
 };
 
 }

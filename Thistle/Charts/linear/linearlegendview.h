@@ -15,16 +15,16 @@ class LinearLegendViewPrivate;
 
 class LinearLegendView : public AbstractLegendView
 {
-    Q_DECLARE_PRIVATE( LinearLegendView );
+	Q_DECLARE_PRIVATE( LinearLegendView );
 private:
-    virtual void paintSerie( QPainter &painter, int serie, const QRect& rect ) const;
+	virtual void paintSerie( QPainter &painter, int serie, const QRect& rect ) const;
 
-    bool isActiveColumn( int column ) const;
+	bool isActiveColumn( int column ) const;
 public:
-    LinearLegendView( LinearChart* chart, QWidget* parent = 0 );
-    virtual ~LinearLegendView();
+	LinearLegendView( LinearChart* chart, QWidget* parent = 0 );
+	virtual ~LinearLegendView();
 
-    void updateSizeHint( const QSize& source );
+	void updateSizeHint( const QSize& source );
 };
 
 }

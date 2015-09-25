@@ -28,7 +28,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include <QDebug>
 
-#include "../../kernel/abstractitemview_p.h"
+#include "../../kernel/private/abstractitemview_p.h"
 #include "private/seriechart_p.h"
 #include "../../kernel/global.h"
 #include "abstractcoordinatesystemview.h"
@@ -42,9 +42,9 @@ SerieChart::SerieChart( AbstractCoordinateSystemView* coordSysView, QWidget* par
 
 SerieChart::SerieChart( SerieChartPrivate* d, QWidget* parent ) : AbstractChart( d, parent )
 {
-  //this->setCoordSysView( d->coordinateSys );
-  d->pointDelegate->setParent( this );
-  d->barDelegate->setParent( this );
+	//this->setCoordSysView( d->coordinateSys );
+	d->pointDelegate->setParent( this );
+	d->barDelegate->setParent( this );
 }
 
 SerieChart::~SerieChart()
@@ -53,156 +53,155 @@ SerieChart::~SerieChart()
 
 void SerieChart::scan()
 {
-    Q_D( SerieChart );
-    d->readModel();
+	Q_D( SerieChart );
+	d->readModel();
 }
 
 
 void SerieChart::updateRects()
 {
-  Q_D( SerieChart );
+	Q_D( SerieChart );
 
-  if ( this->model() == 0 )
-  {
-    return;
-  }
+	if ( this->model() == 0 )
+	{
+		return;
+	}
 
-  this->scan();
-  
-  d->coordinateSystemView()->setRect( this->contentsRect() );
-  d->coordinateSystemView()->update();
+	this->scan();
+
+	d->coordinateSystemView()->setRect( this->contentsRect() );
+	d->coordinateSystemView()->update();
 }
 
 
 void SerieChart::setCoordSysView( AbstractCoordinateSystemView* axis )
 {
-    Q_D( SerieChart );
-  d->setCoordinateSystemView( axis );
+	Q_D( SerieChart );
+	d->setCoordinateSystemView( axis );
 }
 
 
 void SerieChart::setModel( QAbstractItemModel* model )
 {
-    Q_D( SerieChart );
-    QAbstractItemView::setModel( model );
-    d->coordinateSystemView()->setModel( model );
-    this->process();
+	Q_D( SerieChart );
+	QAbstractItemView::setModel( model );
+	d->coordinateSystemView()->setModel( model );
+	this->process();
 }
 
 void SerieChart::paintSerie( QPainter& painter, int column )
 {
-  Q_D( SerieChart );
-  Thistle::Types t = this->columnType( column );
+	Q_D( SerieChart );
+	Thistle::Types t = this->columnType( column );
 
-  d->selectDelegate( t );
+	d->selectDelegate( t );
 
-  painter.save();
-  SerieFormat style = this->serieFormat( column );
-  painter.setBrush( style.brush() );
-  painter.setPen( style.pen() );
+	painter.save();
+	SerieFormat style = this->serieFormat( column );
+	painter.setBrush( style.brush() );
+	painter.setPen( style.pen() );
 
-  bool isActive = this->isActiveColumn( column );
+	bool isActive = this->isActiveColumn( column );
 
-  d->paint( painter, column, t, isActive );
+	d->paint( painter, column, t, isActive );
 
-  painter.restore();
+	painter.restore();
 }
 
 
 QList<int> SerieChart::barStyleColumns() const
 {
-  QList<int> bars;
-  for ( int c = 0; c < this->model()->columnCount(); ++c )
-  {
-    if ( columnType( c ) == Thistle::Bar )
-    {
-      bars.append( c );
-    }
-  }
-  return bars;
+	QList<int> bars;
+	for ( int c = 0; c < this->model()->columnCount(); ++c )
+	{
+		if ( columnType( c ) == Thistle::Bar )
+		{
+			bars.append( c );
+		}
+	}
+	return bars;
 }
 
 
 QList<int> SerieChart::calculateColumnsOrder() const
 {
-  QList<int> areas;
-  QList<int> bars;
-  QList<int> lines;
-  QList<int> points;
+	QList<int> areas;
+	QList<int> bars;
+	QList<int> lines;
+	QList<int> points;
 
-  QList<int> areasDisabled;
-  QList<int> barsDisabled;
-  QList<int> linesDisabled;
-  QList<int> pointsDisabled;
+	QList<int> areasDisabled;
+	QList<int> barsDisabled;
+	QList<int> linesDisabled;
+	QList<int> pointsDisabled;
 
-  for ( int i = 0; i < this->model()->columnCount(); ++i )
-  {
-    Thistle::Types t = columnType( i );
-    if ( this->isActiveColumn( i ) )
-    {
-      if ( t.testFlag( Thistle::Area ) )
-        areas << i;
-      else if ( t.testFlag( Thistle::Bar ) )
-        bars << i;
-      else if ( t.testFlag( Thistle::Dot ) )
-        points << i;
-      else
-        lines << i;
-    }
-    else
-    {
-      if ( t.testFlag( Thistle::Area ) )
-        areasDisabled << i;
-      else if ( t.testFlag( Thistle::Bar ) )
-        barsDisabled << i;
-      else if ( t.testFlag( Thistle::Dot ) )
-        pointsDisabled << i;
-      else
-        linesDisabled << i;
-    }
-  }
-  areasDisabled << barsDisabled << linesDisabled << pointsDisabled << areas << bars << lines << points;
-  return areasDisabled;
+	for ( int i = 0; i < this->model()->columnCount(); ++i )
+	{
+		Thistle::Types t = columnType( i );
+		if ( this->isActiveColumn( i ) )
+		{
+			if ( t.testFlag( Thistle::Area ) )
+				areas << i;
+			else if ( t.testFlag( Thistle::Bar ) )
+				bars << i;
+			else if ( t.testFlag( Thistle::Dot ) )
+				points << i;
+			else
+				lines << i;
+		}
+		else
+		{
+			if ( t.testFlag( Thistle::Area ) )
+				areasDisabled << i;
+			else if ( t.testFlag( Thistle::Bar ) )
+				barsDisabled << i;
+			else if ( t.testFlag( Thistle::Dot ) )
+				pointsDisabled << i;
+			else
+				linesDisabled << i;
+		}
+	}
+	areasDisabled << barsDisabled << linesDisabled << pointsDisabled << areas << bars << lines << points;
+	return areasDisabled;
 }
 
 Thistle::Types SerieChart::columnType( int column ) const
 {
-  const Q_D( SerieChart );
-  if ( d->style.contains( column ) )
-  {
-    return d->style[ column ].type();
-  }
-  return SerieFormat().type();
+	const Q_D( SerieChart );
+	if ( d->style.contains( column ) )
+	{
+		return d->style[ column ].type();
+	}
+	return SerieFormat().type();
 }
 
 bool SerieChart::isActiveColumn( int column ) const
 {
-  if ( this->selectionModel() != 0 )
-  {
-    QModelIndexList selectedIndexes = this->selectionModel()->selectedIndexes();
-    if ( !selectedIndexes.isEmpty() )
-    {
-      Q_FOREACH( QModelIndex idx, selectedIndexes )
-      {
-        if ( idx.column() == column )
-        {
-          return true;
-        }
-      }
-      return false;
-    }
-  }
-  return true;
+	if ( this->selectionModel() != 0 )
+	{
+		QModelIndexList selectedIndexes = this->selectionModel()->selectedIndexes();
+		if ( !selectedIndexes.isEmpty() )
+		{
+			Q_FOREACH( QModelIndex idx, selectedIndexes )
+			{
+				if ( idx.column() == column )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	return true;
 }
 
 
 void SerieChart::paintEvent( QPaintEvent* ev )
 {
-  Q_UNUSED( ev )
+	Q_UNUSED( ev )
 
-  QPainter painter( this->viewport() );
-  paint( painter );
-
+	QPainter painter( this->viewport() );
+	paint( painter );
 }
 
 void SerieChart::paint( QPainter& painter )

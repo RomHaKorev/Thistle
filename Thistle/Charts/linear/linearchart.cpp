@@ -24,11 +24,18 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include "../base/abstractcoordinatesystemview.h"
 #include "../base/cartesiancoordinateplane.h"
+#include "../base/linearaxisdelegate.h"
 namespace Thistle
 {
 
 LinearChart::LinearChart( QWidget* parent ) : SerieChart( new LinearChartPrivate( this ), parent )
-{}
+{
+	QSharedPointer<Thistle::LinearAxisDelegate> delegate( new Thistle::LinearAxisDelegate( this->coordinateSystemView() ) );
+	LinearAxisDelegate::TickStyles styles = LinearAxisDelegate::Long;
+	styles|= LinearAxisDelegate::Label;
+	delegate->setTickStyles( styles );
+	this->coordinateSystemView()->setDelegateForAxis( 0, delegate );
+}
 
 LinearChart::LinearChart( AbstractCoordinateSystemView* coordSysView, QWidget *parent )
 	: SerieChart( new LinearChartPrivate( this, coordSysView ), parent )
@@ -37,11 +44,21 @@ LinearChart::LinearChart( AbstractCoordinateSystemView* coordSysView, QWidget *p
 	this->setCoordSysView( coordSysView );
 	d->pointDelegate->setParent( this );
 	d->barDelegate->setParent( this );
+	QSharedPointer<Thistle::LinearAxisDelegate> delegate( new Thistle::LinearAxisDelegate( this->coordinateSystemView() ) );
+	LinearAxisDelegate::TickStyles styles = LinearAxisDelegate::Long;
+	styles|= LinearAxisDelegate::Label;
+	delegate->setTickStyles( styles );
+	this->coordinateSystemView()->setDelegateForAxis( 0, delegate );
 }
 
 LinearChart::LinearChart( LinearChartPrivate* d, QWidget* parent )
 	: SerieChart( d, parent )
 {
+	QSharedPointer<Thistle::LinearAxisDelegate> delegate( new Thistle::LinearAxisDelegate( this->coordinateSystemView() ) );
+	LinearAxisDelegate::TickStyles styles = LinearAxisDelegate::Long;
+	styles|= LinearAxisDelegate::Label;
+	delegate->setTickStyles( styles );
+	this->coordinateSystemView()->setDelegateForAxis( 0, delegate );
 }
 
 LinearChart::LinearChart( LinearChartPrivate* d, AbstractCoordinateSystemView* coordSysView, QWidget* parent )
@@ -50,12 +67,17 @@ LinearChart::LinearChart( LinearChartPrivate* d, AbstractCoordinateSystemView* c
 	this->setCoordSysView( coordSysView );
 	d->pointDelegate->setParent( this );
 	d->barDelegate->setParent( this );
+	QSharedPointer<Thistle::LinearAxisDelegate> delegate( new Thistle::LinearAxisDelegate( this->coordinateSystemView() ) );
+	LinearAxisDelegate::TickStyles styles = LinearAxisDelegate::Long;
+	styles|= LinearAxisDelegate::Label;
+	delegate->setTickStyles( styles );
+	this->coordinateSystemView()->setDelegateForAxis( 0, delegate );
 }
 
 
 QPainterPath LinearChart::itemPath( const QModelIndex& index ) const
 {
-    const Q_D( LinearChart );
+	const Q_D( LinearChart );
 
 	QPainterPath path;
 
@@ -64,19 +86,19 @@ QPainterPath LinearChart::itemPath( const QModelIndex& index ) const
 	if ( !coordSys )
 		return path;
 
-    QRectF r;
-    Thistle::Types t = this->columnType( index.column() );
-    bool ok = false;
-    qreal value = index.data().toReal( &ok );
-    
+	QRectF r;
+	Thistle::Types t = this->columnType( index.column() );
+	bool ok = false;
+	qreal value = index.data().toReal( &ok );
+
 	if ( ok == false )
-        return path;
+		return path;
 
 	QPointF pos = coordSys->valueToPoint( index.row(), value );
-    QList<int> orderedColumns = this->calculateColumnsOrder();
-    if ( t == Thistle::Bar )
-    {
-        QList<int> bars = this->barStyleColumns();
+	QList<int> orderedColumns = this->calculateColumnsOrder();
+	if ( t == Thistle::Bar )
+	{
+		QList<int> bars = this->barStyleColumns();
 
 		qreal stepSize = coordSys->axisLength( CartesianCoordinatePlane::X ) / this->model()->rowCount();
 
@@ -89,17 +111,17 @@ QPainterPath LinearChart::itemPath( const QModelIndex& index ) const
 		pos += QPointF( margin / 2.0 + w * bars.indexOf( index.column() ) - stepSize / 2.0, 0 );
 
 		QPointF br( pos.x() + w, d->coordinateSystemView()->origin().y() );
-        r = QRectF( pos, br );
+		r = QRectF( pos, br );
 
 		if ( value < 0 )
-            r.translate( 0, 1 );
-        else
-            r.translate( 0, -1 );
-    }
-    else
-        r = QRectF( -7, -7, 14 ,14 ).translated( pos.x(), pos.y() );
+			r.translate( 0, 1 );
+		else
+			r.translate( 0, -1 );
+	}
+	else
+		r = QRectF( -7, -7, 14 ,14 ).translated( pos.x(), pos.y() );
 
-    path.addRect( r.normalized() );
+	path.addRect( r.normalized() );
 	return path;
 }
 

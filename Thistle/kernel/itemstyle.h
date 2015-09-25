@@ -14,23 +14,23 @@ class ItemStylePrivate;
 
 class ItemStyle
 {
-    ItemStylePrivate* d_ptr;
+	ItemStylePrivate* d_ptr;
 
 public:
-    ItemStyle();
+	ItemStyle();
 
-    void setBrush( const QBrush& brush, bool enabled = true );
+	void setBrush( const QBrush& brush, bool enabled = true );
 	void setBorderPen( const QPen& pen, bool enabled = true );
-    void setFont( const QFont& font );
+	void setFont( const QFont& font );
 	void setTextColor( const QColor& color, bool enabled = true );
-    void setDisplayText( bool displayText = true );
-    void setShape( Thistle::Shape shape );
+	void setDisplayText( bool displayText = true );
+	void setShape( Thistle::Shape shape );
 	QBrush brush( bool enabled = true ) const;
 	QPen borderPen( bool enabled = true ) const;
-    QFont font() const;
+	QFont font() const;
 	QColor textColor( bool enabled = true ) const;
-    bool displayText() const;
-    Thistle::Shape shape() const;
+	bool displayText() const;
+	Thistle::Shape shape() const;
 };
 
 }

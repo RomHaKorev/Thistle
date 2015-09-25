@@ -1,10 +1,10 @@
 TEMPLATE = subdirs
 
-SUBDIRS += Charts \
-	Sandbox \
+SUBDIRS += Kernel\
+	Charts \
 	Trees \
 	Graphs \
-	Kernel
+	Sandbox
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../bin/mingw32/ -lCharts
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../bin/mingw32/ -lChartsd

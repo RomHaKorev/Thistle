@@ -17,31 +17,31 @@ LinearAxis::~LinearAxis()
 
 void LinearAxis::setLine( const QLineF& line )
 {
-    Q_D( LinearAxis );
-    d->line = line;
+	Q_D( LinearAxis );
+	d->line = line;
 }
 
 
 QPointF LinearAxis::origin() const
 {
-    const Q_D( LinearAxis );
-    return d->line.p1();
+	const Q_D( LinearAxis );
+	return d->line.p1();
 }
 
 
 const QLineF& LinearAxis::line() const
 {
-    const Q_D( LinearAxis );
-    return d->line;
+	const Q_D( LinearAxis );
+	return d->line;
 }
 
 
 QPointF LinearAxis::pinpoint( qreal value ) const
 {
-    const Q_D( LinearAxis );
-    qreal e = qreal( this->maximum() - this->minimum() );
-    qreal ratio = ( value - this->minimum() ) / e;
-    return d->line.pointAt( ratio );
+	const Q_D( LinearAxis );
+	qreal e = qreal( this->maximum() - this->minimum() );
+	qreal ratio = ( value - this->minimum() ) / e;
+	return d->line.pointAt( ratio );
 }
 
 }

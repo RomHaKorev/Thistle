@@ -8,12 +8,12 @@ namespace Thistle
 {
 
 LinearChartPrivate::LinearChartPrivate( LinearChart* q )
-: SerieChartPrivate( q, new LinearChartCoordinatePlaneView() )
+	: SerieChartPrivate( q, new LinearChartCoordinatePlaneView() )
 {}
 
 
 LinearChartPrivate::LinearChartPrivate( LinearChart* q, AbstractCoordinateSystemView* coordView )
-: SerieChartPrivate( q, coordView )
+	: SerieChartPrivate( q, coordView )
 {}
 
 

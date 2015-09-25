@@ -5,5 +5,6 @@ namespace Thistle
 {
 
 LinearAxisPrivate::LinearAxisPrivate() : AbstractAxisPrivate()
- {}
+{}
+
 }

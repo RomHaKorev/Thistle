@@ -17,7 +17,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "itemdelegate.h"
-#include "itemdelegate_p.h"
+#include "private/itemdelegate_p.h"
 
 #include <QPainter>
 #include <QLineEdit>
@@ -27,41 +27,41 @@ namespace Thistle
 
 ItemDelegate::ItemDelegate( QWidget* parent ) : QStyledItemDelegate(parent)
 {
-    d_ptr = new ItemDelegatePrivate();
+	d_ptr = new ItemDelegatePrivate();
 }
 
 ItemDelegate::~ItemDelegate()
 {
-    delete d_ptr;
+	delete d_ptr;
 }
 
 QWidget* ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    Q_UNUSED( parent )
-    Q_UNUSED( option )
-    Q_UNUSED( index )
+	Q_UNUSED( parent )
+	Q_UNUSED( option )
+	Q_UNUSED( index )
 
-    QLineEdit* editor = new QLineEdit( parent );
-    editor->setGeometry( option.rect );
-    return editor;
+	QLineEdit* editor = new QLineEdit( parent );
+	editor->setGeometry( option.rect );
+	return editor;
 }
 
 void ItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index ) const
 {
-    QLineEdit* lineEdit = qobject_cast<QLineEdit*>( editor );
-    if ( lineEdit != 0 )
-    {
-        lineEdit->setText( index.model()->data( index ).toString() );
-    }
+	QLineEdit* lineEdit = qobject_cast<QLineEdit*>( editor );
+	if ( lineEdit != 0 )
+	{
+		lineEdit->setText( index.model()->data( index ).toString() );
+	}
 
 }
 void ItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
-    QLineEdit* lineEdit = qobject_cast<QLineEdit*>( editor );
-    if ( lineEdit != 0 )
-    {
-        model->setData( index, lineEdit->text(), Qt::DisplayRole );
-    }
+	QLineEdit* lineEdit = qobject_cast<QLineEdit*>( editor );
+	if ( lineEdit != 0 )
+	{
+		model->setData( index, lineEdit->text(), Qt::DisplayRole );
+	}
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -76,10 +76,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 	{
 		case Thistle::Ellipse:
 			painter->drawEllipse( r );
-			break;
+		break;
 		case Thistle::RoundedRect:
 			painter->drawRoundedRect( r, 5, 5 );
-			break;
+		break;
 		case Thistle::Diamond:
 			painter->drawPolygon( QPolygon()
 								  << r.topLeft() + QPoint( r.width() / 2, 0 )
@@ -87,19 +87,19 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 								  << r.bottomLeft() + QPoint( r.width() / 2, 0 )
 								  << r.topLeft() + QPoint( 0, r.height() / 2 )
 								  );
-			break;
+		break;
 		case Thistle::Triangle:
 			painter->drawPolygon( QPolygon()
 								  << r.topLeft() + QPoint( r.width() / 2, 0 )
 								  << r.bottomLeft() << r.bottomRight()
 								  );
-			break;
+		break;
 		case Thistle::ReversedTriangle:
 			painter->drawPolygon( QPolygon()
 								  << r.bottomLeft() + QPoint( r.width() / 2, 0 )
 								  << r.topLeft() << r.topRight()
 								  );
-			break;
+		break;
 		default:
 			painter->drawRect( r );
 	}
@@ -113,29 +113,29 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
 QPolygon ItemDelegate::createDiamond( const QRect& r ) const
 {
-    QPolygon poly;
-    poly << r.topLeft() + QPoint( r.width()/2, 0 );
-    poly << r.topRight() + QPoint( 0, r.height()/2 );
-    poly << r.bottomLeft() + QPoint( r.width()/2, 0 );
-    poly << r.topLeft() + QPoint( 0, r.height()/2 );
-    return poly;
+	QPolygon poly;
+	poly << r.topLeft() + QPoint( r.width()/2, 0 );
+	poly << r.topRight() + QPoint( 0, r.height()/2 );
+	poly << r.bottomLeft() + QPoint( r.width()/2, 0 );
+	poly << r.topLeft() + QPoint( 0, r.height()/2 );
+	return poly;
 }
 
 void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    Q_UNUSED( editor )
-    Q_UNUSED( option )
-    Q_UNUSED( index )
+	Q_UNUSED( editor )
+	Q_UNUSED( option )
+	Q_UNUSED( index )
 }
 
 void ItemDelegate::setItemStyle( const ItemStyle& s )
 {
-    d_ptr->style = s;
+	d_ptr->style = s;
 }
 
 ItemStyle& ItemDelegate::itemStyle() const
 {
-    return d_ptr->style;
+	return d_ptr->style;
 }
 
 }

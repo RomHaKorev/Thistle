@@ -17,12 +17,11 @@ class PieChart;
 class PieChart3DPrivate : public PieChartPrivate
 {
 public:
-    PieChart3DPrivate( PieChart* q );
+	PieChart3DPrivate( PieChart* q );
 
-    virtual void createRects( const QRect& area );
+	virtual void createRects( const QRect& area );
 
 };
 
 }
-
 #endif // THISTLE_PIECHART3D_P_H

@@ -1,5 +1,5 @@
-#ifndef GRAPHALGORITHM_H
-#define GRAPHALGORITHM_H
+#ifndef THISTLE_GRAPHALGORITHM_H
+#define THISTLE_GRAPHALGORITHM_H
 
 #include <QObject>
 #include <QTimer>
@@ -7,7 +7,7 @@
 #include "edge.h"
 #include "node.h"
 
-#include "graphalgorithm_p.h"
+#include "private/graphalgorithm_p.h"
 #include "abstractgraphalgorithm.h"
 
 namespace Thistle
@@ -17,25 +17,25 @@ class GraphView;
 
 class GraphAlgorithm : public AbstractGraphAlgorithm
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( GraphAlgorithm );
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( GraphAlgorithm );
 private:
-    void calculateForces( const QModelIndex& index );
+	void calculateForces( const QModelIndex& index );
 public:
-    GraphAlgorithm( GraphView* parent );
+	GraphAlgorithm( GraphView* parent );
 
-    void run();
+	void run();
 
-    inline void setPosition( const QModelIndex& index, QPointF pos )
-    {
-        Q_D( GraphAlgorithm );
-        d->itemPos[ index ].setPos( pos );
-    }
-    void setNodeWeight( qreal weight );
+	inline void setPosition( const QModelIndex& index, QPointF pos )
+	{
+		Q_D( GraphAlgorithm );
+		d->itemPos[ index ].setPos( pos );
+	}
+	void setNodeWeight( qreal weight );
 private slots:
-    void processTimer();
+	void processTimer();
 };
 
 }
 
-#endif // GRAPHALGORITHM_H
+#endif // THISTLE_GRAPHALGORITHM_H

@@ -1,12 +1,12 @@
 #include "itemstyle.h"
-#include "itemstyle_p.h"
+#include "private/itemstyle_p.h"
 
 namespace Thistle
 {
 
 ItemStyle::ItemStyle()
 {
-    d_ptr = new ItemStylePrivate();
+	d_ptr = new ItemStylePrivate();
 }
 
 
@@ -30,7 +30,7 @@ void ItemStyle::setBorderPen( const QPen& pen, bool enabled )
 
 void ItemStyle::setFont( const QFont& font )
 {
-    d_ptr->font = font;
+	d_ptr->font = font;
 }
 
 
@@ -45,13 +45,13 @@ void ItemStyle::setTextColor( const QColor& color, bool enabled )
 
 void ItemStyle::setDisplayText( bool displayText )
 {
-    d_ptr->displayText = displayText;
+	d_ptr->displayText = displayText;
 }
 
 
 void ItemStyle::setShape( Thistle::Shape shape )
 {
-    d_ptr->shape = shape;
+	d_ptr->shape = shape;
 }
 
 
@@ -76,7 +76,7 @@ QPen ItemStyle::borderPen( bool enabled ) const
 
 QFont ItemStyle::font() const
 {
-    return d_ptr->font;
+	return d_ptr->font;
 }
 
 
@@ -91,14 +91,14 @@ QColor ItemStyle::textColor( bool enabled ) const
 
 bool ItemStyle::displayText() const
 {
-    return d_ptr->displayText;
+	return d_ptr->displayText;
 }
 
 
 
 Thistle::Shape ItemStyle::shape() const
 {
-    return d_ptr->shape;
+	return d_ptr->shape;
 }
 
 }

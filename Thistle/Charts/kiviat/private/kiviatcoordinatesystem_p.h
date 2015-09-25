@@ -8,6 +8,7 @@
 
 namespace Thistle
 {
+
 class KiviatCoordinateSystemPrivate: public AbstractCoordinateSystemPrivate
 {
 private:
@@ -18,7 +19,7 @@ public:
 
 	virtual AbstractAxis& axis( unsigned int index );
 	virtual unsigned int axisCount() const;
-	
+
 	void update( QAbstractItemModel* model, const QRectF& chartRect );
 };
 

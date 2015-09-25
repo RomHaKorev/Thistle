@@ -58,27 +58,6 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Point">
-      <UniqueIdentifier>{e4a9d3a4-6f40-47fe-ba60-208f084286d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Point\Public">
-      <UniqueIdentifier>{c4f0b03c-35b2-4f67-8ce9-bd81c0795cd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Point\Public\Headers">
-      <UniqueIdentifier>{33a913dd-8def-4888-b943-579660b3801e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Point\Public\Sources">
-      <UniqueIdentifier>{ae5b6f3f-609b-4045-99a0-eee496038b04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Point\Private">
-      <UniqueIdentifier>{668fe5f3-2692-44d3-be40-da524009d563}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Point\Private\Headers">
-      <UniqueIdentifier>{e8eb0d6a-9356-4349-b87c-eb771457798e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Point\Private\Sources">
-      <UniqueIdentifier>{a038236e-f720-416c-9c0d-9c76e1317c5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Kiviat">
       <UniqueIdentifier>{30035e96-23ac-4a3e-b93c-a238a86151f3}</UniqueIdentifier>
     </Filter>
@@ -120,6 +99,27 @@
     </Filter>
     <Filter Include="Pie\Public\Sources">
       <UniqueIdentifier>{f18b3817-b092-4dfb-8ecb-386b8d8b2be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter">
+      <UniqueIdentifier>{e4a9d3a4-6f40-47fe-ba60-208f084286d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter\Public">
+      <UniqueIdentifier>{c4f0b03c-35b2-4f67-8ce9-bd81c0795cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter\Public\Headers">
+      <UniqueIdentifier>{33a913dd-8def-4888-b943-579660b3801e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter\Public\Sources">
+      <UniqueIdentifier>{ae5b6f3f-609b-4045-99a0-eee496038b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter\Private">
+      <UniqueIdentifier>{668fe5f3-2692-44d3-be40-da524009d563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter\Private\Headers">
+      <UniqueIdentifier>{e8eb0d6a-9356-4349-b87c-eb771457798e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scatter\Private\Sources">
+      <UniqueIdentifier>{a038236e-f720-416c-9c0d-9c76e1317c5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -188,15 +188,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\base\cartesiancoordinateplaneview.cpp">
       <Filter>base\Public\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\point\private\pointchart_p.cpp">
-      <Filter>Point\Private\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\point\pointchart.cpp">
-      <Filter>Point\Public\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Thistle\Charts\point\pointchartcoordinateplaneview.cpp">
-      <Filter>Point\Public\Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatchart.cpp">
       <Filter>Kiviat\Public\Sources</Filter>
@@ -291,6 +282,33 @@
     <ClCompile Include="..\..\Thistle\Charts\base\abstractchartlegend.cpp">
       <Filter>base\Public\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Debug\GeneratedFiles\moc_kiviatchartwidget.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bin\msvc\Release\GeneratedFiles\moc_kiviatchartwidget.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\kiviatchartwidget.cpp">
+      <Filter>Kiviat\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\kiviat\private\kiviatchartwidget_p.cpp">
+      <Filter>Kiviat\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\scatter\private\scatterchart_p.cpp">
+      <Filter>Scatter\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\scatter\private\scatterchartwidget_p.cpp">
+      <Filter>Scatter\Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\scatter\scatterchart.cpp">
+      <Filter>Scatter\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\scatter\scatterchartcoordinateplaneview.cpp">
+      <Filter>Scatter\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Thistle\Charts\scatter\scatterchartwidget.cpp">
+      <Filter>Scatter\Public\Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Thistle\Charts\linear\linearlegendview.h">
@@ -353,9 +371,6 @@
     <ClInclude Include="..\..\Thistle\Charts\base\private\cartesiancoordinateplaneview_p.h">
       <Filter>base\Private\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Thistle\Charts\point\private\pointchart_p.h">
-      <Filter>Point\Private\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Thistle\Charts\kiviat\kiviatchart.h">
       <Filter>Kiviat\Public\Headers</Filter>
     </ClInclude>
@@ -398,6 +413,24 @@
     <ClInclude Include="..\..\Thistle\Charts\base\abstractchartlegend.h">
       <Filter>base\Public\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\kiviat\private\kiviatchartwidget_p.h">
+      <Filter>Kiviat\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\scatter\private\scatterchart_p.h">
+      <Filter>Scatter\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\scatter\private\scatterchartwidget_p.h">
+      <Filter>Scatter\Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\scatter\scatterchart.h">
+      <Filter>Scatter\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\scatter\scatterchartcoordinateplaneview.h">
+      <Filter>Scatter\Public\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Thistle\Charts\scatter\scatterchartwidget.h">
+      <Filter>Scatter\Public\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Thistle\Charts\linear\linearchart.h">
@@ -408,12 +441,6 @@
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\base\abstractlegendview.h">
       <Filter>base\Public\Headers</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\Thistle\Charts\point\pointchart.h">
-      <Filter>Point\Public\Headers</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\Thistle\Charts\point\pointchartcoordinateplaneview.h">
-      <Filter>Point\Public\Headers</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\base\linearaxisdelegate.h">
       <Filter>base\Public\Headers</Filter>
@@ -429,6 +456,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\Thistle\Charts\pie\piechart3d.h">
       <Filter>Pie\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Thistle\Charts\kiviat\kiviatchartwidget.h">
+      <Filter>Kiviat\Public\Headers</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

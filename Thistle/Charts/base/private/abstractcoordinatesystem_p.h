@@ -10,28 +10,26 @@
 
 namespace Thistle
 {
-
 class AbstractAxis;
 
 class AbstractCoordinateSystemPrivate
 {
 public:
-    QRectF rect;
-    QFont font;
-    QPen axisPen;
-    QPen tickPen;
-    QPen textPen;
-    QAbstractItemModel* model;
-    QPointF valueOffset;
+	QRectF rect;
+	QFont font;
+	QPen axisPen;
+	QPen tickPen;
+	QPen textPen;
+	QAbstractItemModel* model;
+	QPointF valueOffset;
 
-    AbstractCoordinateSystemPrivate();
-    virtual ~AbstractCoordinateSystemPrivate();
+	AbstractCoordinateSystemPrivate();
+	virtual ~AbstractCoordinateSystemPrivate();
 
 	virtual AbstractAxis& axis( unsigned int index ) = 0;
 	virtual unsigned int axisCount() const = 0;
 
 };
-
 }
 
 #endif // THISTLE_ABSTRACTCOORDINATESYSTEM_P_H

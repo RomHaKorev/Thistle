@@ -12,58 +12,70 @@ namespace Thistle
 {
 
 AbstractCoordinateSystemView::AbstractCoordinateSystemView( AbstractCoordinateSystem* coordSys )
-: d_ptr( new AbstractCoordinateSystemViewPrivate( coordSys, this ) )
+	: d_ptr( new AbstractCoordinateSystemViewPrivate( coordSys, this ) )
 {}
 
 AbstractCoordinateSystemView::AbstractCoordinateSystemView( AbstractCoordinateSystemViewPrivate* d )
-: d_ptr( d )
+	: d_ptr( d )
 {}
 
 AbstractCoordinateSystemView::~AbstractCoordinateSystemView()
 {
-  if ( d_ptr )
-    delete d_ptr;
+	if ( d_ptr )
+		delete d_ptr;
 }
 
 void AbstractCoordinateSystemView::setModel( QAbstractItemModel* model )
 {
-    d_ptr->model = model;
-    this->update();
+	d_ptr->model = model;
+	this->update();
 }
 
 
 QAbstractItemModel* AbstractCoordinateSystemView::model() const
 {
-    return d_ptr->model;
+	return d_ptr->model;
 }
 
-LinearAxisDelegate* AbstractCoordinateSystemView::delegate() const
+QSharedPointer<LinearAxisDelegate> AbstractCoordinateSystemView::delegate() const
 {
-  return d_ptr->delegate;
+	return d_ptr->defaultDelegate;
 }
 
 
-void AbstractCoordinateSystemView::setDelegate( LinearAxisDelegate* delegate )
+void AbstractCoordinateSystemView::setDelegate( QSharedPointer<LinearAxisDelegate> delegate )
 {
-  d_ptr->delegate = delegate;
+	d_ptr->defaultDelegate = delegate;
+}
+
+
+void AbstractCoordinateSystemView::setDelegateForAxis( int index, QSharedPointer<LinearAxisDelegate> delegate )
+{
+	d_ptr->setDelegateFor( index, delegate );
+}
+
+
+QSharedPointer<LinearAxisDelegate> AbstractCoordinateSystemView::delegateForAxis( int index ) const
+{
+	return d_ptr->delegateFor( index );
 }
 
 
 QPointF AbstractCoordinateSystemView::origin() const
 {
-    return d_ptr->coordinateSystem()->origin();
+	return d_ptr->coordinateSystem()->origin();
 }
 
 
 void AbstractCoordinateSystemView::setRect( const QRect& rect )
 {
-    d_ptr->rect = rect;
+	d_ptr->rect = rect;
 }
 
 
 AbstractCoordinateSystem* AbstractCoordinateSystemView::coordinateSystem() const
 {
-    return d_ptr->coordinateSystem();
+	return d_ptr->coordinateSystem();
 }
 
 }

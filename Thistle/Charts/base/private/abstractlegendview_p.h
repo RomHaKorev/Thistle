@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QRect>
 
-#include "../../../kernel/abstractitemview_p.h"
+#include "../../../kernel/private/abstractitemview_p.h"
 
 #include <QVector>
 
@@ -20,21 +20,21 @@ class BarDelegate;
 struct AbstractLegendViewPrivate : public AbstractItemViewPrivate
 {
 
-    AbstractLegendView* q_ptr;
-    AbstractChart* associatedChart;
+	AbstractLegendView* q_ptr;
+	AbstractChart* associatedChart;
 
-    QVector<QRect> itemRects;
-    QVector<QRect> test;
-    QSize sizeHint;
-    bool parentManageSize;
+	QVector<QRect> itemRects;
+	QVector<QRect> test;
+	QSize sizeHint;
+	bool parentManageSize;
 
-    AbstractLegendViewPrivate( AbstractLegendView* parent, AbstractChart* chart );
-    virtual ~AbstractLegendViewPrivate();
+	AbstractLegendViewPrivate( AbstractLegendView* parent, AbstractChart* chart );
+	virtual ~AbstractLegendViewPrivate();
 
-    virtual void calculateSizeHint( const QSize& source )
-    {
-      Q_UNUSED( source )
-    }
+	virtual void calculateSizeHint( const QSize& source )
+	{
+		Q_UNUSED( source )
+	}
 };
 
 }

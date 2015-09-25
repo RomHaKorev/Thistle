@@ -14,23 +14,23 @@ namespace Thistle
 class AbstractCoordinateSystem
 {
 protected:
-    AbstractCoordinateSystemPrivate* d_ptr;
-    AbstractCoordinateSystem( AbstractCoordinateSystemPrivate* d );
+	AbstractCoordinateSystemPrivate* d_ptr;
+	AbstractCoordinateSystem( AbstractCoordinateSystemPrivate* d );
 public:
-    AbstractCoordinateSystem();
+	AbstractCoordinateSystem();
 	virtual ~AbstractCoordinateSystem();
 
 	const QRectF& rect() const;
-    virtual void setRect( const QRectF& r );
+	virtual void setRect( const QRectF& r );
 
-    QAbstractItemModel* model() const;
-    void setModel( QAbstractItemModel* m );
+	QAbstractItemModel* model() const;
+	void setModel( QAbstractItemModel* m );
 
-    virtual QPointF origin() const = 0;
-    virtual qreal axisLength( int axisIndex ) const;
+	virtual QPointF origin() const = 0;
+	virtual qreal axisLength( unsigned int axisIndex ) const;
 
-    int precision( int axisIndex ) const;
-    void setPrecision( int axisIndex, int precision );
+	unsigned int precision( unsigned int axisIndex ) const;
+	void setPrecision( unsigned int axisIndex, unsigned int precision );
 
 	AbstractAxis& axis( unsigned int index ) const;
 	unsigned int axisCount() const;

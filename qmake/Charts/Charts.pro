@@ -6,21 +6,19 @@ debug:TARGET = Chartsd
 
 DEFINES += THISTLE_CHARTS_LIBRARY
 
-QMAKE_CXXFLAGS += -Wno-unused-function
+QMAKE_CXXFLAGS += -Wno-unused-function -Wall
 
 DESTDIR = ../
 
-unix:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../bin/gcc/ -lKernel
-unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../bin/gcc/ -lKerneld
+unix:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../bin/libs/gcc/ -lKernel
+unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../bin/libs/gcc/ -lKerneld
 
-win32:CONFIG(release, debug|release):: LIBS += -L$$PWD/../../../bin/mingw32 -lKernel
-win32:CONFIG(debug, debug|release):LIBS += -L$$PWD/../../../bin/mingw32 -lKerneld
+win32:CONFIG(release, debug|release):: LIBS += -L$$PWD/../../../bin/libs/mingw32 -lKernel
+win32:CONFIG(debug, debug|release):LIBS += -L$$PWD/../../../bin/libs/mingw32 -lKerneld
 
 
 INCLUDEPATH += $$PWD/../../../
 DEPENDPATH += $$PWD/../../../
-
-DISTFILES +=
 
 HEADERS += ../../Thistle/Charts/base/linearaxis.h \
 	../../Thistle/Charts/linear/linearchartcoordinateplaneview.h \
@@ -53,9 +51,9 @@ HEADERS += ../../Thistle/Charts/base/linearaxis.h \
 	../../Thistle/Charts/base/linearaxisdelegate.h \
 	../../Thistle/Charts/base/seriechart.h \
 	../../Thistle/Charts/base/abstractlegendview.h \
-	../../Thistle/Charts/point/pointchart.h \
-	../../Thistle/Charts/point/pointchartcoordinateplaneview.h \
-	../../Thistle/Charts/point/private/pointchart_p.h \
+	../../Thistle/Charts/scatter/scatterchart.h \
+	../../Thistle/Charts/scatter/scatterchartcoordinateplaneview.h \
+	../../Thistle/Charts/scatter/private/scatterchart_p.h \
 	../../Thistle/Charts/kiviat/kiviatchart.h \
 	../../Thistle/Charts/kiviat/kiviatcoordinatesystem.h \
 	../../Thistle/Charts/kiviat/kiviatcoordinatesystemview.h \
@@ -66,7 +64,11 @@ HEADERS += ../../Thistle/Charts/base/linearaxis.h \
 	../../Thistle/Charts/pie/piechart3d.h \
 	../../Thistle/Charts/pie/private/piechart3d_p.h \
 	../../Thistle/Charts/pie/private/pielegendview_p.h \
-	../../Thistle/Charts/pie/private/piechart_p.h
+	../../Thistle/Charts/pie/private/piechart_p.h \
+    ../../Thistle/Charts/kiviat/kiviatchartwidget.h \
+    ../../Thistle/Charts/kiviat/private/kiviatchartwidget_p.h \
+    ../../Thistle/Charts/scatter/scatterchartwidget.h \
+    ../../Thistle/Charts/scatter/private/scatterchartwidget_p.h
 SOURCES += ../../Thistle/Charts/base/linearaxis.cpp \
 	../../Thistle/Charts/linear/linearchart.cpp \
 	../../Thistle/Charts/linear/linearchartcoordinateplaneview.cpp \
@@ -97,9 +99,9 @@ SOURCES += ../../Thistle/Charts/base/linearaxis.cpp \
 	../../Thistle/Charts/base/cartesiancoordinateplaneview.cpp \
 	../../Thistle/Charts/base/seriedelegates.cpp \
 	../../Thistle/Charts/base/serieformat.cpp \
-	../../Thistle/Charts/point/pointchart.cpp \
-	../../Thistle/Charts/point/pointchartcoordinateplaneview.cpp \
-	../../Thistle/Charts/point/private/pointchart_p.cpp \
+	../../Thistle/Charts/scatter/scatterchart.cpp \
+	../../Thistle/Charts/scatter/scatterchartcoordinateplaneview.cpp \
+	../../Thistle/Charts/scatter/private/scatterchart_p.cpp \
 	../../Thistle/Charts/kiviat/kiviatchart.cpp \
 	../../Thistle/Charts/kiviat/kiviatcoordinatesystem.cpp \
 	../../Thistle/Charts/kiviat/kiviatcoordinatesystemview.cpp \
@@ -110,4 +112,9 @@ SOURCES += ../../Thistle/Charts/base/linearaxis.cpp \
 	../../Thistle/Charts/pie/pielegendview.cpp \
 	../../Thistle/Charts/pie/private/piechart3d_p.cpp \
 	../../Thistle/Charts/pie/private/pielegendview_p.cpp \
-	../../Thistle/Charts/pie/private/piechart_p.cpp
+	../../Thistle/Charts/pie/private/piechart_p.cpp \
+    ../../Thistle/Charts/kiviat/kiviatchartwidget.cpp \
+    ../../Thistle/Charts/kiviat/private/kiviatchartwidget_p.cpp \
+    ../../Thistle/Charts/scatter/private/scatterchartwidget_p.cpp \
+    ../../Thistle/Charts/scatter/scatterchartwidget.cpp \
+    ../../Thistle/Charts/pie/piechart3Dwidget.cpp

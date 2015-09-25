@@ -25,7 +25,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include "node.h"
 #include "edge.h"
 
-#include "graphview_p.h"
+#include "private/graphview_p.h"
 
 class GraphModel;
 
@@ -34,38 +34,38 @@ namespace Thistle
 
 class GraphView : public AbstractItemView
 {
-    friend class GraphAlgorithm;
-    Q_OBJECT
-    Q_DECLARE_PRIVATE( GraphView );
+	friend class GraphAlgorithm;
+	Q_OBJECT
+	Q_DECLARE_PRIVATE( GraphView );
 
 protected:
 
-    //virtual QModelIndex indexAt( const QPoint& point ) const;
-    virtual void setScrollBarValues();
+	//virtual QModelIndex indexAt( const QPoint& point ) const;
+	virtual void setScrollBarValues();
 public:
-    explicit GraphView( QWidget* parent = 0 );
-    ~GraphView();
+	explicit GraphView( QWidget* parent = 0 );
+	virtual ~GraphView();
 
-    virtual QPainterPath itemPath(const QModelIndex &index) const;
+	virtual QPainterPath itemPath(const QModelIndex &index) const;
 
-    void paintEvent( QPaintEvent* event );
-    void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
-    void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+	void paintEvent( QPaintEvent* event );
+	void paintEdges( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
+	void paintItems( QPainter& painter, const QPointF& offset = QPointF( 0, 0 ) ) const;
 
-    void setModel( GraphModel* model );
-    GraphModel* model() const;
+	void setModel( GraphModel* model );
+	GraphModel* model() const;
 
-    AbstractGraphAlgorithm* algorithm() const;
-    void setAlgorithm( AbstractGraphAlgorithm* algorithm );
+	AbstractGraphAlgorithm* algorithm() const;
+	void setAlgorithm( AbstractGraphAlgorithm* algorithm );
 
-    void setNodeBoundingRect( const QRect& bounding )
-    {
-        Q_D( GraphView );
-        d->boundingRect = bounding;
-    }
+	void setNodeBoundingRect( const QRect& bounding )
+	{
+		Q_D( GraphView );
+		d->boundingRect = bounding;
+	}
 
 public slots:
-    void updateValues();
+	void updateValues();
 
 };
 
