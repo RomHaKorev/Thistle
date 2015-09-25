@@ -65,10 +65,11 @@ HEADERS += ../../Thistle/Charts/base/linearaxis.h \
 	../../Thistle/Charts/pie/private/piechart3d_p.h \
 	../../Thistle/Charts/pie/private/pielegendview_p.h \
 	../../Thistle/Charts/pie/private/piechart_p.h \
-    ../../Thistle/Charts/kiviat/kiviatchartwidget.h \
-    ../../Thistle/Charts/kiviat/private/kiviatchartwidget_p.h \
-    ../../Thistle/Charts/scatter/scatterchartwidget.h \
-    ../../Thistle/Charts/scatter/private/scatterchartwidget_p.h
+	../../Thistle/Charts/kiviat/kiviatchartwidget.h \
+	../../Thistle/Charts/kiviat/private/kiviatchartwidget_p.h \
+	../../Thistle/Charts/scatter/scatterchartwidget.h \
+	../../Thistle/Charts/scatter/private/scatterchartwidget_p.h
+
 SOURCES += ../../Thistle/Charts/base/linearaxis.cpp \
 	../../Thistle/Charts/linear/linearchart.cpp \
 	../../Thistle/Charts/linear/linearchartcoordinateplaneview.cpp \
@@ -113,8 +114,8 @@ SOURCES += ../../Thistle/Charts/base/linearaxis.cpp \
 	../../Thistle/Charts/pie/private/piechart3d_p.cpp \
 	../../Thistle/Charts/pie/private/pielegendview_p.cpp \
 	../../Thistle/Charts/pie/private/piechart_p.cpp \
-    ../../Thistle/Charts/kiviat/kiviatchartwidget.cpp \
-    ../../Thistle/Charts/kiviat/private/kiviatchartwidget_p.cpp \
-    ../../Thistle/Charts/scatter/private/scatterchartwidget_p.cpp \
-    ../../Thistle/Charts/scatter/scatterchartwidget.cpp \
-    ../../Thistle/Charts/pie/piechart3Dwidget.cpp
+	../../Thistle/Charts/kiviat/kiviatchartwidget.cpp \
+	../../Thistle/Charts/kiviat/private/kiviatchartwidget_p.cpp \
+	../../Thistle/Charts/scatter/private/scatterchartwidget_p.cpp \
+	../../Thistle/Charts/scatter/scatterchartwidget.cpp \
+	../../Thistle/Charts/pie/piechart3Dwidget.cpp
