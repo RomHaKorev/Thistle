@@ -13,7 +13,7 @@
 */
 
 #include "piechart3d.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 #include <QPainter>
 #include <QPaintEvent>
 #include <QDebug>
@@ -142,14 +142,7 @@ void PieChart3D::paint( QPainter& painter )
 		}
 
 		bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
-		if ( d->splitted == false )
-		{
-			paintPart( painter, d->angles[i], d->angles[i + 1], color, isSelected );
-		}
-		else
-		{
-			paintPartSplitted( painter, d->angles[i], d->angles[i + 1], color, isSelected );
-		}
+		paintPart( painter, d->angles[i], d->angles[i + 1], color, isSelected );
 	}
 
 	painter.restore();
@@ -187,7 +180,7 @@ void PieChart3D::paintExternal( QPainter& painter, bool top )
 					configureColor( painter, color, 1 );
 					qreal delta = 180.0 - a1;
 					QPointF offset = splittedOffset( d->angles[i], delta );
-					QPainterPath path = itemExternalPart( d->angles[i], delta, d->splitted );
+					QPainterPath path = itemExternalPart( d->angles[i], delta, false );
 					painter.drawPath( path );
 					painter.setPen( Qt::NoPen );
 					path = side( 180, offset, isSelected );

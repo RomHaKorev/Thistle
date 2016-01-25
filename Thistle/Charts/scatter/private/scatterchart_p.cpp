@@ -6,7 +6,7 @@
 namespace Thistle
 {
 
-ScatterChartPrivate::ScatterChartPrivate( ScatterChart* q ) : LinearChartPrivate( q, new ScatterChartCoordinatePlaneView() )
+ScatterChartPrivate::ScatterChartPrivate( ScatterChart* q ) : LineChartPrivate( q, new ScatterChartCoordinatePlaneView() )
 {}
 
 

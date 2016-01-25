@@ -1,13 +1,13 @@
 #ifndef THISTLE_SCATTERCHART_H
 #define THISTLE_SCATTERCHART_H
 
-#include "../linear/linearchart.h"
+#include "../line/linechart.h"
 #include "private/scatterchart_p.h"
 
 namespace Thistle
 {
 
-class ScatterChart: public LinearChart
+class ScatterChart: public LineChart
 {
 	Q_DECLARE_PRIVATE( ScatterChart );
 protected:
@@ -16,6 +16,8 @@ protected:
 public:
 	ScatterChart( QWidget* parent = 0 );
 	~ScatterChart();
+
+	SerieFormat serieFormat( int column ) const;
 };
 
 }

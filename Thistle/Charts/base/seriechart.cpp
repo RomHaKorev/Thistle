@@ -28,9 +28,9 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include <QDebug>
 
-#include "../../kernel/private/abstractitemview_p.h"
+#include "../../Core/private/abstractitemview_p.h"
 #include "private/seriechart_p.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 #include "abstractcoordinatesystemview.h"
 #include "seriedelegates.h"
 
@@ -92,18 +92,15 @@ void SerieChart::setModel( QAbstractItemModel* model )
 void SerieChart::paintSerie( QPainter& painter, int column )
 {
 	Q_D( SerieChart );
-	Thistle::Types t = this->columnType( column );
-
-	d->selectDelegate( t );
-
+	SerieFormat format = this->serieFormat( column );
+	d->selectDelegate( format.type() );
 	painter.save();
-	SerieFormat style = this->serieFormat( column );
-	painter.setBrush( style.brush() );
-	painter.setPen( style.pen() );
+	painter.setBrush( format.brush() );
+	painter.setPen( format.pen() );
 
 	bool isActive = this->isActiveColumn( column );
 
-	d->paint( painter, column, t, isActive );
+	d->paint( painter, column, format.type(), isActive );
 
 	painter.restore();
 }
@@ -114,7 +111,7 @@ QList<int> SerieChart::barStyleColumns() const
 	QList<int> bars;
 	for ( int c = 0; c < this->model()->columnCount(); ++c )
 	{
-		if ( columnType( c ) == Thistle::Bar )
+		if ( serieFormat( c ).type() == Thistle::Bar )
 		{
 			bars.append( c );
 		}
@@ -125,6 +122,9 @@ QList<int> SerieChart::barStyleColumns() const
 
 QList<int> SerieChart::calculateColumnsOrder() const
 {
+    if ( !this->model() )
+        return QList<int>();
+
 	QList<int> areas;
 	QList<int> bars;
 	QList<int> lines;
@@ -137,7 +137,7 @@ QList<int> SerieChart::calculateColumnsOrder() const
 
 	for ( int i = 0; i < this->model()->columnCount(); ++i )
 	{
-		Thistle::Types t = columnType( i );
+		Thistle::Types t = serieFormat( i ).type();
 		if ( this->isActiveColumn( i ) )
 		{
 			if ( t.testFlag( Thistle::Area ) )
@@ -165,15 +165,6 @@ QList<int> SerieChart::calculateColumnsOrder() const
 	return areasDisabled;
 }
 
-Thistle::Types SerieChart::columnType( int column ) const
-{
-	const Q_D( SerieChart );
-	if ( d->style.contains( column ) )
-	{
-		return d->style[ column ].type();
-	}
-	return SerieFormat().type();
-}
 
 bool SerieChart::isActiveColumn( int column ) const
 {
@@ -221,4 +212,30 @@ void SerieChart::paint( QPainter& painter )
 	d->coordinateSystemView()->paintFront( painter );
 }
 
+
+QPointer<Thistle::SerieFormatProxy> SerieChart::serieFormatProxy() const
+{
+	const Q_D( SerieChart );
+	return d->formatProxy;
+}
+
+
+void SerieChart::setSerieFormatProxy( QPointer<Thistle::SerieFormatProxy> proxy )
+{
+	Q_D( SerieChart );
+	d->formatProxy = proxy;
+}
+
+
+SerieFormat SerieChart::serieFormat( int column ) const
+{
+	const Q_D( SerieChart );
+	return d->formatProxy->serieFormat( column );
+}
+
+void SerieChart::setSerieFormat( int column, const Thistle::SerieFormat& format )
+{
+	Q_D( SerieChart );
+	d->formatProxy->setSerieFormat( column, format );
+}
 }

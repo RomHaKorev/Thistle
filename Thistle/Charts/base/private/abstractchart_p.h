@@ -5,9 +5,10 @@
 #include <QString>
 #include <QFont>
 
-#include "../../../kernel/private/abstractitemview_p.h"
+#include "../../../Core/private/abstractitemview_p.h"
 //#include "Layers/abstractLayer.h"
-#include "../../base/serieformat.h"
+#include "../serieformat.h"
+#include "../serieformatproxy.h"
 
 namespace Thistle
 {
@@ -22,10 +23,8 @@ struct AbstractChartPrivate : AbstractItemViewPrivate
 	}
 	AbstractChart* q_ptr;
 
-	QMap<int, SerieFormat> style;
-
 	AbstractChartPrivate( AbstractChart* q );
-	~AbstractChartPrivate();
+	virtual ~AbstractChartPrivate();
 
 	void pressEvent();
 	void releaseEvent();

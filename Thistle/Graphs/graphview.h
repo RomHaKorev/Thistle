@@ -21,7 +21,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include <QTimer>
 #include <QTime>
-#include "../kernel/abstractitemview.h"
+#include "../Core/abstractitemview.h"
 #include "node.h"
 #include "edge.h"
 

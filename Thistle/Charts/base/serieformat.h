@@ -21,7 +21,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include <QtGui/QBrush>
 #include <QtGui/QPen>
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 
 #include "private/serieformat_p.h"
 
@@ -51,4 +51,4 @@ public:
 
 }
 
-#endif // THISTLE_CHARTSTYLE_H
+#endif // THISTLE_SERIEFORMAT_H

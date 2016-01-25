@@ -1,7 +1,7 @@
 #include "graphview_p.h"
 #include "../graphview.h"
 #include "../abstractgraphalgorithm.h"
-#include "../../kernel/abstractitemview.h"
+#include "../../Core/abstractitemview.h"
 
 namespace Thistle
 {

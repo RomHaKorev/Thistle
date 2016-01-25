@@ -1,5 +1,5 @@
-#ifndef TREELAYOUT_P_H
-#define TREELAYOUT_P_H
+#ifndef THISTLE_TREELAYOUT_P_H
+#define THISTLE_TREELAYOUT_P_H
 
 #include <QRect>
 #include <QMap>
@@ -49,4 +49,4 @@ struct TreeLayoutPrivate
 
 }
 
-#endif // TreeLayoutPrivate
+#endif // THISTLE_TREELAYOUT_P_H

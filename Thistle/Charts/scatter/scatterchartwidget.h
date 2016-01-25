@@ -10,7 +10,7 @@ namespace Thistle
 {
 
 class ScatterChartWidgetPrivate;
-class LinearChart;
+class ScatterChart;
 
 class ScatterChartWidget : public QWidget
 {
@@ -33,7 +33,7 @@ public:
 	QFont font() const;
 	void setFont( const QFont& font );
 
-	LinearChart& chart();
+	ScatterChart& chart();
 };
 }
 

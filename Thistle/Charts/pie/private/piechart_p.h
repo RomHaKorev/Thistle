@@ -25,7 +25,6 @@ public:
 	QList<double> angles;
 	QRect rect;
 	qreal total;
-	bool splitted;
 	bool ring;
 	qreal startAngle;
 	int render;

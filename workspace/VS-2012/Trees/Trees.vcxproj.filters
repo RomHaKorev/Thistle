@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{b257839a-2653-4875-bdca-fabbd03c4618}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{a35fda02-3346-48aa-9621-4f71a186b566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Private">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Private\Headers">
+      <UniqueIdentifier>{130d2d4d-0c05-4319-8873-d6f33f1671e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\Sources">
+      <UniqueIdentifier>{5558b4d8-c9bd-4001-bd56-dad99189d4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Headers">
+      <UniqueIdentifier>{17e96754-181c-4cb2-9e77-9462140eb307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Sources">
+      <UniqueIdentifier>{39c23509-0aa2-441c-a7de-5f9a93c25cbd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_treelayout.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_treeview.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_treelayout.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_treeview.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Trees\private\radialtreelayout_p.cpp">
+      <Filter>Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Trees\private\treelayout_p.cpp">
+      <Filter>Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Trees\private\treeview_p.cpp">
+      <Filter>Private\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Trees\radialtreelayout.cpp">
+      <Filter>Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Trees\treelayout.cpp">
+      <Filter>Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Trees\treeview.cpp">
+      <Filter>Public\Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Thistle\Trees\private\radialtreelayout_p.h">
+      <Filter>Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Trees\private\treelayout_p.h">
+      <Filter>Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Trees\private\treeview_p.h">
+      <Filter>Private\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Trees\radialtreelayout.h">
+      <Filter>Public\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\Thistle\Trees\treelayout.h">
+      <Filter>Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Trees\treeview.h">
+      <Filter>Public\Headers</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

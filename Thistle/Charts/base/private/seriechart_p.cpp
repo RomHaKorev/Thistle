@@ -10,10 +10,14 @@ SerieChartPrivate::SerieChartPrivate( SerieChart* q, AbstractCoordinateSystemVie
 	: AbstractChartPrivate( q ),
 	  currentDelegate( 0 ),
 	  coordinateSysView( coordSysView ),
-	  pointDelegate( new DotDelegate( 0 ) ),
-	  barDelegate( new BarDelegate( 0 ) )
+	  formatProxy( new Thistle::SerieFormatProxy( this ) )
+	  /*,
+	  pointDelegate( new DotDelegate( formatProxy ) ),
+	  barDelegate( new BarDelegate( formatProxy ) )*/
 {
-	x = 0;
+	//formatProxy = new Thistle::SerieFormatProxy( this );
+	pointDelegate = new DotDelegate( formatProxy );
+	barDelegate = new BarDelegate( formatProxy );
 }
 
 SerieChartPrivate::~SerieChartPrivate()

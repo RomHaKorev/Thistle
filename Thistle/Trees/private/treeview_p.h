@@ -6,8 +6,8 @@
 #include <QPointer>
 #include <QMap>
 
-#include "../../kernel/itemdelegate.h"
-#include "../../kernel/private/abstractitemview_p.h"
+#include "../../Core/itemdelegate.h"
+#include "../../Core/private/abstractitemview_p.h"
 
 #include "../treeLayout.h"
 

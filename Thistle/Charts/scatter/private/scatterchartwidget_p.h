@@ -5,20 +5,18 @@
 #include <QLabel>
 
 #include "../scatterchart.h"
-#include "../../linear/linearlegendview.h"
+#include "../../line/linelegendview.h"
 
 
 namespace Thistle
 {
-
-class LinearLegendView;
 class ScatterChartWidget;
 
 struct ScatterChartWidgetPrivate
 {
 	ScatterChartWidget* parent;
-	LinearChart chart;
-	LinearLegendView legendView;
+	ScatterChart chart;
+	LineLegendView legendView;
 	QLabel title;
 
 	ScatterChartWidgetPrivate( ScatterChartWidget* parent );

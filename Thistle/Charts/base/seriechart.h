@@ -20,7 +20,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #define THISTLE_SERIECHART_H
 
 #include <QAbstractItemView>
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 #include "serieformat.h"
 
 #include "abstractchart.h"
@@ -47,7 +47,6 @@ protected:
 	virtual void paintEvent( QPaintEvent* ev );
 
 	virtual QList<int> calculateColumnsOrder() const;
-	Thistle::Types columnType( int column ) const;
 	QList<int> barStyleColumns() const;
 	bool isActiveColumn( int column ) const;
 
@@ -65,6 +64,11 @@ public:
 	void paint( QPainter& painter );
 
 	void setModel( QAbstractItemModel* model );
+
+	virtual Thistle::SerieFormat serieFormat( int column ) const;
+	void setSerieFormat( int column, const Thistle::SerieFormat& format );
+	QPointer<Thistle::SerieFormatProxy> serieFormatProxy() const;
+	void setSerieFormatProxy( QPointer<Thistle::SerieFormatProxy> );
 };
 
 }

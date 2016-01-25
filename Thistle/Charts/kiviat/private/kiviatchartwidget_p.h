@@ -5,20 +5,18 @@
 #include <QLabel>
 
 #include "../kiviatchart.h"
-#include "../../linear/linearlegendview.h"
+#include "../../line/linelegendview.h"
 
 
 namespace Thistle
 {
-
-class LinearLegendView;
 class KiviatChartWidget;
 
 struct KiviatChartWidgetPrivate
 {
     QPointer<KiviatChartWidget> parent;
 	KiviatChart chart;
-    LinearLegendView legendView;
+	LineLegendView legendView;
     QLabel title;
 
 	KiviatChartWidgetPrivate( KiviatChartWidget* parent );

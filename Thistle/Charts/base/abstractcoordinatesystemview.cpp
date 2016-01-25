@@ -1,7 +1,7 @@
 #include "abstractcoordinatesystemview.h"
 #include "private/abstractcoordinatesystemview_p.h"
 
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 #include "linearaxisdelegate.h"
 
 #include <QFontMetrics>

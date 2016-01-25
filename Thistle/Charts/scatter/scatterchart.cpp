@@ -3,10 +3,11 @@
 
 #include "../base/abstractcoordinatesystemview.h"
 #include "../base/cartesiancoordinateplane.h"
+#include "../base/serieformatproxy.h"
 
 namespace Thistle
 {
-ScatterChart::ScatterChart( QWidget* parent ): LinearChart( new ScatterChartPrivate( this ), parent )
+ScatterChart::ScatterChart( QWidget* parent ): LineChart( new ScatterChartPrivate( this ), parent )
 {}
 
 
@@ -20,7 +21,7 @@ QPainterPath ScatterChart::itemPath( const QModelIndex& index ) const
 
 	QPainterPath p;
 	QRectF r;
-	Thistle::Types t = this->columnType( index.column() );
+	Thistle::Types t = this->serieFormat( index.column() ).type();
 
 	QPointF value = index.data().toPointF();
 
@@ -51,6 +52,22 @@ QPainterPath ScatterChart::itemPath( const QModelIndex& index ) const
 	p.addRect( r.normalized() );
 	return p;
 	//return r.normalized().toRect();
+}
+
+
+Thistle::SerieFormat ScatterChart::serieFormat( int column ) const
+{
+	const Q_D( ScatterChart );
+	if ( d->formatProxy->contains( column ) )
+		return d->formatProxy->serieFormat( column );
+
+	Thistle::SerieFormat style;
+	QColor c1 =  Colors::predefinedLightColor( column );
+	QColor c2 = Colors::predefinedDarkColor( column );
+	style.setPen( QPen( QColor(c2), 2 ) );
+	style.setBrush( QBrush(c1) );
+	style.setType( Thistle::Dot );
+	return style;
 }
 
 }

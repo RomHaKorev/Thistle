@@ -45,8 +45,6 @@ void LinearAxisDelegate::paint( QPainter& painter, const LinearAxis& axis, const
 {
 	if ( d_ptr->parent == 0 )
 		return;
-	if ( d_ptr->parent->model() == 0 )
-		return;
 
 	switch ( options.layer )
 	{
@@ -62,6 +60,9 @@ void LinearAxisDelegate::paint( QPainter& painter, const LinearAxis& axis, const
 
 void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, const AxisDelegateOptions& options ) const
 {
+	if ( d_ptr->parent->model() == 0 )
+		return;
+
 	if ( !TickStyles( d_ptr->tickStyle ).testFlag( LinearAxisDelegate::Label ) )
 		return;
 
@@ -87,7 +88,7 @@ void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, 
 		while ( value <= axis.maximum() )
 		{
 			QPointF pos = axis.pinpoint( value );
-			lastLabelRect = this->paintLabel( painter, pos, QString::number( value ), angle, options.labelAlignment, lastLabelRect );
+			lastLabelRect = this->paintLabel( painter, pos + options.labelOffset, QString::number( value ), angle, options.labelAlignment, lastLabelRect );
 			value += order;
 		}
 
@@ -95,7 +96,7 @@ void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, 
 		while ( value >= axis.minimum() )
 		{
 			QPointF pos = axis.pinpoint( value );
-			lastLabelRect = this->paintLabel( painter, pos, QString::number( value ), angle, options.labelAlignment, lastLabelRect );
+			lastLabelRect = this->paintLabel( painter, pos + options.labelOffset, QString::number( value ), angle, options.labelAlignment, lastLabelRect );
 			value -= order;
 		}
 	}
@@ -106,7 +107,7 @@ void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, 
 		Q_FOREACH( QString str, options.alternativeLabels )
 		{
 			QPointF pos = axis.pinpoint( value );
-			lastLabelRect = this->paintLabel( painter, pos, str, angle, options.labelAlignment, lastLabelRect );
+			lastLabelRect = this->paintLabel( painter, pos + options.labelOffset, str, angle, options.labelAlignment, lastLabelRect );
 			value += order;
 		}
 	}
@@ -117,6 +118,14 @@ void LinearAxisDelegate::paintFront( QPainter& painter, const LinearAxis& axis, 
 
 void LinearAxisDelegate::paintBack( QPainter& painter, const LinearAxis& axis, const AxisDelegateOptions& options ) const
 {
+	if ( d_ptr->parent->model() == 0 )
+	{
+		painter.save();
+		painter.setPen( d_ptr->base );
+		painter.drawLine( axis.line() );
+		painter.restore();
+		return;
+	}
 	painter.save();
 
 	TickStyles styles( d_ptr->tickStyle );

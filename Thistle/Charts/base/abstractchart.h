@@ -1,8 +1,9 @@
 #ifndef THISTLE_ABSTRACTCHART_H
 #define THISTLE_ABSTRACTCHART_H
 
-#include "../../kernel/abstractitemview.h"
+#include "../../Core/abstractitemview.h"
 #include "serieformat.h"
+#include "serieformatproxy.h"
 
 #include <QWidget>
 #include <QPaintEvent>
@@ -31,7 +32,7 @@ protected:
 
 	AbstractChart( AbstractChartPrivate* d, QWidget* parent = 0 );
 
-	QModelIndex nearestItem( const QPointF& pos ) const;
+	virtual QModelIndex nearestItem( const QPointF& pos ) const;
 
 public:
 	AbstractChart( QWidget* parent = 0 );
@@ -42,11 +43,9 @@ public:
 #if 0
 	void addLayer( AbstractLayer* layer );
 #endif
-	SerieFormat serieFormat( int column ) const;
-	void setSerieFormat( int column, SerieFormat style);
 
 public slots:
-	void updateValues();
+	virtual void updateValues();
 };
 
 }

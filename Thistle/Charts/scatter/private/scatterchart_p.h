@@ -1,7 +1,7 @@
 #ifndef THISTLE_SCATTERCHART_P_H
 #define THISTLE_SCATTERCHART_P_H
 
-#include "../../linear/private/linearchart_p.h"
+#include "../../line/private/linechart_p.h"
 #include "../../base/abstractcoordinatesystem.h"
 
 #include <QMap>
@@ -10,7 +10,7 @@ namespace Thistle
 {
 class ScatterChart;
 
-struct ScatterChartPrivate : public LinearChartPrivate
+struct ScatterChartPrivate : public LineChartPrivate
 {
 	ScatterChart* q_func() const
 	{

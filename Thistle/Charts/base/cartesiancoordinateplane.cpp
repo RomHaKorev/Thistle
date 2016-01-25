@@ -1,6 +1,6 @@
 #include "cartesiancoordinateplane.h"
 #include "private/cartesiancoordinateplane_p.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 
 #include <QFontMetrics>
 #include <QAbstractItemModel>

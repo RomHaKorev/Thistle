@@ -14,7 +14,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 
 #include "piechart.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 #include "../base/abstractchart.h"
 
 #include <QDebug>
@@ -102,13 +102,9 @@ QPainterPath PieChart::itemPath( const QModelIndex& index ) const
 	qreal v = qAbs( this->model()->data( index ).toReal() );
 	qreal delta = 360.0 * v/d->total;
 	if ( this->selectionModel()->selectedIndexes().contains( index ))
-	{
 		path = this->itemPart( angle, delta, true );
-	}
 	else
-	{
 		path = this->itemPart( angle, delta );
-	}
 	return path;
 }
 
@@ -125,104 +121,24 @@ void PieChart::paintEvent( QPaintEvent* ev )
 
 void PieChart::paint( QPainter& painter )
 {
-	const Q_D( PieChart );
-
 	painter.save();
 	painter.setRenderHint( QPainter::Antialiasing );
 
 	int rows = this->model()->rowCount();
-	qreal angle = d->startAngle;
 	for ( int i = 0; i < rows; ++i )
 	{
 		QModelIndex index = this->model()->index( i, 0 );
+		QPainterPath path = this->itemPath( index );
 		QColor color( this->model()->data( index, Qt::DecorationRole ).toString() );
 		if ( !color.isValid() )
-		{
 			color = Colors::predefinedColor( i );
-		}
-		qreal v = qAbs( this->model()->data( index ).toReal() );
-		qreal delta = 360.0 * v/d->total;
-
-		bool isSelected = this->selectionModel()->selectedIndexes().contains( index );
-
-		if ( d->splitted == false )
-		{
-			this->paintPart( painter, angle, delta, color, isSelected );
-		}
-		else
-		{
-			this->paintPartSplitted( painter, angle, delta, color, isSelected );
-		}
-		angle += delta;
+		int flag = 0;
+		this->configureColor( painter, color, flag );
+		painter.setClipPath( path );
+		painter.drawPath( path );
 	}
 	painter.restore();
 }
-
-
-#if 0
-/*Paint the legend in the QRect self._legendRect
-The legend corresponds to the text in the Horizontal QHeaderView and the style defined for each column.
-*/
-void PieChart::paintLegend( QPainter& painter) const
-{
-	return;
-	const Q_D( PieChart );
-	painter.save();
-	QFontMetrics metrics( this->font() );
-	int metricsH = metrics.height();
-	int h = metricsH + 10;
-	int rows = this->model()->rowCount();
-	int w = 0;
-	int maxWidth = d->legend->area.width();
-	QPoint legendPos( d->legend->area.topLeft() );
-	QPoint pos = legendPos + QPoint( 50, 0);
-	for (int r = 0; r < rows; ++r )
-	{
-		QString s( this->model()->headerData( r, Qt::Vertical ).toString() );
-		int sWidth = metrics.width( s ) + 50;
-		QPoint p;
-		if ( ( w + sWidth ) > maxWidth )
-		{
-			int y = pos.y();
-			p = QPoint( d->legend->area.x(), y + h );
-			pos = QPoint( d->legend->area.x(), y + h );
-			w = sWidth;
-			pos += QPoint( sWidth, 0 );
-		}
-		else
-		{
-			p = pos + QPoint( -40,    0 );
-			w += sWidth;
-			pos += QPoint( sWidth, 0 );
-		}
-		this->paintSerieLegend(painter, r, p, metricsH);
-	}
-	painter.restore();
-}
-
-
-void PieChart::paintSerieLegend( QPainter& painter, int serie, QPoint pos, int metricsH ) const
-{
-
-	QColor color( this->model()->data( this->model()->index( serie, 0 ), Qt::DecorationRole ).toString() );
-	if ( !color.isValid() )
-	{
-		color = Colors::predefinedColor( serie );
-	}
-
-	QRect r( pos.x(), pos.y() - 20, 14, 14 );
-	QPoint posText = pos + QPoint( 20, -metricsH/2 );
-
-	QString s = this->model()->headerData( serie, Qt::Vertical ).toString();
-	painter.drawText( posText, s );
-	painter.save();
-	painter.setBrush( color );
-	painter.setPen( QPen( color.darker( 100 ), 1 ) );
-	painter.drawRect( r );
-
-	painter.restore();
-}
-#endif
 
 
 void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected ) const
@@ -245,19 +161,13 @@ void PieChart::paintPart( QPainter& painter, qreal angle, qreal delta, QColor co
 void PieChart::paintPartSplitted( QPainter &painter, qreal angle, qreal delta,
 								  QColor color, bool isSelected ) const
 {
-	const Q_D( PieChart );
 	QPainterPath part = this->itemPart( angle, delta, true );
 	painter.save();
-	if ( d->splitted == true
-		 && ( !this->selectionModel()->selectedIndexes().isEmpty() || this->currentIndex().isValid() )
+	if ( ( !this->selectionModel()->selectedIndexes().isEmpty() || this->currentIndex().isValid() )
 		 && isSelected == false )
-	{
 		this->configureColor( painter, color, 2 );
-	}
 	else
-	{
 		this->configureColor( painter, color, 1 );
-	}
 	painter.drawPath( part );
 	painter.restore();
 }
@@ -273,14 +183,6 @@ void PieChart::setRing( bool ring )
 	Q_D( PieChart );
 	d->ring = ring;
 }
-
-
-void PieChart::setSplitted( bool splitted )
-{
-	Q_D( PieChart );
-	d->splitted = splitted;
-}
-
 
 void PieChart::setStartAngle( qreal angle )
 {
@@ -310,16 +212,7 @@ void PieChart::updateRects()
 	Q_D( PieChart );
 	if ( this->model() == 0 )
 		return;
-
 	d->createRects( this->contentsRect() );
-}
-
-
-QRect PieChart::visualRect( const QModelIndex& index ) const
-{
-	Q_UNUSED(index)
-	/* To force to repaint the whole chart. Not only the area of the part*/
-	return QRect( 0, 0, width(), height() );
 }
 
 void PieChart::scan()
@@ -327,7 +220,6 @@ void PieChart::scan()
 	Q_D( PieChart );
 
 	int rows = this->model()->rowCount();
-
 	d->total = 0;
 	for ( int r = 0; r < rows; ++r )
 	{

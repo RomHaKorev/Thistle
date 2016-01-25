@@ -1,6 +1,5 @@
-#include "kiviatChartwidget_p.h"
+#include "kiviatchartwidget_p.h"
 #include "../kiviatchartwidget.h"
-
 
 #include <QAbstractItemModel>
 

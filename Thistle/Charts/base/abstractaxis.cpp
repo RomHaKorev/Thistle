@@ -1,6 +1,6 @@
 #include "abstractaxis.h"
 #include "private/abstractaxis_p.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 
 #include <qmath.h>
 
@@ -25,8 +25,8 @@ void AbstractAxis::setBounds( qreal min, qreal max )
 	d_ptr->min = min;
 	d_ptr->max = max;
 	d_ptr->calculateBounds();
-	qreal orderMin = Thistle::calculateOrder( min );
-	qreal orderMax = Thistle::calculateOrder( max );
+	qreal orderMin = Thistle::AbstractAxis::calculateOrder( min );
+	qreal orderMax = Thistle::AbstractAxis::calculateOrder( max );
 
 	if ( qFloor( qAbs(min) / orderMin ) > 12 )
 		orderMin *= 10.0;
@@ -130,5 +130,36 @@ QString AbstractAxis::name() const
 	return d_ptr->name;
 }
 
+double AbstractAxis::calculateOrder( qreal value )
+{
+	double order = 1.0;
+	qreal v = abs( value );
+	if ( v > 10 )
+	{
+		while ( v > 1 )
+		{
+			order *= 10.0;
+			v /= 10.0;
+		}
 
+		if ( value < ( order * 0.75 ) )
+			order /= 10.0;
+
+		order /= 10.0;
+	}
+	else if ( v > 0 && v < 1 )
+	{
+		while ( v < 1 )
+		{
+			order /= 10.0;
+			v *= 10.0;
+		}
+	}
+	else if ( value == 1 )
+	{
+		order = 0.1;
+	}
+
+	return order;
+}
 }

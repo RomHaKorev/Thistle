@@ -24,7 +24,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 #include "graphalgorithm.h"
 #include "private/graphview_p.h"
 
-#include "../kernel/itemdelegate.h"
+#include "../Core/itemdelegate.h"
 static const qreal Pi = 3.14159265358979323846264338327950288419717;
 
 namespace Thistle

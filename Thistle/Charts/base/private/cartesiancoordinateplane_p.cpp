@@ -1,6 +1,6 @@
 #include "cartesiancoordinateplane_p.h"
 
-#include "../../../kernel/global.h"
+#include "../../../Core/global.h"
 
 namespace Thistle
 {
@@ -16,6 +16,8 @@ CartesianCoordinatePlanePrivate::CartesianCoordinatePlanePrivate()
 	this->axis_x.setLabelsLength( 0 );
 	this->axis_y.setTicksCount( 5 );
 	this->axis_y.setLabelsLength( 10 );
+	this->axis_x.setBounds( 0, 10 );
+	this->axis_y.setBounds( 0, 10 );
 
 	this->axisPen = QPen( QColor( Thistle::Colors::DarkGray ), 1 );
 	this->verticalLabels = true;

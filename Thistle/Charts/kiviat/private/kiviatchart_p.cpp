@@ -7,7 +7,7 @@
 namespace Thistle
 {
 KiviatChartPrivate::KiviatChartPrivate( KiviatChart* q, AbstractCoordinateSystemView* coordSysView )
-	:LinearChartPrivate( q, coordSysView )
+	:LineChartPrivate( q, coordSysView )
 {}
 
 
@@ -17,7 +17,7 @@ KiviatChartPrivate::~KiviatChartPrivate()
 
 void KiviatChartPrivate::paintStraightLine( QPainter& painter, int column, bool isActive, bool area ) const
 {
-	LinearChartPrivate::paintStraightLine( painter, column, isActive, area );
+	LineChartPrivate::paintStraightLine( painter, column, isActive, area );
 
 	const Q_Q( KiviatChart );
 

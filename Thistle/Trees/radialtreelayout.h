@@ -1,5 +1,5 @@
-#ifndef RADIALTREELAYOUT_H
-#define RADIALTREELAYOUT_H
+#ifndef THISTLE_RADIALTREELAYOUT_H
+#define THISTLE_RADIALTREELAYOUT_H
 
 #include "treelayout.h"
 #include "private/radialtreelayout_p.h"
@@ -21,4 +21,4 @@ private:
 };
 }
 
-#endif // RADIALTREELAYOUT_H
+#endif // THISTLE_RADIALTREELAYOUT_H

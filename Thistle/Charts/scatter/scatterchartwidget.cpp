@@ -1,6 +1,6 @@
 #include "scatterchartwidget.h"
 #include "private/scatterchartwidget_p.h"
-#include "../linear/linearlegendview.h"
+#include "../line/linelegendview.h"
 #include "scatterchart.h"
 
 #include <QResizeEvent>
@@ -27,7 +27,7 @@ ScatterChartWidget::~ScatterChartWidget()
 {}
 
 
-LinearChart& ScatterChartWidget::chart()
+ScatterChart& ScatterChartWidget::chart()
 {
 	Q_D( ScatterChartWidget );
 	return d->chart;
@@ -60,6 +60,7 @@ void ScatterChartWidget::setTitle( const QString& title )
 {
 	Q_D( ScatterChartWidget );
 	d->title.setText( title );
+	d->resize( this->contentsRect() );
 }
 
 
@@ -67,7 +68,6 @@ QString ScatterChartWidget::title() const
 {
 	const Q_D( ScatterChartWidget );
 	return d->title.text();
-
 }
 
 

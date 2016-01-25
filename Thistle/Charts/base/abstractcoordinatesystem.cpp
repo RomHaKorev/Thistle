@@ -1,5 +1,5 @@
 #include "abstractcoordinatesystem.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 #include <QAbstractItemModel>
 
 namespace Thistle

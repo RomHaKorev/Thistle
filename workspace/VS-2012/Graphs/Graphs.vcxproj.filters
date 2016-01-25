@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{a6ad64f4-49f9-42c2-8ad3-2af154d1a263}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{fc364aa3-8d33-4b31-b9b6-f3071475ae10}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Viewes-Models">
+      <UniqueIdentifier>{002b73a4-aee5-4d5a-a786-424220bfc7e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph-Algorithms">
+      <UniqueIdentifier>{a8f5a41f-fd88-4ea0-b7e4-3602b4017cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph-Algorithms\Public">
+      <UniqueIdentifier>{07e765ab-2103-4974-83fb-26924dbe89bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph-Algorithms\Private">
+      <UniqueIdentifier>{d3d3cd86-9d27-419c-b831-9dd911d94a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Viewes-Models\Public">
+      <UniqueIdentifier>{4ac95a17-4f2d-4b8d-83e4-5c41eee9c598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Viewes-Models\Private">
+      <UniqueIdentifier>{15705ba2-579c-4990-897f-438b0eb5ef6b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Thistle\Graphs\abstractgraphalgorithm.cpp">
+      <Filter>Graph-Algorithms\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\graphalgorithm.cpp">
+      <Filter>Graph-Algorithms\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\private\abstractgraphalgorithm_p.cpp">
+      <Filter>Graph-Algorithms\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\private\graphalgorithm_p.cpp">
+      <Filter>Graph-Algorithms\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\private\graphmodel_p.cpp">
+      <Filter>Viewes-Models\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\private\graphview_p.cpp">
+      <Filter>Viewes-Models\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\private\node_p.cpp">
+      <Filter>Viewes-Models\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\edge.cpp">
+      <Filter>Viewes-Models\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\graphmodel.cpp">
+      <Filter>Viewes-Models\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\graphview.cpp">
+      <Filter>Viewes-Models\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Graphs\node.cpp">
+      <Filter>Viewes-Models\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_abstractgraphalgorithm.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_graphalgorithm.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_graphmodel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_graphview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_abstractgraphalgorithm.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_graphalgorithm.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_graphmodel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_graphview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\Thistle\Graphs\abstractgraphalgorithm.h">
+      <Filter>Graph-Algorithms\Public</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Graphs\graphalgorithm.h">
+      <Filter>Graph-Algorithms\Public</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Graphs\graphmodel.h">
+      <Filter>Viewes-Models\Public</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Graphs\graphview.h">
+      <Filter>Viewes-Models\Public</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Thistle\Graphs\private\abstractgraphalgorithm_p.h">
+      <Filter>Graph-Algorithms\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Graphs\private\graphalgorithm_p.h">
+      <Filter>Graph-Algorithms\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Graphs\private\graphmodel_p.h">
+      <Filter>Viewes-Models\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Graphs\private\graphview_p.h">
+      <Filter>Viewes-Models\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Graphs\private\node_p.h">
+      <Filter>Viewes-Models\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Graphs\edge.h">
+      <Filter>Viewes-Models\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Thistle\Graphs\node.h">
+      <Filter>Viewes-Models\Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

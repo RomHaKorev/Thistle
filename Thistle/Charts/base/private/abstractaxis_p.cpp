@@ -1,5 +1,5 @@
 #include "abstractaxis_p.h"
-#include "../../../kernel/global.h"
+#include "../../../Core/global.h"
 
 namespace Thistle
 {
@@ -15,7 +15,7 @@ void AbstractAxisPrivate::calculateBounds()
 		++this->maxBound;
 		--this->minBound;
 	}
-	this->order = Thistle::calculateOrder( this->max - this->min );
+	this->order = Thistle::AbstractAxis::calculateOrder( this->max - this->min );
 	this->tickIncrement = (this->max - this->min ) / ( this->ticksCount - 1 );
 	this->precision = 4;
 }

@@ -12,7 +12,6 @@ PieChartPrivate::PieChartPrivate( bool is3D, PieChart* q ) : AbstractChartPrivat
 {
 	offsetFactor = 1.2;
 	ring = false;
-	splitted = false;
 	startAngle = 0.0;
 #if 0
 	delete this->legend;
@@ -48,12 +47,6 @@ void PieChartPrivate::createRects3D( const QRect& area )
 		return;
 	}
 
-	if ( this->splitted == true )
-	{
-		this->rect.translate( 10, 10 );
-		this->rect.setWidth( this->rect.width() - 20 );
-		this->rect.setHeight( this->rect.height() - 20 );
-	}
 	this->height = this->rect.height() * 0.20;
 	this->rect.setHeight( this->rect.height() * 0.75 );
 	this->angles.clear();

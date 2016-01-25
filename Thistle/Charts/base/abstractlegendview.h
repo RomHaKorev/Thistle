@@ -5,46 +5,53 @@
 #include <QPainter>
 #include <QRect>
 
-#include "../../kernel/abstractitemview.h"
+#include "../../Core/abstractitemview.h"
+
+#include "serieformatproxy.h"
 
 namespace Thistle
 {
 
-class AbstractChart;
 class AbstractLegendViewPrivate;
 
 class AbstractLegendView : public AbstractItemView
 {
 	Q_OBJECT
-	Q_DECLARE_PRIVATE( AbstractLegendView );
+	//Q_DECLARE_PRIVATE( AbstractLegendView );
+	inline AbstractLegendViewPrivate* d_func()
+	{
+		return reinterpret_cast<AbstractLegendViewPrivate *>(qGetPtrHelper(d_ptr));
+	}
+    inline const AbstractLegendViewPrivate* d_func() const
+	{
+		return reinterpret_cast<const AbstractLegendViewPrivate *>(qGetPtrHelper(d_ptr));
+	}
+    friend class AbstractLegendViewPrivate;
+
 private:
 	virtual void setScrollBarValues();
 
 	virtual QModelIndex indexAt(const QPoint &point) const;
 	virtual void setSelection( const QRect& rect, QItemSelectionModel::SelectionFlags command );
 	virtual QPainterPath itemPath( const QModelIndex& index ) const;
-	virtual void updateValues();
-
-	virtual void paintSerie( QPainter &painter, int serie, const QRect& rect ) const = 0;
+	virtual void paintSerie( QPainter &painter, int serie ) const;
+	virtual void paintSeriePicto( QPainter &painter, const QRect& rect, int serie ) const = 0;
 	virtual void paintEvent( QPaintEvent* ev );
-
-	bool isActiveColumn( int column ) const;
+	bool isActiveSerie( int serieIdx, bool& hasSelecion ) const;
 
 protected:
 	AbstractLegendView( AbstractLegendViewPrivate* d, QWidget* parent = 0 );
 
 public:
-	AbstractLegendView( AbstractChart* chart, QWidget* parent = 0 );
 	virtual ~AbstractLegendView();
-
-	void resizeEvent( QResizeEvent* ev );
-
 	void updateSizeHint( const QSize& source );
-
 	QSize sizeHint() const;
-#if 0
-	void parentManageSize( bool leave );
-#endif
+	virtual unsigned int serieCount() const = 0;
+	virtual QString serieName( unsigned int serie ) const = 0;
+	virtual void updateValues()
+	{}
+	QPointer<Thistle::SerieFormatProxy> serieFormatProxy() const;
+	void setSerieFormatProxy( QPointer<Thistle::SerieFormatProxy> );
 };
 
 }

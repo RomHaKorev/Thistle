@@ -3,7 +3,7 @@
 #include "../base/private/abstractcoordinatesystemview_p.h"
 #include "private/cartesiancoordinateplaneview_p.h"
 #include "linearaxisdelegate.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 
 #include <QFontMetrics>
 #include <QAbstractItemModel>

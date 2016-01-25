@@ -1,13 +1,13 @@
 #ifndef THISTLE_KIVIATCHART_H
 #define THISTLE_KIVIATCHART_H
 
-//#include "../base/seriechart.h"
-#include "../linear/linearchart.h"
+#include "../line/linechart.h"
 #include "private/kiviatchart_p.h"
 
-namespace Thistle {
+namespace Thistle
+{
 
-class KiviatChart: public LinearChart
+class KiviatChart: public LineChart
 {
 	Q_DECLARE_PRIVATE( KiviatChart );
 public:

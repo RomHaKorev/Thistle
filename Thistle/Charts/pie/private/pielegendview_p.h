@@ -14,11 +14,7 @@ class PieLegendViewPrivate : public AbstractLegendViewPrivate
 public:
 	PieLegendViewPrivate( PieLegendView* parent, PieChart* associatedChart );
 	~PieLegendViewPrivate();
-
-	virtual void calculateSizeHint( const QSize& source );
-
-private:
-
+	QPointer<PieChart> associatedPieChart;
 };
 
 } // namespace Thistle

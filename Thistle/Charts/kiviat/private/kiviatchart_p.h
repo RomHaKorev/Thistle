@@ -1,12 +1,13 @@
 #ifndef THISTLE_KIVIATCHART_P_H
 #define THISTLE_KIVIATCHART_P_H
-#include "../../linear/private/linearchart_p.h"
+
+#include "../../line/private/linechart_p.h"
 
 namespace Thistle
 {
 class KiviatChart;
 
-class KiviatChartPrivate: public LinearChartPrivate
+class KiviatChartPrivate: public LineChartPrivate
 {
 private:
 	KiviatChart* q_func() const

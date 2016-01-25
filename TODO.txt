@@ -7,3 +7,11 @@ CHARTS
 	
 	KIVIAT			
 		Bar style does not work
+
+	PIE
+		Selection does not work											~Ok
+			Selecting series in the legend view does not work
+		Painting method is ugly.
+
+	ALL
+		Create Properties when needed

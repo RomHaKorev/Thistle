@@ -5,7 +5,7 @@ namespace Thistle {
 
 KiviatChart::KiviatChart( QWidget* parent )
 //: SerieChart( new KiviatCoordinateSystemView() )
-	: LinearChart( new KiviatChartPrivate( this, new KiviatCoordinateSystemView() ), parent )
+	: LineChart( new KiviatChartPrivate( this, new KiviatCoordinateSystemView() ), parent )
 {
 
 }

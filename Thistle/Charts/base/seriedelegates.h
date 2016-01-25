@@ -11,53 +11,47 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 Lesser GNU General Public License for more details.
 
 You should have received a copy of the Lesser GNU General Public License
-along with Thistle.    If not, see <http://www.gnu.org/licenses/>.
+along with Thistle. If not, see <http://www.gnu.org/licenses/>.
 
-Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
+Thistle	Copyright (C) 2013	Dimitry Ernot & Romha Korev
 */
 
-#ifndef THISTLE_DELEGATES_H
-#define THISTLE_DELEGATES_H
+#ifndef THISTLE_SERIEDELEGATES_H
+#define THISTLE_SERIEDELEGATES_H
 #include <QStyledItemDelegate>
+
+#include "serieformatproxy.h"
+#include "private/seriedelegates_p.h"
 
 namespace Thistle
 {
 
-class SerieChart;
-
-
 class AbstractChartDelegate : public QStyledItemDelegate
 {
+	Q_DECLARE_PRIVATE( AbstractChartDelegate )
+protected:
+	AbstractChartDelegatePrivate* d_ptr;
+	AbstractChartDelegate( AbstractChartDelegatePrivate* ptr, QWidget* parent = 0 );
 public:
-	AbstractChartDelegate( QWidget* parent = 0 ) : QStyledItemDelegate( parent ) {}
-
-	virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
-
-	virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
-
-	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const = 0;
+	virtual void paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
+	void setSerieFormatProxy( QPointer<SerieFormatProxy> proxy );
+	QPointer<SerieFormatProxy> serieFormatProxy() const;
 };
 
 class DotDelegate : public AbstractChartDelegate
 {
-	QPolygon createDiamond( const QRect& rect) const;
-
+	Q_DECLARE_PRIVATE( DotDelegate )
 public:
-	explicit DotDelegate( SerieChart* parent = 0 );
-	virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	explicit DotDelegate( QPointer<SerieFormatProxy> proxy, QWidget* parent = 0 );
 };
 
 class BarDelegate : public AbstractChartDelegate
 {
+	Q_DECLARE_PRIVATE( BarDelegate )
 public:
-	explicit BarDelegate( SerieChart* parent = 0 );
-	virtual void paintDisabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	virtual void paintEnabled(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	explicit BarDelegate( QPointer<SerieFormatProxy> proxy, QWidget* parent = 0 );
 };
 
 }
 
-#endif // THISTLE_DELEGATES_H
+#endif // THISTLE_SERIEDELEGATES_H

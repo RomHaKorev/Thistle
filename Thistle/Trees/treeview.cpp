@@ -13,7 +13,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
 #include "treeview.h"
-#include "../kernel/itemdelegate.h"
+#include "../Core/itemdelegate.h"
 #include <QScrollBar>
 #include <QPainter>
 #include <QPaintEvent>
@@ -21,7 +21,7 @@ Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 
 #include <QAbstractScrollArea>
 
-#include "../kernel/global.h"
+#include "../Core/global.h"
 
 namespace Thistle
 {

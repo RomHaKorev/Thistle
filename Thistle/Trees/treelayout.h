@@ -1,5 +1,5 @@
-#ifndef TREELAYOUT_H
-#define TREELAYOUT_H
+#ifndef THISTLE_TREELAYOUT_H
+#define THISTLE_TREELAYOUT_H
 
 #include <QObject>
 #include <QList>
@@ -45,4 +45,4 @@ public:
 };
 }
 
-#endif //TREELAYOUT_H
+#endif // THISTLE_TREELAYOUT_H

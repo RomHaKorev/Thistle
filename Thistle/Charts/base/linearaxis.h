@@ -19,7 +19,7 @@ struct LinearAxis: public AbstractAxis
 	virtual QPointF pinpoint( qreal value ) const;
 	virtual QPointF origin() const;
 
-	inline virtual qreal length()
+	inline virtual qreal length() const
 	{
 		return line().length();
 	}

@@ -1,7 +1,7 @@
-#include "piechart3D_p.h"
+#include "piechart3d_p.h"
 
 #include "../piechart.h"
-#include "../piechart3D.h"
+#include "../piechart3d.h"
 #include <QDebug>
 
 namespace Thistle
@@ -18,12 +18,6 @@ void PieChart3DPrivate::createRects( const QRect& area )
 		return;
 	}
 
-	if ( this->splitted == true )
-	{
-		this->rect.translate( 10, 10 );
-		this->rect.setWidth( this->rect.width() - 20 );
-		this->rect.setHeight( this->rect.height() - 20 );
-	}
 	this->height = this->rect.height() * 0.20;
 	this->rect.setHeight( this->rect.height() * 0.75 );
 	this->angles.clear();

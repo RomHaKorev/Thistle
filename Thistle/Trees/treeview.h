@@ -16,10 +16,10 @@
  Thistle    Copyright (C) 2013    Dimitry Ernot & Romha Korev
 */
 
-#ifndef TREEVIEW_H
-#define TREEVIEW_H
+#ifndef THISTLE_TREEVIEW_H
+#define THISTLE_TREEVIEW_H
 
-#include "../kernel/abstractitemview.h"
+#include "../Core/abstractitemview.h"
 
 #include <QPen>
 #include <QPointer>
@@ -70,4 +70,4 @@ public:
 
 }
 
-#endif //TREEVIEW_H
+#endif //THISTLE_TREEVIEW_H

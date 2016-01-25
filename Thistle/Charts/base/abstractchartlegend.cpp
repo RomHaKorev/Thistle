@@ -1,6 +1,6 @@
 #include "abstractchartlegend.h"
 
-#include "../../kernel/abstractitemview.h"
+#include "../../Core/abstractitemview.h"
 
 namespace Thistle
 {

@@ -1,6 +1,6 @@
 #include "../base/linearaxis.h"
 #include "private/linearaxis_p.h"
-#include "../../kernel/global.h"
+#include "../../Core/global.h"
 
 #include <qmath.h>
 
@@ -15,10 +15,10 @@ LinearAxis::~LinearAxis()
 {}
 
 
-void LinearAxis::setLine( const QLineF& line )
+void LinearAxis::setLine( const QLineF& newLine )
 {
 	Q_D( LinearAxis );
-	d->line = line;
+	d->line = newLine;
 }
 
 

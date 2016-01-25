@@ -2,7 +2,7 @@
 #define THISTLE_SERIEFORMAT_P_H
 #include <QBrush>
 #include <QPen>
-#include "../../../kernel/global.h"
+#include "../../../Core/global.h"
 
 namespace Thistle
 {

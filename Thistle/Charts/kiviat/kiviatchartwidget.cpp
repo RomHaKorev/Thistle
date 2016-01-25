@@ -1,6 +1,6 @@
 #include "kiviatchartwidget.h"
 #include "private/kiviatchartwidget_p.h"
-#include "../linear/linearlegendview.h"
+#include "../line/linelegendview.h"
 #include "kiviatchart.h"
 
 #include <QResizeEvent>

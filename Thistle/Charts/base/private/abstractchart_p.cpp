@@ -2,7 +2,7 @@
 
 namespace Thistle
 {
-AbstractChartPrivate::AbstractChartPrivate( AbstractChart* q ) : q_ptr( q )
+AbstractChartPrivate::AbstractChartPrivate(AbstractChart* q): q_ptr(q)
 {}
 
 AbstractChartPrivate::~AbstractChartPrivate()

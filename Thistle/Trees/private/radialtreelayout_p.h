@@ -1,5 +1,5 @@
-#ifndef RADIALTREELAYOUT_P_H
-#define RADIALTREELAYOUT_P_H
+#ifndef THISTLE_RADIALTREELAYOUT_P_H
+#define THISTLE_RADIALTREELAYOUT_P_H
 
 #include "treelayout_p.h"
 
@@ -29,4 +29,4 @@ struct RadialTreeLayoutPrivate : public TreeLayoutPrivate
 
 }
 
-#endif // RADIALTREE_P_H
+#endif // THISTLE_RADIALTREELAYOUT_P_H

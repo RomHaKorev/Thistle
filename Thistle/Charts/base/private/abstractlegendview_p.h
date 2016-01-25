@@ -4,7 +4,8 @@
 #include <QPainter>
 #include <QRect>
 
-#include "../../../kernel/private/abstractitemview_p.h"
+#include "../../../Core/private/abstractitemview_p.h"
+#include "../serieformatproxy.h"
 
 #include <QVector>
 
@@ -21,20 +22,15 @@ struct AbstractLegendViewPrivate : public AbstractItemViewPrivate
 {
 
 	AbstractLegendView* q_ptr;
-	AbstractChart* associatedChart;
-
-	QVector<QRect> itemRects;
-	QVector<QRect> test;
+	QPointer<Thistle::SerieFormatProxy> formatProxy; /* Should not be explicitly deleted in the destructor. Could be shared. */
 	QSize sizeHint;
-	bool parentManageSize;
 
-	AbstractLegendViewPrivate( AbstractLegendView* parent, AbstractChart* chart );
+	AbstractLegendViewPrivate( AbstractLegendView* parent );
 	virtual ~AbstractLegendViewPrivate();
 
-	virtual void calculateSizeHint( const QSize& source )
-	{
-		Q_UNUSED( source )
-	}
+	virtual void calculateSizeHint( const QSize& source );
+
+	virtual QRect serieRect( unsigned int serieIndex ) const;
 };
 
 }

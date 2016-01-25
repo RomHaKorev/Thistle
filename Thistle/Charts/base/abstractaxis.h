@@ -25,10 +25,7 @@ struct AbstractAxis
 	qreal labelsLength() const;
 	double order() const;
 	QString name() const;
-	inline virtual qreal length() const
-	{
-		return 0;
-	}
+	virtual qreal length() const = 0;
 
 	void setPrecision( int precision );
 	void setTicksCount( int count );
@@ -40,6 +37,8 @@ struct AbstractAxis
 	virtual QPointF pinpoint( qreal value ) const = 0;
 
 	virtual QPointF origin() const = 0;
+
+	static double calculateOrder( qreal value );
 };
 
 }

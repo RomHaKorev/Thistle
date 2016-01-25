@@ -20,7 +20,6 @@ class SerieChartPrivate : public AbstractChartPrivate
 {
 protected:
 	QPair<QPointF, QPointF> controlPoints( const QPointF& p0, const QPointF& p1, const QPointF& p2, qreal t = 0.25 ) const;
-	int x;
 	AbstractChartDelegate* currentDelegate;
 	AbstractCoordinateSystemView* coordinateSysView;
 
@@ -32,6 +31,7 @@ protected:
 public:
 	DotDelegate* pointDelegate;
 	BarDelegate* barDelegate;
+	QPointer<Thistle::SerieFormatProxy> formatProxy; /* Should not be explicitly deleted in the destructor. Could be shared. */
 
 	SerieChartPrivate( SerieChart* q, AbstractCoordinateSystemView* coordSysView );
 	virtual ~SerieChartPrivate();

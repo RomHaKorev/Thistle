@@ -37,10 +37,7 @@ class PieChart : public AbstractChart
 public:
 	PieChart( QWidget* parent = 0 );
 
-	QRect visualRect( const QModelIndex& index ) const;
-
 	void scrollTo( const QModelIndex& index, ScrollHint hint = EnsureVisible );
-	void setSplitted( bool splitted = true );
 	void setRing( bool ring = true );
 
 	virtual void paint( QPainter& painter );
@@ -58,10 +55,6 @@ protected:
 	virtual QPainterPath itemPart( qreal angle, qreal delta, bool splitted = false ) const;
 
 	virtual void paintEvent( QPaintEvent* ev );
-#if 0
-	virtual void paintLegend( QPainter& painter) const;
-	virtual void paintSerieLegend( QPainter& painter, int serie, QPoint pos, int maxHeight ) const;
-#endif
 	virtual void paintPart( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
 	virtual void paintPartSplitted( QPainter& painter, qreal angle, qreal delta, QColor color, bool isSelected = false ) const;
 	virtual QPointF splittedOffset( qreal angle, qreal delta ) const;

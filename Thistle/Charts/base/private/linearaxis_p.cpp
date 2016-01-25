@@ -1,5 +1,5 @@
 #include "linearaxis_p.h"
-#include "../../../kernel/global.h"
+#include "../../../Core/global.h"
 
 namespace Thistle
 {
