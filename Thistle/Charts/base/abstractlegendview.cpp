@@ -15,29 +15,12 @@ AbstractLegendView::AbstractLegendView( AbstractLegendViewPrivate* d, QWidget* p
 	this->setFrameShape( QFrame::Box );
 	this->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 	this->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+	this->setEditTriggers( QAbstractItemView::NoEditTriggers );
 }
 
 
 AbstractLegendView::~AbstractLegendView()
 {}
-
-
-QModelIndex AbstractLegendView::indexAt( const QPoint& point ) const
-{
-	const Q_D( AbstractLegendView );
-	QPoint p = point + QPoint( horizontalOffset(), verticalOffset() );
-
-	if ( this->model() == 0 )
-		return QModelIndex();
-
-	for ( unsigned int c = 0; c < this->serieCount(); ++c )
-	{
-		QRect r = d->serieRect( c );
-		if ( r.contains( p ) )
-			return this->model()->index( 0, c );
-	}
-	return QModelIndex();
-}
 
 
 QPainterPath AbstractLegendView::itemPath( const QModelIndex& index ) const
@@ -88,11 +71,9 @@ void AbstractLegendView::paintEvent( QPaintEvent* ev )
 	painter.setRenderHint( QPainter::Antialiasing );
 
 	painter.save();
-
 	for ( unsigned int c = 0; c != this->serieCount(); ++c )
-	{
 		this->paintSerie( painter, c );
-	}
+
 	painter.restore();
 }
 
@@ -100,14 +81,10 @@ void AbstractLegendView::paintEvent( QPaintEvent* ev )
 void AbstractLegendView::paintSerie( QPainter& painter, int serie ) const
 {
 	const Q_D( AbstractLegendView );
-
 	QRect rect = d->serieRect( serie );
-
 	QPoint p1( rect.topLeft() + QPoint( 4, 2 ) );
-	QPoint p2( rect.topLeft() + QPoint( 34, rect.height() - 4 ) );
-
+	QPoint p2( rect.bottomLeft() + QPoint( 34, -2 ) );
 	QString s( this->serieName( serie ) );
-
 	bool hasSelection = false;
 	bool isActive = this->isActiveSerie( serie, hasSelection );
 
@@ -144,7 +121,8 @@ void AbstractLegendView::setSelection( const QRect& rect, QItemSelectionModel::S
 	Q_D( AbstractLegendView );
 	QRect contentsRect = rect.translated(
 				this->horizontalScrollBar()->value(),
-				this->verticalScrollBar()->value()).normalized();
+				this->verticalScrollBar()->value()
+				).normalized();
 
 	int count = 0;
 
@@ -154,7 +132,7 @@ void AbstractLegendView::setSelection( const QRect& rect, QItemSelectionModel::S
 		if ( !r.intersected( contentsRect ).isEmpty() )
 		{
 			++count;
-			this->selectionModel()->select( this->model()->index( 0, c ), command );
+			this->selectionModel()->select( this->serieToIndex( c ), command );
 		}
 	}
 	if ( count == 0 )
@@ -178,8 +156,9 @@ bool AbstractLegendView::isActiveSerie( int serieIdx, bool& hasSelection ) const
 			isActive = false;
 			Q_FOREACH( QModelIndex idx, selectedIndexes )
 			{
-				if ( idx.column() == serieIdx )
+				if ( this->indexToSerie(idx) == serieIdx )
 				{
+					qDebug() << Q_FUNC_INFO << idx << this->indexToSerie(idx) << serieIdx;
 					return true;
 				}
 			}

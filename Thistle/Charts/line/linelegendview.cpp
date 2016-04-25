@@ -21,6 +21,19 @@ LineLegendView::LineLegendView( QWidget* parent ) : AbstractLegendView( new Line
 LineLegendView::~LineLegendView()
 {}
 
+int LineLegendView::indexToSerie( const QModelIndex& index ) const
+{
+	return index.column();
+}
+
+QModelIndex LineLegendView::serieToIndex( int serie ) const
+{
+	if ( this->model() == 0 )
+		return QModelIndex();
+
+	return this->model()->index( 0, serie );
+}
+
 void LineLegendView::paintSeriePicto( QPainter& painter, const QRect& rect, int serie ) const
 {
 	const Q_D( LineLegendView );
@@ -128,5 +141,23 @@ QString LineLegendView::serieName( unsigned int serieIdx ) const
 {
 	return this->model()->headerData( serieIdx, Qt::Horizontal ).toString();
 }
+
+QModelIndex LineLegendView::indexAt( const QPoint& point ) const
+{
+	const Q_D( LineLegendView );
+	QPoint p = point + QPoint( horizontalOffset(), verticalOffset() );
+
+	if ( this->model() == 0 )
+		return QModelIndex();
+
+	for ( unsigned int c = 0; c < this->serieCount(); ++c )
+	{
+		QRect r = d->serieRect( c );
+		if ( r.contains( p ) )
+			return this->model()->index( 0, c );
+	}
+	return QModelIndex();
+}
+
 
 }

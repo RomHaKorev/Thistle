@@ -1,6 +1,8 @@
 #ifndef THISTLE_LINECHARTWIDGET_P_H
 #define THISTLE_LINECHARTWIDGET_P_H
 
+#if 0
+
 #include <QtCore/QRect>
 #include <QLabel>
 
@@ -27,5 +29,5 @@ struct LineChartWidgetPrivate: public BaseChartWidgetPrivate
 };
 
 }
-
+#endif
 #endif // THISTLE_LINECHARTWIDGET_P_H

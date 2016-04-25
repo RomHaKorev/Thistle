@@ -12,7 +12,7 @@ class PieChart;
 class PieLegendViewPrivate : public AbstractLegendViewPrivate
 {
 public:
-	PieLegendViewPrivate( PieLegendView* parent, PieChart* associatedChart );
+	PieLegendViewPrivate( PieLegendView* parent );
 	~PieLegendViewPrivate();
 	QPointer<PieChart> associatedPieChart;
 };

@@ -29,6 +29,26 @@
     <ClInclude Include="..\..\..\Thistle\Charts\base\private\serieformat_p.h" />
     <ClInclude Include="..\..\..\Thistle\Charts\base\serieformatproxy.h" />
     <ClInclude Include="..\..\..\Thistle\Charts\kiviat\kiviatchart.h" />
+    <CustomBuild Include="..\..\..\Thistle\Charts\pie\piechartwidget.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing piechartwidget.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing piechartwidget.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Charts\pie\piechart3dwidget.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing piechart3dwidget.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing piechart3dwidget.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
+    </CustomBuild>
     <ClInclude Include="..\..\..\Thistle\Charts\scatter\scatterchartcoordinateplaneview.h" />
     <CustomBuild Include="..\..\..\Thistle\Charts\kiviat\kiviatchartwidget.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -58,7 +78,16 @@
     </CustomBuild>
     <ClInclude Include="..\..\..\Thistle\Charts\pie\private\piechart3d_p.h" />
     <ClInclude Include="..\..\..\Thistle\Charts\pie\private\piechart_p.h" />
-    <ClInclude Include="..\..\..\Thistle\Charts\pie\pielegendview.h" />
+    <CustomBuild Include="..\..\..\Thistle\Charts\pie\pielegendview.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing pielegendview.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing pielegendview.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
+    </CustomBuild>
     <CustomBuild Include="..\..\..\Thistle\Charts\pie\piechart.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing piechart.h...</Message>
@@ -80,7 +109,6 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\..\..\bin\libs\msvc\$(ConfigurationName)\GeneratedFiles" "-I.\..\..\..\Thistle\Charts\base"</Command>
     </CustomBuild>
     <ClInclude Include="..\..\..\Thistle\Charts\line\linechartlegend.h" />
-    <ClInclude Include="..\..\..\Thistle\Charts\line\private\linechartwidget_p.h" />
     <ClInclude Include="..\..\..\Thistle\Charts\line\private\linechart_p.h" />
     <ClInclude Include="..\..\..\Thistle\Charts\scatter\private\scatterchartwidget_p.h" />
     <ClInclude Include="..\..\..\Thistle\Charts\scatter\private\scatterchart_p.h" />
@@ -157,10 +185,28 @@
     <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_piechart3d.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_piechart3dwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_piechartwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_pielegendview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_seriechart.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_linelegendview.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_piechart3dwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_piechartwidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_pielegendview.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\Thistle\Charts\base\abstractaxis.cpp" />
@@ -169,7 +215,6 @@
     <ClCompile Include="..\..\..\Thistle\Charts\base\abstractcoordinatesystem.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\base\abstractcoordinatesystemview.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\base\abstractlegendview.cpp" />
-    <ClCompile Include="..\..\..\Thistle\Charts\base\basechartwidget.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\base\cartesiancoordinateplane.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\base\cartesiancoordinateplaneview.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\base\linearaxis.cpp" />
@@ -202,11 +247,12 @@
     <ClCompile Include="..\..\..\Thistle\Charts\line\linechartlegend.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\line\linechartwidget.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\line\linelegendview.cpp" />
-    <ClCompile Include="..\..\..\Thistle\Charts\line\private\linechartwidget_p.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\line\private\linechart_p.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\line\private\linelegendview_p.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\pie\piechart.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\pie\piechart3d.cpp" />
+    <ClCompile Include="..\..\..\Thistle\Charts\pie\piechart3dwidget.cpp" />
+    <ClCompile Include="..\..\..\Thistle\Charts\pie\piechartwidget.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\pie\pielegendview.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\pie\private\piechart3d_p.cpp" />
     <ClCompile Include="..\..\..\Thistle\Charts\pie\private\piechart_p.cpp" />

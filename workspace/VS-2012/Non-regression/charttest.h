@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <qtest.h>
 
+#include <qstandarditemmodel.h>
+
 #include <Thistle/Charts/line/linechartwidget.h>
 
 class ChartTest : public QObject
@@ -14,6 +16,7 @@ class ChartTest : public QObject
 	Q_OBJECT
 protected:
 	Thistle::LineChartWidget* chart;
+	QStandardItemModel* make( QList<QList<double> > values );
 private slots:
 	void init();
     void test1();
@@ -26,7 +29,8 @@ private slots:
 	void test8();
 	void test9();
 	void test10();
-    void cleanup();
+	void test11();
+	void cleanup();
 public:
 	static bool compare( const QImage& img1, const QImage& img2 );
 	static QPixmap snapshot( QWidget& w );

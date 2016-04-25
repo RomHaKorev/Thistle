@@ -52,6 +52,10 @@ QAbstractItemModel* BaseChartWidgetPrivate::model() const
 void BaseChartWidgetPrivate::resize( const QRect& rect )
 {
 	this->legendView->updateSizeHint( rect.size() );
-	this->legendView->setFixedHeight( legendView->sizeHint().height() + 20 );
+	this->legendView->setFixedHeight( legendView->sizeHint().height() );
+	//QPalette p = this->legendView->palette();
+	//p.setBrush( this->legendView->backgroundRole(), Qt::red );
+	//this->legendView->setAutoFillBackground( true );
+	//this->legendView->setPalette( p );
 }
 }

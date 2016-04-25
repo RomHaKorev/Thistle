@@ -1,3 +1,4 @@
+#if 0
 #include "linechartwidget_p.h"
 #include "../linechartwidget.h"
 
@@ -73,3 +74,4 @@ void LineChartWidgetPrivate::resize( const QRect& rect )
 }
 
 }
+#endif

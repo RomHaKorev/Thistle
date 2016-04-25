@@ -1,7 +1,7 @@
 #ifndef THISTLE_PIECHART3DWIDGET_H
 #define THISTLE_PIECHART3DWIDGET_H
 
-#include <QWidget>
+#include "../base/basechartwidget.h"
 
 class QAbstractItemModel;
 class QLabel;
@@ -9,31 +9,15 @@ class QLabel;
 namespace Thistle
 {
 
-class PieChart3DWidgetPrivate;
 class PieChart3D;
+class PieLegendView;
 
-class PieChart3DWidget : public QWidget
+class PieChart3DWidget : public BaseChartWidget<PieChart3D, PieLegendView>
 {
 	Q_OBJECT
-    Q_DECLARE_PRIVATE( PieChart3DWidget )
-
-protected:
-    PieChart3DWidgetPrivate* d_ptr;
-	void resizeEvent( QResizeEvent* ev );
 public:
-    PieChart3DWidget( QWidget* parent = 0 );
-    ~PieChart3DWidget();
-
-	void setModel( QAbstractItemModel* model );
-	QAbstractItemModel* model() const;
-
-	void setTitle( const QString& title );
-	QString title() const;
-
-	QFont font() const;
-	void setFont( const QFont& font );
-
-    PieChart3D& chart();
+	PieChart3DWidget( QWidget* parent = 0 );
+	virtual ~PieChart3DWidget();
 };
 }
 

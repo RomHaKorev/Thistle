@@ -1,5 +1,4 @@
 #include "linechartwidget.h"
-#include "private/linechartwidget_p.h"
 #include "linelegendview.h"
 #include "linechart.h"
 

@@ -258,9 +258,6 @@
     <ClCompile Include="..\..\..\Thistle\Charts\line\private\linechart_p.cpp">
       <Filter>Line\Private\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Thistle\Charts\line\private\linechartwidget_p.cpp">
-      <Filter>Line\Private\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Thistle\Charts\line\private\linelegendview_p.cpp">
       <Filter>Line\Private\Sources</Filter>
     </ClCompile>
@@ -275,9 +272,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Thistle\Charts\base\private\seriedelegates_p.cpp">
       <Filter>base\Private\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Thistle\Charts\base\basechartwidget.cpp">
-      <Filter>base\Public\Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Thistle\Charts\base\private\basechartwidget_p.cpp">
       <Filter>base\Private\Sources</Filter>
@@ -308,6 +302,30 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_linelegendview.cpp">
       <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_piechartwidget.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_piechartwidget.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Charts\pie\piechartwidget.cpp">
+      <Filter>Pie\Public\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_pielegendview.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_pielegendview.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Debug\GeneratedFiles\moc_piechart3dwidget.cpp">
+      <Filter>_Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\bin\libs\msvc\Release\GeneratedFiles\moc_piechart3dwidget.cpp">
+      <Filter>_Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Thistle\Charts\pie\piechart3dwidget.cpp">
+      <Filter>Pie\Public\Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +404,6 @@
     <ClInclude Include="..\..\..\Thistle\Charts\pie\private\pielegendview_p.h">
       <Filter>Pie\Private\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Thistle\Charts\pie\pielegendview.h">
-      <Filter>Pie\Public\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Thistle\Charts\base\abstractchartlegend.h">
       <Filter>base\Public\Headers</Filter>
     </ClInclude>
@@ -414,9 +429,6 @@
       <Filter>Line\Public\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Thistle\Charts\line\private\linechart_p.h">
-      <Filter>Line\Private\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Thistle\Charts\line\private\linechartwidget_p.h">
       <Filter>Line\Private\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Thistle\Charts\line\private\linelegendview_p.h">
@@ -465,6 +477,15 @@
     </CustomBuild>
     <CustomBuild Include="..\..\..\Thistle\Charts\line\linelegendview.h">
       <Filter>Line\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Charts\pie\piechartwidget.h">
+      <Filter>Pie\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Charts\pie\pielegendview.h">
+      <Filter>Pie\Public\Headers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\Thistle\Charts\pie\piechart3dwidget.h">
+      <Filter>Pie\Public\Headers</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

@@ -29,7 +29,6 @@ struct AbstractLegendViewPrivate : public AbstractItemViewPrivate
 	virtual ~AbstractLegendViewPrivate();
 
 	virtual void calculateSizeHint( const QSize& source );
-
 	virtual QRect serieRect( unsigned int serieIndex ) const;
 };
 

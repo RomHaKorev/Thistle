@@ -8,6 +8,8 @@
 #include "abstractlegendview.h"
 #include "abstractchart.h"
 
+#include <qscrollarea.h>
+
 class QAbstractItemModel;
 class QLabel;
 
