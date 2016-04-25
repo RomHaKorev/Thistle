@@ -9,7 +9,7 @@
 #include "../../Core/itemdelegate.h"
 #include "../../Core/private/abstractitemview_p.h"
 
-#include "../treeLayout.h"
+#include "../treelayout.h"
 
 namespace Thistle
 {

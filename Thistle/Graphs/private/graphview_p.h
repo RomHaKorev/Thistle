@@ -4,7 +4,7 @@
 #include <QTimer>
 #include <QMap>
 #include <QPoint>
-#include "../../Core/private/AbstractItemView_p.h"
+#include "../../Core/private/abstractitemview_p.h"
 #include "../node.h"
 #include "../graphmodel.h"
 
